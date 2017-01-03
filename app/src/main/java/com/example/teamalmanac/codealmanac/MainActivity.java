@@ -70,7 +70,7 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
                 }else if(id == 1){
                     startActivity(new Intent(MainActivity.this, UseMainActivity.class));
                 } else if(id == 2){
-                    startActivity(new Intent(MainActivity.this, TodoLogActivity.class));
+                    startActivity(new Intent(MainActivity.this, UseMainActivity.class));
                 } else if ( id == 3 ) {
                     Uri uri = Uri.parse("http://sihyun2139.wixsite.com/codealmanac");
                     Intent web = new Intent(Intent.ACTION_VIEW,uri);
@@ -96,26 +96,6 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
         header_text.setTypeface(typeface);
         copyright.setTypeface(typeface);
         copyright.setGravity(Gravity.CENTER);
-
-        Switch switch_btn = (Switch) findViewById(R.id.switch_btn);
-        if(isServiceRunning("com.example.teamalmanac.codealmanac.UnlockScreenService")){
-            switch_btn.setChecked(true);
-        } else {
-            switch_btn.setChecked(false);
-        }
-        switch_btn.setOnCheckedChangeListener(this);
-        if(FirebaseInstanceId.getInstance().getToken() != null)
-            Backend.saveToken(FirebaseInstanceId.getInstance().getToken());
-    }
-
-    public Boolean isServiceRunning(String serviceName) {
-        ActivityManager activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo runningServiceInfo : activityManager.getRunningServices(Integer.MAX_VALUE)) {
-            if (serviceName.equals(runningServiceInfo.service.getClassName())) {
-                return true;
-            }
-        }
-        return false;
     }
 
     @Override

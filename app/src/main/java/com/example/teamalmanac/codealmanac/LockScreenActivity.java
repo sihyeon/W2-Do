@@ -305,8 +305,7 @@ public class LockScreenActivity extends AppCompatActivity implements LocationInf
     //메인 포커스 세팅
     public void setMainText() {
         String userName = mDB.getUserName() + "님";
-        MainfocusDataType mainFocusBeen = mDB.getMainFocusInfo();
-        String mainFocus = mainFocusBeen.getMainfocus();
+        String mainFocus = "테스트용 메인포커스";
         String greetingMessage = "";
         String mainfocusMessage = "";
 
@@ -339,8 +338,8 @@ public class LockScreenActivity extends AppCompatActivity implements LocationInf
                 mainfocusMessage += mainFocus;
                 //취소선 확인
                 mainfocusText.setPaintFlags(mainfocusText.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                if(mainFocusBeen.getButton_visibility().equals(String.valueOf(View.VISIBLE))) mainfocusText.setPaintFlags(mainfocusText.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                else mainfocusText.setPaintFlags(mainfocusText.getPaintFlags() ^ Paint.STRIKE_THRU_TEXT_FLAG);
+//                if(mainFocusBeen.getButton_visibility().equals(String.valueOf(View.VISIBLE))) mainfocusText.setPaintFlags(mainfocusText.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+//                else mainfocusText.setPaintFlags(mainfocusText.getPaintFlags() ^ Paint.STRIKE_THRU_TEXT_FLAG);
             } else {        //메인포커스가 없을때 -> today 안보임
                 todayText.setVisibility(View.INVISIBLE);
                 mainfocusText.setVisibility(View.VISIBLE);
@@ -385,9 +384,9 @@ public class LockScreenActivity extends AppCompatActivity implements LocationInf
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode) {
-            case KeyEvent.KEYCODE_BACK:
+//            case KeyEvent.KEYCODE_BACK:
             case KeyEvent.KEYCODE_HOME:
-            case KeyEvent.KEYCODE_ESCAPE:
+//            case KeyEvent.KEYCODE_ESCAPE:
                 return false;
         }
         return super.onKeyDown(keyCode, event);
