@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "889813948928",
+    "firebase_url": "https://codealmanac-72475.firebaseio.com",
+    "project_id": "codealmanac-72475",
+    "storage_bucket": "codealmanac-72475.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:889813948928:android:7eb496275492b009",
+        "android_client_info": {
+          "package_name": "com.example.teamalmanac.codealmanac"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "889813948928-o3fnikbmsatia5f0hk8tvro5e59ek93u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARtyb-zzUcn6znC_tvJxfCleaXjyHOniU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

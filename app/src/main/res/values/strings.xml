@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">W2:Do</string>
+    <string name="title_activity_tab">TabActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="expand_all">Expand All</string>
+    <string name="collapse_all">Collapse All</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- 메인스케쥴 묻는 말 -->
+    <string name="what_main_schedule">오늘의 메인스케줄은 무엇인가요?</string>
+    <!--Task-->
+    <string name="task">LockScreenTask</string>
+    <string name="settings_safetylegal_activity_loading">"로드 중"</string>
+
+    <string name="menu_download">다운로드</string>
+    <string name="menu_all">전체</string>
+
+</resources>

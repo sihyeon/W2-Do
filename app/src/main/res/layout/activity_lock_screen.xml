@@ -1,0 +1,168 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_lock_screen_main"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    tools:context="com.example.teamalmanac.codealmanac.LockScreenActivity"
+    android:elevation="0dp"
+    android:background="@drawable/bg_1">
+
+    <!--Footer button layout-->
+
+    <TextView
+        android:id="@+id/text_temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="26dp"
+        android:textColor="#FFF"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:paddingTop="16dp"
+        android:paddingEnd="16dp"
+        tools:ignore="RtlSymmetry" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/text_weather_icon"
+        android:textSize="26dp"
+        android:textColor="#FFF"
+        android:paddingRight="10dp"
+        android:layout_alignBaseline="@+id/text_temp"
+        android:layout_alignBottom="@+id/text_temp"
+        android:layout_toStartOf="@+id/text_temp" />
+
+    <TextView
+        android:id="@+id/text_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFF"
+        android:textSize="11dp"
+        android:layout_below="@+id/text_temp"
+        android:layout_alignParentEnd="true"
+        android:paddingEnd="16dp"/>
+    <!-- 시간 설정 및 other -->
+
+    <TextClock
+        android:id="@+id/digital_clock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFF"
+        android:format12Hour="h:mm"
+        android:textSize="90dp"
+        android:layout_marginTop="95dp"
+        android:gravity="center_vertical"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/text_date"
+        android:text="11.27 sun"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFF"
+        android:textSize="23dp"
+        android:layout_below="@+id/digital_clock"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:gravity="center_vertical" />
+
+    <TextView
+        android:id="@+id/text_greeting"
+        android:text=""
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/text_date"
+        android:layout_marginTop="67dp"
+        android:gravity="center_vertical"
+        android:textColor="#FFF"
+        android:textSize="52dp" />
+
+    <TextView
+        android:id="@+id/text_user_name"
+        android:text="Jungwon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFF"
+        android:textSize="52dp"
+        android:layout_marginTop="-20dp"
+        android:gravity="center_vertical"
+        android:layout_below="@+id/text_greeting"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/text_today"
+        android:text="MAIN SCHEDULE"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFF"
+        android:textSize="20dp"
+        android:layout_below="@+id/text_user_name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:gravity="center_horizontal" />
+
+    <TextView
+        android:id="@+id/text_mainfocus"
+        android:text="Android development"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:textColor="#FFF"
+        android:layout_marginTop="0dp"
+        android:layout_below="@+id/text_today"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"/>
+
+    <!-- bottom image -->
+    <ImageView
+        android:id="@+id/left_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:paddingStart="16dp"
+        android:paddingBottom="16dp"
+        app:srcCompat="@drawable/btn_wtd" />
+
+    <ImageView
+        android:id="@+id/right_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/btn_unlock"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:paddingEnd="8dp"
+        android:paddingBottom="16dp" />
+
+    <TextView
+        android:id="@+id/text_screen_pull"
+        android:text="화면을 밀어 이동하세요"
+        android:textColor="#FFF"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:paddingBottom="30dp"
+        android:layout_centerHorizontal="true" />
+
+    <!--<RelativeLayout-->
+    <!--android:background="#F00"-->
+    <!--android:layout_width="30dp"-->
+    <!--android:layout_alignParentTop="true"-->
+    <!--android:layout_alignParentStart="true"-->
+    <!--android:id="@+id/test_layout"-->
+    <!--android:layout_height="30dp">-->
+
+    <!--</RelativeLayout>-->
+
+    <!--<RelativeLayout-->
+    <!--android:background="#0F0"-->
+    <!--android:layout_width="90px"-->
+    <!--android:layout_height="90px"-->
+    <!--android:layout_alignBottom="@id/test_layout"-->
+    <!--android:layout_alignParentStart="true">-->
+
+    <!--</RelativeLayout>-->
+
+</RelativeLayout>
