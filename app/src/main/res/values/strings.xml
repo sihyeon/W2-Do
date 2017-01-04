@@ -18,4 +18,6 @@
     <string name="menu_download">다운로드</string>
     <string name="menu_all">전체</string>
 
+    <string name="add_item">Add item</string>
+
 </resources>
