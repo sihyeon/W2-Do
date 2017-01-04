@@ -17,9 +17,9 @@ import android.view.View;
 import static android.content.Context.MODE_PRIVATE;
 
 public class SensibleView extends View {
-    private SensorManager sm;
-    private SensorEventListener accelEventListener;
-    private Paint p = new Paint();
+    private SensorManager mSensorManager;
+    private SensorEventListener mEventListener;
+    private Paint mPaint = new Paint();
     private Rect src, dst;
     private float x, y;
     private Bitmap img;
@@ -54,8 +54,8 @@ public class SensibleView extends View {
         final int imgWidthLen = (int) (imgWidth * 0.9);
         final int imgHeightLen = (int) (imgHeight * 0.9);
 
-        sm = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
-        accelEventListener = new SensorEventListener() {
+        mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+        mEventListener = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent sensorEvent) {
                 float[] acc = sensorEvent.values;
@@ -76,9 +76,9 @@ public class SensibleView extends View {
             public void onAccuracyChanged(Sensor sensor, int i) {
             }
         };
-        sm.registerListener(
-                accelEventListener,
-                sm.getDefaultSensor(Sensor.TYPE_GRAVITY),
+        mSensorManager.registerListener(
+                mEventListener,
+                mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY),
                 SensorManager.SENSOR_DELAY_UI);
     }
 
@@ -90,13 +90,13 @@ public class SensibleView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.drawBitmap(img, src, dst, p);
+        canvas.drawBitmap(img, src, dst, mPaint);
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        sm.unregisterListener(accelEventListener);
+        mSensorManager.unregisterListener(mEventListener);
     }
 
     private Bitmap retrieveImage(Context context) {
