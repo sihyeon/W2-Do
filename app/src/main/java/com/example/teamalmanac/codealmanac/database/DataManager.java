@@ -6,9 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.View;
 
-
-import java.util.ArrayList;
-
 /**
  * Created by Choi Jaeung on 2016-11-09.
  */
@@ -103,9 +100,9 @@ public class DataManager {
 
     public void updateMainFocusButtonVisibility(String date, String visible) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(SQLContract.MainFocusEntry.COLUMN_NAME_BUTTON_VISIBLE, visible);
-         sqliteDB.update(SQLContract.MainFocusEntry.TABLE_NAME, contentValues,
-                SQLContract.MainFocusEntry.COLUMN_NAME_DATE+"=?", new String[] {date});
+        contentValues.put(SQLContract.MainScheduleEntry.COLUMN_NAME_BUTTON_VISIBLE, visible);
+         sqliteDB.update(SQLContract.MainScheduleEntry.TABLE_NAME, contentValues,
+                SQLContract.MainScheduleEntry.COLUMN_NAME_DATE+"=?", new String[] {date});
     }
 
 }

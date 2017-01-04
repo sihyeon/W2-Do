@@ -32,7 +32,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + SQLContract.UserEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + SQLContract.FcmUserEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + SQLContract.ToDoEntry.TABLE_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " + SQLContract.MainFocusEntry.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + SQLContract.MainScheduleEntry.TABLE_NAME);
 
         //생성
         db.execSQL(
@@ -56,12 +56,12 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         );
 
         db.execSQL(
-                "CREATE TABLE " + SQLContract.MainFocusEntry.TABLE_NAME + " ( " +
-                        SQLContract.MainFocusEntry._ID + " INTEGER PRIMARY KEY, " +
-                        SQLContract.MainFocusEntry.COLUMN_NAME_MAIN_FOCUS + " text ," +
-                        SQLContract.MainFocusEntry.COLUMN_NAME_DATE + " text , " +
-                        SQLContract.MainFocusEntry.COLUMN_NAME_BUTTON_VISIBLE+ " text, " +
-                        SQLContract.MainFocusEntry.COLUMN_NAME_SHOW + " text " + " ) "
+                "CREATE TABLE " + SQLContract.MainScheduleEntry.TABLE_NAME + " ( " +
+                        SQLContract.MainScheduleEntry._ID + " INTEGER PRIMARY KEY, " +
+                        SQLContract.MainScheduleEntry.COLUMN_NAME_MAIN_FOCUS + " text ," +
+                        SQLContract.MainScheduleEntry.COLUMN_NAME_DATE + " text , " +
+                        SQLContract.MainScheduleEntry.COLUMN_NAME_BUTTON_VISIBLE+ " text, " +
+                        SQLContract.MainScheduleEntry.COLUMN_NAME_SHOW + " text " + " ) "
         );
 
         db.execSQL(
