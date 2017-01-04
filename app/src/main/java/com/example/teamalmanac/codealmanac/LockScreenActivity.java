@@ -1,6 +1,7 @@
 package com.example.teamalmanac.codealmanac;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Paint;
 import android.graphics.Typeface;
@@ -65,13 +66,17 @@ public class LockScreenActivity extends AppCompatActivity implements LocationInf
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lock_screen);
+
         //스와이프 동작.
         findViewById(R.id.layout_lock_screen_main).setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()){
             public void onSwipeLeft(){
-                Toast.makeText(LockScreenActivity.this, "left", Toast.LENGTH_SHORT).show();
+                Intent mainappintent = new Intent(LockScreenActivity.this, APP2MAIN.class);
+                startActivity(mainappintent);
+                finish();
             }
             public void onSwipeRight(){
                 Toast.makeText(LockScreenActivity.this, "Right", Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
 

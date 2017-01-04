@@ -3,4 +3,14 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="light_blue_100">#00000000</color>
+    <color name="light_blue_300">#00000000</color>    //생성되어있는 폴더 색상
+    <color name="light_blue_500">#FFC900</color>    // 클릭 시 색상
+
+    <color name="statusbar">#00000000</color>
+
+    <color name="green_100">#00000000</color>
+    <color name="green_300">#00000000</color>  // 생성 되어있는 add 버튼 배경 색상
+    <color name="green_500">#FFC900</color> // 클릭 시 색상
 </resources>

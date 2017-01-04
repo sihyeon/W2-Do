@@ -5,10 +5,13 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -20,6 +23,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.teamalmanac.codealmanac.adapter.AddRemoveNumberedAdapter;
 import com.example.teamalmanac.codealmanac.adapter.ListViewAdapter;
 import com.example.teamalmanac.codealmanac.database.DataManager;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -44,6 +48,14 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
         mContext = getApplicationContext();
+
+
+        //APP2 메인 화면 리사이클러뷰 어댑터 생성
+//        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+//        recyclerView.setHasFixedSize(true);
+//        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+//        recyclerView.setBackgroundColor(Color.parseColor("#30000000"));
+//        recyclerView.setAdapter(new AddRemoveNumberedAdapter(4));
 
         ListView listview;
         ListViewAdapter adapter;

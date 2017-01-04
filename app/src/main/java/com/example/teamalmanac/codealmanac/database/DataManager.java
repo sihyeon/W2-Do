@@ -97,12 +97,12 @@ public class DataManager {
         sqliteDB.update(SQLContract.ToDoEntry.TABLE_NAME, contentValues,
                 SQLContract.ToDoEntry.COLUMN_NAME_DATE+"=?", new String[] {date});
     }
-
-    public void updateMainFocusButtonVisibility(String date, String visible) {
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(SQLContract.MainScheduleEntry.COLUMN_NAME_BUTTON_VISIBLE, visible);
-         sqliteDB.update(SQLContract.MainScheduleEntry.TABLE_NAME, contentValues,
-                SQLContract.MainScheduleEntry.COLUMN_NAME_DATE+"=?", new String[] {date});
-    }
+//
+//    public void updateMainFocusButtonVisibility(String date, String visible) {
+//        ContentValues contentValues = new ContentValues();
+//        contentValues.put(SQLContract.MainScheduleEntry.COLUMN_NAME_BUTTON_VISIBLE, visible);
+//         sqliteDB.update(SQLContract.MainScheduleEntry.TABLE_NAME, contentValues,
+//                SQLContract.MainScheduleEntry.COLUMN_NAME_DATE+"=?", new String[] {date});
+//    }
 
 }
