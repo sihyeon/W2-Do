@@ -6,30 +6,18 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.View;
 
+import com.example.teamalmanac.codealmanac.bean.MainScheduleBeen;
+
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 /**
  * Created by Choi Jaeung on 2016-11-09.
  */
 
 public class DataManager {
-    //싱글톤
-//    private static DataManager singletonInstance = null;
-//    public static DataManager getSingletonInstance(Context context){
-//        if(singletonInstance == null) {
-//            singletonInstance = new DataManager(context);
-//        }
-//        return singletonInstance;
-//    }
-//    public static DataManager getSingletonInstance(){
-//        if(singletonInstance == null) {
-//            if(MainActivity.getContext() != null){
-//                singletonInstance = new DataManager(MainActivity.getContext());
-//            } else if(TabActivity.getContext() != null) {
-//                singletonInstance = new DataManager(TabActivity.getContext());
-//            }
-//        }
-//        return singletonInstance;
-//    }
-
     private SQLiteDatabase sqliteDB;
 
     public DataManager(Context context){
@@ -39,7 +27,7 @@ public class DataManager {
             helper.onCreate(sqliteDB);
         }
         // 디비를 재생성해야하면 이 코드의 주석을 해제하시오
-//        helper = new SQLiteHelper(context);
+//        helper.onCreate(sqliteDB);
     }
     public void setUserName(String name){
         ContentValues contentValues = new ContentValues();
@@ -105,4 +93,30 @@ public class DataManager {
 //                SQLContract.MainScheduleEntry.COLUMN_NAME_DATE+"=?", new String[] {date});
 //    }
 
+
+    //메인스케줄
+    public void addMainSchedule(String mainSchedule){
+        String date = (new SimpleDateFormat("yyyy MM dd HH:mm ss")).format(new Date());
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(SQLContract.MainScheduleEntry.COLUMN_NAME_MAIN_SCHEDULE, mainSchedule);
+        contentValues.put(SQLContract.MainScheduleEntry.COLUMN_NAME_DATE, date);
+        contentValues.put(SQLContract.MainScheduleEntry.COLUMN_NAME_USED, 1);
+
+        sqliteDB.insert(SQLContract.MainScheduleEntry.TABLE_NAME, null, contentValues);
+    }
+    public MainScheduleBeen getMainSchedule(){
+        Cursor cursor =  sqliteDB.query(SQLContract.MainScheduleEntry.TABLE_NAME, null,
+                SQLContract.MainScheduleEntry.COLUMN_NAME_USED + "=?", new String[]{"1"}, null, null, null);
+        if(cursor.moveToLast()) return new MainScheduleBeen(cursor.getLong(0), cursor.getString(1), cursor.getString(2));
+        else return null;
+    }
+
+    public void unusedMainSchedule(){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(SQLContract.MainScheduleEntry.COLUMN_NAME_USED, 0);
+
+        sqliteDB.update(SQLContract.MainScheduleEntry.TABLE_NAME, contentValues,
+                SQLContract.ToDoEntry._ID+"=(select MAX(_id) from " + SQLContract.MainScheduleEntry.TABLE_NAME + ")", null);
+    }
 }

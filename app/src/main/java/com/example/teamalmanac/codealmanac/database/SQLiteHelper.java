@@ -58,8 +58,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         db.execSQL(
                 "CREATE TABLE " + SQLContract.MainScheduleEntry.TABLE_NAME + " ( " +
                         SQLContract.MainScheduleEntry._ID + " INTEGER PRIMARY KEY, " +
-                        SQLContract.MainScheduleEntry.COLUMN_NAME_MAIN_FOCUS + " text ," +
-                        SQLContract.MainScheduleEntry.COLUMN_NAME_DATE + " text , " + ")"
+                        SQLContract.MainScheduleEntry.COLUMN_NAME_MAIN_SCHEDULE + " text, " +
+                        SQLContract.MainScheduleEntry.COLUMN_NAME_DATE + " text, " +
+                        SQLContract.MainScheduleEntry.COLUMN_NAME_USED + " integer " + " ) "
 //                        SQLContract.MainScheduleEntry.COLUMN_NAME_BUTTON_VISIBLE+ " text, " +
 //                        SQLContract.MainScheduleEntry.COLUMN_NAME_SHOW + " text " + " ) "
         );

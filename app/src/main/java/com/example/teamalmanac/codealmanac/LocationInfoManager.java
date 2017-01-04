@@ -19,26 +19,20 @@ public class LocationInfoManager implements LocationListener {
     private static final int MIN_DISTANCE_CHANGE_FOR_UPDATE = 100;   //최소 10미터마다 업데이트
     private static final int MIN_TIME_FOR_UPDATE = 3000 /** 60*/;       //최소 3초마다 업데이트
 
-    private static LocationInfoManager ourInstance = new LocationInfoManager();
-
     private LocationManager mLocationManager;   //프로바이더 리스너 등등 등록
     private InterfaceLocationInfoManager mInterface;
     private Context mContext;
 
-    private boolean isGPSEnabled = false;       //GPS센서가 사용이 가능한가?
-    private boolean isNetworkEnabled = false;   //Network센서가 사용이 가능한가?
-
     public interface InterfaceLocationInfoManager {
-        public void setLocation(Location location);
+        void setLocation(Location location);
     }
 
     //싱글톤
+    private static LocationInfoManager ourInstance = new LocationInfoManager();
     public static LocationInfoManager getInstance() {
         return ourInstance;
     }
-
-    private LocationInfoManager() {
-    }
+    private LocationInfoManager() {}
 
     public void onStartLocation(Context context, AppCompatActivity activity) {
         mInterface = (InterfaceLocationInfoManager) activity;
@@ -60,7 +54,6 @@ public class LocationInfoManager implements LocationListener {
         Log.d("location", "onStopLocation 호출");
     }
 
-
     @Override
     protected void finalize() throws Throwable {
         if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -68,7 +61,6 @@ public class LocationInfoManager implements LocationListener {
             return;
         mLocationManager.removeUpdates(this);
         super.finalize();
-
     }
 
     @Override
@@ -80,26 +72,13 @@ public class LocationInfoManager implements LocationListener {
             return;
         mLocationManager.removeUpdates(this);
     }
+    //지역을 불러올 수 없을때나. 또는 불가능했던 지역이 불러올 수 있게 되었을 때 불리는 듯 함
     @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-        //지역을 불러올 수 없을때나. 또는 불가능했던 지역이 불러올 수 있게 되었을 때 불리는 듯 함
-    }
+    public void onStatusChanged(String provider, int status, Bundle extras) {}
     //GPS 센서를 사용이 가능할 때 불림
     @Override
-    public void onProviderEnabled(String provider) {
-        if(provider.equals("gps")){
-            isGPSEnabled = true;
-        } else if (provider.equals("network")){
-            isNetworkEnabled = true;
-        }
-    }
+    public void onProviderEnabled(String provider) {}
     //GPS 센서를 사용이 불가능해질때 불림.
     @Override
-    public void onProviderDisabled(String provider) {
-        if(provider.equals("gps")){
-            isGPSEnabled = false;
-        } else if (provider.equals("network")){
-            isNetworkEnabled = false;
-        }
-    }
+    public void onProviderDisabled(String provider) {}
 }
