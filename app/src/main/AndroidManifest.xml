@@ -25,7 +25,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.team.codealmanac.w2do.MainActivity">
+        <activity android:name=".MainActivity">
             <!--<intent-filter>-->
                 <!--<action android:name="android.intent.action.MAIN" />-->
 
@@ -34,28 +34,34 @@
         </activity>
 
         <receiver
-            android:name="com.team.codealmanac.w2do.UnlockScreenReceiver"
+            android:name=".UnlockScreenReceiver"
             android:enabled="true"
             android:exported="true" />
 
         <service
-            android:name="com.team.codealmanac.w2do.UnlockScreenService"
+            android:name=".UnlockScreenService"
             android:enabled="true"
             android:exported="true" />
 
         <activity
-            android:name="com.team.codealmanac.w2do.UseMainActivity"
+            android:name=".UseMainActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
-            android:name="com.team.codealmanac.w2do.APP2MAIN"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:name=".Login"
+            android:theme="@style/AppTheme.NoActionBar">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
 
-        <activity android:name="com.team.codealmanac.w2do.LockScreenActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        <activity
+            android:name=".APP2MAIN"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <activity android:name=".LockScreenActivity">
         </activity>
     </application>
 
