@@ -50,14 +50,14 @@ public class Login extends AppCompatActivity implements
         setContentView(R.layout.login);
 
         // Header Views
-        mStatusTextView = (TextView) findViewById(R.id.status);
+        mStatusTextView = (TextView) findViewById(R.id.status_username);
         mStatusEmailView = (TextView) findViewById(R.id.status_email);
         mStatusTitleView = (TextView) findViewById(R.id.title_text);
 
         // Button listeners
         findViewById(R.id.sign_in_button).setOnClickListener(this);
         findViewById(R.id.sign_out_button).setOnClickListener(this);
-        findViewById(R.id.disconnect_button).setOnClickListener(this);
+//        findViewById(R.id.disconnect_button).setOnClickListener(this);
 
         // Nickname View
         nick_greeting_msg = (TextView) findViewById(R.id.nickname_msg);
@@ -199,32 +199,41 @@ public class Login extends AppCompatActivity implements
     //로그인 시 하단에 로그아웃, 연결해제 버튼 생성 함수
     private void updateUI(boolean signedIn) {
         if (signedIn) {
-            //로그인 시 애니메이션 효과
+            //로그인 시 변환되는 뷰
             mStatusTitleView.setText(R.string.signed_greeting_msg);
             findViewById(R.id.sign_in_button).setVisibility(View.GONE);
 
             //로그인 시 보여지는 뷰 선언
             findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
+            mStatusTextView.setVisibility(View.VISIBLE);
+            mStatusEmailView.setVisibility(View.VISIBLE);
             nick_greeting_msg.setVisibility(View.VISIBLE);
             input_go.setVisibility(View.VISIBLE);
             nickname_edit.setVisibility(View.VISIBLE);
 
             //로그인 시 보여지는 뷰에 적용하는 애니메이션 효과
+            mStatusEmailView.startAnimation(animation);
             mStatusTitleView.startAnimation(animation);
+            mStatusTextView.startAnimation(animation);
             nick_greeting_msg.startAnimation(animation);
             input_go.startAnimation(animation);
             nickname_edit.startAnimation(animation);
 
+
         } else {
             //로그아웃 시
-            mStatusTextView.setText(R.string.signed_out);
+            mStatusTextView.setVisibility(View.GONE);
+            mStatusEmailView.setVisibility(View.GONE);
             mStatusTitleView.setText(R.string.signed_bye_msg);
+
             findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
 
             findViewById(R.id.nickname_msg).setVisibility(View.GONE);
             findViewById(R.id.nick_input_btn).setVisibility(View.GONE);
             findViewById(R.id.nickname_edit).setVisibility(View.GONE);
             findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);
+
+            mStatusTitleView.startAnimation(animation);
         }
     }
 
@@ -237,9 +246,9 @@ public class Login extends AppCompatActivity implements
             case R.id.sign_out_button:
                 signOut();
                 break;
-            case R.id.disconnect_button:
-                revokeAccess();
-                break;
+//            case R.id.disconnect_button:
+//                revokeAccess();
+//                break;
         }
     }
 }
