@@ -20,4 +20,13 @@
 
     <string name="add_item">Add item</string>
 
+    <string name="loading">loading</string>
+    <string name="signed_out">signed_out</string>
+    <string name="signed_in_fmt">LoginTest</string>
+    <string name="signed_greeting_msg">반갑습니다.</string>
+    <string name="signed_bye_msg">곧 다시 만나요!</string>
+
+    <string name="nickname_msg">사용할 별명을 입력해주세요.</string>
+    <string name="nickname_input">ex) james Choi </string>
+    <string name="input_go">GO</string>
 </resources>
