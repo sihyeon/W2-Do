@@ -1,4 +1,4 @@
-package com.example.teamalmanac.codealmanac;
+package com.example.teamalmanac.codealmanac.Listener;
 
 import android.content.Context;
 import android.view.GestureDetector;
