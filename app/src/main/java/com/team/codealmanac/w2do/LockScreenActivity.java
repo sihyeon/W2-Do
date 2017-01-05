@@ -1,4 +1,4 @@
-package com.example.teamalmanac.codealmanac;
+package com.team.codealmanac.w2do;
 
 import android.content.Context;
 import android.content.Intent;
@@ -31,9 +31,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.teamalmanac.codealmanac.Listener.OnSwipeTouchListener;
-import com.example.teamalmanac.codealmanac.bean.MainScheduleBeen;
-import com.example.teamalmanac.codealmanac.database.DataManager;
+import com.team.codealmanac.w2do.Listener.OnSwipeTouchListener;
+import com.team.codealmanac.w2do.bean.MainScheduleBeen;
+import com.team.codealmanac.w2do.database.SQLiteManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,7 +49,7 @@ public class LockScreenActivity extends AppCompatActivity implements LocationInf
     private final int GEO_PERMISSIONS_REQUEST = 1;
 
     private LocationInfoManager mLocationInfoManager;
-    private DataManager mDB = null;
+    private SQLiteManager mDB = null;
 
     private boolean isPermission;
 
@@ -82,7 +82,7 @@ public class LockScreenActivity extends AppCompatActivity implements LocationInf
             }
         });
 
-        mDB = new DataManager(getApplicationContext());
+        mDB = new SQLiteManager(getApplicationContext());
 
         //상태바 없앰
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);

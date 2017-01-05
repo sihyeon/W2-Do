@@ -1,4 +1,4 @@
-package com.example.teamalmanac.codealmanac;
+package com.team.codealmanac.w2do;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

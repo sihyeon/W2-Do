@@ -1,4 +1,4 @@
-package com.example.teamalmanac.codealmanac.adapter;
+package com.team.codealmanac.w2do.adapter;
 
 /**
  * Created by sihyeon on 2016-12-04.
@@ -13,8 +13,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.teamalmanac.codealmanac.R;
-import com.example.teamalmanac.codealmanac.bean.ListViewItem;
+import com.team.codealmanac.w2do.R;
+import com.team.codealmanac.w2do.bean.ListViewItem;
 
 import java.util.ArrayList;
 

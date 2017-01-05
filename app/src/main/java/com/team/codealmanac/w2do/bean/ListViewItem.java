@@ -1,12 +1,10 @@
-package com.example.teamalmanac.codealmanac.bean;
+package com.team.codealmanac.w2do.bean;
 
 /**
  * Created by sihyeon on 2016-12-04.
  */
 
 import android.graphics.drawable.Drawable;
-import android.widget.Button;
-import android.widget.Switch;
 
 public class ListViewItem {
     // 아이템 타입을 구분하기 위한 type 변수.

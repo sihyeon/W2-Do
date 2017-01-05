@@ -1,4 +1,4 @@
-package com.example.teamalmanac.codealmanac;
+package com.team.codealmanac.w2do;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.WindowManager;
-import com.example.teamalmanac.codealmanac.adapter.AddRemoveNumberedAdapter;
+import com.team.codealmanac.w2do.adapter.AddRemoveNumberedAdapter;
 
 public class APP2MAIN extends AppCompatActivity{
 

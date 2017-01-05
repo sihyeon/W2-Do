@@ -1,4 +1,4 @@
-package com.example.teamalmanac.codealmanac;
+package com.team.codealmanac.w2do;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -10,32 +10,33 @@ import android.view.ViewGroup;
  * Created by sihyeon on 2016-12-09.
  */
 
-public class UsepageFragment2 extends Fragment{
+public class UsepageFragment1 extends Fragment{
 
-    private static UsepageFragment2 mFragment2;
+    private static UsepageFragment1 mFragment;
 
-    public UsepageFragment2(){
+    public UsepageFragment1(){
 
     }
 
-    public static UsepageFragment2 getmFragment2(){
-        return mFragment2;
+    public static UsepageFragment1 getUsepageFragment1(){
+        return mFragment;
     }
 
-    public static UsepageFragment2 newInstance(){
-        UsepageFragment2 fragment2 = new UsepageFragment2();
-        return fragment2;
+    public static UsepageFragment1 newInstance(){
+        UsepageFragment1 fragment = new UsepageFragment1();
+        return fragment;
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        mFragment2 = this;
+        mFragment = this;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        View rootView = inflater.inflate(R.layout.usepage2, container, false);
+        View rootView = inflater.inflate(R.layout.use_page1, container, false);
 
         return rootView;
     }

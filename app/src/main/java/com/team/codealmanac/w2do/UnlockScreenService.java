@@ -1,6 +1,5 @@
-package com.example.teamalmanac.codealmanac;
+package com.team.codealmanac.w2do;
 
-import android.app.KeyguardManager;
 import android.app.Service;
 import android.content.Intent;
 import android.content.IntentFilter;

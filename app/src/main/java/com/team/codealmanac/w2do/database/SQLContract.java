@@ -1,12 +1,9 @@
-package com.example.teamalmanac.codealmanac.database;
+package com.team.codealmanac.w2do.database;
 
 import android.provider.BaseColumns;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.text.DateFormat;
 
 /**
  * Created by Choi Jaeung on 2016-11-09.

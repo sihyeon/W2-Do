@@ -1,4 +1,4 @@
-package com.example.teamalmanac.codealmanac.database;
+package com.team.codealmanac.w2do.database;
 
 import android.content.Context;
 import android.content.SharedPreferences;

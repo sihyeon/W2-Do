@@ -1,17 +1,13 @@
-package com.example.teamalmanac.codealmanac;
+package com.team.codealmanac.w2do;
 
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -19,24 +15,10 @@ import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.teamalmanac.codealmanac.adapter.AddRemoveNumberedAdapter;
-import com.example.teamalmanac.codealmanac.adapter.ListViewAdapter;
-import com.example.teamalmanac.codealmanac.database.DataManager;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.messaging.FirebaseMessaging;
-
-import java.io.IOException;
-
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-
-import static android.provider.AlarmClock.EXTRA_MESSAGE;
+import com.team.codealmanac.w2do.adapter.ListViewAdapter;
 
 
 public class MainActivity extends Activity implements CompoundButton.OnCheckedChangeListener{
