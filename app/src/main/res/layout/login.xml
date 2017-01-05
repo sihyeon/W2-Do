@@ -25,19 +25,19 @@
             android:textSize="36sp" />
 
         <TextView
-            android:id="@+id/status_email"
-            android:text="Sign in Email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/white"/>
-
-        <TextView
-            android:id="@+id/status"
+            android:id="@+id/status_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/signed_out"
             android:textColor="@android:color/white"
             android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/status_email"
+            android:text="Sign in Email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"/>
 
         <TextView
             android:id="@+id/detail"
@@ -129,12 +129,12 @@
                 android:text="sign_out"
                 />
 
-            <Button
-                android:id="@+id/disconnect_button"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="disconnect"/>
+            <!--<Button-->
+                <!--android:id="@+id/disconnect_button"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:text="disconnect"/>-->
         </LinearLayout>
 
     </RelativeLayout>
