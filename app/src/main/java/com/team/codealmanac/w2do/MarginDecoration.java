@@ -1,4 +1,4 @@
-package com.example.teamalmanac.codealmanac;
+package com.team.codealmanac.w2do;
 
 import android.content.Context;
 import android.graphics.Rect;

@@ -4,7 +4,7 @@
     android:id="@+id/layout_lock_screen_main"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    tools:context="com.example.teamalmanac.codealmanac.LockScreenActivity"
+    tools:context="com.team.codealmanac.w2do.LockScreenActivity"
     android:elevation="0dp"
     android:background="@drawable/bg_1">
 

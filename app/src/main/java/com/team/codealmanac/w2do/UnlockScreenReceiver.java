@@ -1,12 +1,9 @@
-package com.example.teamalmanac.codealmanac;
+package com.team.codealmanac.w2do;
 
-import android.app.KeyguardManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-
-import static android.content.Context.KEYGUARD_SERVICE;
 
 public class UnlockScreenReceiver extends BroadcastReceiver {
     public UnlockScreenReceiver() {

@@ -1,12 +1,12 @@
-package com.example.teamalmanac.codealmanac.adapter;
+package com.team.codealmanac.w2do.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.teamalmanac.codealmanac.R;
-import com.example.teamalmanac.codealmanac.TextViewHolder;
+import com.team.codealmanac.w2do.R;
+import com.team.codealmanac.w2do.TextViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;

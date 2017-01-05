@@ -1,4 +1,4 @@
-package com.example.teamalmanac.codealmanac.database;
+package com.team.codealmanac.w2do.database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,21 +6,19 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.View;
 
-import com.example.teamalmanac.codealmanac.bean.MainScheduleBeen;
+import com.team.codealmanac.w2do.bean.MainScheduleBeen;
 
 import java.util.Date;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 /**
  * Created by Choi Jaeung on 2016-11-09.
  */
 
-public class DataManager {
+public class SQLiteManager {
     private SQLiteDatabase sqliteDB;
 
-    public DataManager(Context context){
+    public SQLiteManager(Context context){
         SQLiteHelper helper = new SQLiteHelper(context);
         sqliteDB = helper.getWritableDatabase();
         if( sqliteDB == null) {

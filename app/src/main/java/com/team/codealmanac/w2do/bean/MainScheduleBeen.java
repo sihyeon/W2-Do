@@ -1,4 +1,4 @@
-package com.example.teamalmanac.codealmanac.bean;
+package com.team.codealmanac.w2do.bean;
 
 /**
  * Created by Choi Jaeung on 2017-01-04.
