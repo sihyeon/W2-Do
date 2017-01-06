@@ -1,79 +1,11 @@
 {
   "project_info": {
     "project_number": "1010255551118",
-    "project_id": "firebase-w2do"
+    "firebase_url": "https://fir-w2do.firebaseio.com",
+    "project_id": "firebase-w2do",
+    "storage_bucket": "firebase-w2do.appspot.com"
   },
   "client": [
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:1010255551118:android:7eb496275492b009",
-        "android_client_info": {
-          "package_name": "com.example.teamalmanac.codealmanac"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "1010255551118-djbi9tanj35tmsqllrfefvroq6g4dee5.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyB8PXrHL4yXTpJfKog_wonn87Tbj7mbrC4"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 1
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:1010255551118:android:6646353644ec40f9",
-        "android_client_info": {
-          "package_name": "com.team.comdealmanac.w2do"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "1010255551118-n84u9n2va1sp7qian4srbv94v8v0617d.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.team.comdealmanac.w2do",
-            "certificate_hash": "FFB37D281F8E49FCB23E99C3D2E99C015AB76C20"
-          }
-        },
-        {
-          "client_id": "1010255551118-djbi9tanj35tmsqllrfefvroq6g4dee5.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyB8PXrHL4yXTpJfKog_wonn87Tbj7mbrC4"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 1
-        }
-      }
-    },
     {
       "client_info": {
         "mobilesdk_app_id": "1:1010255551118:android:374c7eb00842b478",
@@ -83,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1010255551118-s4uvo7o3dsj2p0kn5mkprsit41rsecim.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.team.codealmanac.w2do",
+            "certificate_hash": "CF0A233031FAA2054B7BCC8CAA3F3A229F26A4A3"
+          }
+        },
+        {
           "client_id": "1010255551118-0s95kd3l7nj5sfjjpu3qd6sq1ssb75oa.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -91,13 +31,17 @@
           }
         },
         {
+          "client_id": "1010255551118-gq1124sf7gmjbdkq2k56ti3bbgbc0kot.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
           "client_id": "1010255551118-djbi9tanj35tmsqllrfefvroq6g4dee5.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB8PXrHL4yXTpJfKog_wonn87Tbj7mbrC4"
+          "current_key": "AIzaSyCh0gI0wHSi8kwvkISQrJ476ajS-XXGY0Q"
         }
       ],
       "services": {
@@ -105,11 +49,16 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1010255551118-gq1124sf7gmjbdkq2k56ti3bbgbc0kot.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }
