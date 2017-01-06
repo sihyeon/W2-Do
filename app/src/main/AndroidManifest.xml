@@ -19,6 +19,16 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
+    <receiver
+        android:name=".UnlockScreenReceiver"
+        android:enabled="true"
+        android:exported="false" />
+
+    <service
+        android:name=".W2DoService"
+        android:enabled="true"
+        android:exported="false" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/launcher"
@@ -33,16 +43,6 @@
             <!--</intent-filter>-->
         </activity>
 
-        <receiver
-            android:name=".UnlockScreenReceiver"
-            android:enabled="true"
-            android:exported="true" />
-
-        <service
-            android:name=".UnlockScreenService"
-            android:enabled="true"
-            android:exported="true" />
-
         <activity
             android:name=".UseMainActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
@@ -50,10 +50,7 @@
         <activity
             android:name=".Login"
             android:theme="@style/AppTheme.NoActionBar">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+
         </activity>
 
         <activity
@@ -63,6 +60,30 @@
 
         <activity android:name=".LockScreenActivity">
         </activity>
+
+
+        <activity android:name=".FirebaseTestActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!-- [START firebase_service] -->
+        <service
+            android:name=".MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <!-- [END firebase_service] -->
+        <!-- [START firebase_iid_service] -->
+        <service
+            android:name=".MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+        <!-- [END firebase_iid_service] -->
     </application>
 
 </manifest>

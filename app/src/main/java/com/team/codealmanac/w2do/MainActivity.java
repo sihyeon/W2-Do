@@ -96,12 +96,12 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if(isChecked)
         {
-            startService(new Intent(this, UnlockScreenService.class));
+            startService(new Intent(this, W2DoService.class));
             Toast.makeText(MainActivity.this, "What 2 do를 실행합니다.", Toast.LENGTH_SHORT).show();
         }
         else
         {
-            stopService(new Intent(this, UnlockScreenService.class));
+            stopService(new Intent(this, W2DoService.class));
             Toast.makeText(MainActivity.this, "What 2 do를 종료합니다.", Toast.LENGTH_SHORT).show();
         }
     }

@@ -5,12 +5,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.IBinder;
 
-public class UnlockScreenService extends Service {
+import com.google.firebase.messaging.FirebaseMessagingService;
 
+public class W2DoService extends Service{
     private UnlockScreenReceiver mReceiver = null;
-
-    public UnlockScreenService() {
-    }
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -25,11 +23,6 @@ public class UnlockScreenService extends Service {
         IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_OFF);
         filter.addAction(Intent.ACTION_SCREEN_ON);
         registerReceiver(mReceiver, filter);
-
-//        KeyguardManager.KeyguardLock key;
-//        KeyguardManager km = (KeyguardManager)getSystemService(KEYGUARD_SERVICE);
-//        key = km.newKeyguardLock("IN");
-//        key.disableKeyguard();
     }
 
     @Override
