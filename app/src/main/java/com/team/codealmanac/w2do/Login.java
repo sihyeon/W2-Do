@@ -66,11 +66,12 @@ public class Login extends AppCompatActivity implements
         // Button listeners
         findViewById(R.id.sign_in_button).setOnClickListener(this);
         findViewById(R.id.sign_out_button).setOnClickListener(this);
-//        findViewById(R.id.disconnect_button).setOnClickListener(this);
+//      findViewById(R.id.disconnect_button).setOnClickListener(this);
 
         // Nickname View
         nick_greeting_msg = (TextView) findViewById(R.id.nickname_msg);
         input_go = (Button) findViewById(R.id.nick_input_btn);
+        input_go.setOnClickListener(this);  // 버튼 클릭 이벤트
         nickname_edit = (EditText) findViewById(R.id.nickname_edit);
 
         // Animation effects
@@ -94,7 +95,6 @@ public class Login extends AppCompatActivity implements
         signInButton.setSize(SignInButton.SIZE_STANDARD);
         signInButton.setScopes(gso.getScopeArray());
         // [END customize_button]
-
     }
 
     @Override
@@ -147,12 +147,19 @@ public class Login extends AppCompatActivity implements
     }
     // [END handleSignInResult]
 
+    //[START GO 버튼 클릭 이벤트 함수]
+    private void goClick(){
+        Intent app2intent = new Intent(Login.this, APP2MAIN.class);
+        startActivity(app2intent);
+        finish();
+    }
+
+
     // [START signIn]
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
-    // [END signIn]
 
     // [START signOut]
     private void signOut() {
@@ -166,7 +173,6 @@ public class Login extends AppCompatActivity implements
                     }
                 });
     }
-    // [END signOut]
 
     // [START revokeAccess]
     private void revokeAccess() {
@@ -180,7 +186,6 @@ public class Login extends AppCompatActivity implements
                     }
                 });
     }
-    // [END revokeAccess]
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
@@ -254,6 +259,9 @@ public class Login extends AppCompatActivity implements
                 break;
             case R.id.sign_out_button:
                 signOut();
+                break;
+            case R.id.nick_input_btn:
+                goClick();
                 break;
 //            case R.id.disconnect_button:
 //                revokeAccess();

@@ -76,10 +76,10 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
         });
 
 
-        adapter.ArwItem(ContextCompat.getDrawable(this, R.drawable.btn_set_go));
-        adapter.ArwItem(ContextCompat.getDrawable(this, R.drawable.btn_set_go));
-        adapter.ArwItem(ContextCompat.getDrawable(this, R.drawable.btn_set_go));
-        adapter.ArwItem(ContextCompat.getDrawable(this,R.drawable.btn_set_go));
+//        adapter.ArwItem(ContextCompat.getDrawable(this, R.drawable.btn_set_go));
+//        adapter.ArwItem(ContextCompat.getDrawable(this, R.drawable.btn_set_go));
+//        adapter.ArwItem(ContextCompat.getDrawable(this, R.drawable.btn_set_go));
+//        adapter.ArwItem(ContextCompat.getDrawable(this,R.drawable.btn_set_go));
 
         ImageView header_icn = (ImageView) findViewById(R.id.header_icn);
         TextView header_text = (TextView) findViewById(R.id.header_text);
