@@ -35,4 +35,6 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_list"> </string>
+    <string name="btn_logout_from_google">Logout from Google</string>
+    <string name="btn_revoke_access">Revoke Access</string>
 </resources>

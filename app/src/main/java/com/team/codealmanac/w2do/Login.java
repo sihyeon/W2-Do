@@ -10,9 +10,13 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -26,6 +30,9 @@ import com.google.android.gms.common.api.Status;
 
 import org.w3c.dom.Text;
 
+import jp.wasabeef.glide.transformations.BlurTransformation;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
+
 public class Login extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener,
         View.OnClickListener {
@@ -36,6 +43,7 @@ public class Login extends AppCompatActivity implements
     private TextView mStatusTextView;
     private TextView mStatusEmailView;
     private TextView mStatusTitleView;  //로그인 시 타이틀 뷰 변경되는 변수
+    private ImageView mStatusImageView;
 
     private EditText nickname_edit;
     private Button input_go;
@@ -53,7 +61,7 @@ public class Login extends AppCompatActivity implements
         mStatusTextView = (TextView) findViewById(R.id.status_username);
         mStatusEmailView = (TextView) findViewById(R.id.status_email);
         mStatusTitleView = (TextView) findViewById(R.id.title_text);
-
+        mStatusImageView = (ImageView)findViewById(R.id.user_image);
         // Button listeners
         findViewById(R.id.sign_in_button).setOnClickListener(this);
         findViewById(R.id.sign_out_button).setOnClickListener(this);
@@ -128,8 +136,15 @@ public class Login extends AppCompatActivity implements
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
-            mStatusEmailView.setText(acct.getDisplayName());
-            mStatusTextView.setText(acct.getEmail());
+            mStatusEmailView.setText(acct.getDisplayName());    // 이름 정보
+            mStatusTextView.setText(acct.getEmail());   //email정보
+
+            // 사용자 cover photo -> glide 라이브러리 적용
+            String personPhotoUrl = acct.getPhotoUrl().toString();
+            Glide.with(getApplicationContext()).load(personPhotoUrl)
+                    .bitmapTransform(new CropCircleTransformation(getApplicationContext()))
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(mStatusImageView);
             updateUI(true);
         } else {
             // Signed out, show unauthenticated UI.
@@ -212,6 +227,8 @@ public class Login extends AppCompatActivity implements
             findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
             mStatusTextView.setVisibility(View.VISIBLE);
             mStatusEmailView.setVisibility(View.VISIBLE);
+            mStatusImageView.setVisibility(View.VISIBLE);
+
             nick_greeting_msg.setVisibility(View.VISIBLE);
             input_go.setVisibility(View.VISIBLE);
             nickname_edit.setVisibility(View.VISIBLE);
