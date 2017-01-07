@@ -59,13 +59,6 @@ public class Login extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        //FCM Test
-        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-        Log.d("fcmTest", "Refreshed token: " + refreshedToken);
-        FirebaseMessaging.getInstance().subscribeToTopic("news");
-
-
-
         // Header Views
         mStatusTextView = (TextView) findViewById(R.id.status_username);
         mStatusEmailView = (TextView) findViewById(R.id.status_email);
@@ -87,6 +80,7 @@ public class Login extends AppCompatActivity implements
 
         // [START configure_signin]
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
         // [END configure_signin]
@@ -149,11 +143,17 @@ public class Login extends AppCompatActivity implements
             mStatusTextView.setText(acct.getEmail());   //email정보
 
             // 사용자 cover photo -> glide 라이브러리 적용
-            String personPhotoUrl = acct.getPhotoUrl().toString();
-            Glide.with(getApplicationContext()).load(personPhotoUrl)
-                    .bitmapTransform(new CropCircleTransformation(getApplicationContext()))
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .into(mStatusImageView);
+            if(acct.getPhotoUrl() != null ) {
+                String personPhotoUrl = acct.getPhotoUrl().toString();
+                Glide.with(getApplicationContext()).load(personPhotoUrl)
+                        .bitmapTransform(new CropCircleTransformation(getApplicationContext()))
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(mStatusImageView);
+            } else {
+                Glide.with(getApplicationContext()).load(R.drawable.btn_wtd)
+                        .bitmapTransform(new CropCircleTransformation(getApplicationContext()))
+                        .into(mStatusImageView);
+            }
             updateUI(true);
         } else {
             // Signed out, show unauthenticated UI.

@@ -57,6 +57,7 @@ public class APP2MAIN extends AppCompatActivity
 
         //navigation view 리스너
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
         navigationView.setNavigationItemSelectedListener(this);
     }
 

@@ -14,6 +14,8 @@ import java.util.ArrayList;
  */
 
 public class PreferencesManager {
+
+
     public static void setStringArrayPref(Context context, String key, ArrayList<String> values) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = prefs.edit();
