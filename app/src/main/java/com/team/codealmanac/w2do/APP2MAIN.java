@@ -15,8 +15,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
 import com.team.codealmanac.w2do.adapter.AddRemoveNumberedAdapter;
+
 
 public class APP2MAIN extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -25,16 +25,20 @@ public class APP2MAIN extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_main);
+
+        // toolbar 설정
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        // content_main의 recyclerview 설정
         recyclerView = (RecyclerView) findViewById(R.id.app2_recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         recyclerView.setBackgroundColor(Color.parseColor("#30000000"));
         recyclerView.setAdapter(new AddRemoveNumberedAdapter(4));
 
+        //content_main의 floating btn 설정
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,16 +48,19 @@ public class APP2MAIN extends AppCompatActivity
             }
         });
 
+        //drawer_main -> drawer actionbartoggle 설정 부분
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        //navigation view 리스너
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    // drawer 상태 확인 후 drawer oepn/close 함수
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -64,6 +71,7 @@ public class APP2MAIN extends AppCompatActivity
         }
     }
 
+    // menu inflater
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -86,6 +94,7 @@ public class APP2MAIN extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    // nagivation 내부 item 선언
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
