@@ -27,6 +27,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.w3c.dom.Text;
 
@@ -56,6 +58,13 @@ public class Login extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+
+        //FCM Test
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        Log.d("fcmTest", "Refreshed token: " + refreshedToken);
+        FirebaseMessaging.getInstance().subscribeToTopic("news");
+
+
 
         // Header Views
         mStatusTextView = (TextView) findViewById(R.id.status_username);
