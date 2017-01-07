@@ -2,10 +2,13 @@ package com.team.codealmanac.w2do;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -53,11 +56,20 @@ public class Login extends AppCompatActivity implements
 
     private ProgressDialog mProgressDialog;
     private Animation animation;
+    private String personPhotoUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+
+        Toolbar logintoolbar = (Toolbar)findViewById(R.id.login_toolbar);
+        setSupportActionBar(logintoolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         //FCM Test
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
@@ -149,11 +161,17 @@ public class Login extends AppCompatActivity implements
             mStatusTextView.setText(acct.getEmail());   //email정보
 
             // 사용자 cover photo -> glide 라이브러리 적용
-            String personPhotoUrl = acct.getPhotoUrl().toString();
-            Glide.with(getApplicationContext()).load(personPhotoUrl)
-                    .bitmapTransform(new CropCircleTransformation(getApplicationContext()))
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .into(mStatusImageView);
+            if(acct.getPhotoUrl() != null ) {
+                personPhotoUrl = acct.getPhotoUrl().toString();
+                Glide.with(getApplicationContext()).load(personPhotoUrl)
+                        .bitmapTransform(new CropCircleTransformation(getApplicationContext()))
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(mStatusImageView);
+            } else {
+                Glide.with(getApplicationContext()).load(R.drawable.btn_wtd)
+                        .bitmapTransform(new CropCircleTransformation(getApplicationContext()))
+                        .into(mStatusImageView);
+            }
             updateUI(true);
         } else {
             // Signed out, show unauthenticated UI.

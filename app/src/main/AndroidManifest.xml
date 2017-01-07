@@ -66,11 +66,9 @@
 
 
         <activity android:name=".FirebaseTestActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
+
+
         <!-- [START firebase_service] -->
         <service
             android:name=".MyFirebaseMessagingService">

@@ -1,7 +1,9 @@
 package com.team.codealmanac.w2do;
 
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -15,14 +17,34 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import com.team.codealmanac.w2do.adapter.AddRemoveNumberedAdapter;
+
+
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 
 public class APP2MAIN extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
     private RecyclerView recyclerView;
+    private DrawerLayout drawer;
+    private NavigationView navigationView;
+
+    //navigation header items
+    private ImageView nav_user_image;
+    private TextView nav_user_name;
+    private TextView nav_user_email;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_main);
 
@@ -49,21 +71,27 @@ public class APP2MAIN extends AppCompatActivity
         });
 
         //drawer_main -> drawer actionbartoggle 설정 부분
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         //navigation view 리스너
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.getHeaderView(0);
         navigationView.setNavigationItemSelectedListener(this);
+
+        //navigation header item 설정
+        nav_user_image = (ImageView) findViewById(R.id.nav_user_image);
+        nav_user_name = (TextView) findViewById(R.id.nav_user_name);
+        nav_user_email = (TextView) findViewById(R.id.nav_user_email);
+
     }
 
     // drawer 상태 확인 후 drawer oepn/close 함수
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -114,8 +142,6 @@ public class APP2MAIN extends AppCompatActivity
         } else if (id == R.id.nav_send) {
 
         }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
