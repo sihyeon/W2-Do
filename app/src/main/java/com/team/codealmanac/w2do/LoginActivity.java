@@ -2,11 +2,14 @@ package com.team.codealmanac.w2do;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -35,7 +38,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
-public class LoginTestActivity extends AppCompatActivity implements
+public class LoginActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener,
         View.OnClickListener{
     private static final String TAG = "GoogleActivity";
@@ -65,8 +68,17 @@ public class LoginTestActivity extends AppCompatActivity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        }
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login_test);
+        setContentView(R.layout.activity_login);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.login_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         // Header Views
         mStatusTextView = (TextView) findViewById(R.id.status_username);
@@ -185,7 +197,7 @@ public class LoginTestActivity extends AppCompatActivity implements
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "signInWithCredential", task.getException());
-                            Toast.makeText(LoginTestActivity.this, "Authentication failed.",
+                            Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
                         // [START_EXCLUDE]
@@ -305,6 +317,9 @@ public class LoginTestActivity extends AppCompatActivity implements
             signIn();
         } else if (i == R.id.sign_out_button) {
             signOut();
+        } else if (i == R.id.nick_input_btn){
+            Intent app2intent = new Intent(LoginActivity.this,APP2MAIN.class);
+            startActivity(app2intent);
         }
     }
 
