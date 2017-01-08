@@ -73,7 +73,7 @@ public class LockScreenActivity extends AppCompatActivity implements LocationInf
         //스와이프 동작.
         findViewById(R.id.layout_lock_screen_main).setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()){
             public void onSwipeLeft(){
-                Intent mainappintent = new Intent(LockScreenActivity.this, APP2MAIN.class);
+                Intent mainappintent = new Intent(LockScreenActivity.this, MainActivity.class);
                 startActivity(mainappintent);
                 finish();
             }

@@ -31,7 +31,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name=".APP2MAIN"
+            android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity android:name=".LockScreenActivity" >

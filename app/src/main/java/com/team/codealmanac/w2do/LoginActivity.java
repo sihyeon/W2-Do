@@ -318,7 +318,7 @@ public class LoginActivity extends AppCompatActivity implements
         } else if (i == R.id.sign_out_button) {
             signOut();
         } else if (i == R.id.nick_input_btn){
-            Intent app2intent = new Intent(LoginActivity.this,APP2MAIN.class);
+            Intent app2intent = new Intent(LoginActivity.this,MainActivity.class);
             startActivity(app2intent);
         }
     }
