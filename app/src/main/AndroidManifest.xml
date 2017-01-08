@@ -19,16 +19,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
-    <receiver
-        android:name=".UnlockScreenReceiver"
-        android:enabled="true"
-        android:exported="false" />
-
-    <service
-        android:name=".W2DoService"
-        android:enabled="true"
-        android:exported="false" />
-
     <application
         android:allowBackup="true"
         android:icon="@drawable/launcher"
@@ -46,6 +36,18 @@
             android:name=".APP2MAIN"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".LockScreenActivity" />
+
+        <receiver
+            android:name=".W2DoBroadcastReceiver"
+            android:enabled="true"
+            android:exported="false" />
+
+        <service
+            android:name=".W2DoService"
+            android:enabled="true"
+            android:exported="false" />
+
+
         <activity android:name=".FirebaseTestActivity" />
         <!-- [START firebase_service] -->
         <service android:name=".MyFirebaseMessagingService">
