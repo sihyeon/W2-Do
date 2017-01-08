@@ -1,16 +1,16 @@
 package com.team.codealmanac.w2do;
 
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.team.codealmanac.w2do.adapter.AddRemoveNumberedAdapter;
+import com.team.codealmanac.w2do.fragment.TodoFolderListFragment;
 
 
 public class MainActivity extends AppCompatActivity
@@ -44,17 +45,17 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //프래그먼트 등록
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        fragmentTransaction.add(R.id.layout_todo_fragments, new TodoFolderListFragment());
+        fragmentTransaction.commit();
+
         // toolbar 설정
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-        // content_main의 recyclerview 설정
-        recyclerView = (RecyclerView) findViewById(R.id.app2_recyclerView);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        recyclerView.setBackgroundColor(Color.parseColor("#30000000"));
-        recyclerView.setAdapter(new AddRemoveNumberedAdapter(4));
 
         //content_main의 floating btn 설정
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
