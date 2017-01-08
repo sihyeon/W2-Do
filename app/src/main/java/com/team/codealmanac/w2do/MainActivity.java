@@ -3,7 +3,6 @@ package com.team.codealmanac.w2do;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.DrawableRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -22,9 +21,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.team.codealmanac.w2do.adapter.AddRemoveNumberedAdapter;
-
-
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 
 public class MainActivity extends AppCompatActivity
@@ -46,7 +42,7 @@ public class MainActivity extends AppCompatActivity
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.drawer_main);
+        setContentView(R.layout.activity_main);
 
         // toolbar 설정
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -70,7 +66,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        //drawer_main -> drawer actionbartoggle 설정 부분
+        //activity_main -> drawer actionbartoggle 설정 부분
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
