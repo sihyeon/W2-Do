@@ -39,7 +39,13 @@
             android:name=".UseMainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <activity android:name=".LockScreenActivity"></activity>
+        <activity android:name=".LockScreenActivity"
+            android:theme="@style/AppTheme.NoActionBarFullscreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <receiver
             android:name=".W2DoBroadcastReceiver"
@@ -68,10 +74,7 @@
         </service>
         <!-- [END firebase_iid_service] -->
         <activity android:name=".LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
 
         <receiver
