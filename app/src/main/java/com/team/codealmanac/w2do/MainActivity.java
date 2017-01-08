@@ -27,7 +27,7 @@ import com.team.codealmanac.w2do.adapter.AddRemoveNumberedAdapter;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 
-public class APP2MAIN extends AppCompatActivity
+public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private RecyclerView recyclerView;
