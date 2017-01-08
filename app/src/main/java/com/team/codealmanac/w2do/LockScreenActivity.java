@@ -84,7 +84,6 @@ public class LockScreenActivity extends AppCompatActivity implements LocationInf
         });
 
         mDB = new SQLiteManager(getApplicationContext());
-
         //상태바 없앰
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -98,7 +97,7 @@ public class LockScreenActivity extends AppCompatActivity implements LocationInf
             mLocationInfoManager = LocationInfoManager.getInstance();
             mLocationInfoManager.onStartLocation(getApplicationContext(), this);
         }
-
+        mDB.addMainSchedule("메인 스케줄 테스트");
 //        mDB.addMainSchedule("Hello");
     }
 
@@ -117,11 +116,6 @@ public class LockScreenActivity extends AppCompatActivity implements LocationInf
         dt.setText(sdf.format(new Date()));
         Typeface type = Typeface.createFromAsset(getAssets(), "YiSunShinDotumM-Regular.ttf");
         dt.setTypeface(type);
-
-        //화면 이동 메세지 폰트
-        TextView mv = (TextView) findViewById(R.id.text_screen_pull);
-        Typeface mvtype = Typeface.createFromAsset(getAssets(), "NanumSquareR.ttf");
-        mv.setTypeface(mvtype);
 
         this.setGreetingText();
         this.setMainText();
@@ -278,7 +272,7 @@ public class LockScreenActivity extends AppCompatActivity implements LocationInf
 
         //온도 지정
         TextView temperatureText = (TextView) findViewById(R.id.text_temp);
-        Typeface tempType = Typeface.createFromAsset(getAssets(), "FranklinGothic-MediumCond.TTF");
+        Typeface tempType = Typeface.createFromAsset(getAssets(), "FranklinGothicMediumCond.TTF");
         temperatureText.setTypeface(tempType);
         temperatureText.setText((int) temperature + "º");
     }
@@ -325,7 +319,7 @@ public class LockScreenActivity extends AppCompatActivity implements LocationInf
             //저녁
         else greetingMessage += getString(R.string.greetings_evening_1);
 
-        Typeface fontType = Typeface.createFromAsset(getAssets(), "FranklinGothic-MediumCond.TTF");
+        Typeface fontType = Typeface.createFromAsset(getAssets(), "NanumSquareB.ttf");
         greetingText.setTypeface(fontType);     //인사말
         userNameText.setTypeface(fontType);     //사용자 이름
 
@@ -345,35 +339,38 @@ public class LockScreenActivity extends AppCompatActivity implements LocationInf
         if (mainSchedule != null) {    //메인스케줄이 있을때 -> MAINSCHEDULE Text 보임
             todayText.setVisibility(View.VISIBLE);
             mainScheduleText.setVisibility(View.VISIBLE);
+
             // 메인스케줄 below text_today, marginTop 15dp TextSize
             RelativeLayout.LayoutParams relativeParams = (RelativeLayout.LayoutParams) mainScheduleText.getLayoutParams();
             relativeParams.addRule(RelativeLayout.BELOW, R.id.text_today);
             relativeParams.topMargin = Math.round(0f * getResources().getDisplayMetrics().density); //today와의 topMargin 설정
             mainScheduleText.setLayoutParams(relativeParams);
-            mainScheduleText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 30);
+            mainScheduleText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
             mainScheduleMessage += mainSchedule;
-        } else {        //메인스케줄이 없을때 ->  MAINSCHEDULE Text 안보임
+        } else {
+            //메인스케줄이 없을때 ->  MAINSCHEDULE Text 안보임
             todayText.setVisibility(View.INVISIBLE);
             mainScheduleText.setVisibility(View.VISIBLE);
             //메인스케줄 디자인 수정
             RelativeLayout.LayoutParams relativeParams = (RelativeLayout.LayoutParams) mainScheduleText.getLayoutParams();
             relativeParams.addRule(RelativeLayout.BELOW, R.id.text_user_name);
 //            relativeParams.topMargin = Math.round(64f * getContext().getResources().getDisplayMetrics().density); //dp설정
-            relativeParams.topMargin = translatePxToDp(64f); //dp설정
+            relativeParams.topMargin = translatePxToDp(75f); //dp설정
             mainScheduleText.setLayoutParams(relativeParams);
             mainScheduleText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
+
+            //"오늘의 메인 스케줄은 무엇인가요?"
             mainScheduleMessage += getString(R.string.what_main_schedule);
             mainScheduleText.setPaintFlags(mainScheduleText.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             mainScheduleText.setPaintFlags(mainScheduleText.getPaintFlags() ^ Paint.STRIKE_THRU_TEXT_FLAG);
         }
 
         //today 부분의 글꼴
-        Typeface todayType = Typeface.createFromAsset(getAssets(), "FranklinGothic-Demi.TTF");
+        Typeface todayType = Typeface.createFromAsset(getAssets(), "NanumSquareB.ttf");
         todayText.setTypeface(todayType);
 
         //Good morning,~ 부분의 글꼴
-        Typeface fontType = Typeface.createFromAsset(getAssets(), "FranklinGothic-MediumCond.TTF");
-
+        Typeface fontType = Typeface.createFromAsset(getAssets(), "FranklinGothicDemi.TTF");
         mainScheduleText.setTypeface(fontType);    //mainfocus
         mainScheduleText.setText(mainScheduleMessage);
     }

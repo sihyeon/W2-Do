@@ -18,7 +18,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!-- 메인스케쥴 묻는 말 -->
-    <string name="what_main_schedule">오늘의 메인스케줄은 무엇인가요?</string>
+    <string name="what_main_schedule">오늘의 메인 스케줄은 무엇인가요?</string>
     <!--Task-->
     <string name="task">LockScreenTask</string>
     <string name="settings_safetylegal_activity_loading">"로드 중"</string>
@@ -44,4 +44,6 @@
     <string name="action_list"> </string>
     <string name="btn_logout_from_google">Logout from Google</string>
     <string name="btn_revoke_access">Revoke Access</string>
+
+    <string name="mainschedule">MAIN SCHEDULE</string>
 </resources>
