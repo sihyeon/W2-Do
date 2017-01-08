@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.team.codealmanac.w2do.adapter.AddRemoveNumberedAdapter;
+import com.team.codealmanac.w2do.database.PreferencesManager;
 import com.team.codealmanac.w2do.fragment.TodoFolderListFragment;
 
 
@@ -84,6 +85,13 @@ public class MainActivity extends AppCompatActivity
         nav_user_name = (TextView) findViewById(R.id.nav_user_name);
         nav_user_email = (TextView) findViewById(R.id.nav_user_email);
 
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        ((TextView)findViewById(R.id.user_name)).setText(PreferencesManager.getNickname(getApplicationContext()));
     }
 
     // drawer 상태 확인 후 drawer oepn/close 함수

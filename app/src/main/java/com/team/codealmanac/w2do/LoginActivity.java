@@ -35,6 +35,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.team.codealmanac.w2do.database.PreferencesManager;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
@@ -318,6 +319,7 @@ public class LoginActivity extends AppCompatActivity implements
         } else if (i == R.id.sign_out_button) {
             signOut();
         } else if (i == R.id.nick_input_btn){
+            PreferencesManager.setNickname(getApplicationContext(), nickname_edit.getText().toString());
             Intent app2intent = new Intent(LoginActivity.this,MainActivity.class);
             startActivity(app2intent);
         }

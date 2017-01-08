@@ -25,21 +25,21 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SettingActivity"></activity>
-        <activity
-            android:name=".UseMainActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+
 
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
-        <activity android:name=".LockScreenActivity">
-        </activity>
+
+        <activity android:name=".SettingActivity" />
+
+        <activity
+            android:name=".UseMainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity android:name=".LockScreenActivity"></activity>
 
         <receiver
             android:name=".W2DoBroadcastReceiver"
@@ -67,7 +67,12 @@
             </intent-filter>
         </service>
         <!-- [END firebase_iid_service] -->
-        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <receiver
             android:name=".W2DoBroadcastReceiver"
