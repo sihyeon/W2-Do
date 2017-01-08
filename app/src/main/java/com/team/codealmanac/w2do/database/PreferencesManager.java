@@ -14,7 +14,17 @@ import java.util.ArrayList;
  */
 
 public class PreferencesManager {
+    public static void setNickname(Context context, String nickname){
+        SharedPreferences userInfoPref = context.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = userInfoPref.edit();
+        editor.putString("nickname"/* key */, nickname);
+        editor.commit();
+    }
 
+    public static String getNickname(Context context){
+        SharedPreferences userInfoPref = context.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        return userInfoPref.getString("nickname"/*key*/, null/*default*/);
+    }
 
     public static void setStringArrayPref(Context context, String key, ArrayList<String> values) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
