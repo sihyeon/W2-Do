@@ -28,7 +28,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 public class FirebaseTestActivity extends AppCompatActivity {
 
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "SettingActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

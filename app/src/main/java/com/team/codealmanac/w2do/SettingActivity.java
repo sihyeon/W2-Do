@@ -20,14 +20,14 @@ import android.widget.Toast;
 import com.team.codealmanac.w2do.adapter.ListViewAdapter;
 
 
-public class MainActivity extends Activity implements CompoundButton.OnCheckedChangeListener{
+public class SettingActivity extends Activity implements CompoundButton.OnCheckedChangeListener{
     private static Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_setting);
         mContext = getApplicationContext();
 
 
@@ -55,15 +55,15 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
                 parent.getAdapter().getItem(position);
                 if( id == 0 ) {
                     createDesktopIcon();
-                    Toast.makeText(MainActivity.this, "홈 화면에 What 2 do를 추가했습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SettingActivity.this, "홈 화면에 What 2 do를 추가했습니다.", Toast.LENGTH_SHORT).show();
 //                    Intent intent = new Intent(Intent.ACTION_PICK);
 //                    intent.setAction(Intent.ACTION_GET_CONTENT);
 //                    intent.setType("image/*");
 //                    startActivityForResult(intent, 1);
                 }else if(id == 1){
-                    startActivity(new Intent(MainActivity.this, UseMainActivity.class));
+                    startActivity(new Intent(SettingActivity.this, UseMainActivity.class));
                 } else if(id == 2){
-                    startActivity(new Intent(MainActivity.this, UseMainActivity.class));
+                    startActivity(new Intent(SettingActivity.this, UseMainActivity.class));
                 } else if ( id == 3 ) {
                     Uri uri = Uri.parse("http://sihyun2139.wixsite.com/codealmanac");
                     Intent web = new Intent(Intent.ACTION_VIEW,uri);
@@ -96,12 +96,12 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
         if(isChecked)
         {
             startService(new Intent(this, W2DoService.class));
-            Toast.makeText(MainActivity.this, "What 2 do를 실행합니다.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SettingActivity.this, "What 2 do를 실행합니다.", Toast.LENGTH_SHORT).show();
         }
         else
         {
             stopService(new Intent(this, W2DoService.class));
-            Toast.makeText(MainActivity.this, "What 2 do를 종료합니다.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SettingActivity.this, "What 2 do를 종료합니다.", Toast.LENGTH_SHORT).show();
         }
     }
 
