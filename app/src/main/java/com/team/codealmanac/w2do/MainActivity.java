@@ -92,8 +92,6 @@ public class MainActivity extends AppCompatActivity
         nav_user_name = (TextView) v.findViewById(R.id.nav_user_name);
         nav_user_email = (TextView) v.findViewById(R.id.nav_user_email);
 
-        nav_user_name.setText("Test");
-
         FirebaseUser googleUserInfo = FirebaseAuth.getInstance().getCurrentUser();
         if(googleUserInfo != null){
             nav_user_name.setText(googleUserInfo.getDisplayName());

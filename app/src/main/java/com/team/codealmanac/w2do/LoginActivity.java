@@ -177,6 +177,7 @@ public class LoginActivity extends AppCompatActivity implements
     @Override
     public void onStop() {
         super.onStop();
+        Log.d(TAG, "onStop");
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
         }
@@ -187,7 +188,7 @@ public class LoginActivity extends AppCompatActivity implements
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        Log.d(TAG, "onActivityResult");
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
@@ -209,6 +210,7 @@ public class LoginActivity extends AppCompatActivity implements
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
 
         // [START_EXCLUDE silent]
+
         showProgressDialog();
         // [END_EXCLUDE]
 
@@ -237,6 +239,7 @@ public class LoginActivity extends AppCompatActivity implements
 
     // [START signin]
     private void signIn() {
+        Log.d(TAG, "signIn");
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -258,8 +261,8 @@ public class LoginActivity extends AppCompatActivity implements
 
     private void updateUI(FirebaseUser user) {
         if (user != null) {
-            mStatusEmailView.setText(user.getEmail());    // 이름 정보
-            mUserNameView.setText(user.getDisplayName());   //email정보
+            mStatusEmailView.setText(user.getEmail());    //email정보
+            mUserNameView.setText(user.getDisplayName());   // 이름 정보
 
             // 사용자 cover photo -> glide 라이브러리 적용
             if(user.getPhotoUrl() != null ) {
@@ -268,11 +271,12 @@ public class LoginActivity extends AppCompatActivity implements
                         .bitmapTransform(new CropCircleTransformation(getApplicationContext()))
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .into(mStatusImageView);
-            } else {
-                Glide.with(getApplicationContext()).load(R.drawable.btn_wtd)
-                        .bitmapTransform(new CropCircleTransformation(getApplicationContext()))
-                        .into(mStatusImageView);
             }
+//            } else {
+//                Glide.with(getApplicationContext()).load(R.drawable.btn_wtd)
+//                        .bitmapTransform(new CropCircleTransformation(getApplicationContext()))
+//                        .into(mStatusImageView);
+//            }
 
             //로그인 시 보여지는 뷰 선언
             mGreetingMsg.setVisibility(View.VISIBLE);
@@ -321,37 +325,33 @@ public class LoginActivity extends AppCompatActivity implements
 
     private void showProgressDialog() {
         if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog = new ProgressDialog(LoginActivity.this);
             mProgressDialog.setMessage(getString(R.string.loading));
             mProgressDialog.setIndeterminate(true);
         }
-
         mProgressDialog.show();
     }
 
     private void hideProgressDialog() {
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.hide();
+            mProgressDialog.dismiss();
         }
     }
 
     @Override
     public void onClick(View v) {
-        int i = v.getId();
-        if (i == R.id.sign_in_button) {
-            signIn();
-//            ViewGroup.MarginLayoutParams margin = new ViewGroup.MarginLayoutParams(mStatusTitleView.getLayoutParams());
-//            margin.setMargins(0, 32, 0, 37);
-//            mStatusTitleView.setLayoutParams(new LinearLayout.LayoutParams(margin));
-
-        } else if( i == R.id.logo_image){
-            signOut();
-        }
-        else if (i == R.id.nick_input_btn){
-            PreferencesManager.setNickname(getApplicationContext(), nickname_edit.getText().toString());
-            Intent app2intent = new Intent(LoginActivity.this,MainActivity.class);
-            startActivity(app2intent);
+        switch (v.getId()){
+            case R.id.sign_in_button:
+                signIn();
+                break;
+            case R.id.logo_image:
+                signOut();
+                break;
+            case R.id.nick_input_btn:
+                PreferencesManager.setNickname(getApplicationContext(), nickname_edit.getText().toString());
+                Intent app2intent = new Intent(LoginActivity.this,MainActivity.class);
+                startActivity(app2intent);
+                break;
         }
     }
-
 }
