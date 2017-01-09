@@ -108,6 +108,8 @@ public class LockScreenActivity extends AppCompatActivity implements LocationInf
         TextClock digitalClock = (TextClock) findViewById(R.id.digital_clock);
         Typeface typeface = Typeface.createFromAsset(getAssets(), "YiSunShinDotumM-Regular.ttf");
         digitalClock.setTypeface(typeface);
+        ((TextView)findViewById(R.id.test_textView)).setTypeface(typeface);
+        ((TextView)findViewById(R.id.test_textView)).setIncludeFontPadding(false);
 
         //datetime
         TextView dt = (TextView) findViewById(R.id.text_date);

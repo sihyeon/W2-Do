@@ -13,6 +13,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,9 +21,15 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.team.codealmanac.w2do.adapter.AddRemoveNumberedAdapter;
 import com.team.codealmanac.w2do.database.PreferencesManager;
 import com.team.codealmanac.w2do.fragment.TodoFolderListFragment;
+
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 
 public class MainActivity extends AppCompatActivity
@@ -79,13 +86,30 @@ public class MainActivity extends AppCompatActivity
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.getHeaderView(0);
         navigationView.setNavigationItemSelectedListener(this);
-
+        View v = navigationView.getHeaderView(0);
         //navigation header item 설정
-        nav_user_image = (ImageView) findViewById(R.id.nav_user_image);
-        nav_user_name = (TextView) findViewById(R.id.nav_user_name);
-        nav_user_email = (TextView) findViewById(R.id.nav_user_email);
+        nav_user_image = (ImageView) v.findViewById(R.id.nav_user_image);
+        nav_user_name = (TextView) v.findViewById(R.id.nav_user_name);
+        nav_user_email = (TextView) v.findViewById(R.id.nav_user_email);
 
+        nav_user_name.setText("Test");
 
+        FirebaseUser googleUserInfo = FirebaseAuth.getInstance().getCurrentUser();
+        if(googleUserInfo != null){
+            nav_user_name.setText(googleUserInfo.getDisplayName());
+            nav_user_email.setText(googleUserInfo.getEmail());
+            if(googleUserInfo.getPhotoUrl() != null ) {
+                String personPhotoUrl = googleUserInfo.getPhotoUrl().toString();
+                Glide.with(getApplicationContext()).load(personPhotoUrl)
+                        .bitmapTransform(new CropCircleTransformation(getApplicationContext()))
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(nav_user_image);
+            } else {
+                Glide.with(getApplicationContext()).load(R.drawable.btn_wtd)
+                        .bitmapTransform(new CropCircleTransformation(getApplicationContext()))
+                        .into(nav_user_image);
+            }
+        }
     }
 
     @Override

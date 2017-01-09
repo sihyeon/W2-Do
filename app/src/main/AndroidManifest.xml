@@ -41,6 +41,20 @@
 
         <activity android:name=".LockScreenActivity"
             android:theme="@style/AppTheme.NoActionBarFullscreen">
+
+        </activity>
+
+        <receiver
+            android:name=".W2DoBroadcastReceiver"
+            android:enabled="true"
+            android:exported="false" />
+
+        <service
+            android:name=".W2DoService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -57,7 +71,6 @@
             android:enabled="true"
             android:exported="false" />
 
-
         <activity android:name=".FirebaseTestActivity" />
         <!-- [START firebase_service] -->
         <service android:name=".MyFirebaseMessagingService">
@@ -73,19 +86,6 @@
             </intent-filter>
         </service>
         <!-- [END firebase_iid_service] -->
-        <activity android:name=".LoginActivity">
-
-        </activity>
-
-        <receiver
-            android:name=".W2DoBroadcastReceiver"
-            android:enabled="true"
-            android:exported="false" />
-
-        <service
-            android:name=".W2DoService"
-            android:enabled="true"
-            android:exported="false" />
     </application>
 
 </manifest>
