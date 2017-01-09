@@ -1,20 +1,26 @@
 package com.team.codealmanac.w2do;
 
+import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,11 +61,16 @@ public class LoginActivity extends AppCompatActivity implements
 
     private GoogleApiClient mGoogleApiClient;
 
-    private TextView mStatusTextView;
+    private TextView mUserNameView;
     private TextView mStatusEmailView;
     private TextView mStatusTitleView;  //로그인 시 타이틀 뷰 변경되는 변수
-    private ImageView mStatusImageView;
+    private TextView mStatusTitleView2;
+    private TextView mGreetingMsg;
 
+    private ImageView mStatusImageView;
+    private ImageView mLogoImageView;
+
+    private Button LoginButton;
     private EditText nickname_edit;
     private Button input_go;
     private TextView nick_greeting_msg;
@@ -69,27 +80,24 @@ public class LoginActivity extends AppCompatActivity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-        }
-
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.login_toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         // Header Views
-        mStatusTextView = (TextView) findViewById(R.id.status_username);
+        mUserNameView = (TextView) findViewById(R.id.status_username);
         mStatusEmailView = (TextView) findViewById(R.id.status_email);
-        mStatusTitleView = (TextView) findViewById(R.id.title_text);
+        mStatusTitleView = (TextView) findViewById(R.id.title_text1);
         mStatusImageView = (ImageView)findViewById(R.id.user_image);
+        mLogoImageView = (ImageView) findViewById(R.id.logo_image);
+        mStatusTitleView2 = (TextView) findViewById(R.id.title_text2);
+        mGreetingMsg = (TextView) findViewById(R.id.title_text3);
 
         // Button listeners
-        findViewById(R.id.sign_in_button).setOnClickListener(this);
-        findViewById(R.id.sign_out_button).setOnClickListener(this);
+        LoginButton = (Button) findViewById(R.id.sign_in_button);
+        LoginButton.setOnClickListener(this);
+        mLogoImageView.setOnClickListener(this);
 
         // Animation effects
         animation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.alpha);
@@ -100,6 +108,24 @@ public class LoginActivity extends AppCompatActivity implements
         input_go = (Button) findViewById(R.id.nick_input_btn);
         input_go.setOnClickListener(this);  // 버튼 클릭 이벤트
         nickname_edit = (EditText) findViewById(R.id.nickname_edit);
+
+        //첫 로그인 화면 View 구성
+        mLogoImageView.setVisibility(View.VISIBLE);
+        mStatusTitleView.setVisibility(View.VISIBLE);
+        mStatusTitleView2.setVisibility(View.VISIBLE);
+        LoginButton.setVisibility(View.VISIBLE);
+
+        // Login화면 폰트 적용
+        Typeface loginfont = Typeface.createFromAsset(getAssets(), "NanumSquareR.ttf");
+        mStatusTitleView.setTypeface(loginfont);
+        mStatusTitleView2.setTypeface(loginfont);
+        LoginButton.setTypeface(loginfont);
+        mUserNameView.setTypeface(loginfont);
+        mStatusEmailView.setTypeface(loginfont);
+        nickname_edit.setTypeface(loginfont);
+        input_go.setTypeface(loginfont);
+        nick_greeting_msg.setTypeface(loginfont);
+        mGreetingMsg.setTypeface(loginfont);
 
         // [START config_signin]
         // Configure Google Sign In
@@ -232,8 +258,8 @@ public class LoginActivity extends AppCompatActivity implements
 
     private void updateUI(FirebaseUser user) {
         if (user != null) {
-            mStatusEmailView.setText(user.getDisplayName());    // 이름 정보
-            mStatusTextView.setText(user.getEmail());   //email정보
+            mStatusEmailView.setText(user.getEmail());    // 이름 정보
+            mUserNameView.setText(user.getDisplayName());   //email정보
 
             // 사용자 cover photo -> glide 라이브러리 적용
             if(user.getPhotoUrl() != null ) {
@@ -248,13 +274,12 @@ public class LoginActivity extends AppCompatActivity implements
                         .into(mStatusImageView);
             }
 
-            //로그인 시 변환되는 뷰
-            mStatusTitleView.setText(R.string.signed_greeting_msg);
-            findViewById(R.id.sign_in_button).setVisibility(View.GONE);
-
             //로그인 시 보여지는 뷰 선언
-            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
-            mStatusTextView.setVisibility(View.VISIBLE);
+            mGreetingMsg.setVisibility(View.VISIBLE);
+            LoginButton.setVisibility(View.GONE);
+            mUserNameView.setVisibility(View.VISIBLE);
+            mStatusTitleView.setVisibility(View.GONE);
+            mStatusTitleView2.setVisibility(View.GONE);
             mStatusEmailView.setVisibility(View.VISIBLE);
             mStatusImageView.setVisibility(View.VISIBLE);
 
@@ -263,27 +288,26 @@ public class LoginActivity extends AppCompatActivity implements
             nickname_edit.setVisibility(View.VISIBLE);
 
             //로그인 시 보여지는 뷰에 적용하는 애니메이션 효과
-            mStatusEmailView.startAnimation(animation);
-            mStatusTitleView.startAnimation(animation);
-            mStatusTextView.startAnimation(animation);
-            nick_greeting_msg.startAnimation(animation);
-            input_go.startAnimation(animation);
-            nickname_edit.startAnimation(animation);
+//            mStatusEmailView.startAnimation(animation);
+//            mStatusTitleView.startAnimation(animation);
+//            mStatusTextView.startAnimation(animation);
+//            nick_greeting_msg.startAnimation(animation);
+//            input_go.startAnimation(animation);
+//            nickname_edit.startAnimation(animation);
         } else {
-            //로그아웃 시
-            mStatusTextView.setVisibility(View.GONE);
+            //로그인 전 최초 화면
+            LoginButton.setVisibility(View.VISIBLE);
+            mUserNameView.setVisibility(View.GONE);
+            mStatusTitleView.setText("What To Do에");
+            mStatusTitleView.setVisibility(View.VISIBLE);
+            mGreetingMsg.setVisibility(View.GONE);
+
+            mStatusTitleView2.setVisibility(View.VISIBLE);
             mStatusEmailView.setVisibility(View.GONE);
-            mStatusTitleView.setText(R.string.signed_bye_msg);
-            mStatusImageView.setVisibility(View.INVISIBLE);
-
-            findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
-
-            findViewById(R.id.nickname_msg).setVisibility(View.GONE);
-            findViewById(R.id.nick_input_btn).setVisibility(View.GONE);
-            findViewById(R.id.nickname_edit).setVisibility(View.GONE);
-            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);
-
-            mStatusTitleView.startAnimation(animation);
+            mStatusImageView.setVisibility(View.GONE);
+            nick_greeting_msg.setVisibility(View.GONE);
+            input_go.setVisibility(View.GONE);
+            nickname_edit.setVisibility(View.GONE);
         }
     }
 
@@ -316,9 +340,14 @@ public class LoginActivity extends AppCompatActivity implements
         int i = v.getId();
         if (i == R.id.sign_in_button) {
             signIn();
-        } else if (i == R.id.sign_out_button) {
+//            ViewGroup.MarginLayoutParams margin = new ViewGroup.MarginLayoutParams(mStatusTitleView.getLayoutParams());
+//            margin.setMargins(0, 32, 0, 37);
+//            mStatusTitleView.setLayoutParams(new LinearLayout.LayoutParams(margin));
+
+        } else if( i == R.id.logo_image){
             signOut();
-        } else if (i == R.id.nick_input_btn){
+        }
+        else if (i == R.id.nick_input_btn){
             PreferencesManager.setNickname(getApplicationContext(), nickname_edit.getText().toString());
             Intent app2intent = new Intent(LoginActivity.this,MainActivity.class);
             startActivity(app2intent);
