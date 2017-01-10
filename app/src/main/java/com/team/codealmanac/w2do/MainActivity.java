@@ -216,6 +216,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.menu_list) {
+            floatingActionButton_actionA.setVisibility(View.GONE);
             menufragment = new TodoSimpleListFragment();
         }
 
