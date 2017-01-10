@@ -10,6 +10,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -47,6 +48,8 @@ public class MainActivity extends AppCompatActivity
     private DrawerLayout drawer;
     private NavigationView navigationView;
 
+    private Menu menu;
+
     //navigation header items
     private ImageView nav_user_image;
     private TextView nav_user_name;
@@ -56,6 +59,8 @@ public class MainActivity extends AppCompatActivity
     private TextView fragment_greetingmsg;
     private TextView fragment_username;
     private FloatingActionsMenu floatingActionsMenu;
+    private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
     private com.getbase.floatingactionbutton.FloatingActionButton floatingActionButton_actionA;
     private com.getbase.floatingactionbutton.FloatingActionButton floatingActionButton_actionB;
     private com.getbase.floatingactionbutton.FloatingActionButton floatingActionButton_actionC;
@@ -70,8 +75,8 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         //프래그먼트 등록
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
 
         fragmentTransaction.add(R.id.layout_todo_fragments, new TodoFolderListFragment());
         fragmentTransaction.commit();
@@ -105,7 +110,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        floatingActionButton_actionA = (com.getbase.floatingactionbutton.FloatingActionButton)findViewById(R.id.action_a);
+        floatingActionButton_actionA = (com.getbase.floatingactionbutton.FloatingActionButton) findViewById(R.id.action_a);
         floatingActionButton_actionA.setStrokeVisible(true);
         floatingActionButton_actionA.setTitle("Add Folder");
         floatingActionButton_actionA.setOnClickListener(new View.OnClickListener() {
@@ -115,7 +120,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        floatingActionButton_actionB = (com.getbase.floatingactionbutton.FloatingActionButton)findViewById(R.id.action_b);
+        floatingActionButton_actionB = (com.getbase.floatingactionbutton.FloatingActionButton) findViewById(R.id.action_b);
         floatingActionButton_actionB.setStrokeVisible(true);
         floatingActionButton_actionB.setTitle("Simple Text");
         floatingActionButton_actionB.setOnClickListener(new View.OnClickListener() {
@@ -125,7 +130,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        floatingActionButton_actionC = (com.getbase.floatingactionbutton.FloatingActionButton)findViewById(R.id.action_c);
+        floatingActionButton_actionC = (com.getbase.floatingactionbutton.FloatingActionButton) findViewById(R.id.action_c);
         floatingActionButton_actionC.setStrokeVisible(true);
         floatingActionButton_actionC.setTitle("Detail Text");
         floatingActionButton_actionC.setOnClickListener(new View.OnClickListener() {
@@ -158,14 +163,14 @@ public class MainActivity extends AppCompatActivity
 
 //        nav_user_name.setText("Test");
         // Fragment 상단 인사말 + 유저 이름 textview
-        fragment_greetingmsg = (TextView)findViewById(R.id.greetingmsg);
-        fragment_username = (TextView)findViewById(R.id.user_name) ;
+        fragment_greetingmsg = (TextView) findViewById(R.id.greetingmsg);
+        fragment_username = (TextView) findViewById(R.id.user_name);
 
         FirebaseUser googleUserInfo = FirebaseAuth.getInstance().getCurrentUser();
-        if(googleUserInfo != null){
+        if (googleUserInfo != null) {
             nav_user_name.setText(googleUserInfo.getDisplayName());
             nav_user_email.setText(googleUserInfo.getEmail());
-            if(googleUserInfo.getPhotoUrl() != null ) {
+            if (googleUserInfo.getPhotoUrl() != null) {
                 String personPhotoUrl = googleUserInfo.getPhotoUrl().toString();
                 Glide.with(getApplicationContext()).load(personPhotoUrl)
                         .bitmapTransform(new CropCircleTransformation(getApplicationContext()))
@@ -182,7 +187,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
-        ((TextView)findViewById(R.id.user_name)).setText(PreferencesManager.getNickname(getApplicationContext()));
+        ((TextView) findViewById(R.id.user_name)).setText(PreferencesManager.getNickname(getApplicationContext()));
     }
 
     // drawer 상태 확인 후 drawer oepn/close 함수
@@ -195,14 +200,15 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void setFloatingActionButton(){
 
-    }
     // menu inflater
+    private boolean isCliked;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+        this.menu = menu;
         getMenuInflater().inflate(R.menu.main, menu);
+
         return true;
     }
 
@@ -211,23 +217,30 @@ public class MainActivity extends AppCompatActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
         Fragment menufragment = null;
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.menu_list) {
-            floatingActionButton_actionA.setVisibility(View.GONE);
-            menufragment = new TodoSimpleListFragment();
+        switch (item.getItemId()) {
+            case R.id.menu_list:
+                invalidateOptionsMenu();
+                floatingActionButton_actionA.setVisibility(View.GONE);
+                menufragment = new TodoSimpleListFragment();
+//                menu.getItem(0).setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_menu_camera));
+                break;
+
+            default:
+                break;
         }
 
-        if(menufragment != null){
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.layout_todo_fragments,menufragment);
+        if (menufragment != null) {
+            fragmentManager = getSupportFragmentManager();
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.layout_todo_fragments, menufragment);
             fragmentTransaction.commit();
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     // nagivation 내부 item 선언
     @SuppressWarnings("StatementWithEmptyBody")
@@ -257,9 +270,9 @@ public class MainActivity extends AppCompatActivity
         }
 
         if(fragment != null){
-            FragmentTransaction fragmentitems = getSupportFragmentManager().beginTransaction();
-            fragmentitems.replace(R.id.layout_todo_fragments,fragment);
-            fragmentitems.commit();
+            fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.layout_todo_fragments,fragment);
+            fragmentTransaction.commit();
         }
 
         drawer.closeDrawer(GravityCompat.START);

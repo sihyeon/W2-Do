@@ -19,6 +19,7 @@
 
     <!-- 메인스케쥴 묻는 말 -->
     <string name="what_main_schedule">오늘의 메인 스케줄은 무엇인가요?</string>
+    <string name="frag_main_schedule">Main Schedule</string>
     <!--Task-->
     <string name="task">LockScreenTask</string>
     <string name="settings_safetylegal_activity_loading">"로드 중"</string>

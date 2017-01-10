@@ -38,7 +38,7 @@ public class TodoSimpleListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_todo_simple_list, container, false);
-        TextView textView = (TextView)view.findViewById(R.id.test);
+        TextView textView = (TextView)view.findViewById(R.id.frag_main_schedule_header_text);
         textView.setVisibility(View.VISIBLE);
         return view;
     }
