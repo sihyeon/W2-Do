@@ -1,4 +1,4 @@
-package com.team.codealmanac.w2do.bean;
+package com.team.codealmanac.w2do.models;
 
 /**
  * Created by sihyeon on 2016-12-04.

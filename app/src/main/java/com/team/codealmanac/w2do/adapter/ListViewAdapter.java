@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.team.codealmanac.w2do.R;
-import com.team.codealmanac.w2do.bean.ListViewItem;
+import com.team.codealmanac.w2do.models.ListViewItem;
 
 import java.util.ArrayList;
 

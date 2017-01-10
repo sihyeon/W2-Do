@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.View;
 
-import com.team.codealmanac.w2do.bean.MainScheduleBeen;
+import com.team.codealmanac.w2do.models.MainSchedule;
 
 import java.util.Date;
 import java.text.SimpleDateFormat;
@@ -103,10 +103,10 @@ public class SQLiteManager {
 
         sqliteDB.insert(SQLContract.MainScheduleEntry.TABLE_NAME, null, contentValues);
     }
-    public MainScheduleBeen getMainSchedule(){
+    public MainSchedule getMainSchedule(){
         Cursor cursor =  sqliteDB.query(SQLContract.MainScheduleEntry.TABLE_NAME, null,
                 SQLContract.MainScheduleEntry.COLUMN_NAME_USED + "=?", new String[]{"1"}, null, null, null);
-        if(cursor.moveToLast()) return new MainScheduleBeen(cursor.getLong(0), cursor.getString(1), cursor.getString(2));
+        if(cursor.moveToLast()) return new MainSchedule(cursor.getLong(0), cursor.getString(1), cursor.getString(2));
         else return null;
     }
 

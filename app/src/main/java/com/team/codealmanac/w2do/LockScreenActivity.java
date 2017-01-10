@@ -32,8 +32,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
-import com.team.codealmanac.w2do.Listener.OnSwipeTouchListener;
-import com.team.codealmanac.w2do.bean.MainScheduleBeen;
+import com.team.codealmanac.w2do.listener.OnSwipeTouchListener;
+import com.team.codealmanac.w2do.models.MainSchedule;
 import com.team.codealmanac.w2do.database.SQLiteManager;
 
 import org.json.JSONException;
@@ -331,8 +331,8 @@ public class LockScreenActivity extends AppCompatActivity implements LocationInf
 
     //메인 포커스 세팅
     private void setMainText() {
-        MainScheduleBeen mainScheduleBeen = mDB.getMainSchedule();
-        String mainSchedule = (mainScheduleBeen != null)? mainScheduleBeen.getMain_schedule() : null;
+        MainSchedule mainScheduleBeen = mDB.getMainSchedule();
+        String mainSchedule = (mainScheduleBeen != null)? mainScheduleBeen.main_schedule : null;
         String mainScheduleMessage = "";
 
         TextView todayText = (TextView) findViewById(R.id.text_today);
