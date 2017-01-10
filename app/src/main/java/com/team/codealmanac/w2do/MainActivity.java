@@ -35,6 +35,7 @@ import com.team.codealmanac.w2do.fragment.CalendarFragment;
 import com.team.codealmanac.w2do.fragment.TodoFolderListFragment;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.team.codealmanac.w2do.fragment.TodoSimpleListFragment;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
@@ -211,12 +212,19 @@ public class MainActivity extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        Fragment menufragment = null;
 
         //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
+        if (id == R.id.menu_list) {
+            menufragment = new TodoSimpleListFragment();
+        }
 
+        if(menufragment != null){
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.layout_todo_fragments,menufragment);
+            fragmentTransaction.commit();
+        }
         return super.onOptionsItemSelected(item);
     }
 
