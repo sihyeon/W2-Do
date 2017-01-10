@@ -1,10 +1,13 @@
 package com.team.codealmanac.w2do;
 
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -16,8 +19,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,9 +30,11 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.team.codealmanac.w2do.adapter.AddRemoveNumberedAdapter;
 import com.team.codealmanac.w2do.database.PreferencesManager;
+import com.team.codealmanac.w2do.fragment.CalendarFragment;
 import com.team.codealmanac.w2do.fragment.TodoFolderListFragment;
+
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
@@ -43,6 +50,14 @@ public class MainActivity extends AppCompatActivity
     private ImageView nav_user_image;
     private TextView nav_user_name;
     private TextView nav_user_email;
+
+    private Toolbar toolbar;
+    private TextView fragment_greetingmsg;
+    private TextView fragment_username;
+    private FloatingActionsMenu floatingActionsMenu;
+    private com.getbase.floatingactionbutton.FloatingActionButton floatingActionButton_actionA;
+    private com.getbase.floatingactionbutton.FloatingActionButton floatingActionButton_actionB;
+    private com.getbase.floatingactionbutton.FloatingActionButton floatingActionButton_actionC;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,19 +76,67 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.commit();
 
         // toolbar 설정
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         //content_main의 floating btn 설정
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        final FrameLayout frameLayout = (FrameLayout) findViewById(R.id.frame_layout);
+        frameLayout.getBackground().setAlpha(0);
+        floatingActionsMenu = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
+        floatingActionsMenu.setOnFloatingActionsMenuUpdateListener(new FloatingActionsMenu.OnFloatingActionsMenuUpdateListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onMenuExpanded() {
+                frameLayout.getBackground().setAlpha(160);
+                frameLayout.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        floatingActionsMenu.collapse();
+                        return true;
+                    }
+                });
+            }
+
+            @Override
+            public void onMenuCollapsed() {
+                frameLayout.getBackground().setAlpha(0);
+                frameLayout.setOnTouchListener(null);
             }
         });
+
+        floatingActionButton_actionA = (com.getbase.floatingactionbutton.FloatingActionButton)findViewById(R.id.action_a);
+        floatingActionButton_actionA.setStrokeVisible(true);
+        floatingActionButton_actionA.setTitle("Add Folder");
+        floatingActionButton_actionA.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                floatingActionButton_actionA.setTitle("Simple Text");
+            }
+        });
+
+        floatingActionButton_actionB = (com.getbase.floatingactionbutton.FloatingActionButton)findViewById(R.id.action_b);
+        floatingActionButton_actionB.setStrokeVisible(true);
+        floatingActionButton_actionB.setTitle("Simple Text");
+        floatingActionButton_actionB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                floatingActionButton_actionB.setTitle("Detail Text");
+            }
+        });
+
+        floatingActionButton_actionC = (com.getbase.floatingactionbutton.FloatingActionButton)findViewById(R.id.action_c);
+        floatingActionButton_actionC.setStrokeVisible(true);
+        floatingActionButton_actionC.setTitle("Detail Text");
+        floatingActionButton_actionC.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                floatingActionButton_actionB.setTitle("Detail Text");
+            }
+        });
+
+        ShapeDrawable drawable = new ShapeDrawable(new OvalShape());
+        drawable.getPaint().setColor(getResources().getColor(R.color.white));
+
 
         //activity_main -> drawer actionbartoggle 설정 부분
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -91,6 +154,11 @@ public class MainActivity extends AppCompatActivity
         nav_user_image = (ImageView) v.findViewById(R.id.nav_user_image);
         nav_user_name = (TextView) v.findViewById(R.id.nav_user_name);
         nav_user_email = (TextView) v.findViewById(R.id.nav_user_email);
+
+//        nav_user_name.setText("Test");
+        // Fragment 상단 인사말 + 유저 이름 textview
+        fragment_greetingmsg = (TextView)findViewById(R.id.greetingmsg);
+        fragment_username = (TextView)findViewById(R.id.user_name) ;
 
         FirebaseUser googleUserInfo = FirebaseAuth.getInstance().getCurrentUser();
         if(googleUserInfo != null){
@@ -126,6 +194,9 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    private void setFloatingActionButton(){
+
+    }
     // menu inflater
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -155,12 +226,18 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        Fragment fragment = null;
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
+            //캘린더 item fragment
+            floatingActionsMenu.setVisibility(View.GONE);
+            fragment_username.setVisibility(View.GONE);
+            fragment_greetingmsg.setVisibility(View.GONE);
+            fragment = new CalendarFragment();
 
         } else if (id == R.id.nav_manage) {
 
@@ -169,6 +246,13 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_send) {
 
         }
+
+        if(fragment != null){
+            FragmentTransaction fragmentitems = getSupportFragmentManager().beginTransaction();
+            fragmentitems.replace(R.id.layout_todo_fragments,fragment);
+            fragmentitems.commit();
+        }
+
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

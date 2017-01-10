@@ -24,10 +24,9 @@
         <item name="windowActionBarOverlay">true</item>
     </style>
 
-    <!--<style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />-->
-
-    <!--<style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />-->
-
-    <!--<style name="AppTheme.LogActivity" parent="Theme.AppCompat.DayNight.DarkActionBar"/>-->
+    <style name="menu_labels_style">
+        <item name="android:background">@drawable/fab_label_background</item>
+        <item name="android:textColor">#ffffffff</item>
+    </style>
 
 </resources>

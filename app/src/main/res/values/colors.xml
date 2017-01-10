@@ -13,4 +13,18 @@
     <color name="green_100">#00000000</color>
     <color name="green_300">#00000000</color>  // 생성 되어있는 add 버튼 배경 색상
     <color name="green_500">#FFC900</color> // 클릭 시 색상
+
+    <color name="black_semi_transparent">#B2000000</color>
+    <color name="background">#e5e5e5</color>
+    <color name="half_black">#808080</color>
+    <color name="white_pressed">#f1f1f1</color>
+    <color name="pink">#e91e63</color>
+    <color name="pink_pressed">#ec407a</color>
+    <color name="blue_semi_transparent">#805677fc</color>
+    <color name="blue_semi_transparent_pressed">#80738ffe</color>
+    <color name="accent_dark">#ff2929</color>
+    <color name="accent">#ff5252</color>
+    <color name="secondary_text">#727272</color>
+    <color name="white">#f3f3f3</color>
+    <color name="white_overlay">#F3F3F3</color>
 </resources>

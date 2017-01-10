@@ -27,7 +27,7 @@ public class AddRemoveNumberedAdapter extends RecyclerView.Adapter<TextViewHolde
   @Override
   public TextViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     View view = LayoutInflater.from(parent.getContext()).inflate(
-            viewType == ITEM_VIEW_TYPE_ADD ? R.layout.floating_btn : R.layout.itemlayout, parent, false);
+            viewType == ITEM_VIEW_TYPE_ADD ? R.layout.act_folder_additem : R.layout.itemlayout, parent, false);
     return new TextViewHolder(view);
   }
 

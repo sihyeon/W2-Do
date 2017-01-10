@@ -28,7 +28,7 @@
 
     <string name="add_item">Add item</string>
 
-    <string name="loading">loading</string>
+    <string name="loading">계정을 확인합니다.</string>
     <string name="signed_out">signed_out</string>
     <string name="signed_in_fmt">LoginTest</string>
     <string name="signed_greeting_msg">반갑습니다!</string>
@@ -49,4 +49,5 @@
     <string name="googlelogin">Google+ 로그인</string>
     <string name="login_greeting1">\'What To Do\'에</string>
     <string name="login_greeting2">오신 것을 환영합니다!</string>
+
 </resources>
