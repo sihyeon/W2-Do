@@ -97,7 +97,7 @@ public class LockScreenActivity extends AppCompatActivity implements LocationInf
             mLocationInfoManager = LocationInfoManager.getInstance();
             mLocationInfoManager.onStartLocation(getApplicationContext(), this);
         }
-        mDB.addMainSchedule("메인 스케줄 테스트");
+//        mDB.addMainSchedule("메인 스케줄 테스트");
 //        mDB.addMainSchedule("Hello");
     }
 
@@ -331,8 +331,9 @@ public class LockScreenActivity extends AppCompatActivity implements LocationInf
 
     //메인 포커스 세팅
     private void setMainText() {
-        MainSchedule mainScheduleBeen = mDB.getMainSchedule();
-        String mainSchedule = (mainScheduleBeen != null)? mainScheduleBeen.main_schedule : null;
+//        MainSchedule modelMainSchedule = mDB.getMainSchedule();
+//        String mainSchedule = (modelMainSchedule != null)? modelMainSchedule.content : null;
+        String mainSchedule = "temp";
         String mainScheduleMessage = "";
 
         TextView todayText = (TextView) findViewById(R.id.text_today);

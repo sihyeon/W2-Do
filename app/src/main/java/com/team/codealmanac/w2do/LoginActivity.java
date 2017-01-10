@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
@@ -348,7 +349,13 @@ public class LoginActivity extends AppCompatActivity implements
                 signOut();
                 break;
             case R.id.nick_input_btn:
-                PreferencesManager.setNickname(getApplicationContext(), nickname_edit.getText().toString());
+                String nickname = nickname_edit.getText().toString();
+                if (TextUtils.isEmpty(nickname)) {
+                    nickname_edit.setError("Required");
+                    return;
+                }
+
+                PreferencesManager.setNickname(getApplicationContext(), nickname);
                 Intent app2intent = new Intent(LoginActivity.this,MainActivity.class);
                 startActivity(app2intent);
                 break;

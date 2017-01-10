@@ -84,31 +84,31 @@ public class SQLiteManager {
                 SQLContract.ToDoEntry.COLUMN_NAME_DATE+"=?", new String[] {date});
     }
 //
-//    public void updateMainFocusButtonVisibility(String date, String visible) {
+//    public void updateMainFocusButtonVisibility(String input_date, String visible) {
 //        ContentValues contentValues = new ContentValues();
 //        contentValues.put(SQLContract.MainScheduleEntry.COLUMN_NAME_BUTTON_VISIBLE, visible);
 //         sqliteDB.update(SQLContract.MainScheduleEntry.TABLE_NAME, contentValues,
-//                SQLContract.MainScheduleEntry.COLUMN_NAME_DATE+"=?", new String[] {date});
+//                SQLContract.MainScheduleEntry.COLUMN_NAME_DATE+"=?", new String[] {input_date});
 //    }
 
 
-    //메인스케줄
-    public void addMainSchedule(String mainSchedule){
-        String date = (new SimpleDateFormat("yyyy MM dd HH:mm ss")).format(new Date());
-
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(SQLContract.MainScheduleEntry.COLUMN_NAME_MAIN_SCHEDULE, mainSchedule);
-        contentValues.put(SQLContract.MainScheduleEntry.COLUMN_NAME_DATE, date);
-        contentValues.put(SQLContract.MainScheduleEntry.COLUMN_NAME_USED, 1);
-
-        sqliteDB.insert(SQLContract.MainScheduleEntry.TABLE_NAME, null, contentValues);
-    }
-    public MainSchedule getMainSchedule(){
-        Cursor cursor =  sqliteDB.query(SQLContract.MainScheduleEntry.TABLE_NAME, null,
-                SQLContract.MainScheduleEntry.COLUMN_NAME_USED + "=?", new String[]{"1"}, null, null, null);
-        if(cursor.moveToLast()) return new MainSchedule(cursor.getLong(0), cursor.getString(1), cursor.getString(2));
-        else return null;
-    }
+//    //메인스케줄
+//    public void addMainSchedule(String mainSchedule){
+//        String date = (new SimpleDateFormat("yyyy MM dd HH:mm ss")).format(new Date());
+//
+//        ContentValues contentValues = new ContentValues();
+//        contentValues.put(SQLContract.MainScheduleEntry.COLUMN_NAME_MAIN_SCHEDULE, mainSchedule);
+//        contentValues.put(SQLContract.MainScheduleEntry.COLUMN_NAME_DATE, date);
+//        contentValues.put(SQLContract.MainScheduleEntry.COLUMN_NAME_USED, 1);
+//
+//        sqliteDB.insert(SQLContract.MainScheduleEntry.TABLE_NAME, null, contentValues);
+//    }
+//    public MainSchedule getMainSchedule(){
+//        Cursor cursor =  sqliteDB.query(SQLContract.MainScheduleEntry.TABLE_NAME, null,
+//                SQLContract.MainScheduleEntry.COLUMN_NAME_USED + "=?", new String[]{"1"}, null, null, null);
+//        if(cursor.moveToLast()) return new MainSchedule(cursor.getLong(0), cursor.getString(1), cursor.getString(2));
+//        else return null;
+//    }
 
     public void unusedMainSchedule(){
         ContentValues contentValues = new ContentValues();
