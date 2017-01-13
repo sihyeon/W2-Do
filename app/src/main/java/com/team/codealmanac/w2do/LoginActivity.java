@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -42,13 +43,22 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.team.codealmanac.w2do.database.PreferencesManager;
+import com.team.codealmanac.w2do.models.User;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
-public class LoginActivity extends AppCompatActivity implements
-        GoogleApiClient.OnConnectionFailedListener,
-        View.OnClickListener{
+    /* 구글 로그인 및 firebase 인증 순서
+        (onCreate)GoogleSignInOptions 객체 생성 -> (onCreate)mGoogleApiClient 객체 생성 -> (onStart)AuthStateListener 등록 ->
+        (f)signIn() -> (f)onActivityResult() -> (firebaseAuthWithGoogle)AuthCredential 호출 -> 호출 성공 시 AuthStateListener의 onAuthStateChanged 콜백
+     */
+
+public class LoginActivity extends BaseActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener{
     private static final String TAG = "GoogleActivity";
     private static final int RC_SIGN_IN = 9001;
 
@@ -76,8 +86,11 @@ public class LoginActivity extends AppCompatActivity implements
     private Button input_go;
     private TextView nick_greeting_msg;
 
-    private ProgressDialog mProgressDialog;
     private Animation animation;
+
+    // [START declare_database_ref]
+    private DatabaseReference mDatabase;
+    // [END declare_database_ref]
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +98,9 @@ public class LoginActivity extends AppCompatActivity implements
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login);
 
+        // [START initialize_database_ref]
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        // [END initialize_database_ref]
 
         // Header Views
         mUserNameView = (TextView) findViewById(R.id.status_username);
@@ -102,7 +118,6 @@ public class LoginActivity extends AppCompatActivity implements
 
         // Animation effects
         animation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.alpha);
-
 
         // Nickname View
         nick_greeting_msg = (TextView) findViewById(R.id.nickname_msg);
@@ -128,6 +143,7 @@ public class LoginActivity extends AppCompatActivity implements
         nick_greeting_msg.setTypeface(loginfont);
         mGreetingMsg.setTypeface(loginfont);
 
+        ///[Start Google login ready]
         // [START config_signin]
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -135,8 +151,6 @@ public class LoginActivity extends AppCompatActivity implements
                 .requestEmail()
                 .build();
         // [END config_signin]
-
-
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
@@ -164,6 +178,7 @@ public class LoginActivity extends AppCompatActivity implements
             }
         };
         // [END auth_state_listener]
+        ///[End Google login ready]
     }
 
     // [START on_start_add_listener]
@@ -178,7 +193,6 @@ public class LoginActivity extends AppCompatActivity implements
     @Override
     public void onStop() {
         super.onStop();
-        Log.d(TAG, "onStop");
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
         }
@@ -221,7 +235,6 @@ public class LoginActivity extends AppCompatActivity implements
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
-
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
@@ -230,6 +243,7 @@ public class LoginActivity extends AppCompatActivity implements
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
+
                         // [START_EXCLUDE]
                         hideProgressDialog();
                         // [END_EXCLUDE]
@@ -261,6 +275,21 @@ public class LoginActivity extends AppCompatActivity implements
     }
 
     private void updateUI(FirebaseUser user) {
+        final String uid = user.getUid();
+        mDatabase.child("users").child(uid).addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Intent app2intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(app2intent);
+                        LoginActivity.this.finish();
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.w(TAG, "getUser:onCancelled", databaseError.toException());
+                    }
+                }
+        );
         if (user != null) {
             mStatusEmailView.setText(user.getEmail());    //email정보
             mUserNameView.setText(user.getDisplayName());   // 이름 정보
@@ -324,19 +353,11 @@ public class LoginActivity extends AppCompatActivity implements
         Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show();
     }
 
-    private void showProgressDialog() {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(LoginActivity.this);
-            mProgressDialog.setMessage(getString(R.string.loading));
-            mProgressDialog.setIndeterminate(true);
-        }
-        mProgressDialog.show();
-    }
+    private void writeNewUser(String nickname){
+        FirebaseUser fbUser = FirebaseAuth.getInstance().getCurrentUser();
+        User user = new User(fbUser.getEmail(), fbUser.getDisplayName(), nickname, fbUser.getPhotoUrl().toString());
 
-    private void hideProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.dismiss();
-        }
+        mDatabase.child("users").child(fbUser.getUid()).setValue(user);
     }
 
     @Override
@@ -354,10 +375,10 @@ public class LoginActivity extends AppCompatActivity implements
                     nickname_edit.setError("Required");
                     return;
                 }
-
-                PreferencesManager.setNickname(getApplicationContext(), nickname);
+                writeNewUser(nickname);
                 Intent app2intent = new Intent(LoginActivity.this,MainActivity.class);
                 startActivity(app2intent);
+                finish();
                 break;
         }
     }

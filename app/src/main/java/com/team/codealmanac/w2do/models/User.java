@@ -9,17 +9,17 @@ import com.google.firebase.database.IgnoreExtraProperties;
 @IgnoreExtraProperties
 public class User {
     public String email;
-    public String user_name;
-    public String last_login_date;
-    public String user_profile_image;
+    public String display_name;
+    public String nickname;
+    public String profile_image;
 
     public User() {
     }
 
-    public User(String email, String user_name, String last_login_date, String user_profile_image) {
+    public User(String email, String display_name, String nickname, String profile_image) {
         this.email = email;
-        this.user_name = user_name;
-        this.last_login_date = last_login_date;
-        this.user_profile_image = user_profile_image;
+        this.display_name = display_name;
+        this.nickname = nickname;
+        this.profile_image = profile_image;
     }
 }

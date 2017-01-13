@@ -46,7 +46,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class LockScreenActivity extends AppCompatActivity implements LocationInfoManager.InterfaceLocationInfoManager {
+public class LockScreenActivity extends BaseActivity implements LocationInfoManager.InterfaceLocationInfoManager {
     private final int GEO_PERMISSIONS_REQUEST = 1;
 
     private LocationInfoManager mLocationInfoManager;

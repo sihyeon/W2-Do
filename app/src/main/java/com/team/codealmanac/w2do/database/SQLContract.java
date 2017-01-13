@@ -23,7 +23,7 @@ public final class SQLContract {
     public static abstract class UserEntry implements BaseColumns{
         public static final String TABLE_NAME = "user_table";
         public static final String COLUMN_NAME_UUID = "user_uuid";
-        public static final String COLUMN_NAME_NAME = "user_name";
+        public static final String COLUMN_NAME_NAME = "display_name";
     }
 
     public static abstract class FcmUserEntry implements BaseColumns{
