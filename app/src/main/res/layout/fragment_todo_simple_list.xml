@@ -8,38 +8,44 @@
     tools:context="com.team.codealmanac.w2do.fragment.TodoSimpleListFragment">
 
     <!-- TODO: Update blank fragment layout -->
+
     <RelativeLayout
-        android:id="@+id/main_schedule_layout"
+        android:id="@+id/full_main_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/frag_main_schedule_header_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="25sp"
-            android:textColor="#FFF"
-            android:text="@string/frag_main_schedule" />
-
-        <TextView
-            android:id="@+id/frag_maininput_msg"
-            android:text="@string/frag_maininput_msg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#FFF"
-            android:textSize="20sp"
-            android:layout_marginTop="15dp"
-            android:gravity="center_vertical"
-            android:layout_below="@+id/frag_main_schedule_header_text" />
-
-        <LinearLayout
-            android:id="@+id/main_schedule_input_layout"
-            android:orientation="horizontal"
+        <RelativeLayout
+            android:id="@+id/main_schedule_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/frag_maininput_msg"
-            android:layout_marginTop="25dp"
-            android:weightSum="3">
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/frag_main_schedule_header_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:textColor="#FFF"
+                android:text="@string/frag_main_schedule" />
+
+            <TextView
+                android:id="@+id/frag_maininput_msg"
+                android:text="@string/frag_maininput_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FFF"
+                android:textSize="20sp"
+                android:layout_marginTop="15dp"
+                android:gravity="center_vertical"
+                android:layout_below="@+id/frag_main_schedule_header_text" />
+
+            <LinearLayout
+                android:id="@+id/main_schedule_input_layout"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/frag_maininput_msg"
+                android:layout_marginTop="25dp"
+                android:weightSum="3">
 
                 <EditText
                     android:id="@+id/main_schedule_input"
@@ -64,11 +70,30 @@
                     android:textColor="#FFFFFFFF"
                     android:layout_marginBottom="129dp"/>
 
-        </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/today_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/main_schedule_layout">
+
+            <TextView
+                android:id="@+id/today_header_text"
+                android:text="@string/todayheader"
+                android:textSize="20sp"
+                android:textColor="#FFF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/today_listview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
     </RelativeLayout>
-
-
-
-
 
 </FrameLayout>

@@ -52,4 +52,6 @@
     <string name="login_greeting2">오신 것을 환영합니다!</string>
     <string name="frag_maininput_msg">오늘 가장 중요한 일정은 무엇인가요?</string>
     <string name="mainschedule_hint">ex) lunch at 3:00pm</string>
+
+    <string name="todayheader">Today</string>
 </resources>
