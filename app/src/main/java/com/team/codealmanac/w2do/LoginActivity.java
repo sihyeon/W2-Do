@@ -168,6 +168,23 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
                 if (user != null) {
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                    final String uid = user.getUid();
+                    mDatabase.child("users").child(uid).addListenerForSingleValueEvent(
+                            new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    if(dataSnapshot.getValue(User.class) != null){
+                                        Intent app2intent = new Intent(LoginActivity.this, MainActivity.class);
+                                        startActivity(app2intent);
+                                        LoginActivity.this.finish();
+                                    }
+                                }
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+                                    Log.w(TAG, "getUser:onCancelled", databaseError.toException());
+                                }
+                            }
+                    );
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
@@ -275,21 +292,6 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
     }
 
     private void updateUI(FirebaseUser user) {
-        final String uid = user.getUid();
-        mDatabase.child("users").child(uid).addListenerForSingleValueEvent(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Intent app2intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(app2intent);
-                        LoginActivity.this.finish();
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Log.w(TAG, "getUser:onCancelled", databaseError.toException());
-                    }
-                }
-        );
         if (user != null) {
             mStatusEmailView.setText(user.getEmail());    //email정보
             mUserNameView.setText(user.getDisplayName());   // 이름 정보
