@@ -1,18 +1,74 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_schedule_framelayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#20FFFFFF"
     tools:context="com.team.codealmanac.w2do.fragment.TodoSimpleListFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/frag_main_schedule_header_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="25sp"
-        android:textColor="#FFF"
-        android:text="@string/frag_main_schedule" />
+    <RelativeLayout
+        android:id="@+id/main_schedule_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/frag_main_schedule_header_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:textColor="#FFF"
+            android:text="@string/frag_main_schedule" />
+
+        <TextView
+            android:id="@+id/frag_maininput_msg"
+            android:text="@string/frag_maininput_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFF"
+            android:textSize="20sp"
+            android:layout_marginTop="15dp"
+            android:gravity="center_vertical"
+            android:layout_below="@+id/frag_main_schedule_header_text" />
+
+        <LinearLayout
+            android:id="@+id/main_schedule_input_layout"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/frag_maininput_msg"
+            android:layout_marginTop="25dp"
+            android:weightSum="3">
+
+                <EditText
+                    android:id="@+id/main_schedule_input"
+                    android:layout_width="272dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:hint="@string/mainschedule_hint"
+                    android:textColorHint="#FFFFFFFF"
+                    android:textSize="15sp"
+                    android:ems="10"
+                    android:layout_weight="2"
+                    android:textColor="#e6e6e6"/>
+
+                <Button
+                    android:id="@+id/mainschedule_input_btn"
+                    android:layout_marginLeft="7dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_width="49dp"
+                    android:layout_height="32dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_go"
+                    android:textColor="#FFFFFFFF"
+                    android:layout_marginBottom="129dp"/>
+
+        </LinearLayout>
+    </RelativeLayout>
+
+
+
+
 
 </FrameLayout>
