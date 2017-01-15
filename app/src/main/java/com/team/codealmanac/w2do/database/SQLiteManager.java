@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.team.codealmanac.w2do.models.MainSchedule;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
@@ -46,7 +47,7 @@ public class SQLiteManager {
         }
     }
 
-    //투두
+    //Today
     public void setTodo(String todo, String date, Integer visible) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(SQLContract.ToDoEntry.COLUMN_NAME_TODO, todo);
@@ -83,6 +84,7 @@ public class SQLiteManager {
         sqliteDB.update(SQLContract.ToDoEntry.TABLE_NAME, contentValues,
                 SQLContract.ToDoEntry.COLUMN_NAME_DATE+"=?", new String[] {date});
     }
+
 //
 //    public void updateMainFocusButtonVisibility(String input_date, String visible) {
 //        ContentValues contentValues = new ContentValues();
