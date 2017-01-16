@@ -40,9 +40,9 @@
         android:layout_marginTop="20dp"
         android:fontFamily="monospace"
         android:layout_below="@+id/today_simple_edit"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:gravity="center"
-        android:background="@drawable/simpleinput_btn"
-        android:id="@+id/today_add_btn" />
+        android:background="@drawable/ripple_effect"
+        android:id="@+id/today_submit_btn" />
 </RelativeLayout>

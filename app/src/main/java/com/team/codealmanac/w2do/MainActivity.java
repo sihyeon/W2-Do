@@ -145,6 +145,9 @@ public class MainActivity extends AppCompatActivity
         floatingActionButton_actionC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent DetailInput = new Intent(MainActivity.this, DetailInputActivity.class);
+                startActivity(DetailInput);
+                overridePendingTransition(R.anim.anim_slide_out_left,R.anim.anim_slide_in_right);
                 floatingActionsMenu.collapse();
             }
         });
@@ -223,15 +226,11 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         Fragment menufragment = null;
         boolean isFolderFragment = false;
-        //noinspection SimplifiableIfStatement
+
         switch (item.getItemId()) {
             case R.id.menu_folder:
-                // default item
                 floatingActionButton_actionA.setVisibility(View.VISIBLE);
                 if(isFolderFragment){
                     fragmentManager = getSupportFragmentManager();

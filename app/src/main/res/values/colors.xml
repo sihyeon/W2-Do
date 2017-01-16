@@ -8,11 +8,20 @@
     <color name="light_blue_300">#00000000</color>    //생성되어있는 폴더 색상
     <color name="light_blue_500">#FFC900</color>    // 클릭 시 색상
 
-    <color name="statusbar">#00000000</color>
-
     <color name="green_100">#00000000</color>
     <color name="green_300">#00000000</color>  // 생성 되어있는 add 버튼 배경 색상
     <color name="green_500">#FFC900</color> // 클릭 시 색상
+
+    <color name="colorRipple">#A9A9F5</color>
+    <color name="pb_grey">#ffdedede</color>
+    <color name="pb_blue">#ff0099cc</color>
+    <color name="pb_blue_dark">#ff00719b</color>
+    <color name="pb_red">#ffff4444</color>
+    <color name="pb_red_dark">#ffcd3a3a</color>
+    <color name="pb_green">#ff99cc00</color>
+    <color name="pb_green_dark">#ff6d9b00</color>
+    <color name="pb_white">@android:color/white</color>
+    <color name="pb_orange">@android:color/holo_orange_dark</color>
 
     <color name="black_semi_transparent">#B2000000</color>
     <color name="background">#e5e5e5</color>

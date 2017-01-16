@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="folder">
+        <item>Folder</item>
+        <item >ALL</item>
+        <item >Code Almanac</item>
+        <item >W2:Do</item>
+        <item >운동</item>
+        <item >식품</item>
+    </string-array>
+</resources>

@@ -29,14 +29,30 @@
         <item name="android:textColor">#ffffffff</item>
     </style>
 
-    <style name="TextLabel" parent="TextAppearance.AppCompat">
-        <!-- Hint color and label color in FALSE state -->
-        <item name="android:textColorHint">@color/colorAccent</item>
-        <item name="android:textSize">20sp</item>
-        <!-- Label color in TRUE state and bar color FALSE and TRUE State -->
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorControlNormal">@color/colorAccent</item>
-        <item name="colorControlActivated">@color/pink</item>
-        <item name="android:windowBackground">@color/colorAccent</item>
-    </style>
+    <declare-styleable name="CircularProgressButton">
+        <attr name="pb_selectorIdle" format="reference"/>
+        <attr name="pb_selectorComplete" format="reference"/>
+        <attr name="pb_selectorError" format="reference"/>
+        <attr name="pb_textComplete" format="string"/>
+        <attr name="pb_textIdle" format="string"/>
+        <attr name="pb_textError" format="string"/>
+        <attr name="pb_textProgress" format="string"/>
+        <attr name="pb_colorProgress" format="color"/>
+        <attr name="pb_colorIndicator" format="color"/>
+        <attr name="pb_colorIndicatorBackground" format="color"/>
+        <attr name="pb_iconError" format="reference"/>
+        <attr name="pb_iconComplete" format="reference"/>
+        <attr name="pb_cornerRadius" format="dimension"/>
+        <attr name="pb_paddingProgress" format="dimension"/>
+        <attr name="pb_isIndeterminate" format="boolean"/>
+        <attr name="pb_textColorAfterClick" format="color"/>
+        <attr name="pb_backgroundColorAfterClick" format="color"/>
+        <attr name="pb_selectorCancel" format="reference"/>
+        <attr name="pb_iconCancel" format="reference"/>
+        <attr name="pb_textCancel" format="string"/>
+        <attr name="pb_colorProgressCancelIcon" format="color"/>
+        <attr name="pb_colorCancelText" format="color"/>
+        <attr name="pb_colorCompleteText" format="color"/>
+        <attr name="pb_colorErrorText" format="color"/>
+    </declare-styleable>
 </resources>

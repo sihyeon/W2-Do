@@ -65,6 +65,10 @@
             android:theme="@android:style/Theme.Dialog">
         </activity>
 
+        <activity android:name=".DetailInputActivity">
+
+        </activity>
+
         <receiver
             android:name=".W2DoBroadcastReceiver"
             android:enabled="true"
