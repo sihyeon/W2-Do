@@ -1,14 +1,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.team.codealmanac.w2do.TabActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item
-        android:id="@+id/menu_list"
+        android:id="@+id/menu_folder"
         android:orderInCategory="100"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:title="@string/action_list"
         android:background="#00000000"
-        android:icon="@drawable/list"
         app:showAsAction="always" />
 </menu>

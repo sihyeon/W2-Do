@@ -1,5 +1,7 @@
 package com.team.codealmanac.w2do;
 
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.os.Build;
@@ -23,6 +25,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -61,6 +64,7 @@ public class MainActivity extends AppCompatActivity
     private FloatingActionsMenu floatingActionsMenu;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
+
     private com.getbase.floatingactionbutton.FloatingActionButton floatingActionButton_actionA;
     private com.getbase.floatingactionbutton.FloatingActionButton floatingActionButton_actionB;
     private com.getbase.floatingactionbutton.FloatingActionButton floatingActionButton_actionC;
@@ -75,16 +79,18 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         //프래그먼트 등록
+        Fragment defaultfragment = new TodoSimpleListFragment();
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-
-        fragmentTransaction.add(R.id.layout_todo_fragments, new TodoFolderListFragment());
+        fragmentTransaction.add(R.id.layout_todo_simple_fragments, defaultfragment);
         fragmentTransaction.commit();
 
         // toolbar 설정
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
 
         //content_main의 floating btn 설정
         final FrameLayout frameLayout = (FrameLayout) findViewById(R.id.frame_layout);
@@ -113,10 +119,11 @@ public class MainActivity extends AppCompatActivity
         floatingActionButton_actionA = (com.getbase.floatingactionbutton.FloatingActionButton) findViewById(R.id.action_a);
         floatingActionButton_actionA.setStrokeVisible(true);
         floatingActionButton_actionA.setTitle("Add Folder");
+        floatingActionButton_actionA.setVisibility(View.GONE);
         floatingActionButton_actionA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                floatingActionButton_actionA.setTitle("Simple Text");
+                floatingActionsMenu.collapse();
             }
         });
 
@@ -126,7 +133,9 @@ public class MainActivity extends AppCompatActivity
         floatingActionButton_actionB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                floatingActionButton_actionB.setTitle("Detail Text");
+                Intent SimpleInput = new Intent(MainActivity.this,SimpleInputActivity.class);
+                startActivity(SimpleInput);
+                floatingActionsMenu.collapse();
             }
         });
 
@@ -136,7 +145,7 @@ public class MainActivity extends AppCompatActivity
         floatingActionButton_actionC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                floatingActionButton_actionB.setTitle("Detail Text");
+                floatingActionsMenu.collapse();
             }
         });
 
@@ -201,16 +210,16 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    // menu inflater
-    private boolean isCliked;
+     //menu inflater
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         this.menu = menu;
         getMenuInflater().inflate(R.menu.main, menu);
-
+        menu.findItem(R.id.menu_folder).setChecked(false);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -218,14 +227,25 @@ public class MainActivity extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         Fragment menufragment = null;
-
+        boolean isFolderFragment = false;
         //noinspection SimplifiableIfStatement
         switch (item.getItemId()) {
-            case R.id.menu_list:
-                invalidateOptionsMenu();
-                floatingActionButton_actionA.setVisibility(View.GONE);
-                menufragment = new TodoSimpleListFragment();
-//                menu.getItem(0).setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_menu_camera));
+            case R.id.menu_folder:
+                // default item
+                floatingActionButton_actionA.setVisibility(View.VISIBLE);
+                if(isFolderFragment){
+                    fragmentManager = getSupportFragmentManager();
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.layout_todo_simple_fragments, new TodoFolderListFragment());
+                    fragmentTransaction.commit();
+                    isFolderFragment = false;
+                }else{
+                    fragmentManager = getSupportFragmentManager();
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.layout_todo_fragments, new TodoSimpleListFragment());
+                    fragmentTransaction.commit();
+                    isFolderFragment = true;
+                }
                 break;
 
             default:
@@ -235,7 +255,7 @@ public class MainActivity extends AppCompatActivity
         if (menufragment != null) {
             fragmentManager = getSupportFragmentManager();
             fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.layout_todo_fragments, menufragment);
+            fragmentTransaction.replace(R.id.layout_todo_simple_fragments, menufragment);
             fragmentTransaction.commit();
         }
         return super.onOptionsItemSelected(item);
@@ -271,7 +291,7 @@ public class MainActivity extends AppCompatActivity
 
         if(fragment != null){
             fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.layout_todo_fragments,fragment);
+            fragmentTransaction.replace(R.id.layout_todo_simple_fragments,fragment);
             fragmentTransaction.commit();
         }
 

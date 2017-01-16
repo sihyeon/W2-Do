@@ -54,4 +54,7 @@
     <string name="mainschedule_hint">ex) lunch at 3:00pm</string>
 
     <string name="todayheader">Today</string>
+    <string name="todaymsg">오늘의 할일은 무엇인가요?</string>
+    <string name="todaybtn">S A V E</string>
+    <string name="invalidToday">invalid Text</string>
 </resources>

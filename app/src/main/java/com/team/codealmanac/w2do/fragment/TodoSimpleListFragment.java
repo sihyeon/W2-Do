@@ -64,6 +64,7 @@ public class TodoSimpleListFragment extends Fragment {
         mschedule_input_btn = (Button)view.findViewById(R.id.mainschedule_input_btn);
         today_listview = (RecyclerView)view.findViewById(R.id.today_listview);
 
+        main_schedule_framelayout.setVisibility(View.VISIBLE);
         main_schedule_header.setVisibility(View.VISIBLE);
         main_schedule_sec_header.setVisibility(View.VISIBLE);
         main_schedule_edittext.setVisibility(View.VISIBLE);
