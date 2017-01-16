@@ -1,14 +1,13 @@
 package com.team.codealmanac.w2do.fragment;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -16,13 +15,20 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.team.codealmanac.w2do.R;
-import com.team.codealmanac.w2do.adapter.AddRemoveNumberedAdapter;
 import com.team.codealmanac.w2do.models.MainSchedule;
+
+import java.util.Calendar;
 
 
 public class TodoSimpleListFragment extends Fragment {
+    private final String TAG = "TodoSimpleListFragment";
 
     private OnFragmentInteractionListener mListener;
 
@@ -32,8 +38,10 @@ public class TodoSimpleListFragment extends Fragment {
     private TextView main_schedule_sec_header;
     private EditText main_schedule_edittext;
     private Button mschedule_input_btn;
-    private DatabaseReference mDatabase;
 
+    private String mUserId;
+    private DatabaseReference mMainScheduleReference;
+    private ChildEventListener mMainScheduleListener;
     public TodoSimpleListFragment() {
         // Required empty public constructor
     }
@@ -48,7 +56,10 @@ public class TodoSimpleListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        // [START initialize_database_ref]
+        mMainScheduleReference = FirebaseDatabase.getInstance().getReference().child("main_schedule").child(mUserId);
+        // [END initialize_database_ref]
     }
 
     @Override
@@ -70,6 +81,15 @@ public class TodoSimpleListFragment extends Fragment {
         main_schedule_edittext.setVisibility(View.VISIBLE);
         today_listview.setVisibility(View.VISIBLE);
         mschedule_input_btn.setVisibility(View.VISIBLE);
+
+
+        return view;
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+
         mschedule_input_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,18 +103,67 @@ public class TodoSimpleListFragment extends Fragment {
             }
         });
 
-        return view;
+        main_schedule_sec_header.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                removeMainSchedule();
+            }
+        });
+
+        // Add value event listener to the mainSchedule
+        // [START main_schedule_value_event_listener]
+        ChildEventListener mainScheduleListener= new ChildEventListener(){
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                String content = dataSnapshot.getValue().toString();
+                main_schedule_sec_header.setText(content);
+                getView().findViewById(R.id.main_schedule_input_layout).setVisibility(View.GONE);
+            }
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                main_schedule_sec_header.setText(R.string.frag_maininput_msg);
+                getView().findViewById(R.id.main_schedule_input_layout).setVisibility(View.VISIBLE);
+            }
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        };
+        mMainScheduleReference.child("visible").addChildEventListener(mainScheduleListener);
+        // [END main_schedule_value_event_listener]
+        // Keep copy of mainSchedule listener so we can remove it when app stops
+        mMainScheduleListener = mainScheduleListener;
+
     }
 
     @Override
-    public void onStart(){
-        super.onStart();
+    public void onStop() {
+        super.onStop();
+        if(mMainScheduleListener != null){
+            mMainScheduleReference.removeEventListener(mMainScheduleListener);
+        }
+    }
 
+    private void removeMainSchedule(){
+        mMainScheduleReference.child("visible").removeValue();
     }
 
     // 메인 스케줄 데이터 write 함수
-    private void writeMainSchedule(String mainschedule){
+    private void writeMainSchedule(String main_schedule){
+        Calendar rightNow = Calendar.getInstance();
+        String Year = String.valueOf(rightNow.get(Calendar.YEAR));
+        String month = String.valueOf(rightNow.get(Calendar.MONTH) + 1);
+        long date = rightNow.getTimeInMillis();
 
+        String key = mMainScheduleReference.child(Year).child(month).push().getKey();
+
+        MainSchedule mainScheduleModel = new MainSchedule(main_schedule, date);
+        mMainScheduleReference.child(Year).child(month).child(key).setValue(mainScheduleModel);
+
+        mMainScheduleReference.child("visible").setValue(mainScheduleModel.toVisibleMainSchedule());
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -33,7 +33,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import com.team.codealmanac.w2do.Listener.OnSwipeTouchListener;
-import com.team.codealmanac.w2do.models.MainSchedule;
 import com.team.codealmanac.w2do.database.SQLiteManager;
 
 import org.json.JSONException;

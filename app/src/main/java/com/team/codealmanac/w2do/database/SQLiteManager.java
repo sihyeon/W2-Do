@@ -6,12 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.View;
 
-import com.team.codealmanac.w2do.models.MainSchedule;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.text.SimpleDateFormat;
-
 /**
  * Created by Choi Jaeung on 2016-11-09.
  */
