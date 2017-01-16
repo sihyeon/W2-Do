@@ -1,6 +1,5 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <item
         android:id="@+id/menu_folder"
         android:orderInCategory="100"
@@ -8,5 +7,6 @@
         android:layout_height="30dp"
         android:title="@string/action_list"
         android:background="#00000000"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        android:icon="@drawable/icn_arrow" />
 </menu>

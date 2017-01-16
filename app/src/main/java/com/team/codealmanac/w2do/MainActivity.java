@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity
     private com.getbase.floatingactionbutton.FloatingActionButton floatingActionButton_actionA;
     private com.getbase.floatingactionbutton.FloatingActionButton floatingActionButton_actionB;
     private com.getbase.floatingactionbutton.FloatingActionButton floatingActionButton_actionC;
+    boolean isFolderFragment = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,7 +143,7 @@ public class MainActivity extends AppCompatActivity
                 Intent DetailInput = new Intent(MainActivity.this, DetailInputActivity.class);
                 startActivity(DetailInput);
                 floatingActionsMenu.collapse();
-                overridePendingTransition(R.anim.right_to_left_out,R.anim.right_to_left_in);
+                overridePendingTransition(R.anim.push_out_left,R.anim.pull_in_right);
             }
         });
 
@@ -203,6 +204,7 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+            overridePendingTransition(R.anim.pull_in_left,R.anim.push_out_right);
         }
     }
 
@@ -221,7 +223,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Fragment menufragment = null;
-        boolean isFolderFragment = false;
 
         switch (item.getItemId()) {
             case R.id.menu_folder:
@@ -229,8 +230,10 @@ public class MainActivity extends AppCompatActivity
                 if(isFolderFragment){
                     fragmentManager = getSupportFragmentManager();
                     fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.setCustomAnimations(R.anim.zoom_in,R.anim.zoom_out);
                     fragmentTransaction.replace(R.id.layout_todo_simple_fragments, new TodoFolderListFragment());
                     fragmentTransaction.commit();
+                    item.setVisible(false);
                     isFolderFragment = false;
                 }else{
                     fragmentManager = getSupportFragmentManager();
