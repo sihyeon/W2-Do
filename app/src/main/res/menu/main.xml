@@ -8,5 +8,5 @@
         android:title="@string/action_list"
         android:background="#00000000"
         app:showAsAction="always"
-        android:icon="@drawable/btn_apps" />
+        android:icon="@drawable/btn_gridview" />
 </menu>

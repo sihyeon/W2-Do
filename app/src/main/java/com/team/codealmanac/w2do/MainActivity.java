@@ -1,6 +1,8 @@
 package com.team.codealmanac.w2do;
 
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.os.Build;
@@ -9,12 +11,14 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -44,6 +48,7 @@ public class MainActivity extends AppCompatActivity
     private RecyclerView recyclerView;
     private DrawerLayout drawer;
     private NavigationView navigationView;
+    private ActionBarDrawerToggle mDrawerToggle;
 
     private Menu menu;
 
@@ -85,7 +90,8 @@ public class MainActivity extends AppCompatActivity
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayUseLogoEnabled(false);
 
         //content_main의 floating btn 설정
         final FrameLayout frameLayout = (FrameLayout) findViewById(R.id.frame_layout);
@@ -147,16 +153,43 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        ShapeDrawable drawable = new ShapeDrawable(new OvalShape());
+        final ShapeDrawable drawable = new ShapeDrawable(new OvalShape());
         drawable.getPaint().setColor(getResources().getColor(R.color.white));
 
 
         //activity_main -> drawer actionbartoggle 설정 부분
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close){
+            /** Called when a drawer has settled in a completely closed state. */
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+
+            /** Called when a drawer has settled in a completely open state. */
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+        };
+
+        drawer.addDrawerListener(mDrawerToggle);
+        mDrawerToggle.setDrawerIndicatorEnabled(false);
+        mDrawerToggle.setHomeAsUpIndicator(R.drawable.btn_hambuger);
+        mDrawerToggle.syncState();
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(drawer.isDrawerOpen(Gravity.LEFT)){
+                    drawer.closeDrawer(Gravity.LEFT);
+                } else {
+                    drawer.openDrawer(Gravity.LEFT);
+                }
+            }
+        });
 
         //navigation view 리스너
         navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -192,6 +225,19 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
         ((TextView) findViewById(R.id.user_name)).setText(PreferencesManager.getNickname(getApplicationContext()));
@@ -200,12 +246,8 @@ public class MainActivity extends AppCompatActivity
     // drawer 상태 확인 후 drawer oepn/close 함수
     @Override
     public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
             super.onBackPressed();
             overridePendingTransition(R.anim.pull_in_left,R.anim.push_out_right);
-        }
     }
 
 
@@ -232,14 +274,15 @@ public class MainActivity extends AppCompatActivity
                     fragmentTransaction.replace(R.id.layout_todo_fragment_view, new TodoSimpleListFragment());
                     fragmentTransaction.commit();
                     isFolderFragment = false;
-                    item.setIcon(R.drawable.btn_apps);
+                    item.setIcon(R.drawable.btn_gridview);
                 }else{
                     fragmentManager = getSupportFragmentManager();
                     fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.setCustomAnimations(R.anim.zoom_in,R.anim.zoom_out);
                     fragmentTransaction.replace(R.id.layout_todo_fragment_view, new TodoFolderListFragment());
                     fragmentTransaction.commit();
                     isFolderFragment = true;
-                    item.setIcon(R.drawable.icn_arrow);
+                    item.setIcon(R.drawable.btn_listview);
                 }
                 break;
 
