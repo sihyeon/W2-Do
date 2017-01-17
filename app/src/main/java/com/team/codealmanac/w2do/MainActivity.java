@@ -74,10 +74,9 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         //프래그먼트 등록
-        Fragment defaultfragment = new TodoSimpleListFragment();
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.layout_todo_fragment_view, defaultfragment);
+        fragmentTransaction.replace(R.id.layout_todo_fragment_view, TodoSimpleListFragment.newInstance());
         fragmentTransaction.commit();
 
         // toolbar 설정
@@ -229,14 +228,14 @@ public class MainActivity extends AppCompatActivity
                     fragmentManager = getSupportFragmentManager();
                     fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.setCustomAnimations(R.anim.zoom_in,R.anim.zoom_out);
-                    fragmentTransaction.replace(R.id.layout_todo_fragment_view, new TodoSimpleListFragment());
+                    fragmentTransaction.replace(R.id.layout_todo_fragment_view, TodoSimpleListFragment.newInstance());
                     fragmentTransaction.commit();
                     isFolderFragment = false;
                     item.setIcon(R.drawable.btn_apps);
                 }else{
                     fragmentManager = getSupportFragmentManager();
                     fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.layout_todo_fragment_view, new TodoFolderListFragment());
+                    fragmentTransaction.replace(R.id.layout_todo_fragment_view, TodoFolderListFragment.newInstance());
                     fragmentTransaction.commit();
                     isFolderFragment = true;
                     item.setIcon(R.drawable.icn_arrow);
