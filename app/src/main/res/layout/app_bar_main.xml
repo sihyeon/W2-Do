@@ -42,6 +42,8 @@
                     android:id="@+id/action_a"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
                     fab:fab_colorNormal="@color/white"
                     fab:fab_title="Add Folder"
                     fab:fab_size="mini"
@@ -50,23 +52,33 @@
 
                 <com.getbase.floatingactionbutton.FloatingActionButton
                     android:id="@+id/action_b"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    fab:fab_colorNormal="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/btn_floating_s_simple"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
                     fab:fab_title="Simple Text"
                     fab:fab_size="mini"
+                    app:fab_colorNormal="@color/green_100"
                     fab:fab_labelStyle="@style/menu_labels_style"
-                    fab:fab_colorPressed="@color/white_pressed"/>
+                    fab:fab_colorPressed="@color/white_pressed"
+                    android:background="@android:color/transparent"
+                    />
 
                 <com.getbase.floatingactionbutton.FloatingActionButton
                     android:id="@+id/action_c"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    fab:fab_colorNormal="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/btn_floating_s_detail"
+                    app:fab_colorNormal="@color/green_100"
                     fab:fab_title="Detail Text"
                     fab:fab_size="mini"
                     fab:fab_labelStyle="@style/menu_labels_style"
-                    fab:fab_colorPressed="@color/white_pressed"/>
+                    fab:fab_colorPressed="@color/white_pressed"
+                    android:background="@android:color/transparent" />
 
             </com.getbase.floatingactionbutton.FloatingActionsMenu>
     </FrameLayout>

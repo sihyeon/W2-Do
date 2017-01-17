@@ -2,6 +2,7 @@ package com.team.codealmanac.w2do;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
@@ -118,7 +119,7 @@ public class MainActivity extends AppCompatActivity
         });
 
         floatingActionButton_actionA = (com.getbase.floatingactionbutton.FloatingActionButton) findViewById(R.id.action_a);
-        floatingActionButton_actionA.setStrokeVisible(true);
+        floatingActionButton_actionA.setStrokeVisible(false);
         floatingActionButton_actionA.setTitle("Add Folder");
         floatingActionButton_actionA.setVisibility(View.GONE);
         floatingActionButton_actionA.setOnClickListener(new View.OnClickListener() {
@@ -129,7 +130,7 @@ public class MainActivity extends AppCompatActivity
         });
 
         floatingActionButton_actionB = (com.getbase.floatingactionbutton.FloatingActionButton) findViewById(R.id.action_b);
-        floatingActionButton_actionB.setStrokeVisible(true);
+        floatingActionButton_actionB.setStrokeVisible(false);
         floatingActionButton_actionB.setTitle("Simple Text");
         floatingActionButton_actionB.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,7 +142,7 @@ public class MainActivity extends AppCompatActivity
         });
 
         floatingActionButton_actionC = (com.getbase.floatingactionbutton.FloatingActionButton) findViewById(R.id.action_c);
-        floatingActionButton_actionC.setStrokeVisible(true);
+        floatingActionButton_actionC.setStrokeVisible(false);
         floatingActionButton_actionC.setTitle("Detail Text");
         floatingActionButton_actionC.setOnClickListener(new View.OnClickListener() {
             @Override
