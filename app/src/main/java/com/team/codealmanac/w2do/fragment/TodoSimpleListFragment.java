@@ -3,9 +3,11 @@ package com.team.codealmanac.w2do.fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -82,14 +84,18 @@ public class TodoSimpleListFragment extends Fragment {
         today_listview.setVisibility(View.VISIBLE);
         mschedule_input_btn.setVisibility(View.VISIBLE);
 
-
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Log.d("온뷰크리에이티드", view.toString());
     }
 
     @Override
     public void onStart(){
         super.onStart();
-
         mschedule_input_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -126,6 +132,7 @@ public class TodoSimpleListFragment extends Fragment {
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 main_schedule_sec_header.setText(R.string.frag_maininput_msg);
                 getView().findViewById(R.id.main_schedule_input_layout).setVisibility(View.VISIBLE);
+                main_schedule_edittext.setText(null);
             }
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
@@ -143,7 +150,7 @@ public class TodoSimpleListFragment extends Fragment {
     public void onStop() {
         super.onStop();
         if(mMainScheduleListener != null){
-            mMainScheduleReference.removeEventListener(mMainScheduleListener);
+            mMainScheduleReference.child("visible").removeEventListener(mMainScheduleListener);
         }
     }
 

@@ -33,12 +33,18 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.team.codealmanac.w2do.database.PreferencesManager;
 import com.team.codealmanac.w2do.fragment.CalendarFragment;
 import com.team.codealmanac.w2do.fragment.TodoFolderListFragment;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.team.codealmanac.w2do.fragment.TodoSimpleListFragment;
+import com.team.codealmanac.w2do.models.User;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
@@ -70,6 +76,8 @@ public class MainActivity extends AppCompatActivity
     private com.getbase.floatingactionbutton.FloatingActionButton floatingActionButton_actionC;
     boolean isFolderFragment = false;
 
+    private DatabaseReference mUserReference;
+    private ValueEventListener mUserListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -79,11 +87,13 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Firebase Realtime DB setting
+        mUserReference = FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
         //프래그먼트 등록
-        Fragment defaultfragment = new TodoSimpleListFragment();
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.layout_todo_fragment_view, defaultfragment);
+        fragmentTransaction.replace(R.id.layout_todo_fragment_view, TodoSimpleListFragment.newInstance());
         fragmentTransaction.commit();
 
         // toolbar 설정
@@ -157,7 +167,6 @@ public class MainActivity extends AppCompatActivity
         final ShapeDrawable drawable = new ShapeDrawable(new OvalShape());
         drawable.getPaint().setColor(getResources().getColor(R.color.white));
 
-
         //activity_main -> drawer actionbartoggle 설정 부분
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(
@@ -197,31 +206,56 @@ public class MainActivity extends AppCompatActivity
         navigationView.getHeaderView(0);
         navigationView.setNavigationItemSelectedListener(this);
         View v = navigationView.getHeaderView(0);
+
         //navigation header item 설정
         nav_user_image = (ImageView) v.findViewById(R.id.nav_user_image);
         nav_user_name = (TextView) v.findViewById(R.id.nav_user_name);
         nav_user_email = (TextView) v.findViewById(R.id.nav_user_email);
 
-//        nav_user_name.setText("Test");
         // Fragment 상단 인사말 + 유저 이름 textview
         fragment_greetingmsg = (TextView) findViewById(R.id.greetingmsg);
         fragment_username = (TextView) findViewById(R.id.user_name);
 
-        FirebaseUser googleUserInfo = FirebaseAuth.getInstance().getCurrentUser();
-        if (googleUserInfo != null) {
-            nav_user_name.setText(googleUserInfo.getDisplayName());
-            nav_user_email.setText(googleUserInfo.getEmail());
-            if (googleUserInfo.getPhotoUrl() != null) {
-                String personPhotoUrl = googleUserInfo.getPhotoUrl().toString();
-                Glide.with(getApplicationContext()).load(personPhotoUrl)
-                        .bitmapTransform(new CropCircleTransformation(getApplicationContext()))
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .into(nav_user_image);
-            } else {
-                Glide.with(getApplicationContext()).load(R.drawable.btn_wtd)
-                        .bitmapTransform(new CropCircleTransformation(getApplicationContext()))
-                        .into(nav_user_image);
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        ValueEventListener userListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    User user = dataSnapshot.getValue(User.class);
+                    fragment_username.setText(user.nickname);
+
+                    nav_user_name.setText(user.display_name);
+                    nav_user_email.setText(user.email);
+                    if(!user.profile_image.isEmpty()){
+                        Glide.with(getApplicationContext()).load(user.profile_image)
+                                .bitmapTransform(new CropCircleTransformation(getApplicationContext()))
+                                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                .into(nav_user_image);
+                    } else {
+                        Glide.with(getApplicationContext()).load(R.drawable.btn_wtd)
+                                .bitmapTransform(new CropCircleTransformation(getApplicationContext()))
+                                .into(nav_user_image);
+                    }
+                }
             }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        };
+        mUserReference.addValueEventListener(userListener);
+        mUserListener = userListener;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(mUserListener != null){
+            mUserReference.removeEventListener(mUserListener);
         }
     }
 
@@ -236,12 +270,6 @@ public class MainActivity extends AppCompatActivity
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        ((TextView) findViewById(R.id.user_name)).setText(PreferencesManager.getNickname(getApplicationContext()));
     }
 
     // drawer 상태 확인 후 drawer oepn/close 함수
@@ -272,7 +300,7 @@ public class MainActivity extends AppCompatActivity
                     fragmentManager = getSupportFragmentManager();
                     fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.setCustomAnimations(R.anim.zoom_in,R.anim.zoom_out);
-                    fragmentTransaction.replace(R.id.layout_todo_fragment_view, new TodoSimpleListFragment());
+                    fragmentTransaction.replace(R.id.layout_todo_fragment_view, TodoSimpleListFragment.newInstance());
                     fragmentTransaction.commit();
                     isFolderFragment = false;
                     item.setIcon(R.drawable.btn_gridview);
@@ -280,7 +308,7 @@ public class MainActivity extends AppCompatActivity
                     fragmentManager = getSupportFragmentManager();
                     fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.setCustomAnimations(R.anim.zoom_in,R.anim.zoom_out);
-                    fragmentTransaction.replace(R.id.layout_todo_fragment_view, new TodoFolderListFragment());
+                    fragmentTransaction.replace(R.id.layout_todo_fragment_view, TodoFolderListFragment.newInstance());
                     fragmentTransaction.commit();
                     isFolderFragment = true;
                     item.setIcon(R.drawable.btn_listview);
