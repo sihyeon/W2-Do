@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity
     private com.getbase.floatingactionbutton.FloatingActionButton floatingActionButton_actionA;
     private com.getbase.floatingactionbutton.FloatingActionButton floatingActionButton_actionB;
     private com.getbase.floatingactionbutton.FloatingActionButton floatingActionButton_actionC;
-    boolean isFolderFragment = true;
+    boolean isFolderFragment = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity
         Fragment defaultfragment = new TodoSimpleListFragment();
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.layout_todo_simple_fragments, defaultfragment);
+        fragmentTransaction.replace(R.id.layout_todo_fragment_view, defaultfragment);
         fragmentTransaction.commit();
 
         // toolbar 설정
@@ -215,44 +215,36 @@ public class MainActivity extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         this.menu = menu;
         getMenuInflater().inflate(R.menu.main, menu);
-        menu.findItem(R.id.menu_folder).setChecked(false);
+        menu.findItem(R.id.menu_change_todo_frg).setChecked(false);
         return true;
     }
 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Fragment menufragment = null;
-
         switch (item.getItemId()) {
-            case R.id.menu_folder:
+            case R.id.menu_change_todo_frg:
                 floatingActionButton_actionA.setVisibility(View.VISIBLE);
                 if(isFolderFragment){
                     fragmentManager = getSupportFragmentManager();
                     fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.setCustomAnimations(R.anim.zoom_in,R.anim.zoom_out);
-                    fragmentTransaction.replace(R.id.layout_todo_simple_fragments, new TodoFolderListFragment());
+                    fragmentTransaction.replace(R.id.layout_todo_fragment_view, new TodoSimpleListFragment());
                     fragmentTransaction.commit();
-                    item.setVisible(false);
                     isFolderFragment = false;
+                    item.setIcon(R.drawable.btn_apps);
                 }else{
                     fragmentManager = getSupportFragmentManager();
                     fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.layout_todo_fragments, new TodoSimpleListFragment());
+                    fragmentTransaction.replace(R.id.layout_todo_fragment_view, new TodoFolderListFragment());
                     fragmentTransaction.commit();
                     isFolderFragment = true;
+                    item.setIcon(R.drawable.icn_arrow);
                 }
                 break;
 
             default:
                 break;
-        }
-
-        if (menufragment != null) {
-            fragmentManager = getSupportFragmentManager();
-            fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.layout_todo_simple_fragments, menufragment);
-            fragmentTransaction.commit();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -287,7 +279,7 @@ public class MainActivity extends AppCompatActivity
 
         if(fragment != null){
             fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.layout_todo_simple_fragments,fragment);
+            fragmentTransaction.replace(R.id.layout_todo_fragment_view,fragment);
             fragmentTransaction.commit();
         }
 
