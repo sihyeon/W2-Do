@@ -11,7 +11,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/fullscreen_toolbar_bg_gradient"
             android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
@@ -28,15 +28,14 @@
                 android:id="@+id/multiple_actions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right|bottom"
+                android:layout_gravity="bottom|end"
+                android:layout_marginRight="11dp"
+                android:layout_marginBottom="17dp"
                 fab:fab_addButtonColorNormal="@color/white"
                 fab:fab_addButtonColorPressed="@color/white_pressed"
                 fab:fab_addButtonPlusIconColor="@color/half_black"
                 fab:fab_labelStyle="@style/menu_labels_style"
-                app:fab_labelsPosition="left"
-                android:layout_marginBottom="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginEnd="16dp">
+                app:fab_labelsPosition="left">
 
                 <com.getbase.floatingactionbutton.FloatingActionButton
                     android:id="@+id/action_a"
@@ -52,18 +51,18 @@
 
                 <com.getbase.floatingactionbutton.FloatingActionButton
                     android:id="@+id/action_b"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/btn_floating_s_simple"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
+                    android:src="@drawable/btn_floating_s_simple"
                     fab:fab_title="Simple Text"
                     fab:fab_size="mini"
                     app:fab_colorNormal="@color/green_100"
                     fab:fab_labelStyle="@style/menu_labels_style"
                     fab:fab_colorPressed="@color/white_pressed"
                     android:background="@android:color/transparent"
-                    />
+                    android:elevation="0dp" />
 
                 <com.getbase.floatingactionbutton.FloatingActionButton
                     android:id="@+id/action_c"

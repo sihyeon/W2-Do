@@ -216,6 +216,9 @@ public class MainActivity extends AppCompatActivity
         fragment_greetingmsg = (TextView) findViewById(R.id.greetingmsg);
         fragment_username = (TextView) findViewById(R.id.user_name);
 
+        Typeface msgfont = Typeface.createFromAsset(getAssets(), "NanumSquareR.ttf");
+        fragment_greetingmsg.setTypeface(msgfont);
+        fragment_username.setTypeface(msgfont);
 
     }
 
