@@ -9,12 +9,15 @@ import com.google.firebase.database.IgnoreExtraProperties;
 @IgnoreExtraProperties
 public class TodoFolder {
     public long sequence;
-    public String key;
     public String name;
+    public long todo_count;
 
-    public TodoFolder(long sequence, String key, String name) {
+    public TodoFolder() {
+    }
+
+    public TodoFolder(long sequence, String name, long todo_count) {
         this.sequence = sequence;
-        this.key = key;
         this.name = name;
+        this.todo_count = todo_count;
     }
 }

@@ -36,7 +36,7 @@ public class SettingActivity extends Activity implements CompoundButton.OnChecke
 //        recyclerView.setHasFixedSize(true);
 //        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 //        recyclerView.setBackgroundColor(Color.parseColor("#30000000"));
-//        recyclerView.setAdapter(new AddRemoveNumberedAdapter(4));
+//        recyclerView.setAdapter(new TodoFolderAdapter(4));
 
         ListView listview;
         ListViewAdapter adapter;
