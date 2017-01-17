@@ -1,91 +1,115 @@
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_schedule_framelayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#20FFFFFF"
     tools:context="com.team.codealmanac.w2do.fragment.TodoSimpleListFragment">
-    <!--android:background="#20FFFFFF"-->
-    <!-- TODO: Update blank fragment layout -->
 
-    <RelativeLayout
+
+    <LinearLayout
         android:id="@+id/full_main_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <RelativeLayout
-            android:id="@+id/main_schedule_layout"
+        <LinearLayout
+            android:id="@+id/frg_todosimple_main_schedule_exist_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="29dp"
+            android:background="@drawable/all_contents_border_layout"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/frag_main_schedule_header_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="25sp"
+                android:layout_marginLeft="16dp"
+                android:text="@string/frag_main_schedule"
                 android:textColor="#FFF"
-                android:text="@string/frag_main_schedule" />
+                android:textSize="25sp" />
+
+            <TextView
+                android:id="@+id/frg_todosimple_main_schedule_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/frag_todosimple_main_schedule_input_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="29dp"
+            android:background="@drawable/all_contents_border_layout">
 
             <TextView
                 android:id="@+id/frag_maininput_msg"
-                android:text="@string/frag_maininput_msg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/frag_maininput_msg"
                 android:textColor="#FFF"
-                android:textSize="20sp"
-                android:layout_marginTop="15dp"
-                android:gravity="center_vertical"
-                android:layout_below="@+id/frag_main_schedule_header_text" />
+                android:textSize="17sp" />
 
             <LinearLayout
-                android:id="@+id/main_schedule_input_layout"
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/frag_maininput_msg"
                 android:layout_marginTop="25dp"
+                android:orientation="horizontal"
                 android:weightSum="3">
 
                 <EditText
                     android:id="@+id/main_schedule_input"
-                    android:layout_width="272dp"
+                    android:layout_width="240dp"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
-                    android:hint="@string/mainschedule_hint"
-                    android:textColorHint="#FFFFFFFF"
-                    android:textSize="15sp"
-                    android:ems="10"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginLeft="16dp"
                     android:layout_weight="2"
-                    android:textColor="#e6e6e6"/>
+                    android:ems="10"
+                    android:hint="@string/mainschedule_hint"
+                    android:inputType="textPersonName"
+                    android:textColor="#e6e6e6"
+                    android:textColorHint="#FFFFFFFF"
+                    android:textSize="14sp" />
 
                 <Button
                     android:id="@+id/mainschedule_input_btn"
-                    android:layout_marginLeft="7dp"
-                    android:layout_marginEnd="16dp"
                     android:layout_width="49dp"
                     android:layout_height="32dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginLeft="7dp"
                     android:layout_weight="1"
                     android:background="@drawable/btn_go"
-                    android:textColor="#FFFFFFFF"
-                    android:layout_marginBottom="129dp"/>
-
+                    android:textColor="#FFFFFFFF" />
             </LinearLayout>
-        </RelativeLayout>
+        </LinearLayout>
 
         <RelativeLayout
             android:id="@+id/today_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/main_schedule_layout">
+            android:layout_height="314dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/all_contents_border_layout">
 
             <TextView
                 android:id="@+id/today_header_text"
-                android:text="@string/todayheader"
-                android:textSize="20sp"
-                android:textColor="#FFF"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="14dp"
+                android:text="@string/todayheader"
+                android:textColor="#FFF"
+                android:textSize="25sp" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/today_listview"
@@ -94,6 +118,6 @@
 
         </RelativeLayout>
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </FrameLayout>
