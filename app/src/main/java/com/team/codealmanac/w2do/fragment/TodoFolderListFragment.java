@@ -7,12 +7,23 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.team.codealmanac.w2do.R;
-import com.team.codealmanac.w2do.adapter.AddRemoveNumberedAdapter;
+import com.team.codealmanac.w2do.adapter.TodoFolderAdapter;
+import com.team.codealmanac.w2do.models.TodoFolder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,6 +37,9 @@ public class TodoFolderListFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private RecyclerView recyclerView;
+    private DatabaseReference mTodoFolderReference;
+
+    private ArrayList<TodoFolder> mTodoFolderList;
 
     public TodoFolderListFragment() {
         // Required empty public constructor
@@ -39,7 +53,7 @@ public class TodoFolderListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mTodoFolderReference = FirebaseDatabase.getInstance().getReference().child("todo_folder").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
     }
 
     @Override
@@ -56,10 +70,34 @@ public class TodoFolderListFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        recyclerView.setBackgroundColor(Color.parseColor("#30000000"));
-        recyclerView.setAdapter(new AddRemoveNumberedAdapter(4));
+        //데이터 한번 가져옴
+        mTodoFolderReference.orderByValue().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mTodoFolderList = new ArrayList<>();
+                if(dataSnapshot.exists()){
+                    for (DataSnapshot todoSnapshot : dataSnapshot.getChildren()){
+                        mTodoFolderList.add(todoSnapshot.getValue(TodoFolder.class));
+                    }
+                }
+                recyclerView.setHasFixedSize(true);
+                recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+//                recyclerView.setBackgroundColor(Color.parseColor("#30000000"));
+                recyclerView.setAdapter(new TodoFolderAdapter(mTodoFolderList));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+    }
+
+    private void writeMainSchedule(){
+        for(int i = 1; i < 4; i++){
+            String key = mTodoFolderReference.push().getKey();
+
+            TodoFolder todoFolderModel = new TodoFolder(i, "테스트"+i, i+3);
+            mTodoFolderReference.child(key).setValue(todoFolderModel);
+        }
     }
 
     @Override
