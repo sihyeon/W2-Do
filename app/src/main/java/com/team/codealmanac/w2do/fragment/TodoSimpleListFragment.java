@@ -42,7 +42,6 @@ public class TodoSimpleListFragment extends Fragment {
     private Button mschedule_input_btn;
     private TextView today_header_text;
 
-    private String mUserId;
     private DatabaseReference mMainScheduleReference;
     private ChildEventListener mMainScheduleListener;
     public TodoSimpleListFragment() {
@@ -59,9 +58,9 @@ public class TodoSimpleListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         // [START initialize_database_ref]
-        mMainScheduleReference = FirebaseDatabase.getInstance().getReference().child("main_schedule").child(mUserId);
+        mMainScheduleReference = FirebaseDatabase.getInstance().getReference().child("main_schedule").child(userId);
         // [END initialize_database_ref]
     }
 
