@@ -23,9 +23,9 @@
         android:id="@+id/frame_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white_overlay">
-        <!--  floating action menu with buttons -->
-            <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:background="@color/white_overlay"/>
+
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
                 android:id="@+id/multiple_actions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -80,5 +80,4 @@
                     fab:fab_colorPressed="@color/white_pressed"
                     android:background="@android:color/transparent" />
             </com.getbase.floatingactionbutton.FloatingActionsMenu>
-    </FrameLayout>
 </android.support.design.widget.CoordinatorLayout>
