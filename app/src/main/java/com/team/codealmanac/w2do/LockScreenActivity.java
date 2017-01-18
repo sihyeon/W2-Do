@@ -3,7 +3,6 @@ package com.team.codealmanac.w2do;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Geocoder;
@@ -13,14 +12,11 @@ import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.PermissionChecker;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.RelativeLayout;
 import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,8 +28,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
-import com.team.codealmanac.w2do.Listener.OnSwipeTouchListener;
-import com.team.codealmanac.w2do.database.SQLiteManager;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.team.codealmanac.w2do.listener.OnSwipeTouchListener;
+import com.team.codealmanac.w2do.models.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,12 +49,17 @@ import java.util.Locale;
 
 public class LockScreenActivity extends BaseActivity implements LocationInfoManager.InterfaceLocationInfoManager {
     private final int GEO_PERMISSIONS_REQUEST = 1;
-
     private LocationInfoManager mLocationInfoManager;
-    private SQLiteManager mDB = null;
 
     private boolean isPermission;
 
+    private FontContract mFont;
+
+    private DatabaseReference mMainScheduleReference;
+    private DatabaseReference mUserReference;
+    private ValueEventListener mMainScheduleListener;
+
+    //인터페이스
     @Override
     public void setLocation(Location location) {
         if (location != null && isPermission && getNetworkState()) {
@@ -68,6 +75,28 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoMana
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lock_screen);
+        mFont = new FontContract(getAssets());
+        //상태바 없앰
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        /*  FLAG_SHOW_WHEN_LOCKED = 잠금화면 위로 액티비티 실행
+            FLAG_DISMISS_KEYGUARD = 키 가드 해제 */
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+                | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+
+        permissionChecking();
+        if (isPermission) {
+            mLocationInfoManager = LocationInfoManager.getInstance();
+            mLocationInfoManager.onStartLocation(getApplicationContext(), this);
+        }
+
+
+
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        // [START initialize_database_ref]
+        mMainScheduleReference = FirebaseDatabase.getInstance().getReference().child("main_schedule").child(userId).child("visible");
+        mUserReference = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
+        // [END initialize_database_ref]
 
         //스와이프 동작.
         findViewById(R.id.layout_lock_screen_main).setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()){
@@ -82,44 +111,63 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoMana
             }
         });
 
-        mDB = new SQLiteManager(getApplicationContext());
-        //상태바 없앰
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-        /*  FLAG_SHOW_WHEN_LOCKED = 잠금화면 위로 액티비티 실행
-            FLAG_DISMISS_KEYGUARD = 키 가드 해제 */
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
-                | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
-
-        permissionChecking();
-        if (isPermission) {
-            mLocationInfoManager = LocationInfoManager.getInstance();
-            mLocationInfoManager.onStartLocation(getApplicationContext(), this);
-        }
-//        mDB.addMainSchedule("메인 스케줄 테스트");
-//        mDB.addMainSchedule("Hello");
+        //폰트지정
+        ((TextView)findViewById(R.id.act_lockscreen_greeting)).setTypeface(mFont.NanumSqyareB_Regular());
+        ((TextView)findViewById(R.id.act_lockscreen_nickname)).setTypeface(mFont.NanumSqyareB_Regular());
+        ((TextView)findViewById(R.id.act_lockscreen_mainschedule_header)).setTypeface(mFont.FranklinGothic_Demi());
+        ((TextView)findViewById(R.id.act_lockscreen_mainschedule)).setTypeface(mFont.NanumSqyareB_Regular());
+        ((TextView)findViewById(R.id.act_lockscreen_what_mainschedule)).setTypeface(mFont.NanumSqyareB_Regular());
     }
-
     @Override
     protected void onStart() {
         super.onStart();
         //Digital Clock FONT asset
-        TextClock digitalClock = (TextClock) findViewById(R.id.digital_clock);
-        Typeface typeface = Typeface.createFromAsset(getAssets(), "YiSunShinDotumM-Regular.ttf");
-        digitalClock.setTypeface(typeface);
-        ((TextView)findViewById(R.id.test_textView)).setTypeface(typeface);
-        ((TextView)findViewById(R.id.test_textView)).setIncludeFontPadding(false);
+        TextClock digitalClock = (TextClock) findViewById(R.id.act_lockscreen_digital_clock);
+        digitalClock.setTypeface(mFont.YiSunShinDotumM_Regular());
 
         //datetime
-        TextView dt = (TextView) findViewById(R.id.text_date);
+        TextView date = (TextView) findViewById(R.id.act_lockscreen_date);
+        date.setTypeface(mFont.YiSunShinDotumM_Regular());
         String format = new String("MM .dd  EEEE");
         SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.ENGLISH);
-        dt.setText(sdf.format(new Date()));
-        Typeface type = Typeface.createFromAsset(getAssets(), "YiSunShinDotumM-Regular.ttf");
-        dt.setTypeface(type);
+        date.setText(sdf.format(new Date()));
 
-        this.setGreetingText();
-        this.setMainText();
+        //파베 실시간디비 리스너 등록
+        mUserReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    User user = dataSnapshot.getValue(User.class);
+                    setGreetingText(user.nickname);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+
+        ValueEventListener mainScheduleListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    existMainSchedule(dataSnapshot.getValue().toString());
+                } else {
+                    nonexistMainSchedule();
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        };
+
+        mMainScheduleReference.addValueEventListener(mainScheduleListener);
+        mMainScheduleListener = mainScheduleListener;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(mMainScheduleListener != null){
+            mMainScheduleReference.removeEventListener(mMainScheduleListener);
+        }
     }
 
     @Override
@@ -168,13 +216,13 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoMana
     //지역정보를 불러오는데 하나라도 실패하면 전부 안보이게함.
     private void setLocationVisibility(boolean visibility) {
         if (visibility) {
-            findViewById(R.id.text_location).setVisibility(View.VISIBLE);
-            findViewById(R.id.text_weather_icon).setVisibility(View.VISIBLE);
-            findViewById(R.id.text_temp).setVisibility(View.VISIBLE);
+            findViewById(R.id.act_lockscreen_location).setVisibility(View.VISIBLE);
+            findViewById(R.id.act_lockscreen_weathericon).setVisibility(View.VISIBLE);
+            findViewById(R.id.act_lockscreen_temperature).setVisibility(View.VISIBLE);
         } else {
-            findViewById(R.id.text_location).setVisibility(View.INVISIBLE);
-            findViewById(R.id.text_weather_icon).setVisibility(View.INVISIBLE);
-            findViewById(R.id.text_temp).setVisibility(View.INVISIBLE);
+            findViewById(R.id.act_lockscreen_location).setVisibility(View.INVISIBLE);
+            findViewById(R.id.act_lockscreen_weathericon).setVisibility(View.INVISIBLE);
+            findViewById(R.id.act_lockscreen_temperature).setVisibility(View.INVISIBLE);
         }
     }
 
@@ -267,12 +315,12 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoMana
         }
         //날씨 아이콘 지정
         int resId = getResources().getIdentifier(weatherIconStringId, "string", getPackageName());
-        TextView weatherIconText = (TextView) findViewById(R.id.text_weather_icon);
+        TextView weatherIconText = (TextView) findViewById(R.id.act_lockscreen_weathericon);
         weatherIconText.setTypeface(Typeface.createFromAsset(getAssets(), "weathericons-regular-webfont.ttf"));
         weatherIconText.setText(getString(resId));
 
         //온도 지정
-        TextView temperatureText = (TextView) findViewById(R.id.text_temp);
+        TextView temperatureText = (TextView) findViewById(R.id.act_lockscreen_temperature);
         Typeface tempType = Typeface.createFromAsset(getAssets(), "FranklinGothicMediumCond.TTF");
         temperatureText.setTypeface(tempType);
         temperatureText.setText((int) temperature + "º");
@@ -289,7 +337,7 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoMana
                     String address = (addrData.get(0).getLocality() == null ? "" : addrData.get(0).getLocality())
                             + " " +
                             (addrData.get(0).getSubLocality() == null ? "" : addrData.get(0).getSubLocality());
-                    TextView addrText = (TextView) findViewById(R.id.text_location);
+                    TextView addrText = (TextView) findViewById(R.id.act_lockscreen_location);
                     Typeface addrType = Typeface.createFromAsset(getAssets(), "NanumSquareR.ttf");
                     addrText.setTypeface(addrType);
                     addrText.setText(address);
@@ -303,13 +351,12 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoMana
         setLocationVisibility(false);
     }
 
-    private void setGreetingText() {
-        String userName = mDB.getUserName() + "님";
+    private void setGreetingText(String nickname) {
         String greetingMessage = "";
         int presentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
 
-        TextView greetingText = (TextView) findViewById(R.id.text_greeting);
-        TextView userNameText = (TextView) findViewById(R.id.text_user_name);
+        TextView greetingText = (TextView) findViewById(R.id.act_lockscreen_greeting);
+        TextView userNameText = (TextView) findViewById(R.id.act_lockscreen_nickname);
 
         //아침
         if (4 <= presentHour && presentHour <= 11)
@@ -320,66 +367,19 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoMana
             //저녁
         else greetingMessage += getString(R.string.greetings_evening_1);
 
-        Typeface fontType = Typeface.createFromAsset(getAssets(), "NanumSquareB.ttf");
-        greetingText.setTypeface(fontType);     //인사말
-        userNameText.setTypeface(fontType);     //사용자 이름
-
         greetingText.setText(greetingMessage);
-        userNameText.setText(userName);
+        userNameText.setText(nickname);
     }
 
-    //메인 포커스 세팅
-    private void setMainText() {
-//        MainSchedule modelMainSchedule = mDB.getMainSchedule();
-//        String mainSchedule = (modelMainSchedule != null)? modelMainSchedule.content : null;
-        String mainSchedule = "temp";
-        String mainScheduleMessage = "";
-
-        TextView todayText = (TextView) findViewById(R.id.text_today);
-        TextView mainScheduleText = (TextView) findViewById(R.id.text_mainfocus);
-
-        if (mainSchedule != null) {    //메인스케줄이 있을때 -> MAINSCHEDULE Text 보임
-            todayText.setVisibility(View.VISIBLE);
-            mainScheduleText.setVisibility(View.VISIBLE);
-
-            // 메인스케줄 below text_today, marginTop 15dp TextSize
-            RelativeLayout.LayoutParams relativeParams = (RelativeLayout.LayoutParams) mainScheduleText.getLayoutParams();
-            relativeParams.addRule(RelativeLayout.BELOW, R.id.text_today);
-            relativeParams.topMargin = Math.round(0f * getResources().getDisplayMetrics().density); //today와의 topMargin 설정
-            mainScheduleText.setLayoutParams(relativeParams);
-            mainScheduleText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
-            mainScheduleMessage += mainSchedule;
-        } else {
-            //메인스케줄이 없을때 ->  MAINSCHEDULE Text 안보임
-            todayText.setVisibility(View.INVISIBLE);
-            mainScheduleText.setVisibility(View.VISIBLE);
-            //메인스케줄 디자인 수정
-            RelativeLayout.LayoutParams relativeParams = (RelativeLayout.LayoutParams) mainScheduleText.getLayoutParams();
-            relativeParams.addRule(RelativeLayout.BELOW, R.id.text_user_name);
-//            relativeParams.topMargin = Math.round(64f * getContext().getResources().getDisplayMetrics().density); //dp설정
-            relativeParams.topMargin = translatePxToDp(75f); //dp설정
-            mainScheduleText.setLayoutParams(relativeParams);
-            mainScheduleText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
-
-            //"오늘의 메인 스케줄은 무엇인가요?"
-            mainScheduleMessage += getString(R.string.what_main_schedule);
-            mainScheduleText.setPaintFlags(mainScheduleText.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            mainScheduleText.setPaintFlags(mainScheduleText.getPaintFlags() ^ Paint.STRIKE_THRU_TEXT_FLAG);
-        }
-
-        //today 부분의 글꼴
-        Typeface todayType = Typeface.createFromAsset(getAssets(), "NanumSquareB.ttf");
-        todayText.setTypeface(todayType);
-
-        //Good morning,~ 부분의 글꼴
-        Typeface fontType = Typeface.createFromAsset(getAssets(), "FranklinGothicDemi.TTF");
-        mainScheduleText.setTypeface(fontType);    //mainfocus
-        mainScheduleText.setText(mainScheduleMessage);
+    private void existMainSchedule(String mainSchedule){
+        findViewById(R.id.act_lockscreen_layout_exist_mainschedule).setVisibility(View.VISIBLE);
+        findViewById(R.id.act_lockscreen_layout_ignore_mainschedule).setVisibility(View.GONE);
+        ((TextView)findViewById(R.id.act_lockscreen_mainschedule)).setText(mainSchedule);
     }
 
-    //dp로 변환
-    private int translatePxToDp(float dp) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getResources().getDisplayMetrics());
+    private void nonexistMainSchedule(){
+        findViewById(R.id.act_lockscreen_layout_exist_mainschedule).setVisibility(View.GONE);
+        findViewById(R.id.act_lockscreen_layout_ignore_mainschedule).setVisibility(View.VISIBLE);
     }
 
     //메뉴키, 백키 잠금

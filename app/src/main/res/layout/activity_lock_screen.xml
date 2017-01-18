@@ -4,160 +4,179 @@
     android:id="@+id/layout_lock_screen_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.team.codealmanac.w2do.LockScreenActivity"
+    android:background="@drawable/bg_1"
     android:elevation="0dp"
-    android:background="@drawable/bg_1">
+    tools:context="com.team.codealmanac.w2do.LockScreenActivity">
 
-    <!--Footer button layout-->
-
-    <TextView
-        android:id="@+id/text_temp"
+    <!--날씨 & 지역설정 start-->
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="26sp"
-        android:textColor="#FFF"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:paddingTop="16dp"
-        android:paddingEnd="16dp"
-        tools:ignore="RtlSymmetry" />
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp">
 
-    <TextView
-        android:id="@+id/text_weather_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="26sp"
-        android:textColor="#FFF"
-        android:paddingEnd="10dp"
-        android:layout_alignBaseline="@+id/text_temp"
-        android:layout_alignBottom="@+id/text_temp"
-        android:layout_toStartOf="@+id/text_temp" />
+        <TextView
+            android:id="@+id/act_lockscreen_weathericon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/act_lockscreen_location"
+            android:text="날"
+            android:textColor="#FFF"
+            android:textSize="26sp" />
 
-    <TextView
-        android:id="@+id/text_location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#FFF"
-        android:textSize="11sp"
-        android:layout_marginTop="6dp"
-        android:layout_below="@+id/text_temp"
-        android:layout_alignParentEnd="true"
-        android:paddingEnd="16dp"/>
-    <!-- 시간 설정 및 other -->
+        <TextView
+            android:id="@+id/act_lockscreen_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/act_lockscreen_location"
+            android:layout_alignParentTop="true"
+            android:text="-3º"
+            android:textColor="#FFF"
+            android:textSize="26sp" />
 
+        <TextView
+            android:id="@+id/act_lockscreen_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/act_lockscreen_weathericon"
+            android:layout_marginTop="-2dp"
+            android:text="용인시 기흥구"
+            android:textColor="#FFF"
+            android:textSize="11sp" />
+    </RelativeLayout>
+    <!--날씨 & 지역설정 end-->
+
+    <!-- 시간 & 날짜 start-->
     <TextClock
-        android:id="@+id/digital_clock"
+        android:id="@+id/act_lockscreen_digital_clock"
         android:layout_width="wrap_content"
-        android:layout_height="67dp"
-        android:textColor="#FFF"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:layout_marginBottom="-15dp"
         android:format12Hour="17:28"
-        android:textSize="90sp"
-        android:layout_marginTop="95dp"
         android:gravity="center_vertical"
-        android:drawablePadding="0dp"
-        android:includeFontPadding="false"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:id="@+id/text_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:textColor="#FFF"
-        android:textSize="23sp"
-        android:layout_below="@+id/digital_clock"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:gravity="center_vertical" />
+        android:textSize="90sp" />
 
     <TextView
-        android:id="@+id/text_greeting"
-        android:text=""
+        android:id="@+id/act_lockscreen_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/act_lockscreen_digital_clock"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/text_date"
-        android:layout_marginTop="86dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="-5dp"
         android:gravity="center_vertical"
+        android:text="11.27 sun"
+        android:textColor="#FFF"
+        android:textSize="23sp" />
+    <!--시간 & 날짜 end-->
+
+    <!-- 인사말 & 이름 start-->
+    <TextView
+        android:id="@+id/act_lockscreen_greeting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/act_lockscreen_date"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="81dp"
+        android:layout_marginBottom="-5dp"
+        android:gravity="center_vertical"
+        android:text="활기찬 하루 보내세요!"
         android:textColor="#FFF"
         android:textSize="28sp" />
 
     <TextView
-        android:id="@+id/text_user_name"
-        android:text="User"
+        android:id="@+id/act_lockscreen_nickname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#FFF"
-        android:textSize="30sp"
-        android:layout_marginTop="9dp"
+        android:layout_below="@+id/act_lockscreen_greeting"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="-5dp"
         android:gravity="center_vertical"
-        android:layout_below="@+id/text_greeting"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:id="@+id/text_today"
-        android:text="@string/mainschedule"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:text="Jungwon님"
         android:textColor="#FFF"
-        android:textSize="20sp"
-        android:layout_below="@+id/text_user_name"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="75dp"
-        android:gravity="center_horizontal" />
+        android:textSize="30sp" />
+    <!--인사말 & 이름 end-->
 
-    <TextView
-        android:id="@+id/text_mainfocus"
-        android:text="Android development"
-        android:layout_width="wrap_content"
+    <!--메인 스케줄 있을때 start-->
+    <LinearLayout
+        android:id="@+id/act_lockscreen_layout_exist_mainschedule"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textColor="#FFF"
-        android:layout_marginTop="15dp"
-        android:layout_below="@+id/text_today"
-        android:layout_centerHorizontal="true"
-        android:gravity="center_horizontal"/>
+        android:layout_below="@id/act_lockscreen_nickname"
+        android:layout_marginTop="79dp"
+        android:paddingTop="5dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/act_lockscreen_mainschedule_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="-5dp"
+            android:text="@string/main_schedule_header"
+            android:textColor="#FFF"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/act_lockscreen_mainschedule"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Android development"
+            android:textColor="#FFF"
+            android:textSize="20sp" />
+    </LinearLayout>
+    <!--메인 스케줄 있을때 end-->
+
+    <!--메인 스케줄 없을때 start-->
+    <LinearLayout
+        android:id="@+id/act_lockscreen_layout_ignore_mainschedule"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/act_lockscreen_nickname"
+        android:layout_marginTop="79dp"
+        android:paddingTop="5dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/act_lockscreen_what_mainschedule"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/what_main_schedule"
+            android:textColor="#fff"
+            android:textSize="17sp"/>
+    </LinearLayout>
+    <!--메인 스케줄 없을때 end-->
 
     <!-- bottom image -->
     <ImageView
         android:id="@+id/left_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:paddingStart="16dp"
+        android:layout_alignParentStart="true"
         android:paddingBottom="16dp"
+        android:paddingStart="16dp"
         app:srcCompat="@drawable/btn_wtd" />
 
     <ImageView
         android:id="@+id/right_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/btn_unlock"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:paddingBottom="16dp"
         android:paddingEnd="16dp"
-        android:paddingBottom="16dp" />
-
-    <TextView
-        android:text="17:28"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:id="@+id/test_textView"
-        android:gravity="top"
-        android:layout_marginTop="95dp"
-        android:textSize="90sp"
-        android:layout_centerHorizontal="true"
-        android:background="#550000ff"
-        android:includeFontPadding="false"/>
-
-    <RelativeLayout
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:background="#55000000"
-        android:layout_width="match_parent"
-        android:layout_height="95dp">
-
-    </RelativeLayout>
+        app:srcCompat="@drawable/btn_unlock" />
 
 </RelativeLayout>

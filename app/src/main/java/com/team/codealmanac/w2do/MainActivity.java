@@ -337,7 +337,8 @@ public class MainActivity extends AppCompatActivity
         Fragment fragment = null;
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+            // 락스크린 액티비티 이동
+            startActivity(new Intent(MainActivity.this, LockScreenActivity.class));
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
