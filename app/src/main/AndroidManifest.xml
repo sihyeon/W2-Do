@@ -59,15 +59,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
-        <activity android:name=".SimpleInputActivity"
-            android:theme="@android:style/Theme.Dialog">
-        </activity>
-
-        <activity android:name=".DetailInputActivity">
-
-        </activity>
+        <activity
+            android:name=".SimpleInputActivity"
+            android:theme="@android:style/Theme.Dialog"></activity>
+        <activity android:name=".DetailInputActivity"></activity>
 
         <receiver
             android:name=".W2DoBroadcastReceiver"
@@ -94,6 +89,7 @@
             </intent-filter>
         </service>
         <!-- [END firebase_iid_service] -->
+        <activity android:name=".TodoListActivity"></activity>
     </application>
 
 </manifest>
