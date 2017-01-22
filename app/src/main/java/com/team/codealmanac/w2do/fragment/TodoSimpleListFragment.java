@@ -16,8 +16,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -47,6 +49,9 @@ public class TodoSimpleListFragment extends Fragment {
     private EditText main_schedule_edittext;
     private Button mschedule_input_btn;
     private TextView today_header_text;
+    private TextView frag_todosimple_main_schedule_content;
+    private CheckBox frag_main_schedule_checkbox;
+    private LinearLayout frag_main_schedule_input_layout;
 
     private DatabaseReference mMainScheduleReference;
     private ChildEventListener mMainScheduleListener;
@@ -79,9 +84,13 @@ public class TodoSimpleListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_todo_simple_list, container, false);
 
         main_schedule_framelayout = (FrameLayout)view.findViewById(R.id.main_schedule_framelayout);
+        frag_main_schedule_input_layout = (LinearLayout)view.findViewById(R.id.frag_main_schedule_input_layout);
         main_schedule_header_text = (TextView)view.findViewById(R.id.frag_main_schedule_header_text);
         main_schedule_sec_header_textview = (TextView)view.findViewById(R.id.frag_maininput_msg);
         main_schedule_edittext = (EditText)view.findViewById(R.id.main_schedule_input);
+        frag_todosimple_main_schedule_content = (TextView) view.findViewById(R.id.frag_todosimple_main_schedule_content);
+        frag_main_schedule_checkbox = (CheckBox)view.findViewById(R.id.frag_main_schedule_checkbox);
+
         mschedule_input_btn = (Button)view.findViewById(R.id.mainschedule_input_btn);
         today_header_text = (TextView)view.findViewById(R.id.today_header_text);
         today_listview = (RecyclerView)view.findViewById(R.id.frag_today_listview);
@@ -94,6 +103,8 @@ public class TodoSimpleListFragment extends Fragment {
         Typeface main_schedule_Kfont = Typeface.createFromAsset(getActivity().getAssets(), "NanumSquareB.ttf");
         main_schedule_sec_header_textview.setTypeface(main_schedule_Kfont);
         main_schedule_edittext.setTypeface(main_schedule_Kfont);
+        frag_todosimple_main_schedule_content.setTypeface(main_schedule_Kfont);
+
 
         view.findViewById(R.id.frag_todosimple_main_schedule_input_layout).setVisibility(View.VISIBLE);
         view.findViewById(R.id.frag_todosimple_main_schedule_exist_layout).setVisibility(View.GONE);
@@ -127,12 +138,13 @@ public class TodoSimpleListFragment extends Fragment {
                     main_schedule_edittext.setError("메인 스케줄을 입력해주세요.");
                     return;
                 }
-                // 메인 스케줄 db 연결하세요~
+                main_schedule_header_text.setVisibility(View.VISIBLE);
+                frag_todosimple_main_schedule_content.setText(main_schedule);
                 writeMainSchedule(main_schedule);
             }
         });
 
-        main_schedule_sec_header_textview.setOnClickListener(new View.OnClickListener() {
+        frag_todosimple_main_schedule_content.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 removeMainSchedule();

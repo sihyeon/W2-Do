@@ -15,7 +15,7 @@
         <LinearLayout
             android:id="@+id/frag_todosimple_main_schedule_exist_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="29dp"
@@ -26,22 +26,44 @@
                 android:id="@+id/frag_main_schedule_header_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:layout_marginLeft="16dp"
                 android:text="@string/main_schedule_header"
                 android:textColor="#FFF"
                 android:textSize="25sp" />
 
-            <TextView
-                android:id="@+id/frag_todosimple_main_schedule_content"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/frag_main_schedule_input_layout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="text" />
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/frag_main_schedule_checkbox"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="16dp"
+                        android:button="@drawable/check_box_layout" />
+
+
+                    <TextView
+                        android:id="@+id/frag_todosimple_main_schedule_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="7dp"
+                        android:textColor="#FFF"
+                        android:textSize="16sp"
+                        android:text="text" />
+                </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/frag_todosimple_main_schedule_input_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:orientation="vertical"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
@@ -61,7 +83,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="20dp"
                 android:orientation="horizontal"
                 android:weightSum="3">
 
@@ -69,8 +91,7 @@
                     android:id="@+id/main_schedule_input"
                     android:layout_width="240dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
                     android:layout_weight="2"
                     android:ems="10"
                     android:hint="@string/mainschedule_hint"
@@ -83,9 +104,8 @@
                     android:id="@+id/mainschedule_input_btn"
                     android:layout_width="49dp"
                     android:layout_height="32dp"
-                    android:layout_marginBottom="16dp"
                     android:layout_marginEnd="16dp"
-                    android:layout_marginLeft="7dp"
+                    android:layout_marginStart="7dp"
                     android:layout_weight="1"
                     android:background="@drawable/btn_go"
                     android:textColor="#FFFFFFFF" />
