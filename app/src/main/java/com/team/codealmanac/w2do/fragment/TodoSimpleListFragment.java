@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -25,8 +27,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.team.codealmanac.w2do.R;
+import com.team.codealmanac.w2do.adapter.SimpleTodayAdapter;
 import com.team.codealmanac.w2do.models.MainSchedule;
+import com.team.codealmanac.w2do.models.SimpleToday;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 
@@ -79,7 +84,7 @@ public class TodoSimpleListFragment extends Fragment {
         main_schedule_edittext = (EditText)view.findViewById(R.id.main_schedule_input);
         mschedule_input_btn = (Button)view.findViewById(R.id.mainschedule_input_btn);
         today_header_text = (TextView)view.findViewById(R.id.today_header_text);
-        today_listview = (RecyclerView)view.findViewById(R.id.today_listview);
+        today_listview = (RecyclerView)view.findViewById(R.id.frag_today_listview);
 
 
         Typeface main_schedule_font = Typeface.createFromAsset(getActivity().getAssets(), "FranklinGothicMediumCond.TTF");
@@ -91,7 +96,15 @@ public class TodoSimpleListFragment extends Fragment {
         main_schedule_edittext.setTypeface(main_schedule_Kfont);
 
         view.findViewById(R.id.frag_todosimple_main_schedule_input_layout).setVisibility(View.VISIBLE);
-        view.findViewById(R.id.frg_todosimple_main_schedule_exist_layout).setVisibility(View.GONE);
+        view.findViewById(R.id.frag_todosimple_main_schedule_exist_layout).setVisibility(View.GONE);
+
+        ArrayList<SimpleToday> item = new ArrayList<>();
+        item.add(new SimpleToday(1, "영어 복습 하기", true));
+        item.add(new SimpleToday(2, "안드로이드 개발", false));
+        item.add(new SimpleToday(3, "하하하하하", true));
+        item.add(new SimpleToday(4, "밥먹기", false));
+        today_listview.setLayoutManager(new GridLayoutManager(getContext(), 1));
+        today_listview.setAdapter(new SimpleTodayAdapter(item));
 
         return view;
     }
@@ -135,7 +148,7 @@ public class TodoSimpleListFragment extends Fragment {
                 String content = dataSnapshot.getValue().toString();
                 main_schedule_sec_header_textview.setText(content);
                 getView().findViewById(R.id.frag_todosimple_main_schedule_input_layout).setVisibility(View.GONE);
-                getView().findViewById(R.id.frg_todosimple_main_schedule_exist_layout).setVisibility(View.VISIBLE);
+                getView().findViewById(R.id.frag_todosimple_main_schedule_exist_layout).setVisibility(View.VISIBLE);
             }
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
@@ -144,7 +157,7 @@ public class TodoSimpleListFragment extends Fragment {
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 main_schedule_sec_header_textview.setText(R.string.frag_maininput_msg);
                 getView().findViewById(R.id.frag_todosimple_main_schedule_input_layout).setVisibility(View.VISIBLE);
-                getView().findViewById(R.id.frg_todosimple_main_schedule_exist_layout).setVisibility(View.GONE);
+                getView().findViewById(R.id.frag_todosimple_main_schedule_exist_layout).setVisibility(View.GONE);
                 main_schedule_edittext.setText(null);
             }
             @Override

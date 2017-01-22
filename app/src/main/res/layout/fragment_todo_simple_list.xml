@@ -13,7 +13,7 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/frg_todosimple_main_schedule_exist_layout"
+            android:id="@+id/frag_todosimple_main_schedule_exist_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
@@ -32,7 +32,7 @@
                 android:textSize="25sp" />
 
             <TextView
-                android:id="@+id/frg_todosimple_main_schedule_content"
+                android:id="@+id/frag_todosimple_main_schedule_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="text" />
@@ -92,32 +92,31 @@
             </LinearLayout>
         </LinearLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/today_layout"
             android:layout_width="match_parent"
             android:layout_height="314dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/all_contents_border_layout">
+            android:background="@drawable/all_contents_border_layout"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/today_header_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="14dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="9dp"
                 android:text="@string/todayheader"
                 android:textColor="#FFF"
                 android:textSize="25sp" />
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/today_listview"
+                android:id="@+id/frag_today_listview"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent" />
 
-        </RelativeLayout>
-
+        </LinearLayout>
     </LinearLayout>
-
 </FrameLayout>

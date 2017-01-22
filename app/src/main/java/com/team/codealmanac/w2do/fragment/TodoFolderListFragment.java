@@ -1,13 +1,11 @@
 package com.team.codealmanac.w2do.fragment;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +21,6 @@ import com.team.codealmanac.w2do.adapter.TodoFolderAdapter;
 import com.team.codealmanac.w2do.models.TodoFolder;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,7 +59,7 @@ public class TodoFolderListFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_todo_folder_list, container, false);
         // content_main의 recyclerview 설정
-        recyclerView = (RecyclerView) view.findViewById(R.id.app2_recyclerView);
+        recyclerView = (RecyclerView) view.findViewById(R.id.frag_todofolder_folderlist);
         return view;
     }
 
