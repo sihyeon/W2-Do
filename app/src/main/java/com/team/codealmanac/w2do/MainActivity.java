@@ -9,6 +9,7 @@ import android.graphics.drawable.shapes.OvalShape;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -32,11 +33,13 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.team.codealmanac.w2do.database.PreferencesManager;
 import com.team.codealmanac.w2do.fragment.CalendarFragment;
 import com.team.codealmanac.w2do.fragment.TodoFolderListFragment;
 
@@ -50,6 +53,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private RecyclerView recyclerView;
     private DrawerLayout drawer;
     private NavigationView navigationView;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -303,6 +307,7 @@ public class MainActivity extends AppCompatActivity
                     fragmentTransaction.replace(R.id.layout_todo_fragment_view, TodoSimpleListFragment.newInstance());
                     fragmentTransaction.commit();
                     isFolderFragment = false;
+                    floatingActionButton_actionA.setVisibility(View.GONE);
                     item.setIcon(R.drawable.btn_gridview);
                 }else{
                     fragmentManager = getSupportFragmentManager();
@@ -311,6 +316,7 @@ public class MainActivity extends AppCompatActivity
                     fragmentTransaction.replace(R.id.layout_todo_fragment_view, TodoFolderListFragment.newInstance());
                     fragmentTransaction.commit();
                     isFolderFragment = true;
+                    floatingActionButton_actionA.setVisibility(View.VISIBLE);
                     item.setIcon(R.drawable.btn_listview);
                 }
                 break;

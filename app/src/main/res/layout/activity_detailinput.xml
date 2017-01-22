@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:background="@color/white"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    <android.support.design.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/act_detailInput_full_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
@@ -14,58 +14,73 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:id="@+id/act_detailInput_toolbar" />
 
-    <RelativeLayout
+
+    <LinearLayout
+        android:id="@+id/act_detailInput_EditText_layout"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="30dp">
-
-        <TextView
-            android:text="폴더"
-            android:textSize="15sp"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:fontFamily="monospace"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/act_detailInput_folder_select" />
-
-        <Spinner
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@+id/act_detailInput_folder_select"
-            android:id="@+id/act_detailInput_folder_select_spinner" />
-
+        android:layout_height="match_parent">
 
         <EditText
+            android:id="@+id/act_detailInput_editText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/act_detailInput_folder_select_spinner"
             android:inputType="textPersonName"
             android:layout_marginLeft="20dp"
-            android:hint="내용을 입력하세요"
+            android:hint="제목, 할일, 약속, ..."
             android:layout_marginTop="30dp"
             android:background="#00000000"
             android:textSize="20sp"
-            android:ems="10"
-            android:id="@+id/act_detailInput_editText" />
+            android:ems="10" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/act_detailInput_folder_layout"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="30dp">
+
+            <TextView
+                android:text="폴더"
+                android:textSize="15sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:fontFamily="monospace"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/act_detailInput_folder_select" />
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:prompt="@string/prompt"
+                android:spinnerMode="dropdown"
+                android:background="#00000000"
+                android:layout_marginLeft="20dp"
+                android:layout_toRightOf="@+id/act_detailInput_folder_select"
+                android:id="@+id/act_detailInput_folder_select_spinner" />
+    </RelativeLayout>
 
         <TextView
-            android:text="1월 17일 화요일"
-            android:layout_below="@+id/act_detailInput_editText"
+            android:text="시작일"
             android:textSize="15sp"
             android:layout_marginTop="30dp"
             android:layout_marginLeft="10dp"
             android:fontFamily="monospace"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/act_detailInput_date_select" />
+            android:id="@+id/act_detailInput_date_start" />
 
-    </RelativeLayout>
+        <TextView
+            android:text="종료일"
+            android:textSize="15sp"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="10dp"
+            android:fontFamily="monospace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/act_detailInput_date_end" />
 
-    <ViewAnimator
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

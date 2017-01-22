@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -22,9 +23,9 @@
         android:id="@+id/frame_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white_overlay">
-        <!--  floating action menu with buttons -->
-            <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:background="@color/white_overlay"/>
+
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
                 android:id="@+id/multiple_actions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -78,7 +79,5 @@
                     fab:fab_labelStyle="@style/menu_labels_style"
                     fab:fab_colorPressed="@color/white_pressed"
                     android:background="@android:color/transparent" />
-
             </com.getbase.floatingactionbutton.FloatingActionsMenu>
-    </FrameLayout>
 </android.support.design.widget.CoordinatorLayout>
