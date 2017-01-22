@@ -43,7 +43,7 @@ public class DetailInputActivity extends AppCompatActivity{
 
         act_detailInout_folder_select = (TextView) findViewById(R.id.act_detailInput_folder_select);
         act_detailInput_folder_spinner = (Spinner) findViewById(R.id.act_detailInput_folder_select_spinner);
-        act_detailInput_date_select = (TextView) findViewById(R.id.act_detailInput_date_select);
+        act_detailInput_date_select = (TextView) findViewById(R.id.act_detailInput_date_start);
         act_detailInput_editText = (EditText) findViewById(R.id.act_detailInput_editText);
 
         Folder_Spinner_Adapter.setDropDownViewResource(R.layout.activity_detailinput_folder_spinner_textview);
