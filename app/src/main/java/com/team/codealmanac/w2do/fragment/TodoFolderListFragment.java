@@ -1,6 +1,7 @@
 package com.team.codealmanac.w2do.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -16,8 +18,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.team.codealmanac.w2do.InFolderActivity;
 import com.team.codealmanac.w2do.R;
 import com.team.codealmanac.w2do.adapter.TodoFolderAdapter;
+import com.team.codealmanac.w2do.listeners.RecyclerViewOnItemClickListener;
 import com.team.codealmanac.w2do.models.TodoFolder;
 
 import java.util.ArrayList;
@@ -33,7 +37,7 @@ import java.util.ArrayList;
 public class TodoFolderListFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
-    private RecyclerView recyclerView;
+    private RecyclerView mFolderListView;
     private DatabaseReference mTodoFolderReference;
 
     private ArrayList<TodoFolder> mTodoFolderList;
@@ -59,7 +63,7 @@ public class TodoFolderListFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_todo_folder_list, container, false);
         // content_main의 recyclerview 설정
-        recyclerView = (RecyclerView) view.findViewById(R.id.frag_todofolder_folderlist);
+        mFolderListView = (RecyclerView) view.findViewById(R.id.frag_todofolder_folderlist);
         return view;
     }
 
@@ -67,6 +71,20 @@ public class TodoFolderListFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
+        final RecyclerView.SimpleOnItemTouchListener folderItemListener = new RecyclerViewOnItemClickListener(getContext(),
+                mFolderListView, new RecyclerViewOnItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, int position) {
+                String folderName = ((TextView)v.findViewById(R.id.adp_todofolder_name)).getText().toString();
+                Intent intent = new Intent(TodoFolderListFragment.this.getContext(), InFolderActivity.class);
+                intent.putExtra("folderName", folderName);
+                startActivity(intent);
+            }
+            @Override
+            public void onItemLongClick(View v, int position) {
+
+            }
+        });
         //데이터 한번 가져옴
         mTodoFolderReference.orderByValue().addValueEventListener(new ValueEventListener() {
             @Override
@@ -77,10 +95,11 @@ public class TodoFolderListFragment extends Fragment {
                         mTodoFolderList.add(todoSnapshot.getValue(TodoFolder.class));
                     }
                 }
-                recyclerView.setHasFixedSize(true);
-                recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-//                recyclerView.setBackgroundColor(Color.parseColor("#30000000"));
-                recyclerView.setAdapter(new TodoFolderAdapter(mTodoFolderList));
+                mFolderListView.setHasFixedSize(true);
+                mFolderListView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+//                mFolderListView.setBackgroundColor(Color.parseColor("#30000000"));
+                mFolderListView.setAdapter(new TodoFolderAdapter(mTodoFolderList));
+                mFolderListView.addOnItemTouchListener(folderItemListener);
             }
 
             @Override

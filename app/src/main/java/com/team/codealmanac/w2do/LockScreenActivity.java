@@ -34,7 +34,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.team.codealmanac.w2do.Listener.OnSwipeTouchListener;
+import com.team.codealmanac.w2do.listeners.OnSwipeTouchListener;
 import com.team.codealmanac.w2do.models.User;
 
 import org.json.JSONException;

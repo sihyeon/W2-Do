@@ -25,24 +25,6 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-
-
-        <activity
-            android:name=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-
-        <activity android:name=".SettingActivity" />
-
-        <activity
-            android:name=".UseMainActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity android:name=".LockScreenActivity"
-            android:theme="@style/AppTheme.NoActionBarFullscreen">
-
-        </activity>
-
         <receiver
             android:name=".W2DoBroadcastReceiver"
             android:enabled="true"
@@ -53,22 +35,6 @@
             android:enabled="true"
             android:exported="false" />
 
-        <activity android:name=".LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
-
-        <activity android:name=".SimpleInputActivity"
-            android:theme="@style/Theme.AppCompat.Dialog.Alert">
-        </activity>
-
-        <activity android:name=".DetailInputActivity">
-
-        </activity>
-
         <receiver
             android:name=".W2DoBroadcastReceiver"
             android:enabled="true"
@@ -78,8 +44,6 @@
             android:name=".W2DoService"
             android:enabled="true"
             android:exported="false" />
-
-        <activity android:name=".FirebaseTestActivity" />
         <!-- [START firebase_service] -->
         <service android:name=".MyFirebaseMessagingService">
             <intent-filter>
@@ -94,7 +58,36 @@
             </intent-filter>
         </service>
         <!-- [END firebase_iid_service] -->
-        <activity android:name=".TodoListActivity"></activity>
+        <activity android:name=".FirebaseTestActivity" />
+
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <activity android:name=".SettingActivity" />
+
+        <activity
+            android:name=".UseMainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity android:name=".LockScreenActivity"
+            android:theme="@style/AppTheme.NoActionBarFullscreen"/>
+
+        <activity android:name=".LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".SimpleInputActivity"
+            android:theme="@style/Theme.AppCompat.Dialog.Alert"/>
+
+        <activity android:name=".DetailInputActivity"/>
+
+        <activity android:name=".InFolderActivity"
+            android:theme="@style/AppTheme.OnActionBar"/>
     </application>
 
 </manifest>

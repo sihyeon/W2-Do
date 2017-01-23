@@ -24,6 +24,10 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="AppTheme.OnActionBar" parent="Theme.AppCompat.DayNight.DarkActionBar">
+        <item name="windowActionBar">true</item>
+    </style>
+
     <style name="TransparentToolbar" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:windowActionBarOverlay">true</item>
         <item name="windowActionBarOverlay">true</item>
