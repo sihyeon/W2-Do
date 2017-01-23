@@ -1,4 +1,4 @@
-package com.team.codealmanac.w2do.Listener;
+package com.team.codealmanac.w2do.listeners;
 
 import android.content.Context;
 import android.view.GestureDetector;
