@@ -8,6 +8,7 @@
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:backgroundTint="#607D8B"
         android:layout_marginTop="10dp"
         android:background="@drawable/fullscreen_toolbar_bg_gradient"
         android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
@@ -18,8 +19,9 @@
     <LinearLayout
         android:id="@+id/act_detailInput_EditText_layout"
         android:orientation="horizontal"
+        android:layout_marginTop="?actionBarSize"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <EditText
             android:id="@+id/act_detailInput_editText"
@@ -36,10 +38,10 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/act_detailInput_folder_layout"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="30dp">
+        android:layout_marginTop="100dp">
 
             <TextView
                 android:text="폴더"
