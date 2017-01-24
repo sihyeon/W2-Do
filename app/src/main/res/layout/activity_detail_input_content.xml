@@ -39,7 +39,7 @@
                             android:layout_alignParentTop="true"
                             android:layout_alignParentEnd="true"
                             android:layout_marginEnd="16dp"
-                            android:id="@+id/color_picker" />
+                            android:id="@+id/act_detailInput_color_picker" />
 
                         <EditText
                             android:layout_width="330dp"
@@ -71,7 +71,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignTop="@+id/act_detailInput_folder_text"
-                            android:layout_toStartOf="@+id/color_picker" />
+                            android:layout_toStartOf="@+id/act_detailInput_color_picker" />
                 </RelativeLayout>
 
         </android.support.v7.widget.CardView>
@@ -144,7 +144,7 @@
                                     android:textSize="12sp"
                                     android:layout_marginEnd="11dp"
                                     android:background="@drawable/activity_detailinput_calendar_button_layout_border"
-                                    android:id="@+id/allday_btn"
+                                    android:id="@+id/act_detailInput_calendar_allday_btn"
                                     android:layout_centerInParent="true"
                                     android:layout_alignParentTop="true"
                                     android:layout_alignParentEnd="true"/>
@@ -189,7 +189,7 @@
                     android:fontFamily="monospace"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/textView6" />
+                    android:id="@+id/act_detailInput_more_detail_title_text" />
 
                 <RelativeLayout
                     android:id="@+id/act_detailInput_more_detail_button_layout"
@@ -200,7 +200,7 @@
                         <Button
                             android:layout_width="80dp"
                             android:layout_height="45dp"
-                            android:id="@+id/side_btn_gps"
+                            android:id="@+id/act_detailInput_more_detail_side_btn_gps"
                             android:layout_marginLeft="16dp"
                             android:paddingTop="10dp"
                             android:drawableTop="@drawable/ic_location_on_black_24dp"
@@ -209,8 +209,8 @@
                         <Button
                             android:layout_width="80dp"
                             android:layout_height="45dp"
-                            android:layout_toRightOf="@+id/side_btn_gps"
-                            android:id="@+id/side_btn_share"
+                            android:layout_toRightOf="@+id/act_detailInput_more_detail_side_btn_gps"
+                            android:id="@+id/act_detailInput_more_detail_side_btn_share"
                             android:layout_marginLeft="5dp"
                             android:paddingTop="10dp"
                             android:drawableTop="@drawable/ic_account_circle_black_24dp"
@@ -219,8 +219,8 @@
                         <Button
                             android:layout_width="80dp"
                             android:layout_height="45dp"
-                            android:layout_toRightOf="@+id/side_btn_share"
-                            android:id="@+id/side_btn_alarm"
+                            android:layout_toRightOf="@+id/act_detailInput_more_detail_side_btn_share"
+                            android:id="@+id/act_detailInput_more_detail_side_btn_alarm"
                             android:drawableTop="@drawable/ic_timer_black_24dp"
                             android:layout_marginLeft="5dp"
                             android:paddingTop="10dp"
@@ -229,8 +229,8 @@
                         <Button
                             android:layout_width="80dp"
                             android:layout_height="45dp"
-                            android:id="@+id/side_btn_memo"
-                            android:layout_toRightOf="@+id/side_btn_alarm"
+                            android:id="@+id/act_detailInput_more_detail_side_btn_memo"
+                            android:layout_toRightOf="@+id/act_detailInput_more_detail_side_btn_alarm"
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
                             android:paddingTop="10dp"

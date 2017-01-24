@@ -27,6 +27,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_detail_input" />
+    <include layout="@layout/activity_detail_input_content" />
 
 </android.support.design.widget.CoordinatorLayout>
