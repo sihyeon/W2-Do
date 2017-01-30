@@ -33,13 +33,13 @@
                             android:text="Title" />
 
                         <Button
+                            android:id="@+id/act_detailInput_color_picker"
                             android:text="Col"
                             android:layout_width="32dp"
                             android:layout_height="32dp"
                             android:layout_alignParentTop="true"
                             android:layout_alignParentEnd="true"
-                            android:layout_marginEnd="16dp"
-                            android:id="@+id/act_detailInput_color_picker" />
+                            android:layout_marginEnd="16dp" />
 
                         <EditText
                             android:layout_width="330dp"
@@ -66,6 +66,7 @@
                             android:textSize="17sp"
                             android:text="Folder" />
 
+                        <!-- please linked in adapter -->
                         <Spinner
                             android:id="@+id/act_detailInput_folder_spinner"
                             android:layout_width="wrap_content"

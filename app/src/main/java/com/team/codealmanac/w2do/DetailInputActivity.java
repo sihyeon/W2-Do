@@ -1,19 +1,22 @@
 package com.team.codealmanac.w2do;
 
-import android.os.Build;
+import android.app.AlertDialog;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.WindowManager;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import com.android.colorpicker.ColorPickerDialog;
+import com.android.colorpicker.ColorPickerPalette;
+import com.android.colorpicker.ColorPickerSwatch;
 
 public class DetailInputActivity extends AppCompatActivity {
     // 첫 번째 cardview items : 폴더 선택,내용입력,색상 설정
@@ -46,9 +49,11 @@ public class DetailInputActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_input);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
 
         // first cardview items
         act_detailInput_title_cardview = (CardView)findViewById(R.id.act_detailInput_title_cardview);
@@ -77,10 +82,21 @@ public class DetailInputActivity extends AppCompatActivity {
         act_detailInput_more_detail_side_btn_gps = (Button)findViewById(R.id.act_detailInput_more_detail_side_btn_gps);
         act_detailInput_more_detail_side_btn_share = (Button)findViewById(R.id.act_detailInput_more_detail_side_btn_share);
 
+        //color picker dialog
+        act_detailInput_color_picker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showColourPicker(view);
+            }
+        });
+
+        // 폴더 선택 spinner adapter
         String[] Folder_Spinner_item = getResources().getStringArray(R.array.folder);
         ArrayAdapter<String> Folder_Spinner_Adapter = new ArrayAdapter<String>(
                 this, R.layout.activity_detailinput_folder_spinner_textview, Folder_Spinner_item);
         Folder_Spinner_Adapter.setDropDownViewResource(R.layout.activity_detailinput_folder_spinner_textview);
+
+
 
     }
 
@@ -104,6 +120,42 @@ public class DetailInputActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showColourPicker(View view) {
+        final ColorPickerDialog colorPickerDialog = new ColorPickerDialog();
+        colorPickerDialog.initialize(R.string.colorpickertitle,
+                new int[] {
+                        ContextCompat.getColor(getApplicationContext(),R.color.red),
+                        ContextCompat.getColor(getApplicationContext(),R.color.pink),
+                        ContextCompat.getColor(getApplicationContext(),R.color.purple),
+                        ContextCompat.getColor(getApplicationContext(),R.color.deep_purple),
+                        ContextCompat.getColor(getApplicationContext(),R.color.indigo),
+                        ContextCompat.getColor(getApplicationContext(),R.color.blue),
+                        ContextCompat.getColor(getApplicationContext(),R.color.light_blue),
+                        ContextCompat.getColor(getApplicationContext(),R.color.cyan),
+                        ContextCompat.getColor(getApplicationContext(),R.color.teal),
+                        ContextCompat.getColor(getApplicationContext(),R.color.green),
+                        ContextCompat.getColor(getApplicationContext(),R.color.light_green),
+                        ContextCompat.getColor(getApplicationContext(),R.color.lime),
+                        ContextCompat.getColor(getApplicationContext(),R.color.yellow),
+                        ContextCompat.getColor(getApplicationContext(),R.color.amber),
+                        ContextCompat.getColor(getApplicationContext(),R.color.orange),
+                        ContextCompat.getColor(getApplicationContext(),R.color.deep_orange),
+                        ContextCompat.getColor(getApplicationContext(),R.color.brown),
+                        ContextCompat.getColor(getApplicationContext(),R.color.grey),
+                        ContextCompat.getColor(getApplicationContext(),R.color.blue_grey),
+                }, ContextCompat.getColor(getApplicationContext(),R.color.white), 4,2);
+
+        colorPickerDialog.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener() {
+            @Override
+            public void onColorSelected(int colour) {
+                // 칼라 선택 시 행위 입력
+            }
+        });
+
+        android.app.FragmentManager fm = this.getFragmentManager();
+        colorPickerDialog.show(fm, "colorpicker");
     }
 }
 
