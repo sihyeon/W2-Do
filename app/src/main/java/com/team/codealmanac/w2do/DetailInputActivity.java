@@ -1,5 +1,6 @@
 package com.team.codealmanac.w2do;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,16 +13,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.support.v4.content.ContextCompat;
-
-import com.team.codealmanac.w2do.fragment.DatePickerTabFragment;
-
 import petrov.kristiyan.colorpicker.ColorPicker;
 
-public class DetailInputActivity extends AppCompatActivity {
+public class DetailInputActivity extends AppCompatActivity implements View.OnClickListener{
     // 첫 번째 cardview items : 폴더 선택,내용입력,색상 설정
     private CardView act_detailInput_title_cardview;
     private Spinner act_detailInput_folder_spinner;
@@ -85,10 +84,27 @@ public class DetailInputActivity extends AppCompatActivity {
         act_detailInput_more_detail_side_btn_gps = (Button)findViewById(R.id.act_detailInput_more_detail_side_btn_gps);
         act_detailInput_more_detail_side_btn_share = (Button)findViewById(R.id.act_detailInput_more_detail_side_btn_share);
 
-        //color picker dialog
-        act_detailInput_color_picker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        //OnClickListener 연결
+        act_detailInput_color_picker.setOnClickListener(this);
+        act_detailInput_start_date_display.setOnClickListener(this);
+        act_detailInput_end_date_display.setOnClickListener(this);
+        act_detailInput_start_time_display.setOnClickListener(this);
+        act_detailInput_end_time_display.setOnClickListener(this);
+
+
+        // 폴더 선택 spinner adapter
+        String[] Folder_Spinner_item = getResources().getStringArray(R.array.folder);
+        ArrayAdapter<String> Folder_Spinner_Adapter = new ArrayAdapter<String>(
+                this, R.layout.activity_detailinput_folder_spinner_textview, Folder_Spinner_item);
+        Folder_Spinner_Adapter.setDropDownViewResource(R.layout.activity_detailinput_folder_spinner_textview);
+        act_detailInput_folder_spinner.setAdapter(Folder_Spinner_Adapter);
+
+    }
+
+    @Override
+    public void onClick(View view){
+        switch (view.getId()) {
+            case R.id. act_detailInput_color_picker:
                 final ColorPicker colorPicker = new ColorPicker(DetailInputActivity.this);
                 // 다이얼로그 레이아웃 배경색 지정
                 colorPicker.getDialogBaseLayout().setBackgroundColor(Color.parseColor("#FFFFFFFF"));
@@ -111,7 +127,7 @@ public class DetailInputActivity extends AppCompatActivity {
                         ContextCompat.getColor(getApplicationContext(),R.color.orange),
                         ContextCompat.getColor(getApplicationContext(),R.color.deep_orange),
                         ContextCompat.getColor(getApplicationContext(),R.color.brown),
-                        ContextCompat.getColor(getApplicationContext(),R.color.grey),
+                        ContextCompat.getColor(getApplicationContext(),R.color.gray),
                         ContextCompat.getColor(getApplicationContext(),R.color.blue_grey));
                 colorPicker.setOnChooseColorListener(new ColorPicker.OnChooseColorListener() {
                     @Override
@@ -131,34 +147,26 @@ public class DetailInputActivity extends AppCompatActivity {
                     }
                 }).disableDefaultButtons(true).setDefaultColorButton(Color.parseColor("#f84c44"))
                         .setColumns(5).setRoundColorButton(true).show();
-            }
-        });
+                break;
 
-        // 폴더 선택 spinner adapter
-        String[] Folder_Spinner_item = getResources().getStringArray(R.array.folder);
-        ArrayAdapter<String> Folder_Spinner_Adapter = new ArrayAdapter<String>(
-                this, R.layout.activity_detailinput_folder_spinner_textview, Folder_Spinner_item);
-        Folder_Spinner_Adapter.setDropDownViewResource(R.layout.activity_detailinput_folder_spinner_textview);
-        act_detailInput_folder_spinner.setAdapter(Folder_Spinner_Adapter);
+            case R.id.act_detailInput_start_date_display:
+                Intent start_date_time_picker = new Intent(DetailInputActivity.this,DateTimeMainTabActivity.class);
+                startActivity(start_date_time_picker);
+                break;
+            case R.id.act_detailInput_end_date_display:
+                Intent end_date_time_picker = new Intent(DetailInputActivity.this,DateTimeMainTabActivity.class);
+                startActivity(end_date_time_picker);
+                break;
+            case R.id.act_detailInput_start_time_display:
+                Intent start_time_picker = new Intent(DetailInputActivity.this,DateTimeMainTabActivity.class);
+                startActivity(start_time_picker);
+                break;
+            case R.id.act_detailInput_end_time_display:
+                Intent end_time_picker = new Intent(DetailInputActivity.this,DateTimeMainTabActivity.class);
+                startActivity(end_time_picker);
+        }
 
-        // calendar tab dialog event
-        act_detailInput_start_date_display.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent date_time_picker = new Intent(DetailInputActivity.this,DateTimeMainTabActivity.class);
-                startActivity(date_time_picker);
-            }
-        });
-
-        act_detailInput_end_date_display.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent date_time_picker = new Intent(DetailInputActivity.this,DateTimeMainTabActivity.class);
-                startActivity(date_time_picker);
-            }
-        });
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
