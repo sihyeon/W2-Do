@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import com.android.colorpicker.ColorPickerDialog;
@@ -22,6 +23,7 @@ import com.android.colorpicker.ColorPickerSwatch;
 
 import java.util.ArrayList;
 
+import petrov.kristiyan.colorpicker.ColorPal;
 import petrov.kristiyan.colorpicker.ColorPicker;
 
 public class DetailInputActivity extends AppCompatActivity {
@@ -93,6 +95,9 @@ public class DetailInputActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 final ColorPicker colorPicker = new ColorPicker(DetailInputActivity.this);
+                // 다이얼로그 레이아웃 배경색 지정
+                colorPicker.getDialogBaseLayout().setBackgroundColor(Color.parseColor("#FFFFFFFF"));
+                // 팔레트 색상 지정
                 colorPicker.setColors(
                         ContextCompat.getColor(getApplicationContext(),R.color.red),
                         ContextCompat.getColor(getApplicationContext(),R.color.pink),
@@ -129,7 +134,8 @@ public class DetailInputActivity extends AppCompatActivity {
                     public void onClick(View v, int position, int color) {
                         // put code
                     }
-                }).disableDefaultButtons(true).setDefaultColorButton(Color.parseColor("#f84c44")).setColumns(5).setRoundColorButton(true).show();
+                }).disableDefaultButtons(true).setDefaultColorButton(Color.parseColor("#f84c44"))
+                        .setColumns(5).setRoundColorButton(true).show();
             }
         });
 
@@ -138,9 +144,7 @@ public class DetailInputActivity extends AppCompatActivity {
         ArrayAdapter<String> Folder_Spinner_Adapter = new ArrayAdapter<String>(
                 this, R.layout.activity_detailinput_folder_spinner_textview, Folder_Spinner_item);
         Folder_Spinner_Adapter.setDropDownViewResource(R.layout.activity_detailinput_folder_spinner_textview);
-
-
-
+        act_detailInput_folder_spinner.setAdapter(Folder_Spinner_Adapter);
     }
 
     @Override
