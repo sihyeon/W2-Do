@@ -1,11 +1,13 @@
 package com.team.codealmanac.w2do;
 
 import android.app.AlertDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +19,10 @@ import android.widget.TextView;
 import com.android.colorpicker.ColorPickerDialog;
 import com.android.colorpicker.ColorPickerPalette;
 import com.android.colorpicker.ColorPickerSwatch;
+
+import java.util.ArrayList;
+
+import petrov.kristiyan.colorpicker.ColorPicker;
 
 public class DetailInputActivity extends AppCompatActivity {
     // 첫 번째 cardview items : 폴더 선택,내용입력,색상 설정
@@ -86,7 +92,44 @@ public class DetailInputActivity extends AppCompatActivity {
         act_detailInput_color_picker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showColourPicker(view);
+                final ColorPicker colorPicker = new ColorPicker(DetailInputActivity.this);
+                colorPicker.setColors(
+                        ContextCompat.getColor(getApplicationContext(),R.color.red),
+                        ContextCompat.getColor(getApplicationContext(),R.color.pink),
+                        ContextCompat.getColor(getApplicationContext(),R.color.purple),
+                        ContextCompat.getColor(getApplicationContext(),R.color.deep_purple),
+                        ContextCompat.getColor(getApplicationContext(),R.color.indigo),
+                        ContextCompat.getColor(getApplicationContext(),R.color.blue),
+                        ContextCompat.getColor(getApplicationContext(),R.color.light_blue),
+                        ContextCompat.getColor(getApplicationContext(),R.color.cyan),
+                        ContextCompat.getColor(getApplicationContext(),R.color.teal),
+                        ContextCompat.getColor(getApplicationContext(),R.color.green),
+                        ContextCompat.getColor(getApplicationContext(),R.color.light_green),
+                        ContextCompat.getColor(getApplicationContext(),R.color.lime),
+                        ContextCompat.getColor(getApplicationContext(),R.color.yellow),
+                        ContextCompat.getColor(getApplicationContext(),R.color.amber),
+                        ContextCompat.getColor(getApplicationContext(),R.color.orange),
+                        ContextCompat.getColor(getApplicationContext(),R.color.deep_orange),
+                        ContextCompat.getColor(getApplicationContext(),R.color.brown),
+                        ContextCompat.getColor(getApplicationContext(),R.color.grey),
+                        ContextCompat.getColor(getApplicationContext(),R.color.blue_grey));
+                colorPicker.setOnChooseColorListener(new ColorPicker.OnChooseColorListener() {
+                    @Override
+                    public void onChooseColor(int position,int color) {
+                        // put code
+                        Log.d("position",""+position);
+                    }
+
+                    @Override
+                    public void onCancel(){
+                        // put code
+                    }
+                }).addListenerButton("Cancel", new ColorPicker.OnButtonListener() {
+                    @Override
+                    public void onClick(View v, int position, int color) {
+                        // put code
+                    }
+                }).disableDefaultButtons(true).setDefaultColorButton(Color.parseColor("#f84c44")).setColumns(5).setRoundColorButton(true).show();
             }
         });
 
@@ -120,42 +163,6 @@ public class DetailInputActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void showColourPicker(View view) {
-        final ColorPickerDialog colorPickerDialog = new ColorPickerDialog();
-        colorPickerDialog.initialize(R.string.colorpickertitle,
-                new int[] {
-                        ContextCompat.getColor(getApplicationContext(),R.color.red),
-                        ContextCompat.getColor(getApplicationContext(),R.color.pink),
-                        ContextCompat.getColor(getApplicationContext(),R.color.purple),
-                        ContextCompat.getColor(getApplicationContext(),R.color.deep_purple),
-                        ContextCompat.getColor(getApplicationContext(),R.color.indigo),
-                        ContextCompat.getColor(getApplicationContext(),R.color.blue),
-                        ContextCompat.getColor(getApplicationContext(),R.color.light_blue),
-                        ContextCompat.getColor(getApplicationContext(),R.color.cyan),
-                        ContextCompat.getColor(getApplicationContext(),R.color.teal),
-                        ContextCompat.getColor(getApplicationContext(),R.color.green),
-                        ContextCompat.getColor(getApplicationContext(),R.color.light_green),
-                        ContextCompat.getColor(getApplicationContext(),R.color.lime),
-                        ContextCompat.getColor(getApplicationContext(),R.color.yellow),
-                        ContextCompat.getColor(getApplicationContext(),R.color.amber),
-                        ContextCompat.getColor(getApplicationContext(),R.color.orange),
-                        ContextCompat.getColor(getApplicationContext(),R.color.deep_orange),
-                        ContextCompat.getColor(getApplicationContext(),R.color.brown),
-                        ContextCompat.getColor(getApplicationContext(),R.color.grey),
-                        ContextCompat.getColor(getApplicationContext(),R.color.blue_grey),
-                }, ContextCompat.getColor(getApplicationContext(),R.color.white), 4,2);
-
-        colorPickerDialog.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener() {
-            @Override
-            public void onColorSelected(int colour) {
-                // 칼라 선택 시 행위 입력
-            }
-        });
-
-        android.app.FragmentManager fm = this.getFragmentManager();
-        colorPickerDialog.show(fm, "colorpicker");
     }
 }
 
