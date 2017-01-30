@@ -86,6 +86,8 @@
 
         <activity android:name=".DetailInputActivity"/>
 
+        <activity android:name=".DateTimeMainTabActivity"/>
+
         <activity android:name=".InFolderActivity"
             android:theme="@style/AppTheme.OnActionBar"/>
     </application>

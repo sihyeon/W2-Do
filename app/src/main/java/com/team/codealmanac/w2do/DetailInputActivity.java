@@ -1,9 +1,8 @@
 package com.team.codealmanac.w2do;
 
-import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
@@ -14,16 +13,12 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import com.android.colorpicker.ColorPickerDialog;
-import com.android.colorpicker.ColorPickerPalette;
-import com.android.colorpicker.ColorPickerSwatch;
+import android.support.v4.content.ContextCompat;
 
-import java.util.ArrayList;
+import com.team.codealmanac.w2do.fragment.DatePickerTabFragment;
 
-import petrov.kristiyan.colorpicker.ColorPal;
 import petrov.kristiyan.colorpicker.ColorPicker;
 
 public class DetailInputActivity extends AppCompatActivity {
@@ -145,6 +140,23 @@ public class DetailInputActivity extends AppCompatActivity {
                 this, R.layout.activity_detailinput_folder_spinner_textview, Folder_Spinner_item);
         Folder_Spinner_Adapter.setDropDownViewResource(R.layout.activity_detailinput_folder_spinner_textview);
         act_detailInput_folder_spinner.setAdapter(Folder_Spinner_Adapter);
+
+        // calendar tab dialog event
+        act_detailInput_start_date_display.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent date_time_picker = new Intent(DetailInputActivity.this,DateTimeMainTabActivity.class);
+                startActivity(date_time_picker);
+            }
+        });
+
+        act_detailInput_end_date_display.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent date_time_picker = new Intent(DetailInputActivity.this,DateTimeMainTabActivity.class);
+                startActivity(date_time_picker);
+            }
+        });
     }
 
     @Override
