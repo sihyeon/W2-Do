@@ -113,9 +113,9 @@ public class SettingActivity extends Activity implements CompoundButton.OnChecke
     // 바탕화면에 바로가기 아이콘 생성
     public void createDesktopIcon() {
         SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
-        pref.getString("check", "");
+        pref.getString("check_state", "");
 
-        if(pref.getString("check", "").isEmpty()){
+        if(pref.getString("check_state", "").isEmpty()){
             Intent shortcutIntent = new Intent(Intent.ACTION_MAIN);
             shortcutIntent.addCategory(Intent.CATEGORY_LAUNCHER);
             shortcutIntent.setClassName(this, getClass().getName());
@@ -132,7 +132,7 @@ public class SettingActivity extends Activity implements CompoundButton.OnChecke
         }
 
         SharedPreferences.Editor editor = pref.edit();
-        editor.putString("check", "exist");
+        editor.putString("check_state", "exist");
         editor.commit();
     }
 }

@@ -3,16 +3,17 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!--커서 색상 설정-->
-        <item name = "colorControlNormal">#FFF</item>
-        <item name = "colorControlActivated">#FFF</item>
+        <item name="colorControlNormal">#FFF</item>
+        <item name="colorControlActivated">#FFF</item>
     </style>
 
-    <style name="Theme.AppCompat.Dialog.Alert" >
+    <style name="Theme.AppCompat.Dialog.Alert">
         <item name="windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
         <item name="windowActionBar">false</item>
     </style>
-    <style name="AppTheme.NoActionBar">
+
+    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowFullscreen">false</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -22,10 +23,6 @@
         <item name="android:windowFullscreen">true</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-    </style>
-
-    <style name="AppTheme.OnActionBar" parent="Theme.AppCompat.DayNight.DarkActionBar">
-        <item name="windowActionBar">true</item>
     </style>
 
     <style name="TransparentToolbar" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -40,29 +37,33 @@
     </style>
 
     <declare-styleable name="CircularProgressButton">
-        <attr name="pb_selectorIdle" format="reference"/>
-        <attr name="pb_selectorComplete" format="reference"/>
-        <attr name="pb_selectorError" format="reference"/>
-        <attr name="pb_textComplete" format="string"/>
-        <attr name="pb_textIdle" format="string"/>
-        <attr name="pb_textError" format="string"/>
-        <attr name="pb_textProgress" format="string"/>
-        <attr name="pb_colorProgress" format="color"/>
-        <attr name="pb_colorIndicator" format="color"/>
-        <attr name="pb_colorIndicatorBackground" format="color"/>
-        <attr name="pb_iconError" format="reference"/>
-        <attr name="pb_iconComplete" format="reference"/>
-        <attr name="pb_cornerRadius" format="dimension"/>
-        <attr name="pb_paddingProgress" format="dimension"/>
-        <attr name="pb_isIndeterminate" format="boolean"/>
-        <attr name="pb_textColorAfterClick" format="color"/>
-        <attr name="pb_backgroundColorAfterClick" format="color"/>
-        <attr name="pb_selectorCancel" format="reference"/>
-        <attr name="pb_iconCancel" format="reference"/>
-        <attr name="pb_textCancel" format="string"/>
-        <attr name="pb_colorProgressCancelIcon" format="color"/>
-        <attr name="pb_colorCancelText" format="color"/>
-        <attr name="pb_colorCompleteText" format="color"/>
-        <attr name="pb_colorErrorText" format="color"/>
+        <attr name="pb_selectorIdle" format="reference" />
+        <attr name="pb_selectorComplete" format="reference" />
+        <attr name="pb_selectorError" format="reference" />
+        <attr name="pb_textComplete" format="string" />
+        <attr name="pb_textIdle" format="string" />
+        <attr name="pb_textError" format="string" />
+        <attr name="pb_textProgress" format="string" />
+        <attr name="pb_colorProgress" format="color" />
+        <attr name="pb_colorIndicator" format="color" />
+        <attr name="pb_colorIndicatorBackground" format="color" />
+        <attr name="pb_iconError" format="reference" />
+        <attr name="pb_iconComplete" format="reference" />
+        <attr name="pb_cornerRadius" format="dimension" />
+        <attr name="pb_paddingProgress" format="dimension" />
+        <attr name="pb_isIndeterminate" format="boolean" />
+        <attr name="pb_textColorAfterClick" format="color" />
+        <attr name="pb_backgroundColorAfterClick" format="color" />
+        <attr name="pb_selectorCancel" format="reference" />
+        <attr name="pb_iconCancel" format="reference" />
+        <attr name="pb_textCancel" format="string" />
+        <attr name="pb_colorProgressCancelIcon" format="color" />
+        <attr name="pb_colorCancelText" format="color" />
+        <attr name="pb_colorCompleteText" format="color" />
+        <attr name="pb_colorErrorText" format="color" />
     </declare-styleable>
+
+    <style name="AppTheme.NoActionBar.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.NoActionBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

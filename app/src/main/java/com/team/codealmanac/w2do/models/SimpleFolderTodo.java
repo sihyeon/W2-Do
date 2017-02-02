@@ -7,17 +7,16 @@ import com.google.firebase.database.IgnoreExtraProperties;
  */
 
 @IgnoreExtraProperties
-public class SimpleToday {
-    public int today_sequence;
+public class SimpleFolderTodo {
+    public String key;
+    public int folder_sequence;
     public String content;
     public boolean check_state;
 
-    public SimpleToday(){
+    public SimpleFolderTodo(){}
 
-    }
-
-    public SimpleToday(int today_sequence, String content, boolean check_state) {
-        this.today_sequence = today_sequence;
+    public SimpleFolderTodo(int folder_sequence, String content, boolean check_state) {
+        this.folder_sequence = folder_sequence;
         this.content = content;
         this.check_state = check_state;
     }

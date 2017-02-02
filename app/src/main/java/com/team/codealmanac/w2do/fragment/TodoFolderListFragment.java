@@ -86,7 +86,7 @@ public class TodoFolderListFragment extends Fragment {
             }
         });
         //데이터 한번 가져옴
-        mTodoFolderReference.orderByValue().addValueEventListener(new ValueEventListener() {
+        mTodoFolderReference.orderByValue().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mTodoFolderList = new ArrayList<>();

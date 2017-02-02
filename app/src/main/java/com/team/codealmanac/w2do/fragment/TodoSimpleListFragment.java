@@ -5,10 +5,8 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -123,7 +121,6 @@ public class TodoSimpleListFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.d("온뷰크리에이티드", view.toString());
     }
 
     @Override
@@ -204,7 +201,6 @@ public class TodoSimpleListFragment extends Fragment {
         long date = rightNow.getTimeInMillis();
 
         String key = mMainScheduleReference.child(Year).child(month).push().getKey();
-
         MainSchedule mainScheduleModel = new MainSchedule(main_schedule, date);
         mMainScheduleReference.child(Year).child(month).child(key).setValue(mainScheduleModel);
 
