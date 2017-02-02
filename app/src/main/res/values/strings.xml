@@ -70,5 +70,7 @@
     <string name="CustomSelectorSample">Custom Selector Sample</string>
     <string name="doProgress">DoProgress</string>
     <string name="progress_amount">Progress completed :</string>
-    <string name="title_activity_testttctivity">testttctivity</string>
+
+    <string name="colorpickertitle">Select Schedule Color</string>
+
 </resources>

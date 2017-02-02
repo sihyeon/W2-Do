@@ -33,13 +33,13 @@
                             android:text="Title" />
 
                         <Button
+                            android:id="@+id/act_detailInput_color_picker"
                             android:text="Col"
                             android:layout_width="32dp"
                             android:layout_height="32dp"
                             android:layout_alignParentTop="true"
                             android:layout_alignParentEnd="true"
-                            android:layout_marginEnd="16dp"
-                            android:id="@+id/act_detailInput_color_picker" />
+                            android:layout_marginEnd="16dp" />
 
                         <EditText
                             android:layout_width="330dp"
@@ -66,12 +66,17 @@
                             android:textSize="17sp"
                             android:text="Folder" />
 
+                        <!-- please linked in adapter -->
                         <Spinner
                             android:id="@+id/act_detailInput_folder_spinner"
-                            android:layout_width="wrap_content"
+                            android:layout_width="140dp"
                             android:layout_height="wrap_content"
-                            android:layout_alignTop="@+id/act_detailInput_folder_text"
-                            android:layout_toStartOf="@+id/act_detailInput_color_picker" />
+                            android:layout_below="@id/act_detailInput_content_edittext"
+                            android:layout_toEndOf="@+id/act_detailInput_folder_text"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginLeft="128dp"
+                            android:background="#1A212121"
+                            android:prompt="@string/prompt" />
                 </RelativeLayout>
 
         </android.support.v7.widget.CardView>
