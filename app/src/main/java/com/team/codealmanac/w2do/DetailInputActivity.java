@@ -1,26 +1,48 @@
 package com.team.codealmanac.w2do;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.app.DialogFragment;
+import android.widget.TimePicker;
+
+import com.team.codealmanac.w2do.fragment.DatePickerTabFragment;
+import com.team.codealmanac.w2do.fragment.TimePickerTabFragment;
+
+
+import java.util.Calendar;
+
 import petrov.kristiyan.colorpicker.ColorPicker;
 
-public class DetailInputActivity extends AppCompatActivity implements View.OnClickListener{
+public class DetailInputActivity extends AppCompatActivity implements View.OnClickListener,
+        DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
     // 첫 번째 cardview items : 폴더 선택,내용입력,색상 설정
     private CardView act_detailInput_title_cardview;
     private Spinner act_detailInput_folder_spinner;
@@ -38,6 +60,7 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
     private Button act_detailInput_calendar_allday_btn;
     private TextView act_detailInput_start_time_display;
     private TextView act_detailInput_end_time_display;
+    private DatePickerDialog datePickerDialog;
 
     // 세 번째 cardview items: more detail buttons
     private CardView act_detailInput_more_detail_btn_cardview;
@@ -47,9 +70,16 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
     private Button act_detailInput_more_detail_side_btn_memo;
     private Button act_detailInput_more_detail_side_btn_share;
 
+    static final int START_DATE_PICKER_ID = 00;
+    static final int END_DATE_PICKER_ID = 01;
+    static final int START_TIME_PICKER_ID = 10;
+    static final int END_TIME_PICKER_ID = 11;
+    Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_detail_input);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -90,7 +120,7 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
         act_detailInput_end_date_display.setOnClickListener(this);
         act_detailInput_start_time_display.setOnClickListener(this);
         act_detailInput_end_time_display.setOnClickListener(this);
-
+        act_detailInput_more_detail_side_btn_gps.setOnClickListener(this);
 
         // 폴더 선택 spinner adapter
         String[] Folder_Spinner_item = getResources().getStringArray(R.array.folder);
@@ -150,23 +180,68 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
                 break;
 
             case R.id.act_detailInput_start_date_display:
-                Intent start_date_time_picker = new Intent(DetailInputActivity.this,DateTimeMainTabActivity.class);
-                startActivity(start_date_time_picker);
+                DialogFragment startDatePick = new DatePickerTabFragment();
+                startDatePick.show(getSupportFragmentManager(),"start_date_pick");
                 break;
             case R.id.act_detailInput_end_date_display:
-                Intent end_date_time_picker = new Intent(DetailInputActivity.this,DateTimeMainTabActivity.class);
-                startActivity(end_date_time_picker);
+
                 break;
             case R.id.act_detailInput_start_time_display:
-                Intent start_time_picker = new Intent(DetailInputActivity.this,DateTimeMainTabActivity.class);
-                startActivity(start_time_picker);
+                DialogFragment startTimePick = new TimePickerTabFragment();
+                startTimePick.show(getSupportFragmentManager(),"start_time_pick");
                 break;
             case R.id.act_detailInput_end_time_display:
-                Intent end_time_picker = new Intent(DetailInputActivity.this,DateTimeMainTabActivity.class);
-                startActivity(end_time_picker);
+
+                break;
+
+            case R.id.act_detailInput_more_detail_side_btn_gps:
+                act_detailInput_more_detail_side_btn_gps.setVisibility(View.GONE);
+
+                break;
+            default:
+                break;
         }
 
     }
+
+    //필요하면 수정해서 쓰고 안필요하면 지워도 됨
+//    private void showStartDatePickerDialog(){
+//        FragmentManager fm = getSupportFragmentManager();
+//        DatePickerTabFragment dateFragment = DatePickerTabFragment.newInstance();
+//        dateFragment.show(fm,"startdatepick");
+//    }
+//
+//    private void showEndDatePickerDialog(){
+//        FragmentManager fm = getSupportFragmentManager();
+//        DatePickerTabFragment dateFragment = DatePickerTabFragment.newInstance();
+//        dateFragment.show(fm,"enddatepick");
+//    }
+//
+//    private void showStartTimePickerDialog(){
+//        FragmentManager fm = getSupportFragmentManager();
+//        TimePickerTabFragment timeFragment = TimePickerTabFragment.newInstance();
+//        timeFragment.show(fm,"starttimepick");
+//    }
+//
+//    private void showEndTimePickerDialog(){
+//        FragmentManager fm = getSupportFragmentManager();
+//        TimePickerTabFragment timeFragment = TimePickerTabFragment.newInstance();
+//        timeFragment.show(fm,"endtimepick");
+//    }
+
+    // 날짜 선택 시 textview로 보내는 함수
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int day) {
+        act_detailInput_start_date_display.setText(year + "년" + (month + 1) + "월" + day + "일");
+    }
+
+    // 시간 선택 시 textview로 보내는 함수
+    @Override
+    public void onTimeSet(TimePicker view, int hourofDay, int minute){
+        act_detailInput_start_time_display.setText(String.valueOf(hourofDay)+"시 "+ String.valueOf(minute) + "분");
+    }
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -185,7 +260,6 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
         if (id == R.id.action_submit_btn) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }
