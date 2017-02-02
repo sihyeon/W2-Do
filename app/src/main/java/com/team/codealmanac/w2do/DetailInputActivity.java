@@ -1,6 +1,7 @@
 package com.team.codealmanac.w2do;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -18,10 +20,24 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.support.v4.content.ContextCompat;
+import android.widget.Toast;
+
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import petrov.kristiyan.colorpicker.ColorPicker;
 
-public class DetailInputActivity extends AppCompatActivity implements View.OnClickListener{
-    // 첫 번째 cardview items : 폴더 선택,내용입력,색상 설정
+public class DetailInputActivity extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback{
+    // cardview items : 폴더 선택,내용입력,색상 설정
     private CardView act_detailInput_title_cardview;
     private Spinner act_detailInput_folder_spinner;
     private TextView act_detailInput_title_text;
@@ -29,7 +45,7 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
     private EditText act_detailInput_content_edittext;
     private TextView act_detailInput_folder_text;
 
-    // 두 번째 cardview items : 캘린더,시간설정
+    // cardview items : 캘린더,시간설정
     private CardView act_detailInput_calendar_cardview;
     private TextView act_detailInput_calendar_start_text;
     private TextView act_detailInput_calendar_end_text;
@@ -39,7 +55,16 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
     private TextView act_detailInput_start_time_display;
     private TextView act_detailInput_end_time_display;
 
-    // 세 번째 cardview items: more detail buttons
+    // cardview items : 지도
+    private boolean isLocationButtonOneClick = true;
+    private CardView act_detailInput_map_cardview;
+    private EditText act_detailInput_map_location;
+    private MapFragment act_detailInput_googleMap;
+    private GoogleMap mGoogleMap;
+    private LatLng mLocation;
+    private Marker mMarker;
+
+    //cardview items: more detail buttons
     private CardView act_detailInput_more_detail_btn_cardview;
     private TextView act_detailInput_more_detail_title_text;
     private Button act_detailInput_more_detail_side_btn_gps;
@@ -57,7 +82,7 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 
-        // first cardview items
+        // title cardview items
         act_detailInput_title_cardview = (CardView)findViewById(R.id.act_detailInput_title_cardview);
         act_detailInput_title_text = (TextView)findViewById(R.id.act_detailInput_title_text);
         act_detailInput_color_picker = (Button)findViewById(R.id.act_detailInput_color_picker);
@@ -65,7 +90,7 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
         act_detailInput_folder_text = (TextView)findViewById(R.id.act_detailInput_folder_text);
         act_detailInput_folder_spinner = (Spinner)findViewById(R.id.act_detailInput_folder_spinner);
 
-        // second cardview items
+        // calendar cardview items
         act_detailInput_calendar_cardview = (CardView)findViewById(R.id.act_detailInput_calendar_cardview);
         act_detailInput_calendar_start_text = (TextView)findViewById(R.id.act_detailInput_calendar_start_text);
         act_detailInput_calendar_end_text = (TextView)findViewById(R.id.act_detailInput_calendar_end_text);
@@ -75,13 +100,18 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
         act_detailInput_end_time_display = (TextView)findViewById(R.id.act_detailInput_end_time_display);
         act_detailInput_calendar_allday_btn = (Button)findViewById(R.id.act_detailInput_calendar_allday_btn);
 
-        //third cardview items
+        //google map cardview items
+        act_detailInput_map_cardview = (CardView)findViewById(R.id.act_detailInput_map_cardview);
+        act_detailInput_map_location = (EditText)findViewById(R.id.act_detailInput_map_location);
+        act_detailInput_googleMap = (MapFragment) getFragmentManager().findFragmentById(R.id.act_detailInput_googleMap);
+        act_detailInput_googleMap.getMapAsync(this);
+
+        //more_detail cardview items
         act_detailInput_more_detail_btn_cardview = (CardView)findViewById(R.id.act_detailInput_more_detail_btn_cardview);
         act_detailInput_more_detail_title_text = (TextView)findViewById(R.id.act_detailInput_more_detail_title_text);
         act_detailInput_more_detail_side_btn_gps = (Button)findViewById(R.id.act_detailInput_more_detail_side_btn_gps);
         act_detailInput_more_detail_side_btn_alarm = (Button)findViewById(R.id.act_detailInput_more_detail_side_btn_alarm);
         act_detailInput_more_detail_side_btn_memo = (Button)findViewById(R.id.act_detailInput_more_detail_side_btn_memo);
-        act_detailInput_more_detail_side_btn_gps = (Button)findViewById(R.id.act_detailInput_more_detail_side_btn_gps);
         act_detailInput_more_detail_side_btn_share = (Button)findViewById(R.id.act_detailInput_more_detail_side_btn_share);
 
         //OnClickListener 연결
@@ -99,6 +129,75 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
         Folder_Spinner_Adapter.setDropDownViewResource(R.layout.activity_detailinput_folder_spinner_textview);
         act_detailInput_folder_spinner.setAdapter(Folder_Spinner_Adapter);
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        findViewById(R.id.act_detailInput_googleMap).setVisibility(View.GONE);
+
+        act_detailInput_map_location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(isLocationButtonOneClick){
+                    isLocationButtonOneClick = false;
+                    if(mMarker != null) mMarker.remove();
+                    int PLACE_PICKER_REQUEST = 1;
+                    PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+                    try {
+                        startActivityForResult(builder.build(DetailInputActivity.this), PLACE_PICKER_REQUEST);
+                    } catch (GooglePlayServicesRepairableException e) {
+                        e.printStackTrace();
+                    } catch (GooglePlayServicesNotAvailableException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+
+        View.OnClickListener MoreDetailButtonsListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (view.getId()){
+                    case R.id.act_detailInput_more_detail_side_btn_gps:
+                        act_detailInput_map_cardview.setVisibility(View.VISIBLE);
+                        act_detailInput_more_detail_side_btn_gps.setVisibility(View.GONE);
+                        break;
+                }
+            }
+        };
+
+        act_detailInput_googleMap.setMenuVisibility(false);
+
+        act_detailInput_more_detail_side_btn_gps.setOnClickListener(MoreDetailButtonsListener);
+        act_detailInput_more_detail_side_btn_alarm.setOnClickListener(MoreDetailButtonsListener);
+        act_detailInput_more_detail_side_btn_memo.setOnClickListener(MoreDetailButtonsListener);
+        act_detailInput_more_detail_side_btn_share.setOnClickListener(MoreDetailButtonsListener);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            isLocationButtonOneClick = true;
+            if (resultCode == RESULT_OK) {
+                Place place = PlacePicker.getPlace(this, data);
+                act_detailInput_map_location.setText(place.getName());
+                mLocation = place.getLatLng();
+                if(mGoogleMap != null){
+                    mMarker = mGoogleMap.addMarker(new MarkerOptions().position(mLocation));
+                    mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(mLocation));
+                    mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+                    findViewById(R.id.act_detailInput_googleMap).setVisibility(View.VISIBLE);
+                }
+            } else if(resultCode == RESULT_CANCELED){
+                if(mGoogleMap != null && mLocation != null){
+                    mMarker = mGoogleMap.addMarker(new MarkerOptions().position(mLocation));
+                    mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(mLocation));
+                    mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+                }
+            }
+        }
     }
 
     @Override
@@ -164,6 +263,7 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
             case R.id.act_detailInput_end_time_display:
                 Intent end_time_picker = new Intent(DetailInputActivity.this,DateTimeMainTabActivity.class);
                 startActivity(end_time_picker);
+                break;
         }
 
     }
@@ -187,6 +287,15 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mGoogleMap = googleMap;
+        if(mLocation == null) return;
+        mGoogleMap.addMarker(new MarkerOptions().position(mLocation));
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(mLocation));
+        mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(10));
     }
 }
 
