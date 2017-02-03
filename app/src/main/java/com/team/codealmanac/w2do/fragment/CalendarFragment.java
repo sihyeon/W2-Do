@@ -3,6 +3,9 @@ package com.team.codealmanac.w2do.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +17,9 @@ import com.team.codealmanac.w2do.R;
  */
 
 public class CalendarFragment extends Fragment{
+
+    private SectionsPagerAdapter mSectionsPagerAdapter;
+    private ViewPager mViewPager;
 
     public CalendarFragment() {
         // Required empty public constructor
@@ -33,8 +39,11 @@ public class CalendarFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.item_checkbox_layout, container, false);
-
+        View view = inflater.inflate(R.layout.fragment_calendar, container, false);
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getActivity().getSupportFragmentManager());
+        mViewPager = (ViewPager)view.findViewById(R.id.frag_calendar_viewpager);
+//        mViewPager.addView();
+        mViewPager.setAdapter(mSectionsPagerAdapter);
 
         return view;
     }
@@ -54,5 +63,24 @@ public class CalendarFragment extends Fragment{
     @Override
     public void onDetach() {
         super.onDetach();
+    }
+
+    private class SectionsPagerAdapter extends FragmentStatePagerAdapter{
+
+        public SectionsPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+
+
+        @Override
+        public Fragment getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public int getCount() {
+            return 0;
+        }
     }
 }

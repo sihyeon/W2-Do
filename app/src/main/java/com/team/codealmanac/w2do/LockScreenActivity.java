@@ -36,6 +36,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.team.codealmanac.w2do.listeners.OnSwipeTouchListener;
 import com.team.codealmanac.w2do.models.User;
+import com.team.codealmanac.w2do.models.User_NickName;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -133,12 +134,14 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoMana
         date.setText(sdf.format(new Date()));
 
         //파베 실시간디비 리스너 등록
-        mUserReference.addValueEventListener(new ValueEventListener() {
+        mUserReference.child("nickname").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
-                    User user = dataSnapshot.getValue(User.class);
-                    setGreetingText(user.nickname);
+//                    User_NickName item = dataSnapshot.getValue(User_NickName.class);
+                    String item = dataSnapshot.getValue().toString();
+                    Log.d("파베테스트", dataSnapshot.toString());
+                    setGreetingText(item);
                 }
             }
             @Override

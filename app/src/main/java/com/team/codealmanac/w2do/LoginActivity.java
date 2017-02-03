@@ -167,24 +167,27 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    final String uid = user.getUid();
-                    mDatabase.child("users").child(uid).addListenerForSingleValueEvent(
-                            new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    if(dataSnapshot.getValue(User.class) != null){
-                                        Intent app2intent = new Intent(LoginActivity.this, MainActivity.class);
-                                        startActivity(app2intent);
-                                        LoginActivity.this.finish();
-                                    }
-                                }
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-                                    Log.w(TAG, "getUser:onCancelled", databaseError.toException());
-                                }
-                            }
-                    );
+                    Intent app2intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(app2intent);
+                    LoginActivity.this.finish();
+//                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+//                    final String uid = user.getUid();
+//                    mDatabase.child("users").child(uid).addListenerForSingleValueEvent(
+//                            new ValueEventListener() {
+//                                @Override
+//                                public void onDataChange(DataSnapshot dataSnapshot) {
+//                                    if(dataSnapshot.getValue(User.class) != null){
+//                                        Intent app2intent = new Intent(LoginActivity.this, MainActivity.class);
+//                                        startActivity(app2intent);
+//                                        LoginActivity.this.finish();
+//                                    }
+//                                }
+//                                @Override
+//                                public void onCancelled(DatabaseError databaseError) {
+//                                    Log.w(TAG, "getUser:onCancelled", databaseError.toException());
+//                                }
+//                            }
+//                    );
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");

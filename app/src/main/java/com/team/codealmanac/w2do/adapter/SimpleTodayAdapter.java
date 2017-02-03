@@ -11,8 +11,6 @@ import android.widget.TextView;
 import com.team.codealmanac.w2do.R;
 import com.team.codealmanac.w2do.models.SimpleToday;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
 /**
@@ -44,9 +42,8 @@ public class SimpleTodayAdapter extends RecyclerView.Adapter<SimpleTodayAdapter.
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Log.d("리스트테스트", "온바인드뷰");
         SimpleToday todayItem = mItemList.get(position);
-        holder.today_checkbox.setActivated(todayItem.check);
+        holder.today_checkbox.setActivated(todayItem.check_state);
         holder.today_content.setText(todayItem.content);
     }
 
