@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -22,6 +23,7 @@ public class SimpleInputActivity extends AppCompatActivity {
     private TextView headerText;
     private EditText todayedittext;
     private Button todaybtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,9 +32,9 @@ public class SimpleInputActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_simpleinput);
 
-        headerText = (TextView)findViewById(R.id.today_header_text);
+        headerText = (TextView) findViewById(R.id.today_header_text);
         todayedittext = (EditText) findViewById(R.id.today_simple_edittext);
-        todaybtn = (Button)findViewById(R.id.today_submit_btn);
+        todaybtn = (Button) findViewById(R.id.today_submit_btn);
 
     }
 
