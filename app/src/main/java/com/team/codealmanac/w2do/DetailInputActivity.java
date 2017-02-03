@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
@@ -18,6 +19,10 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.support.v4.content.ContextCompat;
+
+import com.team.codealmanac.w2do.fragment.DatePickerTabFragment;
+import com.team.codealmanac.w2do.fragment.TimePickerTabFragment;
+
 import petrov.kristiyan.colorpicker.ColorPicker;
 
 public class DetailInputActivity extends AppCompatActivity implements View.OnClickListener{
@@ -150,13 +155,15 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
                 break;
 
             case R.id.act_detailInput_start_date_display:
-
+                DialogFragment startDatePick = new DatePickerTabFragment();
+                startDatePick.show(getSupportFragmentManager(),"start_date_pick");
                 break;
             case R.id.act_detailInput_end_date_display:
 
                 break;
             case R.id.act_detailInput_start_time_display:
-
+                DialogFragment startTimePick = new TimePickerTabFragment();
+                startTimePick.show(getSupportFragmentManager(),"start_time_pick");
                 break;
             case R.id.act_detailInput_end_time_display:
 
