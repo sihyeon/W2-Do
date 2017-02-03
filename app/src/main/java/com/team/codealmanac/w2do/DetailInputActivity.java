@@ -1,10 +1,11 @@
 package com.team.codealmanac.w2do;
 
 import android.app.DatePickerDialog;
-import android.content.Context;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
@@ -20,6 +21,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.support.v4.content.ContextCompat;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -33,10 +35,13 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.team.codealmanac.w2do.fragment.DatePickerTabFragment;
+import com.team.codealmanac.w2do.fragment.TimePickerTabFragment;
 
 import petrov.kristiyan.colorpicker.ColorPicker;
 
-public class DetailInputActivity extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback{
+public class DetailInputActivity extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback,
+        DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
     // cardview items : 폴더 선택,내용입력,색상 설정
     private CardView act_detailInput_title_cardview;
     private Spinner act_detailInput_folder_spinner;
@@ -168,8 +173,6 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
             }
         };
 
-        act_detailInput_googleMap.setMenuVisibility(false);
-
         act_detailInput_more_detail_side_btn_gps.setOnClickListener(MoreDetailButtonsListener);
         act_detailInput_more_detail_side_btn_alarm.setOnClickListener(MoreDetailButtonsListener);
         act_detailInput_more_detail_side_btn_memo.setOnClickListener(MoreDetailButtonsListener);
@@ -201,42 +204,42 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
     }
 
     @Override
-    public void onClick(View view){
+    public void onClick(View view) {
         switch (view.getId()) {
-            case R.id. act_detailInput_color_picker:
+            case R.id.act_detailInput_color_picker:
                 final ColorPicker colorPicker = new ColorPicker(DetailInputActivity.this);
                 // 다이얼로그 레이아웃 배경색 지정
                 colorPicker.getDialogBaseLayout().setBackgroundColor(Color.parseColor("#FFFFFFFF"));
                 // 팔레트 색상 지정
                 colorPicker.setColors(
-                        ContextCompat.getColor(getApplicationContext(),R.color.red),
-                        ContextCompat.getColor(getApplicationContext(),R.color.pink),
-                        ContextCompat.getColor(getApplicationContext(),R.color.purple),
-                        ContextCompat.getColor(getApplicationContext(),R.color.deep_purple),
-                        ContextCompat.getColor(getApplicationContext(),R.color.indigo),
-                        ContextCompat.getColor(getApplicationContext(),R.color.blue),
-                        ContextCompat.getColor(getApplicationContext(),R.color.light_blue),
-                        ContextCompat.getColor(getApplicationContext(),R.color.cyan),
-                        ContextCompat.getColor(getApplicationContext(),R.color.teal),
-                        ContextCompat.getColor(getApplicationContext(),R.color.green),
-                        ContextCompat.getColor(getApplicationContext(),R.color.light_green),
-                        ContextCompat.getColor(getApplicationContext(),R.color.lime),
-                        ContextCompat.getColor(getApplicationContext(),R.color.yellow),
-                        ContextCompat.getColor(getApplicationContext(),R.color.amber),
-                        ContextCompat.getColor(getApplicationContext(),R.color.orange),
-                        ContextCompat.getColor(getApplicationContext(),R.color.deep_orange),
-                        ContextCompat.getColor(getApplicationContext(),R.color.brown),
-                        ContextCompat.getColor(getApplicationContext(),R.color.gray),
-                        ContextCompat.getColor(getApplicationContext(),R.color.blue_grey));
+                        ContextCompat.getColor(getApplicationContext(), R.color.red),
+                        ContextCompat.getColor(getApplicationContext(), R.color.pink),
+                        ContextCompat.getColor(getApplicationContext(), R.color.purple),
+                        ContextCompat.getColor(getApplicationContext(), R.color.deep_purple),
+                        ContextCompat.getColor(getApplicationContext(), R.color.indigo),
+                        ContextCompat.getColor(getApplicationContext(), R.color.blue),
+                        ContextCompat.getColor(getApplicationContext(), R.color.light_blue),
+                        ContextCompat.getColor(getApplicationContext(), R.color.cyan),
+                        ContextCompat.getColor(getApplicationContext(), R.color.teal),
+                        ContextCompat.getColor(getApplicationContext(), R.color.green),
+                        ContextCompat.getColor(getApplicationContext(), R.color.light_green),
+                        ContextCompat.getColor(getApplicationContext(), R.color.lime),
+                        ContextCompat.getColor(getApplicationContext(), R.color.yellow),
+                        ContextCompat.getColor(getApplicationContext(), R.color.amber),
+                        ContextCompat.getColor(getApplicationContext(), R.color.orange),
+                        ContextCompat.getColor(getApplicationContext(), R.color.deep_orange),
+                        ContextCompat.getColor(getApplicationContext(), R.color.brown),
+                        ContextCompat.getColor(getApplicationContext(), R.color.gray),
+                        ContextCompat.getColor(getApplicationContext(), R.color.blue_grey));
                 colorPicker.setOnChooseColorListener(new ColorPicker.OnChooseColorListener() {
                     @Override
-                    public void onChooseColor(int position,int color) {
+                    public void onChooseColor(int position, int color) {
                         // put code
-                        Log.d("position",""+position);
+                        Log.d("position", "" + position);
                     }
 
                     @Override
-                    public void onCancel(){
+                    public void onCancel() {
                         // put code
                     }
                 }).addListenerButton("Cancel", new ColorPicker.OnButtonListener() {
@@ -249,24 +252,36 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
                 break;
 
             case R.id.act_detailInput_start_date_display:
-                Intent start_date_time_picker = new Intent(DetailInputActivity.this,DateTimeMainTabActivity.class);
-                startActivity(start_date_time_picker);
+                DialogFragment startDatePick = new DatePickerTabFragment();
+                startDatePick.show(getSupportFragmentManager(), "start_date_pick");
                 break;
             case R.id.act_detailInput_end_date_display:
-                Intent end_date_time_picker = new Intent(DetailInputActivity.this,DateTimeMainTabActivity.class);
-                startActivity(end_date_time_picker);
+
                 break;
             case R.id.act_detailInput_start_time_display:
-                Intent start_time_picker = new Intent(DetailInputActivity.this,DateTimeMainTabActivity.class);
-                startActivity(start_time_picker);
+                DialogFragment startTimePick = new TimePickerTabFragment();
+                startTimePick.show(getSupportFragmentManager(), "start_time_pick");
                 break;
             case R.id.act_detailInput_end_time_display:
-                Intent end_time_picker = new Intent(DetailInputActivity.this,DateTimeMainTabActivity.class);
-                startActivity(end_time_picker);
                 break;
-        }
+            default:
+                break;
 
+        }
     }
+
+    // 날짜 선택 시 textview로 보내는 함수
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int day) {
+        act_detailInput_start_date_display.setText(year + "년" + (month + 1) + "월" + day + "일");
+    }
+
+    // 시간 선택 시 textview로 보내는 함수
+    @Override
+    public void onTimeSet(TimePicker view, int hourofDay, int minute){
+        act_detailInput_start_time_display.setText(String.valueOf(hourofDay)+"시 "+ String.valueOf(minute) + "분");
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -288,6 +303,32 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
 
         return super.onOptionsItemSelected(item);
     }
+
+    //필요하면 수정해서 쓰고 안필요하면 지워도 됨
+//    private void showStartDatePickerDialog(){
+//        FragmentManager fm = getSupportFragmentManager();
+//        DatePickerTabFragment dateFragment = DatePickerTabFragment.newInstance();
+//        dateFragment.show(fm,"startdatepick");
+//    }
+//
+//    private void showEndDatePickerDialog(){
+//        FragmentManager fm = getSupportFragmentManager();
+//        DatePickerTabFragment dateFragment = DatePickerTabFragment.newInstance();
+//        dateFragment.show(fm,"enddatepick");
+//    }
+//
+//    private void showStartTimePickerDialog(){
+//        FragmentManager fm = getSupportFragmentManager();
+//        TimePickerTabFragment timeFragment = TimePickerTabFragment.newInstance();
+//        timeFragment.show(fm,"starttimepick");
+//    }
+//
+//    private void showEndTimePickerDialog(){
+//        FragmentManager fm = getSupportFragmentManager();
+//        TimePickerTabFragment timeFragment = TimePickerTabFragment.newInstance();
+//        timeFragment.show(fm,"endtimepick");
+//    }
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {

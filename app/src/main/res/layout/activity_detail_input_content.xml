@@ -21,63 +21,66 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
+                android:focusableInTouchMode="true"
                 android:focusable="false"
-                android:focusableInTouchMode="true">
+                android:layout_marginTop="10dp">
 
                 <TextView
                     android:id="@+id/act_detailInput_title_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
                     android:fontFamily="monospace"
-                    android:text="Title"
-                    android:textSize="17sp" />
+                    android:layout_marginLeft="16dp"
+                    android:textSize="14sp"
+                    android:text="Title" />
 
                 <Button
                     android:id="@+id/act_detailInput_color_picker"
-                    android:layout_width="32dp"
+                    android:text="Col"
+                    android:layout_width="45dp"
                     android:layout_height="32dp"
-                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/activity_detailinput_calendar_button_layout_border"
                     android:layout_alignParentTop="true"
-                    android:layout_marginEnd="16dp"
-                    android:text="Col" />
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="16dp" />
 
                 <EditText
-                    android:id="@+id/act_detailInput_content_edittext"
                     android:layout_width="330dp"
-                    android:layout_height="40dp"
-                    android:layout_alignLeft="@+id/act_detailInput_title_text"
-                    android:layout_below="@id/act_detailInput_title_text"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
-                    android:background="#EEEEEE"
-                    android:ems="10"
-                    android:fontFamily="monospace"
-                    android:hint="제목,일정,약속..."
+                    android:paddingBottom="2dp"
+                    android:layout_below="@id/act_detailInput_title_text"
+                    android:layout_alignLeft="@+id/act_detailInput_title_text"
+                    android:background="@drawable/act_detailinput_edittext_layout"
+                    android:textColorHint="#BDBDBD"
+                    android:textSize="20sp"
                     android:inputType="text"
-                    android:textColorHint="#757575" />
+                    android:fontFamily="monospace"
+                    android:hint="Event Name"
+                    android:ems="10"
+                    android:id="@+id/act_detailInput_content_edittext" />
 
                 <TextView
                     android:id="@+id/act_detailInput_folder_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/act_detailInput_content_edittext"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="25dp"
                     android:fontFamily="monospace"
-                    android:text="Folder"
-                    android:textSize="17sp" />
+                    android:layout_marginTop="30dp"
+                    android:layout_marginLeft="16dp"
+                    android:textSize="14sp"
+                    android:text="Folder" />
 
                 <!-- please linked in adapter -->
                 <Spinner
                     android:id="@+id/act_detailInput_folder_spinner"
                     android:layout_width="140dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="35dp"
                     android:layout_below="@id/act_detailInput_content_edittext"
-                    android:layout_marginLeft="128dp"
-                    android:layout_marginTop="15dp"
                     android:layout_toEndOf="@+id/act_detailInput_folder_text"
-                    android:background="#1A212121"
+                    android:layout_marginTop="23dp"
+                    android:layout_marginLeft="128dp"
+                    android:background="#1ABDBDBD"
                     android:prompt="@string/prompt" />
             </RelativeLayout>
         </android.support.v7.widget.CardView>
@@ -85,92 +88,94 @@
         <android.support.v7.widget.CardView
             android:id="@+id/act_detailInput_calendar_cardview"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="150dp"
             android:layout_marginTop="10dp"
             app:cardElevation="4dp"
             app:cardUseCompatPadding="false">
 
             <RelativeLayout
                 android:id="@+id/act_detailInput_calendar_layout"
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp">
+                android:layout_height="match_parent">
 
                 <TextView
                     android:id="@+id/act_detailInput_calendar_start_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
+                    android:text="From"
                     android:fontFamily="monospace"
-                    android:text="Start"
-                    android:textSize="17sp" />
-
-                <TextView
-                    android:id="@+id/act_detailInput_calendar_end_text"
+                    android:textSize="14sp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginStart="170dp"
-                    android:fontFamily="monospace"
-                    android:text="End"
-                    android:textSize="17sp" />
+                    android:layout_height="wrap_content" />
 
                 <RelativeLayout
                     android:id="@+id/act_detailInput_datePicker_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:layout_below="@id/act_detailInput_calendar_start_text"
-                    android:layout_marginTop="15dp">
+                    android:layout_marginTop="13dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/act_detailInput_start_date_display"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:text="TextView"
+                        android:fontFamily="monospace"
                         android:layout_marginLeft="16dp"
-                        android:fontFamily="monospace"
-                        android:text="TextView" />
-
-                    <TextView
-                        android:id="@+id/act_detailInput_end_date_display"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginStart="170dp"
-                        android:fontFamily="monospace"
-                        android:text="TextView" />
-
-                    <Button
-                        android:id="@+id/act_detailInput_calendar_allday_btn"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_centerInParent="true"
-                        android:layout_marginEnd="11dp"
-                        android:background="@drawable/activity_detailinput_calendar_button_layout_border"
-                        android:fontFamily="monospace"
-                        android:text="종일"
-                        android:textSize="12sp" />
+                        android:layout_height="wrap_content" />
 
                     <TextView
                         android:id="@+id/act_detailInput_start_time_display"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="190dp"
+                        android:text="TextView"
+                        android:fontFamily="monospace"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/act_detailInput_calendar_end_text"
+                        android:text="To"
+                        android:fontFamily="monospace"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="13dp"
+                        android:textSize="14sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/act_detailInput_start_date_display"
-                        android:layout_marginLeft="16dp"
+                        android:layout_below="@id/act_detailInput_start_date_display" />
+
+                    <TextView
+                        android:id="@+id/act_detailInput_end_date_display"
+                        android:text="TextView"
                         android:fontFamily="monospace"
-                        android:text="TextView" />
+                        android:layout_marginLeft="16dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="13dp"
+                        android:layout_below="@+id/act_detailInput_calendar_end_text"/>
 
                     <TextView
                         android:id="@+id/act_detailInput_end_time_display"
+                        android:text="TextView"
+                        android:fontFamily="monospace"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignStart="@+id/act_detailInput_end_date_display"
-                        android:layout_below="@+id/act_detailInput_end_date_display"
-                        android:fontFamily="monospace"
-                        android:text="TextView" />
+                        android:layout_alignBottom="@+id/act_detailInput_end_date_display"
+                        android:layout_alignStart="@+id/act_detailInput_start_time_display" />
                 </RelativeLayout>
+
+                <Button
+                    android:id="@+id/act_detailInput_calendar_allday_btn"
+                    android:text="종일"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:fontFamily="monospace"
+                    android:textSize="12sp"
+                    android:layout_marginEnd="14dp"
+                    android:background="@drawable/activity_detailinput_calendar_button_layout_border"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true" />
             </RelativeLayout>
+
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView

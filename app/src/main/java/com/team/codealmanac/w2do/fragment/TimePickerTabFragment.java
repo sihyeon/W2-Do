@@ -1,10 +1,14 @@
 package com.team.codealmanac.w2do.fragment;
 
+import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +16,10 @@ import android.view.ViewGroup;
 
 import com.team.codealmanac.w2do.R;
 
+import java.util.Calendar;
 
-public class TimePickerTabFragment extends Fragment{
+
+public class TimePickerTabFragment extends DialogFragment{
 
     public TimePickerTabFragment(){
 
@@ -31,11 +37,15 @@ public class TimePickerTabFragment extends Fragment{
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        View view = inflater.inflate(R.layout.fragment_content_time_picker_layout,container,false);
-        return view;
-    }
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        final Calendar c = Calendar.getInstance();
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int minute = c.get(Calendar.MINUTE);
 
+        //Create and return a new instance of TimePickerDialog
+        return new TimePickerDialog(getActivity(),(TimePickerDialog.OnTimeSetListener)getActivity(), hour, minute,
+                DateFormat.is24HourFormat(getActivity()));
+    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {

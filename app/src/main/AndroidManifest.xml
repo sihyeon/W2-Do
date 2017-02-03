@@ -92,9 +92,6 @@
 
         <activity android:name=".DetailInputActivity"/>
 
-        <activity android:name=".DateTimeMainTabActivity"
-            android:theme="@style/Theme.AppCompat.Dialog.Alert"/>
-
     </application>
 
 </manifest>

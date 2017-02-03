@@ -1,35 +1,39 @@
 package com.team.codealmanac.w2do.fragment;
 
 
-import android.content.Context;
-import android.graphics.Color;
-
-import android.net.Uri;
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import java.util.Calendar;
-import android.widget.DatePicker;
-import android.widget.TextView;
+import android.view.Window;
 
+import com.team.codealmanac.w2do.DetailInputActivity;
 import com.team.codealmanac.w2do.R;
 
+import java.util.Calendar;
 
-// 상세 입력 페이지에서 일정의 날짜,시간을 입력할 viewpager fragment
 
-public class DatePickerTabFragment extends Fragment {
-    private DatePicker datePicker;
-    private Calendar calendar;
+public class DatePickerTabFragment extends DialogFragment {
+    static final int START_DATE_PICKER_ID = 00;
+    static final int END_DATE_PICKER_ID = 01;
+    static final int START_TIME_PICKER_ID = 10;
+    static final int END_TIME_PICKER_ID = 11;
+    int syear,smonth,sday;
+    DatePickerDialog.OnDateSetListener start_dateListener,end_dateListener;
 
-    public DatePickerTabFragment(){
-
+    public DatePickerTabFragment() {
+        // nothing to see here, move along
     }
 
     public static DatePickerTabFragment newInstance(){
+
         DatePickerTabFragment datePickerTabFragment = new DatePickerTabFragment();
         return datePickerTabFragment;
     }
@@ -41,46 +45,39 @@ public class DatePickerTabFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        View view = inflater.inflate(R.layout.fragment_content_date_picker_layout,container,false);
-        datePicker = (DatePicker)view.findViewById(R.id.datePicker);
-
-
-        return view;
-    }
-
-
-    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Log.d("date picker onView", view.toString());
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-    }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-    }
+        final Calendar c = Calendar.getInstance();
+        syear = c.get(Calendar.YEAR);
+        smonth = c.get(Calendar.MONTH);
+        sday = c.get(Calendar.DAY_OF_MONTH);
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), (DatePickerDialog.OnDateSetListener)
+                getActivity(), syear, smonth, sday);
+        datePickerDialog.getDatePicker().setMinDate(c.getTimeInMillis());
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
+        datePickerDialog.setButton(DialogInterface.BUTTON_POSITIVE,"DONE", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
 
+            }
+        });
 
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        datePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "CANDEL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                getDialog().dismiss();
+            }
+        });
+
+        return new DatePickerDialog(getActivity(), (DatePickerDialog.OnDateSetListener)
+                getActivity(), syear, smonth, sday);
     }
 }
