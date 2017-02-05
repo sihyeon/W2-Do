@@ -1,4 +1,4 @@
-package com.team.codealmanac.w2do;
+package com.team.codealmanac.w2do.assistant;
 
 import android.Manifest;
 import android.content.Context;
@@ -14,7 +14,7 @@ import android.util.Log;
 /**
  * Created by Choi Jaeung on 2016-12-05.
  */
-public class LocationInfoManager implements LocationListener {
+public class LocationInfoAssistant implements LocationListener {
     private static final int MIN_DISTANCE_CHANGE_FOR_UPDATE = 100;   //최소 10미터마다 업데이트
     private static final int MIN_TIME_FOR_UPDATE = 3000 /** 60*/;       //최소 3초마다 업데이트
 
@@ -27,11 +27,11 @@ public class LocationInfoManager implements LocationListener {
     }
 
     //싱글톤
-    private static LocationInfoManager ourInstance = new LocationInfoManager();
-    public static LocationInfoManager getInstance() {
+    private static LocationInfoAssistant ourInstance = new LocationInfoAssistant();
+    public static LocationInfoAssistant getInstance() {
         return ourInstance;
     }
-    private LocationInfoManager() {}
+    private LocationInfoAssistant() {}
 
     public void onStartLocation(Context context, AppCompatActivity activity) {
         mInterface = (InterfaceLocationInfoManager) activity;

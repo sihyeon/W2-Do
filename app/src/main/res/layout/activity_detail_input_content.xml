@@ -175,7 +175,6 @@
                     android:layout_toEndOf="@id/act_detailInput_calendar_img"
                     android:layout_marginStart="37dp"
                     android:layout_marginTop="17dp"
-                    android:layout_marginEnd="36dp"
                     android:orientation="vertical">
                     <TextView
                         android:layout_width="wrap_content"
@@ -195,18 +194,20 @@
                         android:layout_marginTop="16.65dp"/>
                 </LinearLayout>
                 <View
+                    android:id="@+id/act_detailInput_calendar_midline"
                     android:layout_width="1dp"
                     android:layout_height="60dp"
                     android:layout_centerVertical="true"
-                    android:layout_toEndOf="@id/act_detailInput_calendar_start_layout"
+                    android:layout_toEndOf="@id/act_detailInput_calendar_img"
+                    android:layout_marginStart="135dp"
                     android:background="#f3f3f3" />
 
                 <LinearLayout
                     android:id="@+id/act_detailInput_calendar_end_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/act_detailInput_calendar_start_layout"
-                    android:layout_marginStart="37dp"
+                    android:layout_toEndOf="@id/act_detailInput_calendar_midline"
+                    android:layout_marginStart="36dp"
                     android:layout_marginTop="17dp"
                     android:orientation="vertical">
                     <TextView
@@ -283,7 +284,7 @@
                 android:layout_width="75dp"
                 android:layout_height="39dp"
                 android:layout_marginEnd="9dp"
-                android:background="@drawable/btn_more"
+                android:background="@drawable/btn_go"
                 android:contentDescription="@string/imgbtn_contentDescription_location"
                 android:src="@drawable/icn_location" />
 
@@ -292,7 +293,7 @@
                 android:layout_width="75dp"
                 android:layout_height="39dp"
                 android:layout_marginEnd="9dp"
-                android:background="@drawable/btn_more"
+                android:background="@drawable/btn_go"
                 android:contentDescription="@string/imgbtn_contentDescription_invite"
                 android:src="@drawable/icn_invite" />
 
@@ -301,7 +302,7 @@
                 android:layout_width="75dp"
                 android:layout_height="39dp"
                 android:layout_marginEnd="9dp"
-                android:background="@drawable/btn_more"
+                android:background="@drawable/btn_go"
                 android:contentDescription="@string/imgbtn_contentDescription_alarm"
                 android:src="@drawable/icn_alarm" />
 
@@ -309,7 +310,7 @@
                 android:id="@+id/act_detailInput_more_detail_side_btn_memo"
                 android:layout_width="75dp"
                 android:layout_height="39dp"
-                android:background="@drawable/btn_more"
+                android:background="@drawable/btn_go"
                 android:contentDescription="@string/imgbtn_contentDescription_memo"
                 android:src="@drawable/icn_memo" />
         </LinearLayout>
