@@ -6,23 +6,26 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.InflateException;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
+
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.support.v4.content.ContextCompat;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -42,13 +45,15 @@ import petrov.kristiyan.colorpicker.ColorPicker;
 
 public class DetailInputActivity extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback,
         DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
-    // cardview items : 폴더 선택,내용입력,색상 설정
-    private CardView act_detailInput_title_cardview;
-    private Spinner act_detailInput_folder_spinner;
+
+    // 첫번째 cardview items : 할일 입력, 컬러 설정
     private TextView act_detailInput_title_text;
-    private Button act_detailInput_color_picker;
+    private Button act_detailInput_todo_content_color_picker;
     private EditText act_detailInput_content_edittext;
     private TextView act_detailInput_folder_text;
+
+    //두번째 cardview items : 폴더 선택
+    private Spinner act_detailInput_folder_spinner;
 
     // cardview items : 캘린더,시간설정
     private CardView act_detailInput_calendar_cardview;
@@ -70,33 +75,27 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
     private Marker mMarker;
 
     //cardview items: more detail buttons
-    private CardView act_detailInput_more_detail_btn_cardview;
-    private TextView act_detailInput_more_detail_title_text;
-    private Button act_detailInput_more_detail_side_btn_gps;
-    private Button act_detailInput_more_detail_side_btn_alarm;
-    private Button act_detailInput_more_detail_side_btn_memo;
-    private Button act_detailInput_more_detail_side_btn_share;
+    private ImageButton act_detailInput_more_detail_side_btn_gps;
+    private ImageButton act_detailInput_more_detail_side_btn_alarm;
+    private ImageButton act_detailInput_more_detail_side_btn_memo;
+    private ImageButton act_detailInput_more_detail_side_btn_share;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_input);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 
-        // title cardview items
-        act_detailInput_title_cardview = (CardView)findViewById(R.id.act_detailInput_title_cardview);
-        act_detailInput_title_text = (TextView)findViewById(R.id.act_detailInput_title_text);
-        act_detailInput_color_picker = (Button)findViewById(R.id.act_detailInput_color_picker);
-        act_detailInput_content_edittext = (EditText)findViewById(R.id.act_detailInput_content_edittext);
-        act_detailInput_folder_text = (TextView)findViewById(R.id.act_detailInput_folder_text);
+        // 투두 내용 카드뷰 아이템
+        act_detailInput_todo_content_color_picker = (Button)findViewById(R.id.act_detailInput_todo_content_color_picker);
+
+        // 폴더 카드뷰 아이템
         act_detailInput_folder_spinner = (Spinner)findViewById(R.id.act_detailInput_folder_spinner);
 
         // calendar cardview items
-        act_detailInput_calendar_cardview = (CardView)findViewById(R.id.act_detailInput_calendar_cardview);
         act_detailInput_calendar_start_text = (TextView)findViewById(R.id.act_detailInput_calendar_start_text);
         act_detailInput_calendar_end_text = (TextView)findViewById(R.id.act_detailInput_calendar_end_text);
         act_detailInput_start_date_display = (TextView)findViewById(R.id.act_detailInput_start_date_display);
@@ -112,15 +111,13 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
         act_detailInput_googleMap.getMapAsync(this);
 
         //more_detail cardview items
-        act_detailInput_more_detail_btn_cardview = (CardView)findViewById(R.id.act_detailInput_more_detail_btn_cardview);
-        act_detailInput_more_detail_title_text = (TextView)findViewById(R.id.act_detailInput_more_detail_title_text);
-        act_detailInput_more_detail_side_btn_gps = (Button)findViewById(R.id.act_detailInput_more_detail_side_btn_gps);
-        act_detailInput_more_detail_side_btn_alarm = (Button)findViewById(R.id.act_detailInput_more_detail_side_btn_alarm);
-        act_detailInput_more_detail_side_btn_memo = (Button)findViewById(R.id.act_detailInput_more_detail_side_btn_memo);
-        act_detailInput_more_detail_side_btn_share = (Button)findViewById(R.id.act_detailInput_more_detail_side_btn_share);
+        act_detailInput_more_detail_side_btn_gps = (ImageButton)findViewById(R.id.act_detailInput_more_detail_side_btn_gps);
+        act_detailInput_more_detail_side_btn_alarm = (ImageButton)findViewById(R.id.act_detailInput_more_detail_side_btn_alarm);
+        act_detailInput_more_detail_side_btn_memo = (ImageButton)findViewById(R.id.act_detailInput_more_detail_side_btn_memo);
+        act_detailInput_more_detail_side_btn_share = (ImageButton)findViewById(R.id.act_detailInput_more_detail_side_btn_share);
 
         //OnClickListener 연결
-        act_detailInput_color_picker.setOnClickListener(this);
+        act_detailInput_todo_content_color_picker.setOnClickListener(this);
         act_detailInput_start_date_display.setOnClickListener(this);
         act_detailInput_end_date_display.setOnClickListener(this);
         act_detailInput_start_time_display.setOnClickListener(this);
@@ -130,8 +127,8 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
         // 폴더 선택 spinner adapter
         String[] Folder_Spinner_item = getResources().getStringArray(R.array.folder);
         ArrayAdapter<String> Folder_Spinner_Adapter = new ArrayAdapter<String>(
-                this, R.layout.activity_detailinput_folder_spinner_textview, Folder_Spinner_item);
-        Folder_Spinner_Adapter.setDropDownViewResource(R.layout.activity_detailinput_folder_spinner_textview);
+                this, R.layout.adpitem_spinner_text, Folder_Spinner_item);
+        Folder_Spinner_Adapter.setDropDownViewResource(R.layout.adpitem_spinner_text);
         act_detailInput_folder_spinner.setAdapter(Folder_Spinner_Adapter);
 
     }
@@ -206,7 +203,7 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.act_detailInput_color_picker:
+            case R.id.act_detailInput_todo_content_color_picker:
                 final ColorPicker colorPicker = new ColorPicker(DetailInputActivity.this);
                 // 다이얼로그 레이아웃 배경색 지정
                 colorPicker.getDialogBaseLayout().setBackgroundColor(Color.parseColor("#FFFFFFFF"));
@@ -329,6 +326,14 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
 //        timeFragment.show(fm,"endtimepick");
 //    }
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(act_detailInput_googleMap != null){
+            getFragmentManager().beginTransaction().remove(act_detailInput_googleMap).commit();
+        }
+    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {

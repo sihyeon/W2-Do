@@ -6,174 +6,236 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_detail_input">
+
     <LinearLayout
         android:id="@+id/content_detail_input"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         android:orientation="vertical">
+
+        <!-- todo_content : 할일 입력 -->
         <android.support.v7.widget.CardView
-            android:id="@+id/act_detailInput_title_cardview"
-            android:layout_width="match_parent"
-            android:layout_height="160dp"
-            app:cardElevation="4dp"
-            app:cardUseCompatPadding="false">
+            android:layout_width="328dp"
+            android:layout_height="90dp"
+            android:layout_marginTop="11dp"
+            app:cardCornerRadius="1dp"
+            app:cardElevation="4dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:focusableInTouchMode="true"
-                android:focusable="false"
-                android:layout_marginTop="10dp">
+                android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/act_detailInput_title_text"
+                <ImageView
+                    android:id="@+id/act_detailInput_todo_content_img"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="monospace"
-                    android:layout_marginLeft="16dp"
-                    android:textSize="14sp"
-                    android:text="Title" />
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="29dp"
+                    android:layout_marginEnd="9dp"
+                    android:layout_marginStart="9dp"
+                    android:src="@drawable/icn_pencil" />
 
-                <Button
-                    android:id="@+id/act_detailInput_color_picker"
-                    android:text="Col"
-                    android:layout_width="45dp"
-                    android:layout_height="32dp"
-                    android:background="@drawable/activity_detailinput_calendar_button_layout_border"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="16dp" />
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="76dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/act_detailInput_todo_content_img"
+                    android:background="#f3f3f3" />
+
+                <View
+                    android:id="@+id/act_detailInput_todo_content_edt_bottom_line"
+                    android:layout_width="222dp"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="31dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_toEndOf="@id/act_detailInput_todo_content_img"
+                    android:background="#f3f3f3" />
 
                 <EditText
-                    android:layout_width="330dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="18dp"
-                    android:paddingBottom="2dp"
-                    android:layout_below="@id/act_detailInput_title_text"
-                    android:layout_alignLeft="@+id/act_detailInput_title_text"
-                    android:background="@drawable/act_detailinput_edittext_layout"
-                    android:textColorHint="#BDBDBD"
-                    android:textSize="20sp"
-                    android:inputType="text"
-                    android:fontFamily="monospace"
-                    android:hint="Event Name"
-                    android:ems="10"
-                    android:id="@+id/act_detailInput_content_edittext" />
-
-                <TextView
-                    android:id="@+id/act_detailInput_folder_text"
+                    android:id="@+id/act_detailInput_todo_content_edt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/act_detailInput_content_edittext"
-                    android:fontFamily="monospace"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginLeft="16dp"
-                    android:textSize="14sp"
-                    android:text="Folder" />
+                    android:layout_alignBottom="@id/act_detailInput_todo_content_edt_bottom_line"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_toEndOf="@id/act_detailInput_todo_content_img"
+                    android:hint="@string/detailInputActivity_todo_content_edt_hint"
+                    android:textColorHint="#999999"
+                    android:textSize="12sp"
+                    android:background="@null"/>
 
-                <!-- please linked in adapter -->
-                <Spinner
-                    android:id="@+id/act_detailInput_folder_spinner"
-                    android:layout_width="140dp"
-                    android:layout_height="35dp"
-                    android:layout_below="@id/act_detailInput_content_edittext"
-                    android:layout_toEndOf="@+id/act_detailInput_folder_text"
-                    android:layout_marginTop="23dp"
-                    android:layout_marginLeft="128dp"
-                    android:background="#1ABDBDBD"
-                    android:prompt="@string/prompt" />
+                <Button
+                    android:id="@+id/act_detailInput_todo_content_color_picker"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="31dp"
+                    android:layout_marginEnd="11dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@id/act_detailInput_todo_content_edt_bottom_line"
+                    android:background="@drawable/activity_detailinput_colorpicker_border"
+                    android:gravity="center"
+                    android:text="@string/detailInputActivity_color_picker_text"
+                    android:textColor="#FFFFFF"
+                    android:textSize="10sp" />
             </RelativeLayout>
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
-            android:id="@+id/act_detailInput_calendar_cardview"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_marginTop="10dp"
-            app:cardElevation="4dp"
-            app:cardUseCompatPadding="false">
+            android:layout_width="328dp"
+            android:layout_height="90dp"
+            android:layout_marginTop="11dp"
+            app:cardCornerRadius="1dp"
+            app:cardElevation="4dp">
 
             <RelativeLayout
-                android:id="@+id/act_detailInput_calendar_layout"
-                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/act_detailInput_calendar_start_text"
-                    android:layout_marginLeft="16dp"
-                    android:text="From"
-                    android:fontFamily="monospace"
-                    android:textSize="14sp"
+                <ImageView
+                    android:id="@+id/act_detailInput_folder_img"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginBottom="29dp"
+                    android:layout_marginEnd="9dp"
+                    android:layout_marginStart="9dp"
+                    android:src="@drawable/icn_folder" />
 
-                <RelativeLayout
-                    android:id="@+id/act_detailInput_datePicker_layout"
-                    android:layout_below="@id/act_detailInput_calendar_start_text"
-                    android:layout_marginTop="13dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="76dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/act_detailInput_folder_img"
+                    android:background="#f3f3f3" />
 
+                <View
+                    android:id="@+id/act_detailInput_folder_spinner_bottom_line"
+                    android:layout_width="255dp"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="31dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_toEndOf="@id/act_detailInput_folder_img"
+                    android:background="#f3f3f3" />
+
+                <Spinner
+                    android:id="@+id/act_detailInput_folder_spinner"
+                    android:layout_width="140dp"
+                    android:layout_height="35dp"
+                    android:layout_toEndOf="@id/act_detailInput_folder_img"
+                    android:layout_alignBottom="@id/act_detailInput_folder_spinner_bottom_line"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginBottom="-1dp"
+                    android:background="@null"
+                    android:dropDownSelector="@drawable/btn_arrow_bottom"
+                    android:prompt="@string/detailInputActivity_spinner_prompt" />
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="328dp"
+            android:layout_height="90dp"
+            android:layout_marginTop="11dp"
+            app:cardCornerRadius="1dp"
+            app:cardElevation="4dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/act_detailInput_calendar_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icn_schedule"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginBottom="29dp"
+                    android:layout_marginEnd="9dp"
+                    android:layout_marginStart="9dp"/>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="76dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/act_detailInput_calendar_img"
+                    android:background="#f3f3f3" />
+                <LinearLayout
+                    android:id="@+id/act_detailInput_calendar_start_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/act_detailInput_calendar_img"
+                    android:layout_marginStart="37dp"
+                    android:layout_marginTop="17dp"
+                    android:layout_marginEnd="36dp"
+                    android:orientation="vertical">
                     <TextView
-                        android:id="@+id/act_detailInput_start_date_display"
-                        android:text="TextView"
-                        android:fontFamily="monospace"
-                        android:layout_marginLeft="16dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <TextView
-                        android:id="@+id/act_detailInput_start_time_display"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginStart="190dp"
-                        android:text="TextView"
-                        android:fontFamily="monospace"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <TextView
-                        android:id="@+id/act_detailInput_calendar_end_text"
-                        android:text="To"
-                        android:fontFamily="monospace"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginTop="13dp"
-                        android:textSize="14sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/act_detailInput_start_date_display" />
-
+                        android:text="START"
+                        android:textSize="11sp"
+                        android:textColor="#999"
+                        android:layout_marginTop="-2.35dp"
+                        android:layout_marginBottom="-5dp"/>
                     <TextView
-                        android:id="@+id/act_detailInput_end_date_display"
-                        android:text="TextView"
-                        android:fontFamily="monospace"
-                        android:layout_marginLeft="16dp"
+                        android:id="@+id/act_detailInput_calendar_start_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="13dp"
-                        android:layout_below="@+id/act_detailInput_calendar_end_text"/>
+                        android:text="2월 3일(금)\n00:00 오전"
+                        android:textSize="13sp"
+                        android:textColor="#333333"
+                        android:layout_marginTop="16.65dp"/>
+                </LinearLayout>
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="60dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/act_detailInput_calendar_start_layout"
+                    android:background="#f3f3f3" />
 
+                <LinearLayout
+                    android:id="@+id/act_detailInput_calendar_end_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/act_detailInput_calendar_start_layout"
+                    android:layout_marginStart="37dp"
+                    android:layout_marginTop="17dp"
+                    android:orientation="vertical">
                     <TextView
-                        android:id="@+id/act_detailInput_end_time_display"
-                        android:text="TextView"
-                        android:fontFamily="monospace"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignBottom="@+id/act_detailInput_end_date_display"
-                        android:layout_alignStart="@+id/act_detailInput_start_time_display" />
-                </RelativeLayout>
+                        android:text="END"
+                        android:textSize="11sp"
+                        android:textColor="#999"
+                        android:layout_marginTop="-2.35dp"
+                        android:layout_marginBottom="-5dp"/>
+                    <TextView
+                        android:id="@+id/act_detailInput_calendar_end_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2월 3일(금)\n00:00 오전"
+                        android:textSize="13sp"
+                        android:textColor="#333333"
+                        android:layout_marginTop="16.65dp"/>
+                </LinearLayout>
 
-                <Button
+                <ImageButton
                     android:id="@+id/act_detailInput_calendar_allday_btn"
-                    android:text="종일"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:fontFamily="monospace"
-                    android:textSize="12sp"
-                    android:layout_marginEnd="14dp"
-                    android:background="@drawable/activity_detailinput_calendar_button_layout_border"
+                    android:layout_width="34dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/btn_24h"
                     android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true" />
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="7dp"
+                    />
             </RelativeLayout>
 
         </android.support.v7.widget.CardView>
@@ -182,7 +244,7 @@
             android:id="@+id/act_detailInput_map_cardview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="11dp"
             android:visibility="gone">
 
             <LinearLayout
@@ -195,81 +257,59 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clickable="false"
+                    android:ems="10"
                     android:focusable="false"
                     android:text="장소를 선택하세요." />
 
                 <fragment
                     android:id="@+id/act_detailInput_googleMap"
-                    android:name="com.google.android.gms.maps.MapFragment"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp" />
+                    android:layout_height="200dp"
+                    android:name="com.google.android.gms.maps.MapFragment"/>
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
-        <android.support.v7.widget.CardView
+        <LinearLayout
             android:id="@+id/act_detailInput_more_detail_btn_cardview"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:layout_marginTop="10dp"
-            app:cardElevation="4dp"
-            app:cardUseCompatPadding="false">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/act_detailInput_more_detail_title_text"
+            <ImageButton
+                android:id="@+id/act_detailInput_more_detail_side_btn_gps"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="10dp"
-                android:fontFamily="monospace"
-                android:text="More detail"
-                android:textSize="17sp" />
+                android:background="@drawable/btn_more"
+                android:contentDescription="@string/imgbtn_contentDescription_location"
+                android:src="@drawable/icn_location" />
 
-            <RelativeLayout
-                android:id="@+id/act_detailInput_more_detail_button_layout"
-                android:layout_width="match_parent"
+            <ImageButton
+                android:id="@+id/act_detailInput_more_detail_side_btn_share"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="57dp">
+                android:layout_marginStart="12dp"
+                android:background="@drawable/btn_more"
+                android:contentDescription="@string/imgbtn_contentDescription_invite"
+                android:src="@drawable/icn_invite" />
 
-                <Button
-                    android:id="@+id/act_detailInput_more_detail_side_btn_gps"
-                    android:layout_width="80dp"
-                    android:layout_height="45dp"
-                    android:layout_marginLeft="16dp"
-                    android:background="@drawable/activity_detailinput_more_detail_btn_border"
-                    android:drawableTop="@drawable/ic_location_on_black_24dp"
-                    android:paddingTop="10dp" />
+            <ImageButton
+                android:id="@+id/act_detailInput_more_detail_side_btn_alarm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/btn_more"
+                android:contentDescription="@string/imgbtn_contentDescription_alarm"
+                android:src="@drawable/icn_alarm" />
 
-                <Button
-                    android:id="@+id/act_detailInput_more_detail_side_btn_share"
-                    android:layout_width="80dp"
-                    android:layout_height="45dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@+id/act_detailInput_more_detail_side_btn_gps"
-                    android:background="@drawable/activity_detailinput_more_detail_btn_border"
-                    android:drawableTop="@drawable/ic_account_circle_black_24dp"
-                    android:paddingTop="10dp" />
-
-                <Button
-                    android:id="@+id/act_detailInput_more_detail_side_btn_alarm"
-                    android:layout_width="80dp"
-                    android:layout_height="45dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@+id/act_detailInput_more_detail_side_btn_share"
-                    android:background="@drawable/activity_detailinput_more_detail_btn_border"
-                    android:drawableTop="@drawable/ic_timer_black_24dp"
-                    android:paddingTop="10dp" />
-
-                <Button
-                    android:id="@+id/act_detailInput_more_detail_side_btn_memo"
-                    android:layout_width="80dp"
-                    android:layout_height="45dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_toRightOf="@+id/act_detailInput_more_detail_side_btn_alarm"
-                    android:background="@drawable/activity_detailinput_more_detail_btn_border"
-                    android:drawableTop="@drawable/ic_content_paste_black_24dp"
-                    android:paddingTop="10dp" />
-            </RelativeLayout>
-        </android.support.v7.widget.CardView>
+            <ImageButton
+                android:id="@+id/act_detailInput_more_detail_side_btn_memo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/btn_more"
+                android:contentDescription="@string/imgbtn_contentDescription_memo"
+                android:src="@drawable/icn_memo" />
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>

@@ -46,9 +46,7 @@ import com.team.codealmanac.w2do.fragment.TodoFolderListFragment;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.team.codealmanac.w2do.fragment.TodoSimpleListFragment;
 import com.team.codealmanac.w2do.models.User;
-
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
-
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
