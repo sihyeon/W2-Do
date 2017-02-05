@@ -96,13 +96,6 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
         act_detailInput_folder_spinner = (Spinner)findViewById(R.id.act_detailInput_folder_spinner);
 
         // calendar cardview items
-        act_detailInput_calendar_start_text = (TextView)findViewById(R.id.act_detailInput_calendar_start_text);
-        act_detailInput_calendar_end_text = (TextView)findViewById(R.id.act_detailInput_calendar_end_text);
-        act_detailInput_start_date_display = (TextView)findViewById(R.id.act_detailInput_start_date_display);
-        act_detailInput_end_date_display = (TextView)findViewById(R.id.act_detailInput_end_date_display);
-        act_detailInput_start_time_display = (TextView)findViewById(R.id.act_detailInput_start_time_display);
-        act_detailInput_end_time_display = (TextView)findViewById(R.id.act_detailInput_end_time_display);
-        act_detailInput_calendar_allday_btn = (Button)findViewById(R.id.act_detailInput_calendar_allday_btn);
 
         //google map cardview items
         act_detailInput_map_cardview = (CardView)findViewById(R.id.act_detailInput_map_cardview);
@@ -118,17 +111,17 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
 
         //OnClickListener 연결
         act_detailInput_todo_content_color_picker.setOnClickListener(this);
-        act_detailInput_start_date_display.setOnClickListener(this);
-        act_detailInput_end_date_display.setOnClickListener(this);
-        act_detailInput_start_time_display.setOnClickListener(this);
-        act_detailInput_end_time_display.setOnClickListener(this);
+//        act_detailInput_start_date_display.setOnClickListener(this);
+//        act_detailInput_end_date_display.setOnClickListener(this);
+//        act_detailInput_start_time_display.setOnClickListener(this);
+//        act_detailInput_end_time_display.setOnClickListener(this);
 
 
         // 폴더 선택 spinner adapter
         String[] Folder_Spinner_item = getResources().getStringArray(R.array.folder);
         ArrayAdapter<String> Folder_Spinner_Adapter = new ArrayAdapter<String>(
                 this, R.layout.adpitem_spinner_text, Folder_Spinner_item);
-        Folder_Spinner_Adapter.setDropDownViewResource(R.layout.adpitem_spinner_text);
+        Folder_Spinner_Adapter.setDropDownViewResource(R.layout.adpitem_spinner_dropdown);
         act_detailInput_folder_spinner.setAdapter(Folder_Spinner_Adapter);
 
     }
@@ -248,19 +241,19 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
                         .setColumns(5).setRoundColorButton(true).show();
                 break;
 
-            case R.id.act_detailInput_start_date_display:
-                DialogFragment startDatePick = new DatePickerTabFragment();
-                startDatePick.show(getSupportFragmentManager(), "start_date_pick");
-                break;
-            case R.id.act_detailInput_end_date_display:
-
-                break;
-            case R.id.act_detailInput_start_time_display:
-                DialogFragment startTimePick = new TimePickerTabFragment();
-                startTimePick.show(getSupportFragmentManager(), "start_time_pick");
-                break;
-            case R.id.act_detailInput_end_time_display:
-                break;
+//            case R.id.act_detailInput_start_date_display:
+//                DialogFragment startDatePick = new DatePickerTabFragment();
+//                startDatePick.show(getSupportFragmentManager(), "start_date_pick");
+//                break;
+//            case R.id.act_detailInput_end_date_display:
+//
+//                break;
+//            case R.id.act_detailInput_start_time_display:
+//                DialogFragment startTimePick = new TimePickerTabFragment();
+//                startTimePick.show(getSupportFragmentManager(), "start_time_pick");
+//                break;
+//            case R.id.act_detailInput_end_time_display:
+//                break;
             default:
                 break;
 
@@ -330,9 +323,6 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(act_detailInput_googleMap != null){
-            getFragmentManager().beginTransaction().remove(act_detailInput_googleMap).commit();
-        }
     }
 
     @Override

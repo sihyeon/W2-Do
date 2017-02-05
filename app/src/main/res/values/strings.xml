@@ -25,7 +25,6 @@
     <string name="detailInputActivity_todo_content_edt_hint">할 일을 입력하세요.</string>
     <string name="detailInputActivity_color_picker_text">color</string>
 
-    <string name="detailInputActivity_spinner_prompt">폴더를 선택하세요.</string>
         <!-- ) contentDescription-->
         <string name="imgbtn_contentDescription_location">위치</string>
         <string name="imgbtn_contentDescription_invite">초대</string>
