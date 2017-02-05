@@ -86,7 +86,8 @@
         <activity android:name=".SimpleInputActivity"
             android:theme="@style/Theme.AppCompat.Dialog.Alert"/>
 
-        <activity android:name=".DetailInputActivity"/>
+        <activity android:name=".DetailInputActivity"
+            android:theme="@style/AppTheme.TransparentStatusBarOnToolbar"/>
 
     </application>
 

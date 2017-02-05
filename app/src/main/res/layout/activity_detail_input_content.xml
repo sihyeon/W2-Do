@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_detail_input">
 
     <LinearLayout
@@ -80,7 +79,7 @@
                     android:gravity="center"
                     android:text="@string/detailInputActivity_color_picker_text"
                     android:textColor="#FFFFFF"
-                    android:textSize="10sp" />
+                    android:textSize="8sp" />
             </RelativeLayout>
         </android.support.v7.widget.CardView>
 
@@ -177,6 +176,7 @@
                     android:layout_marginTop="17dp"
                     android:orientation="vertical">
                     <TextView
+                        android:id="@+id/act_detailInput_calendar_start_title_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="START"
@@ -211,6 +211,7 @@
                     android:layout_marginTop="17dp"
                     android:orientation="vertical">
                     <TextView
+                        android:id="@+id/act_detailInput_calendar_end_title_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="END"
@@ -255,7 +256,7 @@
                 android:orientation="vertical">
 
                 <EditText
-                    android:id="@+id/act_detailInput_map_location"
+                    android:id="@+id/act_detailInput_map_location_edt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clickable="false"
@@ -264,7 +265,7 @@
                     android:text="장소를 선택하세요." />
 
                 <fragment
-                    android:id="@+id/act_detailInput_googleMap"
+                    android:id="@+id/act_detailInput_googleMap_frag"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:name="com.google.android.gms.maps.MapFragment"/>
@@ -284,7 +285,7 @@
                 android:layout_width="75dp"
                 android:layout_height="39dp"
                 android:layout_marginEnd="9dp"
-                android:background="@drawable/btn_go"
+                android:background="@drawable/btn_more"
                 android:contentDescription="@string/imgbtn_contentDescription_location"
                 android:src="@drawable/icn_location" />
 
@@ -293,7 +294,7 @@
                 android:layout_width="75dp"
                 android:layout_height="39dp"
                 android:layout_marginEnd="9dp"
-                android:background="@drawable/btn_go"
+                android:background="@drawable/btn_more"
                 android:contentDescription="@string/imgbtn_contentDescription_invite"
                 android:src="@drawable/icn_invite" />
 
@@ -302,7 +303,7 @@
                 android:layout_width="75dp"
                 android:layout_height="39dp"
                 android:layout_marginEnd="9dp"
-                android:background="@drawable/btn_go"
+                android:background="@drawable/btn_more"
                 android:contentDescription="@string/imgbtn_contentDescription_alarm"
                 android:src="@drawable/icn_alarm" />
 
@@ -310,7 +311,7 @@
                 android:id="@+id/act_detailInput_more_detail_side_btn_memo"
                 android:layout_width="75dp"
                 android:layout_height="39dp"
-                android:background="@drawable/btn_go"
+                android:background="@drawable/btn_more"
                 android:contentDescription="@string/imgbtn_contentDescription_memo"
                 android:src="@drawable/icn_memo" />
         </LinearLayout>
