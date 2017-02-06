@@ -188,7 +188,7 @@
                         android:id="@+id/act_detailInput_calendar_start_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2월 3일(금)\n00:00 오전"
+                        android:text="날짜\n시간"
                         android:textSize="13sp"
                         android:textColor="#333333"
                         android:layout_marginTop="16.65dp"/>
@@ -223,7 +223,7 @@
                         android:id="@+id/act_detailInput_calendar_end_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2월 3일(금)\n00:00 오전"
+                        android:text="날짜\n시간"
                         android:textSize="13sp"
                         android:textColor="#333333"
                         android:layout_marginTop="16.65dp"/>

@@ -36,14 +36,17 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.team.codealmanac.w2do.adapter.FolderSpinnerAdapter;
+import com.team.codealmanac.w2do.dialog.DatePickerDialogActivity;
 
 import org.w3c.dom.Text;
 
 import petrov.kristiyan.colorpicker.ColorPicker;
 
-public class DetailInputActivity extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback,
-        DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+public class DetailInputActivity extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback{
     private final String TAG = "DetailInputActivity";
+    private final int GOOGLE_MAP_REQUEST_CODE = 1;
+    private final int DATEPICKER_START_DATE_REQUEST_CODE = 2;
+    private final int DATEPICKER_END_DATE_REQUEST_CODE = 3;
     // 첫번째 cardview items : 할일 입력, 컬러 설정
     private EditText act_detailInput_todo_content_edt;
     private Button act_detailInput_todo_content_color_picker;
@@ -143,7 +146,7 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1) {
+        if (requestCode == GOOGLE_MAP_REQUEST_CODE) {
             isLocationButtonOneClick = true;
             if (resultCode == RESULT_OK) {
                 Place place = PlacePicker.getPlace(this, data);
@@ -162,6 +165,21 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
                     mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(10));
                 }
             }
+        } else if( (requestCode == DATEPICKER_START_DATE_REQUEST_CODE || requestCode == DATEPICKER_END_DATE_REQUEST_CODE) && resultCode == RESULT_OK){
+            String date = "";
+            int month, day, dayofweek, hour, minute;
+            month = data.getIntExtra("Month", 0);
+            day = data.getIntExtra("Day", 0);
+//            dayofweek = data.getIntExtra("요일", 0);
+            hour = data.getIntExtra("Hour", 0);
+            minute = data.getIntExtra("Minute", 0);
+            date += month + "월 "
+                    + day + "일";
+//                    + "(" + dayofweek + ")";
+            date += "\n" + hour + ":"
+                    + minute;
+            if(requestCode == DATEPICKER_START_DATE_REQUEST_CODE) act_detailInput_calendar_start_date.setText(date);
+            else act_detailInput_calendar_end_date.setText(date);
         }
     }
     //컬러피커
@@ -213,8 +231,14 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
                 break;
             //캘린더 카드뷰
             case R.id.act_detailInput_calendar_start_date:  //시작날짜
+                Intent startDate = new Intent(DetailInputActivity.this, DatePickerDialogActivity.class);
+                startDate.putExtra("type", "start");
+                startActivityForResult(startDate, DATEPICKER_START_DATE_REQUEST_CODE);
                 break;
             case R.id.act_detailInput_calendar_end_date:    //종료날짜
+                Intent endDate = new Intent(DetailInputActivity.this, DatePickerDialogActivity.class);
+                endDate.putExtra("type", "end");
+                startActivityForResult(endDate, DATEPICKER_END_DATE_REQUEST_CODE);
                 break;
             case R.id.act_detailInput_calendar_allday_btn:  //하루종일 버튼
                 break;
@@ -223,10 +247,9 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
                 if(isLocationButtonOneClick){
                     isLocationButtonOneClick = false;
                     if(mMarker != null) mMarker.remove();
-                    int PLACE_PICKER_REQUEST = 1;
                     PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
                     try {
-                        startActivityForResult(builder.build(DetailInputActivity.this), PLACE_PICKER_REQUEST);
+                        startActivityForResult(builder.build(DetailInputActivity.this), GOOGLE_MAP_REQUEST_CODE);
                     } catch (GooglePlayServicesRepairableException e) {
                         e.printStackTrace();
                     } catch (GooglePlayServicesNotAvailableException e) {
@@ -246,31 +269,6 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
             case R.id.act_detailInput_more_detail_side_btn_memo:        //메모 확장
                 break;
         }
-//            case R.id.act_detailInput_start_date_display:
-//                DialogFragment startDatePick = new DatePickerTabFragment();
-//                startDatePick.show(getSupportFragmentManager(), "start_date_pick");
-//                break;
-//            case R.id.act_detailInput_end_date_display:
-//
-//                break;
-//            case R.id.act_detailInput_start_time_display:
-//                DialogFragment startTimePick = new TimePickerTabFragment();
-//                startTimePick.show(getSupportFragmentManager(), "start_time_pick");
-//                break;
-//            case R.id.act_detailInput_end_time_display:
-//                break;
-    }
-
-    // 날짜 선택 시 textview로 보내는 함수
-    @Override
-    public void onDateSet(DatePicker view, int year, int month, int day) {
-//        act_detailInput_start_date_display.setText(year + "년" + (month + 1) + "월" + day + "일");
-    }
-
-    // 시간 선택 시 textview로 보내는 함수
-    @Override
-    public void onTimeSet(TimePicker view, int hourofDay, int minute){
-//        act_detailInput_start_time_display.setText(String.valueOf(hourofDay)+"시 "+ String.valueOf(minute) + "분");
     }
 
     @Override
@@ -286,46 +284,12 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_submit_btn) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
-
-    //필요하면 수정해서 쓰고 안필요하면 지워도 됨
-//    private void showStartDatePickerDialog(){
-//        FragmentManager fm = getSupportFragmentManager();
-//        DatePickerTabFragment dateFragment = DatePickerTabFragment.newInstance();
-//        dateFragment.show(fm,"startdatepick");
-//    }
-//
-//    private void showEndDatePickerDialog(){
-//        FragmentManager fm = getSupportFragmentManager();
-//        DatePickerTabFragment dateFragment = DatePickerTabFragment.newInstance();
-//        dateFragment.show(fm,"enddatepick");
-//    }
-//
-//    private void showStartTimePickerDialog(){
-//        FragmentManager fm = getSupportFragmentManager();
-//        TimePickerTabFragment timeFragment = TimePickerTabFragment.newInstance();
-//        timeFragment.show(fm,"starttimepick");
-//    }
-//
-//    private void showEndTimePickerDialog(){
-//        FragmentManager fm = getSupportFragmentManager();
-//        TimePickerTabFragment timeFragment = TimePickerTabFragment.newInstance();
-//        timeFragment.show(fm,"endtimepick");
-//    }
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
