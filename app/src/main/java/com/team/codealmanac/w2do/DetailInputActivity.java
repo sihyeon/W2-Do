@@ -1,28 +1,28 @@
 package com.team.codealmanac.w2do;
 
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+
 import android.os.Bundle;
+
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+
 import android.util.Log;
+
 import android.view.Menu;
 import android.view.MenuItem;
-
 import android.view.View;
+
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.support.v4.content.ContextCompat;
-import android.widget.TimePicker;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -35,10 +35,9 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
 import com.team.codealmanac.w2do.adapter.FolderSpinnerAdapter;
 import com.team.codealmanac.w2do.dialog.DatePickerDialogActivity;
-
-import org.w3c.dom.Text;
 
 import petrov.kristiyan.colorpicker.ColorPicker;
 
@@ -70,6 +69,15 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
     private GoogleMap mGoogleMap;
     private LatLng mLocation;
     private Marker mMarker;
+
+    // cardview items : 공유
+    private CardView act_detailInput_share_cardview;
+
+    // cardview items : 알람
+    private CardView act_detailInput_alarm_cardview;
+
+    // cardview items : 메모
+    private CardView act_detailInput_memo_cardview;
 
     //cardview items: more detail buttons
     private ImageButton act_detailInput_more_detail_side_btn_gps;
@@ -115,6 +123,13 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
         act_detailInput_googleMap_frag.getMapAsync(this);
 
         findViewById(R.id.act_detailInput_googleMap_frag).setVisibility(View.GONE); //프래그먼트 처음에 안보이게.
+
+        //공유 카드뷰 아이템
+        act_detailInput_share_cardview = (CardView)findViewById(R.id.act_detailInput_share_cardview);
+        //알람 카드뷰 아이템
+        act_detailInput_alarm_cardview = (CardView)findViewById(R.id.act_detailInput_alarm_cardview);
+        //메모 카드뷰 아이템
+        act_detailInput_memo_cardview = (CardView)findViewById(R.id.act_detailInput_memo_cardview);
 
         // more detail 버튼 아이템
         act_detailInput_more_detail_side_btn_gps = (ImageButton)findViewById(R.id.act_detailInput_more_detail_side_btn_gps);
@@ -263,10 +278,16 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
                 act_detailInput_more_detail_side_btn_gps.setVisibility(View.GONE);
                 break;
             case R.id.act_detailInput_more_detail_side_btn_share:       //공유 확장
+                act_detailInput_share_cardview.setVisibility(View.VISIBLE);
+                act_detailInput_more_detail_side_btn_share.setVisibility(View.GONE);
                 break;
             case R.id.act_detailInput_more_detail_side_btn_alarm:       //알람 확장
+                act_detailInput_alarm_cardview.setVisibility(View.VISIBLE);
+                act_detailInput_more_detail_side_btn_alarm.setVisibility(View.GONE);
                 break;
             case R.id.act_detailInput_more_detail_side_btn_memo:        //메모 확장
+                act_detailInput_more_detail_side_btn_memo.setVisibility(View.VISIBLE);
+                act_detailInput_more_detail_side_btn_memo.setVisibility(View.GONE);
                 break;
         }
     }
