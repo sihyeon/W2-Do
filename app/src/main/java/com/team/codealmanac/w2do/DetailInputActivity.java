@@ -86,6 +86,7 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
     private ImageButton act_detailInput_more_detail_side_btn_memo;
 
     private FontContract mFontContract;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

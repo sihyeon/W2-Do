@@ -67,7 +67,8 @@
 
     <string name="todayheader">TODAY</string>
     <string name="todaymsg">오늘의 할일은 무엇인가요?</string>
-    <string name="todaybtn">S A V E</string>
+    <string name="todaySavebtn">SAVE</string>
+    <string name="todayCancelbtn">CANCEL</string>
     <string name="invalidToday">invalid Text</string>
 
     <string name="submit">Submit</string>

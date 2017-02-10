@@ -2,51 +2,82 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#FFF"
-    android:layout_width="300dp"
-    android:layout_height="300dp"
+    android:background="@drawable/activity_simpleinput_background_border"
+    android:layout_width="288dp"
+    android:layout_height="175dp"
     android:layout_gravity="center"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
     tools:ignore="RtlSymmetry">
 
     <TextView
-        android:text="@string/todayheader"
-        android:textColor="#616161"
-        android:textSize="30sp"
-        android:fontFamily="monospace"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:paddingLeft="5dp"
         android:id="@+id/today_header_text"
-        android:layout_marginBottom="20dp"
-        tools:ignore="RtlHardcoded" />
-
-    <android.support.design.widget.TextInputLayout
+        android:text="@string/todayheader"
+        android:textColor="#4D4D4D"
+        android:textSize="25sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/today_header_text"
-        android:layout_alignParentStart="true">
+        android:layout_marginTop="21dp"
+        android:layout_marginBottom="-5dp"
+        android:layout_marginStart="24dp" />
+
         <EditText
             android:id="@+id/today_simple_edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="monospace"
-            android:hint="오늘의 일정"
-            android:inputType="text"
-            android:maxLines="2" />
-    </android.support.design.widget.TextInputLayout>
+            android:layout_marginTop="25dp"
+            android:layout_below="@+id/today_header_text"
+            android:layout_marginStart="28dp"
+            android:textSize="14sp"
+            android:textColor="#333333"
+            android:textColorHint="#BFBFBF"
+            android:background="@null"
+            android:hint="오늘의 할 일을 입력하세요"
+            android:inputType="text" />
 
+        <View
+            android:id="@+id/today_simple_edittext_bottom_line"
+            android:layout_width="240dp"
+            android:layout_height="1dp"
+            android:layout_below="@+id/today_simple_edittext"
+            android:layout_marginBottom="31dp"
+            android:layout_alignStart="@+id/today_simple_edittext"
+            android:layout_marginTop="5dp"
+            android:background="#eeeeee" />
 
-    <Button
-        android:text="@string/todaybtn"
-        android:layout_marginTop="150dp"
-        android:fontFamily="monospace"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:background="@drawable/ripple_effect"
-        android:id="@+id/today_submit_btn"
-        android:layout_weight="1" />
+        <RelativeLayout
+            android:id="@+id/simpletoday_btn_layout"
+            android:layout_below="@+id/today_simple_edittext"
+            android:layout_marginTop="40dp"
+            android:layout_marginStart="24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="15dp">
+
+                <Button
+                    android:id="@+id/today_cancel_btn"
+                    android:text="@string/todayCancelbtn"
+                    android:textSize="13sp"
+                    android:textColor="#999999"
+                    android:layout_width="113dp"
+                    android:layout_height="35dp"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/activity_simpleinput_cancel_btn" />
+
+                <Button
+                    android:id="@+id/today_submit_btn"
+                    android:text="@string/todaySavebtn"
+                    android:textSize="13sp"
+                    android:layout_width="113dp"
+                    android:layout_height="35dp"
+                    android:textColor="#0087FF"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_marginLeft="14dp"
+                    android:layout_toRightOf="@+id/today_cancel_btn"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/activity_simpleinput_save_btn"/>
+
+        </RelativeLayout>
+
 </RelativeLayout>
