@@ -13,6 +13,12 @@
         <item name="windowActionBar">false</item>
     </style>
 
+    <style name="AppTheme.TransparentStatusBarOnToolbar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">false</item>
+    </style>
+
     <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowFullscreen">false</item>
         <item name="windowActionBar">false</item>

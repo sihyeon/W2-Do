@@ -34,9 +34,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.team.codealmanac.w2do.assistant.LocationInfoAssistant;
 import com.team.codealmanac.w2do.listeners.OnSwipeTouchListener;
-import com.team.codealmanac.w2do.models.User;
-import com.team.codealmanac.w2do.models.User_NickName;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,9 +47,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class LockScreenActivity extends BaseActivity implements LocationInfoManager.InterfaceLocationInfoManager {
+public class LockScreenActivity extends BaseActivity implements LocationInfoAssistant.InterfaceLocationInfoManager {
     private final int GEO_PERMISSIONS_REQUEST = 1;
-    private LocationInfoManager mLocationInfoManager;
+    private LocationInfoAssistant mLocationInfoManager;
 
     private boolean isPermission;
 
@@ -87,7 +86,7 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoMana
 
         permissionChecking();
         if (isPermission) {
-            mLocationInfoManager = LocationInfoManager.getInstance();
+            mLocationInfoManager = LocationInfoAssistant.getInstance();
             mLocationInfoManager.onStartLocation(getApplicationContext(), this);
         }
 
@@ -211,7 +210,7 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoMana
                 }
             }
             isPermission = true;
-            mLocationInfoManager = LocationInfoManager.getInstance();
+            mLocationInfoManager = LocationInfoAssistant.getInstance();
             mLocationInfoManager.onStartLocation(getApplicationContext(), this);
         }
     }

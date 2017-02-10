@@ -6,30 +6,27 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
     // permission for google+ login
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-
     // google map permission
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/launcher"
+        android:icon="@mipmap/launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBzLdW1_juTOAc5VJZigxjIUOeI4eTVUjs"/>
-
-        <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_map_api_key" />
 
         <receiver
             android:name=".W2DoBroadcastReceiver"
@@ -67,10 +64,6 @@
         <activity android:name=".FirebaseTestActivity" />
         <activity
             android:name=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".SettingActivity" />
-        <activity
-            android:name=".UseMainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".LockScreenActivity"
@@ -82,16 +75,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".InFolderActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity android:name=".SimpleInputActivity"
-            android:theme="@style/Theme.AppCompat.Dialog.Alert"/>
-
-        <activity android:name=".DetailInputActivity"/>
-
+        <activity
+            android:name=".SimpleInputActivity"
+            android:theme="@style/Theme.AppCompat.Dialog.Alert" />
+        <activity
+            android:name=".DetailInputActivity"
+            android:theme="@style/AppTheme.TransparentStatusBarOnToolbar" />
+        <activity
+            android:name=".dialog.DatePickerDialogActivity"
+            android:theme="@android:style/Theme.Dialog" />
     </application>
 
 </manifest>

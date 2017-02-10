@@ -40,22 +40,25 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.android.support:recyclerview-v7:25.1.0'
     compile 'com.android.support:design:25.1.0'
-    compile 'com.android.support:support-v4:25.1.0'
     //google gms
+    compile 'com.google.android.gms:play-services:10.0.1'
     compile 'com.google.android.gms:play-services-auth:10.0.1'
     compile 'com.google.android.gms:play-services-maps:10.0.1'
-    compile 'com.google.android.gms:play-services:10.0.1'
     //firebase
     compile 'com.google.firebase:firebase-database:10.0.1'
     compile 'com.google.firebase:firebase-core:10.0.1'
     compile 'com.google.firebase:firebase-messaging:10.0.1'
     compile 'com.google.firebase:firebase-auth:10.0.1'
+
     //user custom library
     compile 'eu.the4thfloor.volley:com.android.volley:2015.05.28'
+    compile 'com.getbase:floatingactionbutton:1.10.1'
+
+    //Glide
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'jp.wasabeef:glide-transformations:2.0.1'
-    compile 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.3.0'
-    compile 'com.getbase:floatingactionbutton:1.10.1'
+    compile 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.3.0'  // If you want to use the GPU Filters
+
     //colorpicker
     compile 'petrov.kristiyan.colorpicker:colorpicker-library:1.1.2'
     testCompile 'junit:junit:4.12'

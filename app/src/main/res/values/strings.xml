@@ -21,6 +21,17 @@
     <string name="what_main_schedule">오늘의 메인 스케줄은 무엇인가요?</string>
     <string name="main_schedule_header">MAIN SCHEDULE</string>
 
+    <!-- DetailInputActivity -->
+    <string name="detailInputActivity_todo_content_edt_hint">할 일을 입력하세요.</string>
+    <string name="detailInputActivity_color_picker_text">color</string>
+
+    <!-- ) contentDescription-->
+    <string name="imgbtn_contentDescription_location">위치</string>
+    <string name="imgbtn_contentDescription_invite">초대</string>
+    <string name="imgbtn_contentDescription_alarm">알람</string>
+    <string name="imgbtn_contentDescription_memo">메모</string>
+
+    <string name="google_map_api_key">AIzaSyBzLdW1_juTOAc5VJZigxjIUOeI4eTVUjs</string>
     <!--Task-->
     <string name="task">LockScreenTask</string>
     <string name="settings_safetylegal_activity_loading">"로드 중"</string>
