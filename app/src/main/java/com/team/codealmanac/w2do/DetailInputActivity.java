@@ -287,7 +287,7 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
                 act_detailInput_more_detail_side_btn_alarm.setVisibility(View.GONE);
                 break;
             case R.id.act_detailInput_more_detail_side_btn_memo:        //메모 확장
-                act_detailInput_more_detail_side_btn_memo.setVisibility(View.VISIBLE);
+                act_detailInput_memo_cardview.setVisibility(View.VISIBLE);
                 act_detailInput_more_detail_side_btn_memo.setVisibility(View.GONE);
                 break;
         }

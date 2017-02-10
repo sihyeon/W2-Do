@@ -1,21 +1,23 @@
 package com.team.codealmanac.w2do;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -33,13 +35,11 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.team.codealmanac.w2do.database.PreferencesManager;
 import com.team.codealmanac.w2do.fragment.CalendarFragment;
 import com.team.codealmanac.w2do.fragment.TodoFolderListFragment;
 
@@ -324,7 +324,29 @@ public class MainActivity extends AppCompatActivity
         }
         return super.onOptionsItemSelected(item);
     }
+    private void createNotification(){
+        PendingIntent buttonIntent = PendingIntent.getActivity(this, 0, new Intent(this, SimpleInputActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.icn_logo)
+                .setContentTitle("Test")
+                .setContentText("tessssstt")
+                .addAction(R.drawable.icn_memo, "간단입력", buttonIntent)
+                .setAutoCancel(true);
 
+        Intent resultIntent = new Intent(this, MainActivity.class);
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+
+        stackBuilder.addParentStack(MainActivity.class);
+        stackBuilder.addNextIntent(resultIntent);
+
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        mBuilder.setContentIntent(resultPendingIntent);
+        NotificationManager mNotificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(1, mBuilder.build());
+    }
 
     // nagivation 내부 item 선언
     @SuppressWarnings("StatementWithEmptyBody")
@@ -338,7 +360,7 @@ public class MainActivity extends AppCompatActivity
             // 락스크린 액티비티 이동
             startActivity(new Intent(MainActivity.this, LockScreenActivity.class));
         } else if (id == R.id.nav_gallery) {
-
+            createNotification();
         } else if (id == R.id.nav_slideshow) {
             //캘린더 item fragment
             floatingActionsMenu.setVisibility(View.GONE);
