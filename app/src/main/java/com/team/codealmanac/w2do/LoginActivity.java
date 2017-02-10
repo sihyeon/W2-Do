@@ -165,24 +165,6 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
                     Intent app2intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(app2intent);
                     LoginActivity.this.finish();
-//                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-//                    final String uid = user.getUid();
-//                    mDatabase.child("users").child(uid).addListenerForSingleValueEvent(
-//                            new ValueEventListener() {
-//                                @Override
-//                                public void onDataChange(DataSnapshot dataSnapshot) {
-//                                    if(dataSnapshot.getValue(User.class) != null){
-//                                        Intent app2intent = new Intent(LoginActivity.this, MainActivity.class);
-//                                        startActivity(app2intent);
-//                                        LoginActivity.this.finish();
-//                                    }
-//                                }
-//                                @Override
-//                                public void onCancelled(DatabaseError databaseError) {
-//                                    Log.w(TAG, "getUser:onCancelled", databaseError.toException());
-//                                }
-//                            }
-//                    );
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
@@ -239,10 +221,7 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
 
-        // [START_EXCLUDE silent]
-
         showProgressDialog();
-        // [END_EXCLUDE]
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
@@ -259,9 +238,7 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
                                     Toast.LENGTH_SHORT).show();
                         }
 
-                        // [START_EXCLUDE]
                         hideProgressDialog();
-                        // [END_EXCLUDE]
                     }
                 });
     }
@@ -302,11 +279,6 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .into(mStatusImageView);
             }
-//            } else {
-//                Glide.with(getApplicationContext()).load(R.drawable.btn_wtd)
-//                        .bitmapTransform(new CropCircleTransformation(getApplicationContext()))
-//                        .into(mStatusImageView);
-//            }
 
             //로그인 시 보여지는 뷰 선언
             mGreetingMsg.setVisibility(View.VISIBLE);
@@ -355,21 +327,19 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
 
     private void writeNewUser(String nickname){
         FirebaseUser fbUser = FirebaseAuth.getInstance().getCurrentUser();
-        User user = new User(fbUser.getEmail(), fbUser.getDisplayName(), nickname, fbUser.getPhotoUrl().toString());
-
-        mDatabase.child("users").child(fbUser.getUid()).setValue(user);
+        mDatabase.child("nickname").child(fbUser.getUid()).setValue(nickname);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.sign_in_button:
+            case R.id.sign_in_button:           //로그인 버튼 클릭
                 signIn();
                 break;
-            case R.id.logo_image:
+            case R.id.logo_image:               //로고 이미지 클릭
                 signOut();
                 break;
-            case R.id.nick_input_btn:
+            case R.id.nick_input_btn:           //닉네임 입력 버튼 클릭
                 String nickname = nickname_edit.getText().toString();
                 if (TextUtils.isEmpty(nickname)) {
                     nickname_edit.setError("Required");
