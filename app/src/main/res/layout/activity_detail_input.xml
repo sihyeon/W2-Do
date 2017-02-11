@@ -20,7 +20,7 @@
             android:layout_height="match_parent">
 
             <Button
-                android:id="@+id/act_detailInput_toolbar_backbutton"
+                android:id="@+id/act_detailInput_toolbar_back_btn"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_alignParentStart="true"
@@ -42,6 +42,16 @@
                 android:layout_height="1dp"
                 android:layout_alignParentBottom="true"
                 android:background="#10000000"/>
+
+            <ImageButton
+                android:id="@+id/act_detailInput_toolbar_save_btn"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/btn_save_detail"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="16dp"
+                android:background="@null"/>
         </RelativeLayout>
 
     </android.support.v7.widget.Toolbar>
