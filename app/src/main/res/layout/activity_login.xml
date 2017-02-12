@@ -1,144 +1,135 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_1"
     android:orientation="vertical">
 
     <ImageView
+        android:id="@+id/act_login_logo_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/icn_logo"
-        android:id="@+id/logo_image"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="16dp"
+        app:srcCompat="@drawable/icn_logo" />
 
     <LinearLayout
+        android:id="@+id/act_login_nonuser_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/act_login_nonuser_greeting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="120dp"
+            android:gravity="center"
+            android:text="@string/login_greeting1"
+            android:textColor="@android:color/white"
+            android:textSize="30sp" />
+
+        <Button
+            android:id="@+id/act_login_signin_button"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:layout_marginTop="100dp"
+            android:background="@drawable/login_button_selector"
+            android:text="@string/googlelogin"
+            android:textColor="#FFFFFFFF"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/act_login_user_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_weight="3"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/title_text1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/login_greeting1"
-            android:layout_marginTop="120dp"
-            android:gravity="center"
-            android:textColor="@android:color/white"
-            android:textSize="30sp" />
-
-        <TextView
-            android:id="@+id/title_text2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/login_greeting2"
-            android:gravity="center"
-            android:textColor="@android:color/white"
-            android:textSize="30sp" />
-
-        <TextView
-            android:id="@+id/title_text3"
+            android:id="@+id/act_login_user_greeting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="34dp"
-            android:text="@string/signed_greeting_msg"
             android:gravity="center"
+            android:text="@string/signed_greeting_msg"
             android:textColor="@android:color/white"
             android:textSize="30sp" />
 
-
         <ImageView
-            android:id="@+id/user_image"
-            android:background="@drawable/img_profile_none"
-            android:layout_marginTop="37dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/status_username"
+            android:id="@+id/act_login_user_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
+            android:layout_marginTop="37dp"
+            android:background="@drawable/img_profile_none" />
+
+        <TextView
+            android:id="@+id/act_login_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="11dp"
+            android:text="이름"
+            android:textColor="@android:color/white"
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/status_email"
+            android:id="@+id/act_login_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="메일"
             android:textColor="@android:color/white"
-            android:textSize="14sp"
-            android:layout_marginTop="10dp"/>
+            android:textSize="14sp" />
 
         <LinearLayout
-            android:id="@+id/nickname"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/nickname_msg"
-                android:text="@string/nickname_msg"
+                android:id="@+id/act_login_nickname_msg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="124dp"
-                android:layout_marginLeft="16dp"
-                android:textSize="17sp"
-                android:textColor="#FFFFFFFF"/>
+                android:layout_marginStart="16dp"
+                android:text="@string/nickname_msg"
+                android:textColor="#FFFFFFFF"
+                android:textSize="17sp" />
 
             <LinearLayout
-                android:id="@+id/nickname_input"
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="29dp"
-                android:layout_marginLeft="16dp"
+                android:orientation="horizontal"
                 android:weightSum="3">
 
                 <EditText
-                    android:id="@+id/nickname_edit"
+                    android:id="@+id/act_login_nickname_edit"
                     android:layout_width="272dp"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
-                    android:hint="@string/nickname_input"
-                    android:textColorHint="#FFFFFFFF"
-                    android:textSize="15sp"
-                    android:ems="10"
                     android:layout_weight="2"
-                    android:textColor="#e6e6e6"/>
+                    android:ems="10"
+                    android:hint="@string/nickname_input"
+                    android:inputType="textPersonName"
+                    android:textColor="#e6e6e6"
+                    android:textColorHint="#FFFFFFFF"
+                    android:textSize="15sp" />
 
                 <Button
-                    android:id="@+id/nick_input_btn"
-                    android:layout_marginLeft="7dp"
-                    android:layout_marginEnd="16dp"
+                    android:id="@+id/act_login_nick_input_btn"
                     android:layout_width="49dp"
                     android:layout_height="32dp"
+                    android:layout_marginBottom="129dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginLeft="7dp"
                     android:layout_weight="1"
                     android:background="@drawable/btn_go"
-                    android:textColor="#FFFFFFFF"
-                    android:layout_marginBottom="129dp"/>
-
+                    android:textColor="#FFFFFFFF" />
             </LinearLayout>
         </LinearLayout>
-
     </LinearLayout>
-
-    <Button
-        android:id="@+id/sign_in_button"
-        android:text="@string/googlelogin"
-        android:layout_width="match_parent"
-        android:layout_height="42dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="90dp"
-        android:background="@drawable/login_button_selector"
-        android:textColor="#FFFFFFFF"
-        android:textSize="16sp"/>
-
-
 </LinearLayout>

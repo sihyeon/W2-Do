@@ -40,6 +40,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.team.codealmanac.w2do.database.PreferencesManager;
 import com.team.codealmanac.w2do.fragment.CalendarFragment;
 import com.team.codealmanac.w2do.fragment.TodoFolderListFragment;
 
@@ -87,7 +88,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         //Firebase Realtime DB setting
-        mUserReference = FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        mUserReference = FirebaseDatabase.getInstance().getReference().child("user").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
         //프래그먼트 등록
         fragmentManager = getSupportFragmentManager();
@@ -230,7 +231,7 @@ public class MainActivity extends AppCompatActivity
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
                     User user = dataSnapshot.getValue(User.class);
-                    fragment_username.setText(user.nickname);
+                    fragment_username.setText(PreferencesManager.getNickname(getApplicationContext()));
 
                     nav_user_name.setText(user.display_name);
                     nav_user_email.setText(user.email);
