@@ -213,6 +213,7 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "signInWithCredential - onComplete: 로그인 성공");
+                            //로그인 성공시 서버디비에 유저 정보 저장.
                             FirebaseUser user = task.getResult().getUser();
                             User userModel = new User(user.getEmail(), user.getDisplayName(), user.getPhotoUrl().toString());
                             mUserReference.child(user.getUid()).setValue(userModel);
@@ -238,7 +239,6 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
     private void signOut() {
         // Firebase sign out
         mAuth.signOut();
-
         // Google sign out
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
                 new ResultCallback<Status>() {
@@ -247,6 +247,8 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
                         updateUI(null);
                     }
                 });
+        //프리퍼런스로 등록된 닉네임 데이터 삭제
+        PreferencesManager.deleteNickname(getApplicationContext());
     }
 
     private void updateUI(FirebaseUser user) {

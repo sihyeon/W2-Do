@@ -7,9 +7,10 @@
 
     <ImageView
         android:id="@+id/act_login_logo_image"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="51dp"
+        android:layout_height="51dp"
         android:layout_marginTop="16dp"
+        android:layout_gravity="center_horizontal"
         app:srcCompat="@drawable/icn_logo" />
 
     <LinearLayout
@@ -18,13 +19,13 @@
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:visibility="gone">
+        >
 
         <TextView
             android:id="@+id/act_login_nonuser_greeting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="120dp"
+            android:layout_marginTop="100dp"
             android:gravity="center"
             android:text="@string/login_greeting1"
             android:textColor="@android:color/white"
@@ -32,9 +33,9 @@
 
         <Button
             android:id="@+id/act_login_signin_button"
-            android:layout_width="match_parent"
+            android:layout_width="328dp"
             android:layout_height="42dp"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="233dp"
             android:background="@drawable/login_button_selector"
             android:text="@string/googlelogin"
             android:textColor="#FFFFFFFF"
@@ -45,15 +46,15 @@
         android:id="@+id/act_login_user_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="3"
         android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/act_login_user_greeting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="34dp"
+            android:layout_marginTop="20dp"
             android:gravity="center"
             android:text="@string/signed_greeting_msg"
             android:textColor="@android:color/white"
@@ -61,16 +62,16 @@
 
         <ImageView
             android:id="@+id/act_login_user_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="37dp"
+            android:layout_width="111dp"
+            android:layout_height="111dp"
+            android:layout_marginTop="25dp"
             android:background="@drawable/img_profile_none" />
 
         <TextView
             android:id="@+id/act_login_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="11dp"
+            android:layout_marginTop="3dp"
             android:text="이름"
             android:textColor="@android:color/white"
             android:textSize="14sp" />
@@ -79,7 +80,7 @@
             android:id="@+id/act_login_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="2dp"
             android:text="메일"
             android:textColor="@android:color/white"
             android:textSize="14sp" />
@@ -87,7 +88,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="114dp"
             android:orientation="vertical">
 
             <TextView
@@ -103,7 +104,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="29dp"
+                android:layout_marginTop="24dp"
                 android:orientation="horizontal"
                 android:weightSum="3">
 

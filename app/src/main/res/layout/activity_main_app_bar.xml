@@ -2,13 +2,12 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/layout_coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="false">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/act_main_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_marginTop="16dp"
@@ -19,18 +18,19 @@
     <include layout="@layout/activity_main_content" />
 
     <FrameLayout
-        android:id="@+id/frame_layout"
+        android:id="@+id/act_main_appbar_floatingButtonLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black" />
+        android:background="#a0000000"
+        android:visibility="gone"/>
 
     <com.getbase.floatingactionbutton.FloatingActionsMenu
-        android:id="@+id/multiple_actions"
+        android:id="@+id/act_main_appbar_floatingActionsMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginBottom="17dp"
-        android:layout_marginRight="11dp"
+        android:layout_marginStart="11dp"
         app:fab_labelsPosition="left"
         fab:fab_addButtonColorNormal="@color/white"
         fab:fab_addButtonColorPressed="@color/white_pressed"
@@ -38,7 +38,7 @@
         fab:fab_labelStyle="@style/menu_labels_style">
 
         <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/action_a"
+            android:id="@+id/act_main_appbar_folder_floatingbtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -50,7 +50,7 @@
             fab:fab_title="Add Folder" />
 
         <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/action_b"
+            android:id="@+id/act_main_appbar_simpleInput_floatingbtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -65,7 +65,7 @@
             fab:fab_title="Simple Text" />
 
         <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/action_c"
+            android:id="@+id/act_main_appbar_detailInput_floatingbtn"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
@@ -79,4 +79,5 @@
             fab:fab_size="mini"
             fab:fab_title="Detail Text" />
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
 </android.support.design.widget.CoordinatorLayout>

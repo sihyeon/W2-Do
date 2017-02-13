@@ -254,7 +254,7 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
                         try {
                             //날씨 텍스트를 받아와서 아이콘을 지정함, 그리고 온도를 지정
                             setWeatherText(response.getJSONArray("weather").getJSONObject(0).getInt("id")
-                                    , response.getJSONObject("main").getDouble("temp"));
+                                    , response.getJSONObject("menu_main_toolbar").getDouble("temp"));
                             setLocationVisibility(true);
                         } catch (JSONException e) {
                             e.printStackTrace();
