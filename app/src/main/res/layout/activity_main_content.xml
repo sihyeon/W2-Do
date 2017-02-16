@@ -29,7 +29,6 @@
             android:textColor="#FFF"
             android:textSize="30sp" />
     </LinearLayout>
-
     <FrameLayout
         android:id="@+id/act_main_todo_fragment_layout"
         android:layout_width="match_parent"

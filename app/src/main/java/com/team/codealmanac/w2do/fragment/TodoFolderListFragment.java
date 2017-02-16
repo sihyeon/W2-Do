@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,7 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class TodoFolderListFragment extends Fragment {
+    private String TAG = "TodoFolderListFragment";
     private OnFragmentInteractionListener mListener;
 
     private RecyclerView mFolderListView;
@@ -47,14 +49,15 @@ public class TodoFolderListFragment extends Fragment {
     }
 
     public static TodoFolderListFragment newInstance() {
-        TodoFolderListFragment fragment = new TodoFolderListFragment();
-        return fragment;
+//        TodoFolderListFragment fragment = new TodoFolderListFragment();
+        return new TodoFolderListFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mTodoFolderReference = FirebaseDatabase.getInstance().getReference().child("todo_folder").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        Log.d(TAG, "온 크리에이트");
     }
 
     @Override
@@ -70,7 +73,7 @@ public class TodoFolderListFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-
+        Log.d(TAG, "온 스타트");
         final RecyclerView.SimpleOnItemTouchListener folderItemListener = new RecyclerViewOnItemClickListener(getContext(),
                 mFolderListView, new RecyclerViewOnItemClickListener.OnItemClickListener() {
             @Override

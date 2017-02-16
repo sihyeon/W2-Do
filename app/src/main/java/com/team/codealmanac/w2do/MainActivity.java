@@ -1,5 +1,7 @@
 package com.team.codealmanac.w2do;
 
+
+
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -8,19 +10,16 @@ import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
+
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -34,10 +33,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.firebase.auth.FirebaseUser;
 import com.team.codealmanac.w2do.database.PreferencesManager;
-import com.team.codealmanac.w2do.fragment.CalendarFragment;
-import com.team.codealmanac.w2do.fragment.TodoFolderListFragment;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.team.codealmanac.w2do.fragment.TodoFolderListFragment;
 import com.team.codealmanac.w2do.fragment.TodoSimpleListFragment;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
@@ -45,12 +43,9 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private RecyclerView recyclerView;
     private DrawerLayout act_main_drawer_layout;
     private NavigationView navigationView;
     private ActionBarDrawerToggle mDrawerToggle;
-
-    private Menu menu;
 
     //navigation header items
     private ImageView act_main_nav_user_image;
@@ -61,8 +56,6 @@ public class MainActivity extends BaseActivity
     private TextView act_main_greetingmsg;
     private TextView act_main_user_name;
     private FloatingActionsMenu act_main_appbar_floatingActionsMenu;
-    private FragmentManager fragmentManager;
-    private FragmentTransaction fragmentTransaction;
 
     private com.getbase.floatingactionbutton.FloatingActionButton act_main_appbar_folder_floatingbtn;
     private com.getbase.floatingactionbutton.FloatingActionButton act_main_appbar_simpleInput_floatingbtn;
@@ -71,6 +64,8 @@ public class MainActivity extends BaseActivity
 
     private FirebaseUser mUser;
 
+    private Fragment mTodoSimpleListFragment;
+    private Fragment mTodoFolderListFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -83,11 +78,18 @@ public class MainActivity extends BaseActivity
         //Firebase Realtime DB setting
         mUser = getUserSession();
 
-        //프래그먼트 등록
-        fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.act_main_todo_fragment_layout, TodoSimpleListFragment.newInstance());
-        fragmentTransaction.commit();
+        //투두 심플, 폴더리스트 프래그먼트 설정
+        mTodoSimpleListFragment = TodoSimpleListFragment.newInstance();
+        mTodoFolderListFragment = TodoFolderListFragment.newInstance();
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.act_main_todo_fragment_layout, mTodoSimpleListFragment)
+                .add(R.id.act_main_todo_fragment_layout, mTodoFolderListFragment)
+                .hide(mTodoFolderListFragment)
+                .commit();
+//        getSupportFragmentManager()
+//                .beginTransaction()
+//                .replace(R.id.act_main_todo_fragment_layout, mTodoSimpleListFragment)
+//                .commit();
 
         // act_main_toolbar 설정
         act_main_toolbar = (Toolbar) findViewById(R.id.act_main_toolbar);
@@ -185,10 +187,10 @@ public class MainActivity extends BaseActivity
         act_main_toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(act_main_drawer_layout.isDrawerOpen(Gravity.LEFT)){
-                    act_main_drawer_layout.closeDrawer(Gravity.LEFT);
+                if(act_main_drawer_layout.isDrawerOpen(GravityCompat.START)){
+                    act_main_drawer_layout.closeDrawer(GravityCompat.START);
                 } else {
-                    act_main_drawer_layout.openDrawer(Gravity.LEFT);
+                    act_main_drawer_layout.openDrawer(GravityCompat.START);
                 }
             }
         });
@@ -222,7 +224,7 @@ public class MainActivity extends BaseActivity
         act_main_nav_user_name.setText(mUser.getDisplayName());
         act_main_nav_user_email.setText(mUser.getEmail());
 
-        if(mUser.getPhotoUrl().toString() != null){
+        if(mUser.getPhotoUrl() != null){
             Glide.with(getApplicationContext()).load(mUser.getPhotoUrl().toString())
                     .bitmapTransform(new CropCircleTransformation(getApplicationContext()))
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -232,11 +234,6 @@ public class MainActivity extends BaseActivity
                     .bitmapTransform(new CropCircleTransformation(getApplicationContext()))
                     .into(act_main_nav_user_image);
         }
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
     }
 
     @Override
@@ -264,7 +261,7 @@ public class MainActivity extends BaseActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        this.menu = menu;
+//        this.menu = menu;
         getMenuInflater().inflate(R.menu.menu_main_toolbar, menu);
         menu.findItem(R.id.menu_change_todo_frg).setChecked(false);
         return true;
@@ -276,21 +273,25 @@ public class MainActivity extends BaseActivity
         switch (item.getItemId()) {
             case R.id.menu_change_todo_frg:
                 act_main_appbar_folder_floatingbtn.setVisibility(View.VISIBLE);
-                if(isFolderFragment){
-                    fragmentManager = getSupportFragmentManager();
-                    fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.setCustomAnimations(R.anim.zoom_in,R.anim.zoom_out);
-                    fragmentTransaction.replace(R.id.act_main_todo_fragment_layout, TodoSimpleListFragment.newInstance());
-                    fragmentTransaction.commit();
+                if(isFolderFragment){   //심플투두리스트
+                    getSupportFragmentManager().beginTransaction()
+                            .setCustomAnimations(R.anim.zoom_in,R.anim.zoom_out)
+                            .hide(mTodoFolderListFragment)
+                            .show(mTodoSimpleListFragment)
+//                            .replace(R.id.act_main_todo_fragment_layout, mTodoSimpleListFragment)
+                            .commit();
+
                     isFolderFragment = false;
                     act_main_appbar_folder_floatingbtn.setVisibility(View.GONE);
                     item.setIcon(R.drawable.btn_gridview);
-                }else{
-                    fragmentManager = getSupportFragmentManager();
-                    fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.setCustomAnimations(R.anim.zoom_in,R.anim.zoom_out);
-                    fragmentTransaction.replace(R.id.act_main_todo_fragment_layout, TodoFolderListFragment.newInstance());
-                    fragmentTransaction.commit();
+                }else{                  //폴더리스트
+                    getSupportFragmentManager().beginTransaction()
+                            .setCustomAnimations(R.anim.zoom_in,R.anim.zoom_out)
+                            .hide(mTodoSimpleListFragment)
+                            .show(mTodoFolderListFragment)
+//                            .replace(R.id.act_main_todo_fragment_layout, mTodoFolderListFragment)
+                            .commit();
+
                     isFolderFragment = true;
                     act_main_appbar_folder_floatingbtn.setVisibility(View.VISIBLE);
                     item.setIcon(R.drawable.btn_listview);
@@ -332,7 +333,6 @@ public class MainActivity extends BaseActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        Fragment fragment = null;
 
         if (id == R.id.nav_camera) {
             // 락스크린 액티비티 이동
@@ -344,7 +344,6 @@ public class MainActivity extends BaseActivity
             act_main_appbar_floatingActionsMenu.setVisibility(View.GONE);
             act_main_user_name.setVisibility(View.GONE);
             act_main_greetingmsg.setVisibility(View.GONE);
-            fragment = new CalendarFragment();
 
         } else if (id == R.id.nav_manage) {
 
@@ -353,13 +352,6 @@ public class MainActivity extends BaseActivity
         } else if (id == R.id.nav_send) {
 
         }
-
-        if(fragment != null){
-            fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.act_main_todo_fragment_layout,fragment);
-            fragmentTransaction.commit();
-        }
-
         act_main_drawer_layout.closeDrawer(GravityCompat.START);
         return true;
     }

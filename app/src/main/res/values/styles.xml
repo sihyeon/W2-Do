@@ -3,11 +3,11 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!--커서 색상 설정-->
-        <item name = "colorControlNormal">#FFF</item>
-        <item name = "colorControlActivated">#FFF</item>
+        <item name="colorControlNormal">#FFF</item>
+        <item name="colorControlActivated">#FFF</item>
     </style>
 
-    <style name="Theme.AppCompat.Dialog.Alert" >
+    <style name="Theme.AppCompat.Dialog.Alert">
         <item name="windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
         <item name="windowActionBar">false</item>
@@ -46,8 +46,12 @@
         <item name="android:textColor">#ffffffff</item>
     </style>
 
-   <style name="ColorPickerTheme" parent="Theme.AppCompat.Dialog.Alert">
-       <item name="android:colorAccent">@color/teal</item>
-       <item name="android:textColorPrimary">@android:color/white</item>
-   </style>
+    <style name="ColorPickerTheme" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:colorAccent">@color/teal</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.NoActionBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
