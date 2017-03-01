@@ -35,13 +35,14 @@ import com.google.firebase.auth.FirebaseUser;
 import com.team.codealmanac.w2do.database.PreferencesManager;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.team.codealmanac.w2do.dialog.FolderInputDialogFragment;
 import com.team.codealmanac.w2do.fragment.TodoFolderListFragment;
 import com.team.codealmanac.w2do.fragment.TodoSimpleListFragment;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class MainActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener{
 
     private DrawerLayout act_main_drawer_layout;
     private NavigationView navigationView;
@@ -129,6 +130,7 @@ public class MainActivity extends BaseActivity
         act_main_appbar_folder_floatingbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                FolderInputDialogFragment.newInstance().show(getFragmentManager(), "test");
                 act_main_appbar_floatingActionsMenu.collapse();
             }
         });
