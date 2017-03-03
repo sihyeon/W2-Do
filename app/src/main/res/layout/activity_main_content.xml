@@ -12,7 +12,7 @@
         android:layout_gravity="center_vertical"
         android:orientation="vertical">
         <TextView
-            android:id="@+id/greetingmsg"
+            android:id="@+id/act_main_greetingmsg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -21,7 +21,7 @@
             android:textSize="28sp" />
 
         <TextView
-            android:id="@+id/user_name"
+            android:id="@+id/act_main_user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -29,9 +29,8 @@
             android:textColor="#FFF"
             android:textSize="30sp" />
     </LinearLayout>
-
     <FrameLayout
-        android:id="@+id/layout_todo_fragment_view"
+        android:id="@+id/act_main_todo_fragment_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

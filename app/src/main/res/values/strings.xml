@@ -59,9 +59,8 @@
     <string name="btn_revoke_access">Revoke Access</string>
 
     <string name="mainschedule">MAIN SCHEDULE</string>
-    <string name="googlelogin">Google+ 로그인</string>
-    <string name="login_greeting1">\'What To Do\'에</string>
-    <string name="login_greeting2">오신 것을 환영합니다!</string>
+    <string name="googlelogin">Google+ 로그인 </string>
+    <string name="login_greeting1">\'What To Do\'에\n오신 것을 환영합니다!</string>
     <string name="frag_maininput_msg">오늘의 메인 스케줄은 무엇인가요?</string>
     <string name="mainschedule_hint">ex) lunch at 3:00pm</string>
 
@@ -85,4 +84,5 @@
 
     <string name="colorpickertitle">Select Schedule Color</string>
     <string name="frag">datepick</string>
+    <string name="title_activity_main2">Main2Activity</string>
 </resources>

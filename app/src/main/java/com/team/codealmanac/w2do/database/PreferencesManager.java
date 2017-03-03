@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -18,12 +19,17 @@ public class PreferencesManager {
         SharedPreferences userInfoPref = context.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = userInfoPref.edit();
         editor.putString("nickname"/* key */, nickname);
-        editor.commit();
+        editor.apply();
     }
-
     public static String getNickname(Context context){
         SharedPreferences userInfoPref = context.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         return userInfoPref.getString("nickname"/*key*/, null/*default*/);
+    }
+    public static void deleteNickname(Context context){
+        SharedPreferences userInfoPref = context.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = userInfoPref.edit();
+        editor.remove("nickname");
+        editor.apply();
     }
 
     public static void setStringArrayPref(Context context, String key, ArrayList<String> values) {
@@ -38,7 +44,7 @@ public class PreferencesManager {
         } else {
             editor.putString(key, null);
         }
-        editor.commit();
+        editor.apply();
     }
 
     public static void setIntegerArrayPref(Context context, String key, ArrayList<Integer> values) {
@@ -53,7 +59,7 @@ public class PreferencesManager {
         } else {
             editor.putString(key, null);
         }
-        editor.commit();
+        editor.apply();
     }
 
     public static ArrayList<String> getStringArrayPref(Context context, String key) {

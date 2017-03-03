@@ -1,28 +1,19 @@
 package com.team.codealmanac.w2do;
 
-import android.app.ActionBar;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,9 +34,16 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.team.codealmanac.w2do.database.PreferencesManager;
 import com.team.codealmanac.w2do.models.User;
+
+import org.w3c.dom.Text;
+
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
     /* 구글 로그인 및 firebase 인증 순서
@@ -54,38 +52,30 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
      */
 
 public class LoginActivity extends BaseActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener{
-    private static final String TAG = "GoogleActivity";
+    private static final String TAG = "LoginActivity";
     private static final int RC_SIGN_IN = 9001;
 
-    // [START declare_auth]
     private FirebaseAuth mAuth;
-    // [END declare_auth]
-
-    // [START declare_auth_listener]
     private FirebaseAuth.AuthStateListener mAuthListener;
-    // [END declare_auth_listener]
-
     private GoogleApiClient mGoogleApiClient;
 
-    private TextView mUserNameView;
-    private TextView mStatusEmailView;
-    private TextView mStatusTitleView;  //로그인 시 타이틀 뷰 변경되는 변수
-    private TextView mStatusTitleView2;
-    private TextView mGreetingMsg;
+    private ImageView act_login_logo_image;
+    //nonuser 레이아웃(로그인 안됐을 경우)
+    private LinearLayout act_login_nonuser_layout;
+    private Button act_login_signin_button;
 
-    private ImageView mStatusImageView;
-    private ImageView mLogoImageView;
-
-    private Button LoginButton;
-    private EditText nickname_edit;
-    private Button input_go;
-    private TextView nick_greeting_msg;
+    //user 레이아웃(로그인 됐을 경우)
+    private LinearLayout act_login_user_layout;
+    private ImageView act_login_user_image;
+    private TextView act_login_username;
+    private TextView act_login_email;
+    private EditText act_login_nickname_edit;
+    private Button act_login_nick_input_btn;
 
     private Animation animation;
 
-    // [START declare_database_ref]
-    private DatabaseReference mDatabase;
-    // [END declare_database_ref]
+    private DatabaseReference mUserReference;
+    private DatabaseReference mNicknameReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,89 +83,81 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login);
 
-        // [START initialize_database_ref]
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        // [END initialize_database_ref]
+        mUserReference = FirebaseDatabase.getInstance().getReference().child("user");
+        mNicknameReference = FirebaseDatabase.getInstance().getReference().child("nickname");
 
-        // Header Views
-        mUserNameView = (TextView) findViewById(R.id.status_username);
-        mStatusEmailView = (TextView) findViewById(R.id.status_email);
-        mStatusTitleView = (TextView) findViewById(R.id.title_text1);
-        mStatusImageView = (ImageView)findViewById(R.id.user_image);
-        mLogoImageView = (ImageView) findViewById(R.id.logo_image);
-        mStatusTitleView2 = (TextView) findViewById(R.id.title_text2);
-        mGreetingMsg = (TextView) findViewById(R.id.title_text3);
-
-        // Button listeners
-        LoginButton = (Button) findViewById(R.id.sign_in_button);
-        LoginButton.setOnClickListener(this);
-        mLogoImageView.setOnClickListener(this);
-
-        // Animation effects
-        animation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.alpha);
-
-        // Nickname View
-        nick_greeting_msg = (TextView) findViewById(R.id.nickname_msg);
-        input_go = (Button) findViewById(R.id.nick_input_btn);
-        input_go.setOnClickListener(this);  // 버튼 클릭 이벤트
-        nickname_edit = (EditText) findViewById(R.id.nickname_edit);
-
-        //첫 로그인 화면 View 구성
-        mLogoImageView.setVisibility(View.VISIBLE);
-        mStatusTitleView.setVisibility(View.VISIBLE);
-        mStatusTitleView2.setVisibility(View.VISIBLE);
-        LoginButton.setVisibility(View.VISIBLE);
-
-        // Login화면 폰트 적용
-        Typeface loginfont = Typeface.createFromAsset(getAssets(), "NanumSquareR.ttf");
-        mStatusTitleView.setTypeface(loginfont);
-        mStatusTitleView2.setTypeface(loginfont);
-        LoginButton.setTypeface(loginfont);
-        mUserNameView.setTypeface(loginfont);
-        mStatusEmailView.setTypeface(loginfont);
-        nickname_edit.setTypeface(loginfont);
-        input_go.setTypeface(loginfont);
-        nick_greeting_msg.setTypeface(loginfont);
-        mGreetingMsg.setTypeface(loginfont);
-
-        ///[Start Google login ready]
-        // [START config_signin]
-        // Configure Google Sign In
+        //구글 로그인
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-        // [END config_signin]
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
-
-        // [START initialize_auth]
         mAuth = FirebaseAuth.getInstance();
-        // [END initialize_auth]
 
-        // [START auth_state_listener]
+        Typeface font = Typeface.createFromAsset(getAssets(), "NanumSquareR.ttf");
+
+        act_login_logo_image = (ImageView)findViewById(R.id.act_login_logo_image);
+        act_login_logo_image.setOnClickListener(this);
+        //로그인 안되어있을 경우 레이아웃
+        act_login_nonuser_layout = (LinearLayout)findViewById(R.id.act_login_nonuser_layout);
+        TextView act_login_nonuser_greeting = (TextView)findViewById(R.id.act_login_nonuser_greeting);
+        act_login_signin_button = (Button)findViewById(R.id.act_login_signin_button);
+        act_login_signin_button.setOnClickListener(this);
+        act_login_nonuser_greeting.setTypeface(font);
+
+        // 로그인이 되어있을 경우 레이아웃
+        act_login_user_layout = (LinearLayout)findViewById(R.id.act_login_user_layout);
+        TextView act_login_user_greeting = (TextView)findViewById(R.id.act_login_user_greeting);
+        act_login_user_image = (ImageView)findViewById(R.id.act_login_user_image);
+        act_login_username = (TextView)findViewById(R.id.act_login_username);
+        act_login_email = (TextView)findViewById(R.id.act_login_email);
+        TextView act_login_nickname_msg = (TextView)findViewById(R.id.act_login_nickname_msg);
+        act_login_nickname_edit = (EditText)findViewById(R.id.act_login_nickname_edit);
+        act_login_nick_input_btn = (Button)findViewById(R.id.act_login_nick_input_btn);
+        act_login_nick_input_btn.setOnClickListener(this);
+        act_login_user_greeting.setTypeface(font);
+        act_login_username.setTypeface(font);
+        act_login_email.setTypeface(font);
+        act_login_nickname_msg.setTypeface(font);
+        act_login_nickname_edit.setTypeface(font);
+
+        // Animation effects
+        animation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.alpha);
+
+        //구글 로그인 세션 리스너
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    // User is signed in
-                    Intent app2intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(app2intent);
-                    LoginActivity.this.finish();
+                    if(PreferencesManager.getNickname(LoginActivity.this.getApplicationContext()) != null){
+                        //nickname을 이미 입력했으면
+                        Log.d(TAG, "닉네임 있음");
+                        startActivity( new Intent(LoginActivity.this,MainActivity.class) ); finish();
+                    } else {
+                        //nickname이 없으면 폰 데이터를 지웠을 경우 서버DB에는 닉네임 데이터가 있는지 확인해봐야함.
+                        mNicknameReference.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {        //닉네임 데이터 한번 가져오기
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if(dataSnapshot.exists()){
+                                    PreferencesManager.setNickname(LoginActivity.this.getApplicationContext(), dataSnapshot.getValue().toString());
+                                    startActivity( new Intent(LoginActivity.this,MainActivity.class) ); finish();
+                                }
+                            }
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {}
+                        });
+                    }
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
-                // [START_EXCLUDE]
                 updateUI(user);
-                // [END_EXCLUDE]
             }
         };
-        // [END auth_state_listener]
-        ///[End Google login ready]
     }
 
     // [START on_start_add_listener]
@@ -207,6 +189,7 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
             if (result.isSuccess()) {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = result.getSignInAccount();
+
                 firebaseAuthWithGoogle(account);
             } else {
                 // Google Sign In failed, update UI appropriately
@@ -217,7 +200,7 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
         }
     }
 
-    // [START auth_with_google]
+    // 로그인시 불리는 함수 (signin을 할 경우)
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
 
@@ -228,16 +211,17 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
-                        if (!task.isSuccessful()) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "signInWithCredential - onComplete: 로그인 성공");
+                            //로그인 성공시 서버디비에 유저 정보 저장.
+                            FirebaseUser user = task.getResult().getUser();
+                            User userModel = new User(user.getEmail(), user.getDisplayName(), user.getPhotoUrl().toString());
+                            mUserReference.child(user.getUid()).setValue(userModel);
+                        } else {
                             Log.w(TAG, "signInWithCredential", task.getException());
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
-
                         hideProgressDialog();
                     }
                 });
@@ -255,7 +239,6 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
     private void signOut() {
         // Firebase sign out
         mAuth.signOut();
-
         // Google sign out
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
                 new ResultCallback<Status>() {
@@ -264,12 +247,18 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
                         updateUI(null);
                     }
                 });
+        //프리퍼런스로 등록된 닉네임 데이터 삭제
+        PreferencesManager.deleteNickname(getApplicationContext());
     }
 
     private void updateUI(FirebaseUser user) {
         if (user != null) {
-            mStatusEmailView.setText(user.getEmail());    //email정보
-            mUserNameView.setText(user.getDisplayName());   // 이름 정보
+            //로그인 됐을 경우 화면
+            act_login_user_layout.setVisibility(View.VISIBLE);
+            act_login_nonuser_layout.setVisibility(View.GONE);
+
+            act_login_email.setText(user.getEmail());    //email정보
+            act_login_username.setText(user.getDisplayName());   // 이름 정보
 
             // 사용자 cover photo -> glide 라이브러리 적용
             if(user.getPhotoUrl() != null ) {
@@ -277,78 +266,40 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
                 Glide.with(getApplicationContext()).load(personPhotoUrl)
                         .bitmapTransform(new CropCircleTransformation(getApplicationContext()))
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .into(mStatusImageView);
+                        .into(act_login_user_image);
             }
-
-            //로그인 시 보여지는 뷰 선언
-            mGreetingMsg.setVisibility(View.VISIBLE);
-            LoginButton.setVisibility(View.GONE);
-            mUserNameView.setVisibility(View.VISIBLE);
-            mStatusTitleView.setVisibility(View.GONE);
-            mStatusTitleView2.setVisibility(View.GONE);
-            mStatusEmailView.setVisibility(View.VISIBLE);
-            mStatusImageView.setVisibility(View.VISIBLE);
-
-            nick_greeting_msg.setVisibility(View.VISIBLE);
-            input_go.setVisibility(View.VISIBLE);
-            nickname_edit.setVisibility(View.VISIBLE);
-
-            //로그인 시 보여지는 뷰에 적용하는 애니메이션 효과
-//            mStatusEmailView.startAnimation(animation);
-//            mStatusTitleView.startAnimation(animation);
-//            mStatusTextView.startAnimation(animation);
-//            nick_greeting_msg.startAnimation(animation);
-//            input_go.startAnimation(animation);
-//            nickname_edit.startAnimation(animation);
         } else {
             //로그인 전 최초 화면
-            LoginButton.setVisibility(View.VISIBLE);
-            mUserNameView.setVisibility(View.GONE);
-            mStatusTitleView.setText("What To Do에");
-            mStatusTitleView.setVisibility(View.VISIBLE);
-            mGreetingMsg.setVisibility(View.GONE);
-
-            mStatusTitleView2.setVisibility(View.VISIBLE);
-            mStatusEmailView.setVisibility(View.GONE);
-            mStatusImageView.setVisibility(View.GONE);
-            nick_greeting_msg.setVisibility(View.GONE);
-            input_go.setVisibility(View.GONE);
-            nickname_edit.setVisibility(View.GONE);
+            act_login_nonuser_layout.setVisibility(View.VISIBLE);
+            act_login_user_layout.setVisibility(View.GONE);
         }
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        // An unresolvable error has occurred and Google APIs (including Sign-In) will not
-        // be available.
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
-        Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show();
-    }
-
-    private void writeNewUser(String nickname){
-        FirebaseUser fbUser = FirebaseAuth.getInstance().getCurrentUser();
-        mDatabase.child("nickname").child(fbUser.getUid()).setValue(nickname);
+        Toast.makeText(this, "연결에 실패하였습니다. 데이터 네트워크를 킨 후 다시 시도해주십시오.", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.sign_in_button:           //로그인 버튼 클릭
+            case R.id.act_login_signin_button:           //로그인 버튼 클릭
                 signIn();
                 break;
-            case R.id.logo_image:               //로고 이미지 클릭
+            case R.id.act_login_logo_image:               //로고 이미지 클릭
                 signOut();
                 break;
-            case R.id.nick_input_btn:           //닉네임 입력 버튼 클릭
-                String nickname = nickname_edit.getText().toString();
+            case R.id.act_login_nick_input_btn:           //닉네임 입력 버튼 클릭
+                String nickname = act_login_nickname_edit.getText().toString();
                 if (TextUtils.isEmpty(nickname)) {
-                    nickname_edit.setError("Required");
+                    act_login_nickname_edit.setError("Required");
                     return;
                 }
-                writeNewUser(nickname);
-                Intent app2intent = new Intent(LoginActivity.this,MainActivity.class);
-                startActivity(app2intent);
-                finish();
+                mNicknameReference.child( FirebaseAuth.getInstance().getCurrentUser().getUid() ).setValue(nickname);
+                PreferencesManager.setNickname(getApplicationContext(), nickname);
+
+                startActivity( new Intent(LoginActivity.this,MainActivity.class) ); finish();
                 break;
         }
     }

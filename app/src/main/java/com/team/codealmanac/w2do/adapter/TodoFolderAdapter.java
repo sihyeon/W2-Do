@@ -11,9 +11,10 @@ import com.team.codealmanac.w2do.R;
 import com.team.codealmanac.w2do.models.TodoFolder;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TodoFolderAdapter extends RecyclerView.Adapter<TodoFolderAdapter.ViewHolder> {
-    private ArrayList<TodoFolder> mItemList;
+    private List<TodoFolder> mItemList;
     class ViewHolder extends RecyclerView.ViewHolder {
         protected TextView folder_name;
         protected TextView todo_count;
@@ -27,10 +28,24 @@ public class TodoFolderAdapter extends RecyclerView.Adapter<TodoFolderAdapter.Vi
         }
     }
 
-    public TodoFolderAdapter(ArrayList<TodoFolder> item) {
-        this.mItemList = item;
+    public TodoFolderAdapter(List<TodoFolder> itemList) {
+        this.mItemList = itemList;
     }
 
+    public void addItem(TodoFolder item){
+        mItemList.add(item);
+        notifyItemInserted(getItemCount());
+    }
+
+    public void changeItem(TodoFolder item){
+        mItemList.set((int)item.sequence, item);
+        notifyItemChanged((int)item.sequence);
+    }
+
+    public void removeItem(int position){
+        mItemList.remove(position);
+        notifyItemRemoved(position);
+    }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adpitem_todofolder_item, null);
@@ -43,26 +58,6 @@ public class TodoFolderAdapter extends RecyclerView.Adapter<TodoFolderAdapter.Vi
         holder.folder_name.setText(todoFolderItem.name);
         holder.todo_count.setText(String.valueOf(todoFolderItem.todo_count));
     }
-
-
-//    // 아이템 추가 시 +1 값 증가
-//    private void addItem() {
-//        if (labels.size() >= 1) {
-//            int lastItem = Integer.parseInt(labels.get(labels.size() - 1));
-//            labels.add(String.valueOf(lastItem + 1));
-//            notifyItemInserted(labels.size() - 1);
-//        } else {
-//            labels.add(new String("0"));
-//            notifyItemInserted(0);
-//        }
-//
-//    }
-//
-//    // 폴더 삭제
-//    private void removeItem(int position) {
-//        labels.remove(position);
-//        notifyItemRemoved(position);
-//    }
 
     @Override
     public int getItemCount() {

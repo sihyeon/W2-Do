@@ -4,19 +4,24 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.team.codealmanac.w2do.InFolderActivity;
 import com.team.codealmanac.w2do.R;
@@ -25,6 +30,8 @@ import com.team.codealmanac.w2do.listeners.RecyclerViewOnItemClickListener;
 import com.team.codealmanac.w2do.models.TodoFolder;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,41 +42,44 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class TodoFolderListFragment extends Fragment {
+    private String TAG = "TodoFolderListFragment";
     private OnFragmentInteractionListener mListener;
 
     private RecyclerView mFolderListView;
     private DatabaseReference mTodoFolderReference;
+    private ChildEventListener mTodoFolderListener;
 
-    private ArrayList<TodoFolder> mTodoFolderList;
+    private TodoFolderAdapter mFolderListAdapter;
 
     public TodoFolderListFragment() {
         // Required empty public constructor
     }
 
     public static TodoFolderListFragment newInstance() {
-        TodoFolderListFragment fragment = new TodoFolderListFragment();
-        return fragment;
+//        TodoFolderListFragment fragment = new TodoFolderListFragment();
+        return new TodoFolderListFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mTodoFolderReference = FirebaseDatabase.getInstance().getReference().child("todo_folder").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        Log.d(TAG, "온 크리에이트");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_todo_folder_list, container, false);
-        // content_main의 recyclerview 설정
-        mFolderListView = (RecyclerView) view.findViewById(R.id.frag_todofolder_folderlist);
-        return view;
+        return inflater.inflate(R.layout.fragment_todo_folder_list, container, false);
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onActivityCreated(@Nullable Bundle savedInstanceState){
+        super.onActivityCreated(savedInstanceState);
+        Log.d(TAG, "onActivityCreated");
+        // content_main의 recyclerview 설정
+        mFolderListView = (RecyclerView) getActivity().findViewById(R.id.frag_todofolder_folderlist);
+        final List<TodoFolder> TodoFolderItemList = new ArrayList<>();
 
         final RecyclerView.SimpleOnItemTouchListener folderItemListener = new RecyclerViewOnItemClickListener(getContext(),
                 mFolderListView, new RecyclerViewOnItemClickListener.OnItemClickListener() {
@@ -81,30 +91,44 @@ public class TodoFolderListFragment extends Fragment {
                 startActivity(intent);
             }
             @Override
-            public void onItemLongClick(View v, int position) {
-
-            }
+            public void onItemLongClick(View v, int position) {}
         });
-        //데이터 한번 가져옴
-        mTodoFolderReference.orderByValue().addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                mTodoFolderList = new ArrayList<>();
-                if(dataSnapshot.exists()){
-                    for (DataSnapshot todoSnapshot : dataSnapshot.getChildren()){
-                        mTodoFolderList.add(todoSnapshot.getValue(TodoFolder.class));
-                    }
-                }
-                mFolderListView.setHasFixedSize(true);
-                mFolderListView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-//                mFolderListView.setBackgroundColor(Color.parseColor("#30000000"));
-                mFolderListView.setAdapter(new TodoFolderAdapter(mTodoFolderList));
-                mFolderListView.addOnItemTouchListener(folderItemListener);
-            }
 
+        mFolderListView.setHasFixedSize(true);
+        mFolderListView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        mFolderListView.addOnItemTouchListener(folderItemListener);
+        mFolderListAdapter = new TodoFolderAdapter(TodoFolderItemList);
+        mFolderListView.setAdapter(mFolderListAdapter);
+
+        mTodoFolderListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Log.d(TAG, "onChildAdded: " + dataSnapshot.getKey() + " - " + dataSnapshot.getValue());
+                if(!dataSnapshot.getKey().equals("folder_count")){
+                    mFolderListAdapter.addItem(dataSnapshot.getValue(TodoFolder.class));
+                }
+            }
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                Log.d(TAG, "onChildChanged: " + dataSnapshot.getValue());
+                if(!dataSnapshot.getKey().equals("folder_count")) {
+                    mFolderListAdapter.changeItem(dataSnapshot.getValue(TodoFolder.class));
+                }
+            }
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                Log.d(TAG, "onChildRemoved: " + dataSnapshot.getKey() + " - " + dataSnapshot.getValue());
+                if (!dataSnapshot.getKey().equals("folder_count")) {
+                    mFolderListAdapter.removeItem((int)dataSnapshot.getValue(TodoFolder.class).sequence);
+                }
+            }
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
             @Override
             public void onCancelled(DatabaseError databaseError) {}
-        });
+        };
+
+        mTodoFolderReference.orderByValue().addChildEventListener(mTodoFolderListener);
     }
 
     private void writeMainSchedule(){
@@ -125,6 +149,12 @@ public class TodoFolderListFragment extends Fragment {
 //            throw new RuntimeException(context.toString()
 //                    + " must implement OnFragmentInteractionListener");
 //        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if(mTodoFolderListener != null) mTodoFolderReference.orderByValue().removeEventListener(mTodoFolderListener);
     }
 
     @Override
