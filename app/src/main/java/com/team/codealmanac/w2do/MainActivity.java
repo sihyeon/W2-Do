@@ -305,6 +305,7 @@ public class MainActivity extends BaseActivity
         }
         return super.onOptionsItemSelected(item);
     }
+
     private void createNotification(){
         PendingIntent buttonIntent = PendingIntent.getActivity(this, 0, new Intent(this, SimpleInputActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
@@ -336,22 +337,30 @@ public class MainActivity extends BaseActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // 락스크린 액티비티 이동
-            startActivity(new Intent(MainActivity.this, LockScreenActivity.class));
-        } else if (id == R.id.nav_gallery) {
-            createNotification();
-        } else if (id == R.id.nav_slideshow) {
-            //캘린더 item fragment
-            act_main_appbar_floatingActionsMenu.setVisibility(View.GONE);
-            act_main_user_name.setVisibility(View.GONE);
-            act_main_greetingmsg.setVisibility(View.GONE);
+        if (id == R.id.nav_home) {
+        // 메인 홈 화면으로 이동
+            Intent HomeIntent = new Intent(this, MainActivity.class);
+            HomeIntent.putExtra("mainhomefragment","homeintent");
 
-        } else if (id == R.id.nav_manage) {
+            HomeIntent.setAction(Intent.ACTION_MAIN);
+            HomeIntent.addCategory(Intent.CATEGORY_LAUNCHER);
 
-        } else if (id == R.id.nav_share) {
+            TaskStackBuilder stackBuilder = TaskStackBuilder.create(MainActivity.this);
+            stackBuilder.addParentStack(MainActivity.class);
+            stackBuilder.addNextIntent(HomeIntent);
+            stackBuilder.startActivities();
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_edit_profile) {
+        //프로필 정보 화면으로 이동
+
+        } else if (id == R.id.nav_team) {
+        // 팀 기능 화면으로 이동
+
+        } else if (id == R.id.nav_setting) {
+        // 설정 화면으로 이동
+
+        } else if (id == R.id.nav_send_msg) {
+        // 의견 보낼 다이얼로그 생성
 
         }
         act_main_drawer_layout.closeDrawer(GravityCompat.START);
