@@ -342,9 +342,6 @@ public class MainActivity extends BaseActivity
             Intent HomeIntent = new Intent(this, MainActivity.class);
             HomeIntent.putExtra("mainhomefragment","homeintent");
 
-            HomeIntent.setAction(Intent.ACTION_MAIN);
-            HomeIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(MainActivity.this);
             stackBuilder.addParentStack(MainActivity.class);
             stackBuilder.addNextIntent(HomeIntent);
