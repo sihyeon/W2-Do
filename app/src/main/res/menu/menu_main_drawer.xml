@@ -4,23 +4,23 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/home"
             android:title="Home" />
         <item
             android:id="@+id/nav_edit_profile"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/icn_profile"
             android:title="프로필" />
         <item
             android:id="@+id/nav_team"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/icn_team"
             android:title="Team" />
         <item
             android:id="@+id/nav_setting"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/icn_setting"
             android:title="Setting" />
         <item
             android:id="@+id/nav_send_msg"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/icn_feedback"
             android:title="의견 보내기" />
     </group>
 

@@ -24,14 +24,14 @@ public class FolderSpinnerAdapter extends ArrayAdapter<String> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         TextView v = (TextView)super.getView(position, convertView, parent);
-        v.setTypeface(mFontContract.NanumSqyareR_Regular());
+        v.setTypeface(mFontContract.NahumSquareR_Regular());
         return v;
     }
 
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
         TextView v = (TextView)super.getDropDownView(position, convertView, parent);
-        v.setTypeface(mFontContract.NanumSqyareR_Regular());
+        v.setTypeface(mFontContract.NahumSquareR_Regular());
         return v;
     }
 }

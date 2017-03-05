@@ -100,8 +100,8 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
         act_detailInput_todo_content_edt = (EditText)findViewById(R.id.act_detailInput_todo_content_edt);
         act_detailInput_todo_content_color_picker = (Button)findViewById(R.id.act_detailInput_todo_content_color_picker);
         mPickedColor = ContextCompat.getColor(getApplicationContext(), R.color.blue);
-        act_detailInput_todo_content_edt.setTypeface(mFontContract.NanumSqyareR_Regular());
-        act_detailInput_todo_content_color_picker.setTypeface(mFontContract.NanumSqyareR_Regular());
+        act_detailInput_todo_content_edt.setTypeface(mFontContract.NahumSquareR_Regular());
+        act_detailInput_todo_content_color_picker.setTypeface(mFontContract.NahumSquareR_Regular());
 
         // 폴더 카드뷰 아이템
         act_detailInput_folder_spinner = (Spinner)findViewById(R.id.act_detailInput_folder_spinner);
@@ -112,10 +112,10 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
         act_detailInput_calendar_start_date = (TextView)findViewById(R.id.act_detailInput_calendar_start_date);
         act_detailInput_calendar_end_date = (TextView)findViewById(R.id.act_detailInput_calendar_end_date);
         act_detailInput_calendar_allday_btn = (ImageButton)findViewById(R.id.act_detailInput_calendar_allday_btn);
-        act_detailInput_calendar_start_title_text.setTypeface(mFontContract.NanumSqyareB_Regular());
-        act_detailInput_calendar_end_title_text.setTypeface(mFontContract.NanumSqyareB_Regular());
-        act_detailInput_calendar_start_date.setTypeface(mFontContract.NanumSqyareR_Regular());
-        act_detailInput_calendar_end_date.setTypeface(mFontContract.NanumSqyareR_Regular());
+        act_detailInput_calendar_start_title_text.setTypeface(mFontContract.NahumSquareB_Regular());
+        act_detailInput_calendar_end_title_text.setTypeface(mFontContract.NahumSquareB_Regular());
+        act_detailInput_calendar_start_date.setTypeface(mFontContract.NahumSquareR_Regular());
+        act_detailInput_calendar_end_date.setTypeface(mFontContract.NahumSquareR_Regular());
 
         // 구글맵 카드뷰 아이템
         act_detailInput_map_cardview = (CardView)findViewById(R.id.act_detailInput_map_cardview);

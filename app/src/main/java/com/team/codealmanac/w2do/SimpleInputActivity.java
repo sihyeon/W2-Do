@@ -40,10 +40,10 @@ public class SimpleInputActivity extends AppCompatActivity {
         todayCancelBtn = (Button) findViewById(R.id.today_cancel_btn);
         todaySaveBtn = (Button) findViewById(R.id.today_submit_btn);
 
-        todayedittext.setTypeface(mFontContract.NanumSqyareR_Regular());
+        todayedittext.setTypeface(mFontContract.NahumSquareR_Regular());
         headerText.setTypeface(mFontContract.FranklinGothic_MediumCond());
-        todayCancelBtn.setTypeface(mFontContract.NanumSqyareR_Regular());
-        todaySaveBtn.setTypeface(mFontContract.NanumSqyareR_Regular());
+        todayCancelBtn.setTypeface(mFontContract.NahumSquareR_Regular());
+        todaySaveBtn.setTypeface(mFontContract.NahumSquareR_Regular());
 
         InputFilter[] FilterArray = new  InputFilter[1];
         FilterArray[0] = new InputFilter.LengthFilter(140);

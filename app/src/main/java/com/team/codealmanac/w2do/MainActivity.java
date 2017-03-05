@@ -7,7 +7,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -15,7 +14,6 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -67,6 +65,9 @@ public class MainActivity extends BaseActivity
 
     private Fragment mTodoSimpleListFragment;
     private Fragment mTodoFolderListFragment;
+
+    private FontContract mFontContract;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -78,6 +79,8 @@ public class MainActivity extends BaseActivity
 
         //Firebase Realtime DB setting
         mUser = getUserSession();
+
+        mFontContract = new FontContract(getApplication().getAssets());
 
         //투두 심플, 폴더리스트 프래그먼트 설정
         mTodoSimpleListFragment = TodoSimpleListFragment.newInstance();
@@ -208,13 +211,16 @@ public class MainActivity extends BaseActivity
         act_main_nav_user_name = (TextView) v.findViewById(R.id.act_main_nav_user_name);
         act_main_nav_user_email = (TextView) v.findViewById(R.id.act_main_nav_user_email);
 
+//        // navigaion header font 설정
+//        act_main_nav_user_name.setTypeface(mFontContract.NahumSquareB_Regular());
+//        act_main_nav_user_email.setTypeface(mFontContract.NahumSquareR_Regular());
+
         // Fragment 상단 인사말 + 유저 이름 textview
         act_main_greetingmsg = (TextView) findViewById(R.id.act_main_greetingmsg);
         act_main_user_name = (TextView) findViewById(R.id.act_main_user_name);
 
-        Typeface msgfont = Typeface.createFromAsset(getAssets(), "NanumSquareR.ttf");
-        act_main_greetingmsg.setTypeface(msgfont);
-        act_main_user_name.setTypeface(msgfont);
+        act_main_greetingmsg.setTypeface(mFontContract.NahumSquareR_Regular());
+        act_main_user_name.setTypeface(mFontContract.NahumSquareR_Regular());
 
     }
 
@@ -222,7 +228,6 @@ public class MainActivity extends BaseActivity
     protected void onStart() {
         super.onStart();
         act_main_user_name.setText(PreferencesManager.getNickname(getApplicationContext()));
-
         act_main_nav_user_name.setText(mUser.getDisplayName());
         act_main_nav_user_email.setText(mUser.getEmail());
 

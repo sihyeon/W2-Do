@@ -23,10 +23,10 @@ public class FontContract {
     public Typeface FranklinGothic_MediumCond(){
         return Typeface.createFromAsset(mAssets, "FranklinGothicMediumCond.TTF");
     }
-    public Typeface NanumSqyareB_Regular(){
+    public Typeface NahumSquareB_Regular(){
         return Typeface.createFromAsset(mAssets, "NanumSquareB.ttf");
     }
-    public Typeface NanumSqyareR_Regular(){
+    public Typeface NahumSquareR_Regular(){
         return Typeface.createFromAsset(mAssets, "NanumSquareR.ttf");
     }
     public Typeface YiSunShinDotumB_Regular(){

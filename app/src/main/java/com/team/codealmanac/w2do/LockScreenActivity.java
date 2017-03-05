@@ -112,11 +112,11 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
         });
 
         //폰트지정
-        ((TextView)findViewById(R.id.act_lockscreen_greeting)).setTypeface(mFont.NanumSqyareB_Regular());
-        ((TextView)findViewById(R.id.act_lockscreen_nickname)).setTypeface(mFont.NanumSqyareB_Regular());
+        ((TextView)findViewById(R.id.act_lockscreen_greeting)).setTypeface(mFont.NahumSquareB_Regular());
+        ((TextView)findViewById(R.id.act_lockscreen_nickname)).setTypeface(mFont.NahumSquareB_Regular());
         ((TextView)findViewById(R.id.act_lockscreen_mainschedule_header)).setTypeface(mFont.FranklinGothic_Demi());
-        ((TextView)findViewById(R.id.act_lockscreen_mainschedule)).setTypeface(mFont.NanumSqyareB_Regular());
-        ((TextView)findViewById(R.id.act_lockscreen_what_mainschedule)).setTypeface(mFont.NanumSqyareB_Regular());
+        ((TextView)findViewById(R.id.act_lockscreen_mainschedule)).setTypeface(mFont.NahumSquareB_Regular());
+        ((TextView)findViewById(R.id.act_lockscreen_what_mainschedule)).setTypeface(mFont.NahumSquareB_Regular());
     }
     @Override
     protected void onStart() {
