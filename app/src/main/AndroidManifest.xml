@@ -87,6 +87,19 @@
         <activity
             android:name=".dialog.DatePickerDialogActivity"
             android:theme="@android:style/Theme.Dialog" />
+
+        <activity android:name=".NavEditProfileActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity android:name=".NavTeamActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity android:name=".NavSettingActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity android:name=".NavSendMsgActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
     </application>
 
 </manifest>

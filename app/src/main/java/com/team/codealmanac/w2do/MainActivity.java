@@ -349,15 +349,21 @@ public class MainActivity extends BaseActivity
 
         } else if (id == R.id.nav_edit_profile) {
         //프로필 정보 화면으로 이동
+            Intent EditProfile  = new Intent(MainActivity.this, NavEditProfileActivity.class);
+            startActivity(EditProfile);
 
         } else if (id == R.id.nav_team) {
         // 팀 기능 화면으로 이동
+            Intent TeamIntent = new Intent(MainActivity.this, NavTeamActivity.class);
+            startActivity(TeamIntent);
 
         } else if (id == R.id.nav_setting) {
         // 설정 화면으로 이동
+            Intent SettingIntent = new Intent(MainActivity.this, NavSettingActivity.class);
+            startActivity(SettingIntent);
 
         } else if (id == R.id.nav_send_msg) {
-        // 의견 보낼 다이얼로그 생성
+        // 의견 보낼 화면 팝업
 
         }
         act_main_drawer_layout.closeDrawer(GravityCompat.START);
