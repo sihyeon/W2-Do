@@ -29,7 +29,7 @@
             android:gravity="center"
             android:text="@string/login_greeting1"
             android:textColor="@android:color/white"
-            android:textSize="30sp" />
+            android:textSize="30dp" />
 
         <Button
             android:id="@+id/act_login_signin_button"
@@ -39,7 +39,7 @@
             android:background="@drawable/login_button_selector"
             android:text="@string/googlelogin"
             android:textColor="#FFFFFFFF"
-            android:textSize="16sp" />
+            android:textSize="16dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -58,7 +58,7 @@
             android:gravity="center"
             android:text="@string/signed_greeting_msg"
             android:textColor="@android:color/white"
-            android:textSize="30sp" />
+            android:textSize="30dp" />
 
         <ImageView
             android:id="@+id/act_login_user_image"
@@ -74,7 +74,7 @@
             android:layout_marginTop="3dp"
             android:text="이름"
             android:textColor="@android:color/white"
-            android:textSize="14sp" />
+            android:textSize="14dp" />
 
         <TextView
             android:id="@+id/act_login_email"
@@ -83,7 +83,7 @@
             android:layout_marginTop="2dp"
             android:text="메일"
             android:textColor="@android:color/white"
-            android:textSize="14sp" />
+            android:textSize="14dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -98,7 +98,7 @@
                 android:layout_marginStart="16dp"
                 android:text="@string/nickname_msg"
                 android:textColor="#FFFFFFFF"
-                android:textSize="17sp" />
+                android:textSize="17dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -118,7 +118,7 @@
                     android:inputType="textPersonName"
                     android:textColor="#e6e6e6"
                     android:textColorHint="#FFFFFFFF"
-                    android:textSize="15sp" />
+                    android:textSize="15dp" />
 
                 <Button
                     android:id="@+id/act_login_nick_input_btn"

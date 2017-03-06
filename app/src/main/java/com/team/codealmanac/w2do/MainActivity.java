@@ -18,10 +18,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableString;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -36,6 +38,8 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.team.codealmanac.w2do.dialog.FolderInputDialogFragment;
 import com.team.codealmanac.w2do.fragment.TodoFolderListFragment;
 import com.team.codealmanac.w2do.fragment.TodoSimpleListFragment;
+
+import java.util.ArrayList;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
@@ -211,9 +215,9 @@ public class MainActivity extends BaseActivity
         act_main_nav_user_name = (TextView) v.findViewById(R.id.act_main_nav_user_name);
         act_main_nav_user_email = (TextView) v.findViewById(R.id.act_main_nav_user_email);
 
-//        // navigaion header font 설정
-//        act_main_nav_user_name.setTypeface(mFontContract.NahumSquareB_Regular());
-//        act_main_nav_user_email.setTypeface(mFontContract.NahumSquareR_Regular());
+        // navigaion header font 설정
+        act_main_nav_user_name.setTypeface(mFontContract.NahumSquareB_Regular());
+        act_main_nav_user_email.setTypeface(mFontContract.NahumSquareR_Regular());
 
         // Fragment 상단 인사말 + 유저 이름 textview
         act_main_greetingmsg = (TextView) findViewById(R.id.act_main_greetingmsg);
@@ -271,6 +275,7 @@ public class MainActivity extends BaseActivity
 //        this.menu = menu;
         getMenuInflater().inflate(R.menu.menu_main_toolbar, menu);
         menu.findItem(R.id.menu_change_todo_frg).setChecked(false);
+
         return true;
     }
 
@@ -346,7 +351,6 @@ public class MainActivity extends BaseActivity
         // 메인 홈 화면으로 이동
             Intent HomeIntent = new Intent(this, MainActivity.class);
             HomeIntent.putExtra("mainhomefragment","homeintent");
-
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(MainActivity.this);
             stackBuilder.addParentStack(MainActivity.class);
             stackBuilder.addNextIntent(HomeIntent);

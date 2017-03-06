@@ -18,7 +18,7 @@
             android:layout_gravity="center"
             android:text="Good Morning,"
             android:textColor="#FFF"
-            android:textSize="28sp" />
+            android:textSize="28dp" />
 
         <TextView
             android:id="@+id/act_main_user_name"
@@ -27,7 +27,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="9dp"
             android:textColor="#FFF"
-            android:textSize="30sp" />
+            android:textSize="30dp" />
     </LinearLayout>
     <FrameLayout
         android:id="@+id/act_main_todo_fragment_layout"

@@ -25,7 +25,7 @@
             android:layout_alignStart="@+id/act_lockscreen_location"
             android:text="날"
             android:textColor="#FFF"
-            android:textSize="26sp" />
+            android:textSize="26dp" />
 
         <TextView
             android:id="@+id/act_lockscreen_temperature"
@@ -35,7 +35,7 @@
             android:layout_alignParentTop="true"
             android:text="-3º"
             android:textColor="#FFF"
-            android:textSize="26sp" />
+            android:textSize="26dp" />
 
         <TextView
             android:id="@+id/act_lockscreen_location"
@@ -46,7 +46,7 @@
             android:layout_marginTop="-2dp"
             android:text="용인시 기흥구"
             android:textColor="#FFF"
-            android:textSize="11sp" />
+            android:textSize="11dp" />
     </RelativeLayout>
     <!--날씨 & 지역설정 end-->
 
@@ -61,7 +61,7 @@
         android:format12Hour="17:28"
         android:gravity="center_vertical"
         android:textColor="#FFF"
-        android:textSize="90sp" />
+        android:textSize="90dp" />
 
     <TextView
         android:id="@+id/act_lockscreen_date"
@@ -74,7 +74,7 @@
         android:gravity="center_vertical"
         android:text="11.27 sun"
         android:textColor="#FFF"
-        android:textSize="23sp" />
+        android:textSize="23dp" />
     <!--시간 & 날짜 end-->
 
     <!-- 인사말 & 이름 start-->
@@ -89,7 +89,7 @@
         android:gravity="center_vertical"
         android:text="활기찬 하루 보내세요!"
         android:textColor="#FFF"
-        android:textSize="28sp" />
+        android:textSize="28dp" />
 
     <TextView
         android:id="@+id/act_lockscreen_nickname"
@@ -102,7 +102,7 @@
         android:gravity="center_vertical"
         android:text="Jungwon님"
         android:textColor="#FFF"
-        android:textSize="30sp" />
+        android:textSize="30dp" />
     <!--인사말 & 이름 end-->
 
     <!--메인 스케줄 있을때 start-->
@@ -123,7 +123,7 @@
             android:layout_marginBottom="-5dp"
             android:text="@string/main_schedule_header"
             android:textColor="#FFF"
-            android:textSize="20sp" />
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/act_lockscreen_mainschedule"
@@ -132,7 +132,7 @@
             android:layout_marginTop="10dp"
             android:text="Android development"
             android:textColor="#FFF"
-            android:textSize="20sp" />
+            android:textSize="20dp" />
     </LinearLayout>
     <!--메인 스케줄 있을때 end-->
 
@@ -154,7 +154,7 @@
             android:layout_height="wrap_content"
             android:text="@string/what_main_schedule"
             android:textColor="#fff"
-            android:textSize="17sp"/>
+            android:textSize="17dp"/>
     </LinearLayout>
     <!--메인 스케줄 없을때 end-->
 

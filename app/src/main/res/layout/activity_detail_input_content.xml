@@ -63,7 +63,7 @@
                     android:layout_toEndOf="@id/act_detailInput_todo_content_img"
                     android:hint="@string/detailInputActivity_todo_content_edt_hint"
                     android:textColorHint="#999999"
-                    android:textSize="12sp"
+                    android:textSize="12dp"
                     android:background="@null"/>
 
                 <Button
@@ -79,7 +79,7 @@
                     android:gravity="center"
                     android:text="@string/detailInputActivity_color_picker_text"
                     android:textColor="#FFFFFF"
-                    android:textSize="8sp" />
+                    android:textSize="8dp" />
             </RelativeLayout>
         </android.support.v7.widget.CardView>
 
@@ -181,7 +181,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="START"
-                        android:textSize="13sp"
+                        android:textSize="13dp"
                         android:textColor="#999"
                         android:layout_marginTop="-2.35dp"
                         android:layout_marginBottom="-5dp" />
@@ -190,7 +190,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="날짜\n시간"
-                        android:textSize="13sp"
+                        android:textSize="13dp"
                         android:textColor="#333333"
                         android:layout_marginTop="15.65dp"/>
                 </LinearLayout>
@@ -217,7 +217,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="END"
-                        android:textSize="13sp"
+                        android:textSize="13dp"
                         android:textColor="#999"
                         android:layout_marginTop="-2.35dp"
                         android:layout_marginBottom="-5dp"/>
@@ -226,7 +226,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="날짜\n시간"
-                        android:textSize="13sp"
+                        android:textSize="13dp"
                         android:textColor="#333333"
                         android:layout_marginTop="15.65dp"/>
                 </LinearLayout>

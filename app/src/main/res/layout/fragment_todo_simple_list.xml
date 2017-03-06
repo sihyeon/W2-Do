@@ -34,7 +34,7 @@
                 android:layout_marginLeft="16dp"
                 android:text="@string/main_schedule_header"
                 android:textColor="#FFF"
-                android:textSize="25sp" />
+                android:textSize="25dp" />
 
             <LinearLayout
                 android:id="@+id/frag_main_schedule_input_layout"
@@ -61,7 +61,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="7dp"
                         android:textColor="#FFF"
-                        android:textSize="16sp"
+                        android:textSize="16dp"
                         android:text="text" />
                 </LinearLayout>
         </LinearLayout>
@@ -86,7 +86,7 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/frag_maininput_msg"
                 android:textColor="#FFF"
-                android:textSize="17sp" />
+                android:textSize="17dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -108,7 +108,7 @@
                     android:inputType="textPersonName"
                     android:textColor="#e6e6e6"
                     android:textColorHint="#FFFFFFFF"
-                    android:textSize="14sp" />
+                    android:textSize="14dp" />
 
                 <Button
                     android:id="@+id/mainschedule_input_btn"
@@ -140,7 +140,7 @@
                 android:layout_marginTop="9dp"
                 android:text="@string/todayheader"
                 android:textColor="#FFF"
-                android:textSize="25sp" />
+                android:textSize="25dp" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/frag_today_listview"
