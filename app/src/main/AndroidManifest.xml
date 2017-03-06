@@ -98,7 +98,7 @@
         <activity android:name=".NavSettingActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <activity android:name=".NavSendMsgActivity"
+        <activity android:name=".NavFeedbackCenterActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
     </application>

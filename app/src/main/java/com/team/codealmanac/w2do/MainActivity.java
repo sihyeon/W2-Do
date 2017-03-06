@@ -241,7 +241,7 @@ public class MainActivity extends BaseActivity
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(act_main_nav_user_image);
         } else {
-            Glide.with(getApplicationContext()).load(R.drawable.btn_wtd)
+            Glide.with(getApplicationContext()).load(R.drawable.img_profile_none)
                     .bitmapTransform(new CropCircleTransformation(getApplicationContext()))
                     .into(act_main_nav_user_image);
         }

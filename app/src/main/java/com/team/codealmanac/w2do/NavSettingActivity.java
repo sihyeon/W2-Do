@@ -5,10 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
 
-/**
- * Created by sihyeon on 2017-03-04.
- */
-
 public class NavSettingActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {

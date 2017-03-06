@@ -9,7 +9,7 @@ import android.view.WindowManager;
  * Created by sihyeon on 2017-03-04.
  */
 
-public class NavSendMsgActivity extends AppCompatActivity{
+public class NavFeedbackCenterActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -17,6 +17,6 @@ public class NavSendMsgActivity extends AppCompatActivity{
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.navitem_sendmsg);
+        setContentView(R.layout.navitem_feedbackcenter);
     }
 }

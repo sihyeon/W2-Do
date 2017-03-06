@@ -22,13 +22,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
  */
 
 public class NavEditProfileActivity extends BaseActivity {
-    private FirebaseAuth mAuth;
     private FirebaseUser mUser;
-    private DatabaseReference mUserReference;
-    private DatabaseReference mNicknameReference;
-
-    private Toolbar nav_edit_profile_toolbar;
-
     private TextView nav_item_user_nickname;
     private TextView nav_item_user_name;
     private TextView nav_item_user_email;
@@ -36,20 +30,14 @@ public class NavEditProfileActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.navitem_editprofile);
 
-        nav_edit_profile_toolbar = (Toolbar)findViewById(R.id.nav_edit_profile_toolbar);
         nav_item_user_nickname = (TextView)findViewById(R.id.nav_item_user_nickname);
         nav_item_user_name = (TextView)findViewById(R.id.nav_item_user_name);
         nav_item_user_image = (ImageView)findViewById(R.id.nav_item_user_image);
         nav_item_user_email = (TextView)findViewById(R.id.nav_item_user_email);
-
-        setSupportActionBar(nav_edit_profile_toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        getSupportActionBar().setDisplayUseLogoEnabled(false);
-
 
         mUser = getUserSession();
         CallProfileInfo(mUser);
@@ -67,7 +55,7 @@ public class NavEditProfileActivity extends BaseActivity {
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(nav_item_user_image);
         } else {
-            Glide.with(getApplicationContext()).load(R.drawable.btn_wtd)
+            Glide.with(getApplicationContext()).load(R.drawable.img_profile_none)
                     .bitmapTransform(new CropCircleTransformation(getApplicationContext()))
                     .into(nav_item_user_image);
         }
