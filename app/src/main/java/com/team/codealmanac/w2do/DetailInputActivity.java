@@ -36,6 +36,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.team.codealmanac.w2do.adapter.FolderSpinnerAdapter;
 import com.team.codealmanac.w2do.dialog.DatePickerDialogActivity;
 
@@ -87,6 +90,8 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
 
     private FontContract mFontContract;
 
+    private DatabaseReference mFolderReference;
+    private String USER_ID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,6 +100,8 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         mFontContract = new FontContract(getApplication().getAssets());
+        USER_ID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        mFolderReference = FirebaseDatabase.getInstance().getReference().child("todo_folder").child(USER_ID).child("folder");
 
         // 투두 내용 카드뷰 아이템
         act_detailInput_todo_content_edt = (EditText)findViewById(R.id.act_detailInput_todo_content_edt);
@@ -139,6 +146,7 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
         act_detailInput_more_detail_side_btn_memo = (ImageButton)findViewById(R.id.act_detailInput_more_detail_side_btn_memo);
 
         // 폴더 선택 spinner adapter
+
         String[] Folder_Spinner_item = getResources().getStringArray(R.array.folder);
         ArrayAdapter<String> Folder_Spinner_Adapter = new FolderSpinnerAdapter(
                 this, R.layout.adpitem_spinner_text, Folder_Spinner_item);
@@ -312,6 +320,7 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;

@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.team.codealmanac.w2do.InFolderActivity;
@@ -33,17 +34,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link TodoFolderListFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link TodoFolderListFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class TodoFolderListFragment extends Fragment {
     private String TAG = "TodoFolderListFragment";
-    private OnFragmentInteractionListener mListener;
 
     private RecyclerView mFolderListView;
     private DatabaseReference mTodoFolderReference;
@@ -56,15 +48,7 @@ public class TodoFolderListFragment extends Fragment {
     }
 
     public static TodoFolderListFragment newInstance() {
-//        TodoFolderListFragment fragment = new TodoFolderListFragment();
         return new TodoFolderListFragment();
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mTodoFolderReference = FirebaseDatabase.getInstance().getReference().child("todo_folder").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-        Log.d(TAG, "온 크리에이트");
     }
 
     @Override
@@ -76,7 +60,11 @@ public class TodoFolderListFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
-        Log.d(TAG, "onActivityCreated");
+
+        mTodoFolderReference = FirebaseDatabase.getInstance().getReference().child("todo_folder")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child("folder");
+
         // content_main의 recyclerview 설정
         mFolderListView = (RecyclerView) getActivity().findViewById(R.id.frag_todofolder_folderlist);
         final List<TodoFolder> TodoFolderItemList = new ArrayList<>();
@@ -104,23 +92,18 @@ public class TodoFolderListFragment extends Fragment {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Log.d(TAG, "onChildAdded: " + dataSnapshot.getKey() + " - " + dataSnapshot.getValue());
-                if(!dataSnapshot.getKey().equals("folder_count")){
-                    mFolderListAdapter.addItem(dataSnapshot.getValue(TodoFolder.class));
-                }
+                mFolderListAdapter.addItem(dataSnapshot.getValue(TodoFolder.class));
             }
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 Log.d(TAG, "onChildChanged: " + dataSnapshot.getValue());
-                if(!dataSnapshot.getKey().equals("folder_count")) {
-                    mFolderListAdapter.changeItem(dataSnapshot.getValue(TodoFolder.class));
-                }
+                mFolderListAdapter.changeItem(dataSnapshot.getValue(TodoFolder.class));
+
             }
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 Log.d(TAG, "onChildRemoved: " + dataSnapshot.getKey() + " - " + dataSnapshot.getValue());
-                if (!dataSnapshot.getKey().equals("folder_count")) {
-                    mFolderListAdapter.removeItem((int)dataSnapshot.getValue(TodoFolder.class).sequence);
-                }
+                mFolderListAdapter.removeItem((int)dataSnapshot.getValue(TodoFolder.class).sequence);
             }
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
@@ -131,57 +114,14 @@ public class TodoFolderListFragment extends Fragment {
         mTodoFolderReference.orderByValue().addChildEventListener(mTodoFolderListener);
     }
 
-    private void writeMainSchedule(){
-        for(int i = 1; i < 4; i++){
-            String key = mTodoFolderReference.push().getKey();
-
-            TodoFolder todoFolderModel = new TodoFolder(i, "테스트"+i, i+3);
-            mTodoFolderReference.child(key).setValue(todoFolderModel);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-    }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if(mTodoFolderListener != null) mTodoFolderReference.orderByValue().removeEventListener(mTodoFolderListener);
+        if(mTodoFolderListener != null) mTodoFolderReference.removeEventListener(mTodoFolderListener);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
     }
 }

@@ -17,11 +17,13 @@ public class Todo {
     public long end_date;
     public long alarm_date;
     public boolean alarm_recycle;
+    public String sharing;
     public int latitude;
     public int longitude;
     public String memo;
     public boolean visible;
 
-    public Todo() {
-    }
+    public Todo() {}
+
+
 }

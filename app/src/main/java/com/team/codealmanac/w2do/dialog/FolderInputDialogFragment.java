@@ -30,6 +30,8 @@ public class FolderInputDialogFragment extends DialogFragment implements View.On
     private EditText frag_folderInput_edit;
     private Button frag_folderInput_okbtn;
     private DatabaseReference mTodoFolderReference;
+    private DatabaseReference mTodoFolderCountReference;
+    private String USER_ID;
     public static FolderInputDialogFragment newInstance(){
         return new FolderInputDialogFragment();
     }
@@ -44,7 +46,15 @@ public class FolderInputDialogFragment extends DialogFragment implements View.On
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mTodoFolderReference = FirebaseDatabase.getInstance().getReference().child("todo_folder").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        USER_ID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        mTodoFolderReference = FirebaseDatabase.getInstance().getReference().child("todo_folder")
+                .child(USER_ID)
+                .child("folder");
+
+        mTodoFolderCountReference = FirebaseDatabase.getInstance().getReference().child("todo_folder")
+                .child(USER_ID)
+                .child("folder_count");
 
         frag_folderInput_edit = (EditText)getDialog().findViewById(R.id.frag_folderInput_edit);
         frag_folderInput_okbtn = (Button)getDialog().findViewById(R.id.frag_folderInput_okbtn);
@@ -60,21 +70,21 @@ public class FolderInputDialogFragment extends DialogFragment implements View.On
                 return;
             }
             final String key = mTodoFolderReference.push().getKey();
-            mTodoFolderReference.child("folder_count").addListenerForSingleValueEvent(new ValueEventListener() {
+            mTodoFolderCountReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    mTodoFolderReference.child(key).setValue(new TodoFolder((long)dataSnapshot.getValue(), frag_folderInput_edit.getText().toString(), 0));
                     if(dataSnapshot.exists()){
-                        mTodoFolderReference.child("folder_count").setValue( ((long)dataSnapshot.getValue()+1) );
+                        mTodoFolderReference.child(key).setValue(new TodoFolder((long)dataSnapshot.getValue(), frag_folderInput_edit.getText().toString(), 0));
+                        mTodoFolderCountReference.setValue( ((long)dataSnapshot.getValue()+1) );
                     } else {
-                        mTodoFolderReference.child("folder_count").setValue( (long)0 );
+                        mTodoFolderReference.child(key).setValue(new TodoFolder((long)0, frag_folderInput_edit.getText().toString(), 0));
+                        mTodoFolderCountReference.setValue( (long)0 );
                     }
                     getDialog().dismiss();
                 }
                 @Override
                 public void onCancelled(DatabaseError databaseError) {}
             });
-
         }
     }
 }
