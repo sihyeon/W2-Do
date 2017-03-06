@@ -80,7 +80,7 @@
             android:name=".InFolderActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".SimpleInputActivity"
+            android:name=".dialog.SimpleInputDialog"
             android:theme="@style/Theme.AppCompat.Dialog.Alert" />
         <activity
             android:name=".DetailInputActivity"

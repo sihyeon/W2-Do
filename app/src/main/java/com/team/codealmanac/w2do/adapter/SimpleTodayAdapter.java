@@ -1,7 +1,6 @@
 package com.team.codealmanac.w2do.adapter;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +8,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.team.codealmanac.w2do.R;
-import com.team.codealmanac.w2do.models.SimpleToday;
+import com.team.codealmanac.w2do.models.SimpleTodo;
 
 import java.util.ArrayList;
 
@@ -18,7 +17,7 @@ import java.util.ArrayList;
  */
 
 public class SimpleTodayAdapter extends RecyclerView.Adapter<SimpleTodayAdapter.ViewHolder> {
-    private ArrayList<SimpleToday> mItemList;
+    private ArrayList<SimpleTodo> mItemList;
 
     class ViewHolder extends RecyclerView.ViewHolder {
         CheckBox today_checkbox;
@@ -30,7 +29,7 @@ public class SimpleTodayAdapter extends RecyclerView.Adapter<SimpleTodayAdapter.
         }
     }
 
-    public SimpleTodayAdapter(ArrayList<SimpleToday> mItemList){
+    public SimpleTodayAdapter(ArrayList<SimpleTodo> mItemList){
         this.mItemList = mItemList;
     }
 
@@ -42,7 +41,7 @@ public class SimpleTodayAdapter extends RecyclerView.Adapter<SimpleTodayAdapter.
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        SimpleToday todayItem = mItemList.get(position);
+        SimpleTodo todayItem = mItemList.get(position);
         holder.today_checkbox.setActivated(todayItem.check_state);
         holder.today_content.setText(todayItem.content);
     }

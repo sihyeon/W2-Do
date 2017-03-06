@@ -25,5 +25,29 @@ public class Todo {
 
     public Todo() {}
 
+    public Todo(long today_sequence, long date, String content, String folder_name) {
+        this.today_sequence = today_sequence;
+        this.start_date = date;
+        this.end_date = date;
+        this.content = content;
+        this.folder_name = folder_name;
+    }
 
+    public Todo(long today_sequence, long folder_sequence, boolean check_state, String color, String folder_name, String content, long start_date, long end_date, long alarm_date, boolean alarm_recycle, String sharing, int latitude, int longitude, String memo, boolean visible) {
+        this.today_sequence = today_sequence;
+        this.folder_sequence = folder_sequence;
+        this.check_state = check_state;
+        this.color = color;
+        this.folder_name = folder_name;
+        this.content = content;
+        this.start_date = start_date;
+        this.end_date = end_date;
+        this.alarm_date = alarm_date;
+        this.alarm_recycle = alarm_recycle;
+        this.sharing = sharing;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.memo = memo;
+        this.visible = visible;
+    }
 }
