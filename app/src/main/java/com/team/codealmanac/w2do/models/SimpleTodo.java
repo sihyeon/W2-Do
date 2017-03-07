@@ -8,7 +8,6 @@ import com.google.firebase.database.IgnoreExtraProperties;
 
 @IgnoreExtraProperties
 public class SimpleTodo {
-    public long today_sequence;
     public long date;
     public String content;
     public boolean visible;
@@ -16,8 +15,7 @@ public class SimpleTodo {
 
     public SimpleTodo(){}
 
-    public SimpleTodo(long today_sequence, long date, String content, boolean visible, boolean check_state) {
-        this.today_sequence = today_sequence;
+    public SimpleTodo(long date, String content, boolean visible, boolean check_state) {
         this.date = date;
         this.content = content;
         this.visible = visible;

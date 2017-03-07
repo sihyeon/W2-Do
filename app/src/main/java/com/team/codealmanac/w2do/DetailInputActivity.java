@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import android.view.Menu;
@@ -23,6 +24,7 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.support.v4.content.ContextCompat;
+import android.widget.Toast;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -44,9 +46,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.team.codealmanac.w2do.adapter.FolderSpinnerAdapter;
 import com.team.codealmanac.w2do.dialog.DatePickerDialogActivity;
+import com.team.codealmanac.w2do.dialog.SimpleInputDialog;
+import com.team.codealmanac.w2do.models.SimpleTodo;
+import com.team.codealmanac.w2do.models.Todo;
 import com.team.codealmanac.w2do.models.TodoFolder;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import petrov.kristiyan.colorpicker.ColorPicker;
@@ -70,6 +78,8 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
     private TextView act_detailInput_calendar_start_date;
     private TextView act_detailInput_calendar_end_date;
     private ImageButton act_detailInput_calendar_allday_btn;
+    private long mStartDate;
+    private long mEndDate;
 
     // cardview items : 지도
     private boolean isLocationButtonOneClick = true;
@@ -95,9 +105,16 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
     private ImageButton act_detailInput_more_detail_side_btn_alarm;
     private ImageButton act_detailInput_more_detail_side_btn_memo;
 
+    //title 부분
+    private ImageButton act_detailInput_toolbar_save_btn;
+    private Button act_detailInput_toolbar_back_btn;
+
+
     private FontContract mFontContract;
 
     private DatabaseReference mFolderReference;
+    private DatabaseReference mTodoReference;
+    private DatabaseReference mSimpleTodoReference;
     private String USER_ID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +126,12 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
         mFontContract = new FontContract(getApplication().getAssets());
         USER_ID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         mFolderReference = FirebaseDatabase.getInstance().getReference().child("todo_folder").child(USER_ID).child("folder");
+        mTodoReference = FirebaseDatabase.getInstance().getReference().child("todo").child(USER_ID);
+        mSimpleTodoReference = FirebaseDatabase.getInstance().getReference().child("simple_todo").child(USER_ID);
+
+        // 타이틀 아이템
+        act_detailInput_toolbar_save_btn = (ImageButton)findViewById(R.id.act_detailInput_toolbar_save_btn);
+        act_detailInput_toolbar_back_btn = (Button)findViewById(R.id.act_detailInput_toolbar_back_btn);
 
         // 투두 내용 카드뷰 아이템
         act_detailInput_todo_content_edt = (EditText)findViewById(R.id.act_detailInput_todo_content_edt);
@@ -121,6 +144,8 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
         act_detailInput_folder_spinner = (Spinner)findViewById(R.id.act_detailInput_folder_spinner);
 
         // 캘린더 카드뷰 아이템
+        mStartDate = mEndDate = System.currentTimeMillis();
+        SimpleDateFormat format = new SimpleDateFormat("M월 d일(E)\nhh:mm a");
         act_detailInput_calendar_start_title_text = (TextView)findViewById(R.id.act_detailInput_calendar_start_title_text);
         act_detailInput_calendar_end_title_text = (TextView)findViewById(R.id.act_detailInput_calendar_end_title_text);
         act_detailInput_calendar_start_date = (TextView)findViewById(R.id.act_detailInput_calendar_start_date);
@@ -130,7 +155,8 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
         act_detailInput_calendar_end_title_text.setTypeface(mFontContract.NahumSquareB_Regular());
         act_detailInput_calendar_start_date.setTypeface(mFontContract.NahumSquareR_Regular());
         act_detailInput_calendar_end_date.setTypeface(mFontContract.NahumSquareR_Regular());
-
+        act_detailInput_calendar_start_date.setText(format.format(mStartDate));
+        act_detailInput_calendar_end_date.setText(format.format(mEndDate));
         // 구글맵 카드뷰 아이템
         act_detailInput_map_cardview = (CardView)findViewById(R.id.act_detailInput_map_cardview);
         act_detailInput_map_location_edt = (EditText)findViewById(R.id.act_detailInput_map_location_edt);
@@ -160,6 +186,10 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
                 for (DataSnapshot item : dataSnapshot.getChildren()){
                     spinnerItem.add(item.getValue(TodoFolder.class).name);
                 }
+                if(!dataSnapshot.exists()){
+                    mFolderReference.setValue(new TodoFolder(0, "auto-create", 0));
+                    spinnerItem.add("auto-create");
+                }
                 ArrayAdapter<String> Folder_Spinner_Adapter = new FolderSpinnerAdapter(
                         DetailInputActivity.this, R.layout.adpitem_spinner_text, spinnerItem.toArray(new String[spinnerItem.size()]));
                 Folder_Spinner_Adapter.setDropDownViewResource(R.layout.adpitem_spinner_dropdown);
@@ -168,7 +198,9 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
             @Override
             public void onCancelled(DatabaseError databaseError) {}
         });
-
+        //타이틀 리스너 등록
+        act_detailInput_toolbar_save_btn.setOnClickListener(this);
+        act_detailInput_toolbar_back_btn.setOnClickListener(this);
         //투두 카드뷰 리스너 등록
         act_detailInput_todo_content_color_picker.setOnClickListener(this);
         //캘린더 카드뷰 리스너 등록
@@ -206,26 +238,50 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
                 }
             }
         } else if( (requestCode == DATEPICKER_START_DATE_REQUEST_CODE || requestCode == DATEPICKER_END_DATE_REQUEST_CODE) && resultCode == RESULT_OK){
-            String date = "";
-            int month, day, dayofweek, hour, minute;
-            month = data.getIntExtra("Month", 0);
-            day = data.getIntExtra("Day", 0);
-//            dayofweek = data.getIntExtra("요일", 0);
-            hour = data.getIntExtra("Hour", 0);
-            minute = data.getIntExtra("Minute", 0);
-            date += month + "월 "
-                    + day + "일";
-//                    + "(" + dayofweek + ")";
-            date += "\n" + hour + ":"
-                    + minute;
-            if(requestCode == DATEPICKER_START_DATE_REQUEST_CODE) act_detailInput_calendar_start_date.setText(date);
-            else act_detailInput_calendar_end_date.setText(date);
+            long timeInMillis = data.getLongExtra("date", 0);
+            SimpleDateFormat format = new SimpleDateFormat("M월 d일(E)\nhh:mm a");
+            String date = format.format(timeInMillis);
+
+            if(requestCode == DATEPICKER_START_DATE_REQUEST_CODE) {
+                act_detailInput_calendar_start_date.setText(date);
+                mStartDate = timeInMillis;
+            } else {
+                act_detailInput_calendar_end_date.setText(date);
+                mEndDate = timeInMillis;
+            }
         }
     }
 
     //투두 입력
     private void setTodo(){
+        if(TextUtils.isEmpty(act_detailInput_todo_content_edt.getText())){
+            act_detailInput_todo_content_edt.setError("내용을 입력해주세요.");
+            return;
+        }
 
+        mFolderReference.orderByChild("name").equalTo(act_detailInput_folder_spinner.getSelectedItem().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot data : dataSnapshot.getChildren()){
+                    TodoFolder todoFolder = data.getValue(TodoFolder.class);
+                    data.child("todo_count").getRef().setValue(todoFolder.todo_count+1);
+                    Todo todo = new Todo(todoFolder.todo_count, false, mPickedColor,
+                            act_detailInput_folder_spinner.getSelectedItem().toString(), act_detailInput_todo_content_edt.getText().toString(),
+                            mStartDate, mEndDate, /*alarm*/0, /*alarm-recycle*/false, /*sharing*/null, /*lat*/0, /*lon*/0, /*memo*/null, true);
+                    SimpleTodo simpleTodo = new SimpleTodo(mStartDate, act_detailInput_todo_content_edt.getText().toString(),
+                            true, false);
+                    String todoKey = mTodoReference.push().getKey();
+                    String simpleTodoKey = mSimpleTodoReference.push().getKey();
+                    mTodoReference.child(todoKey).setValue(todo);
+                    mSimpleTodoReference.child(simpleTodoKey).setValue(simpleTodo);
+                    Toast.makeText(DetailInputActivity.this, "Todo가 저장되었습니다.", Toast.LENGTH_SHORT).show();
+                    DetailInputActivity.this.finish();
+                    break;
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
     }
     //컬러피커
     private void setColorPicker(){
@@ -256,14 +312,12 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
         colorPicker.setOnFastChooseColorListener(new ColorPicker.OnFastChooseColorListener() {
             @Override
             public void setOnFastChooseColorListener(int position, int color) {
-                Log.d(TAG, "colorPicker position" + position + ", color" + color + ", red:" + R.color.red);
                 GradientDrawable pickerButtonBgShape = (GradientDrawable)act_detailInput_todo_content_color_picker.getBackground();
                 pickerButtonBgShape.setColor(color);
+                mPickedColor = color;
             }
             @Override
-            public void onCancel() {
-                Log.d(TAG, "colorPicker cancel");
-            }
+            public void onCancel() {}
         }).setColumns(5).setDefaultColorButton(ContextCompat.getColor(getApplicationContext(), R.color.blue)).setRoundColorButton(true).show();
     }
 
@@ -295,9 +349,7 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
                     PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
                     try {
                         startActivityForResult(builder.build(DetailInputActivity.this), GOOGLE_MAP_REQUEST_CODE);
-                    } catch (GooglePlayServicesRepairableException e) {
-                        e.printStackTrace();
-                    } catch (GooglePlayServicesNotAvailableException e) {
+                    } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e) {
                         e.printStackTrace();
                     }
                 }
@@ -319,27 +371,13 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
                 act_detailInput_memo_cardview.setVisibility(View.VISIBLE);
                 act_detailInput_more_detail_side_btn_memo.setVisibility(View.GONE);
                 break;
+            case R.id.act_detailInput_toolbar_back_btn:
+                finish();
+                break;
+            case R.id.act_detailInput_toolbar_save_btn:     //세이브버튼
+                setTodo();
+                break;
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_detail_input, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_submit_btn) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
