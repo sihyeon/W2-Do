@@ -18,12 +18,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.text.SpannableString;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -36,10 +34,9 @@ import com.team.codealmanac.w2do.database.PreferencesManager;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.team.codealmanac.w2do.dialog.FolderInputDialogFragment;
+import com.team.codealmanac.w2do.dialog.SimpleInputDialog;
 import com.team.codealmanac.w2do.fragment.TodoFolderListFragment;
 import com.team.codealmanac.w2do.fragment.TodoSimpleListFragment;
-
-import java.util.ArrayList;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
@@ -148,7 +145,7 @@ public class MainActivity extends BaseActivity
         act_main_appbar_simpleInput_floatingbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent SimpleInput = new Intent(MainActivity.this,SimpleInputActivity.class);
+                Intent SimpleInput = new Intent(MainActivity.this,SimpleInputDialog.class);
                 startActivity(SimpleInput);
                 act_main_appbar_floatingActionsMenu.collapse();
             }
@@ -317,7 +314,7 @@ public class MainActivity extends BaseActivity
     }
 
     private void createNotification(){
-        PendingIntent buttonIntent = PendingIntent.getActivity(this, 0, new Intent(this, SimpleInputActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent buttonIntent = PendingIntent.getActivity(this, 0, new Intent(this, SimpleInputDialog.class), PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.icn_logo)
                 .setContentTitle("test")

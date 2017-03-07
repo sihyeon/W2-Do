@@ -37,10 +37,17 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.team.codealmanac.w2do.adapter.FolderSpinnerAdapter;
 import com.team.codealmanac.w2do.dialog.DatePickerDialogActivity;
+import com.team.codealmanac.w2do.models.TodoFolder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import petrov.kristiyan.colorpicker.ColorPicker;
 
@@ -146,12 +153,21 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
         act_detailInput_more_detail_side_btn_memo = (ImageButton)findViewById(R.id.act_detailInput_more_detail_side_btn_memo);
 
         // 폴더 선택 spinner adapter
-
-        String[] Folder_Spinner_item = getResources().getStringArray(R.array.folder);
-        ArrayAdapter<String> Folder_Spinner_Adapter = new FolderSpinnerAdapter(
-                this, R.layout.adpitem_spinner_text, Folder_Spinner_item);
-        Folder_Spinner_Adapter.setDropDownViewResource(R.layout.adpitem_spinner_dropdown);
-        act_detailInput_folder_spinner.setAdapter(Folder_Spinner_Adapter);
+        mFolderReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<String> spinnerItem = new ArrayList<>();
+                for (DataSnapshot item : dataSnapshot.getChildren()){
+                    spinnerItem.add(item.getValue(TodoFolder.class).name);
+                }
+                ArrayAdapter<String> Folder_Spinner_Adapter = new FolderSpinnerAdapter(
+                        DetailInputActivity.this, R.layout.adpitem_spinner_text, spinnerItem.toArray(new String[spinnerItem.size()]));
+                Folder_Spinner_Adapter.setDropDownViewResource(R.layout.adpitem_spinner_dropdown);
+                act_detailInput_folder_spinner.setAdapter(Folder_Spinner_Adapter);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
 
         //투두 카드뷰 리스너 등록
         act_detailInput_todo_content_color_picker.setOnClickListener(this);
@@ -205,6 +221,11 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
             if(requestCode == DATEPICKER_START_DATE_REQUEST_CODE) act_detailInput_calendar_start_date.setText(date);
             else act_detailInput_calendar_end_date.setText(date);
         }
+    }
+
+    //투두 입력
+    private void setTodo(){
+
     }
     //컬러피커
     private void setColorPicker(){

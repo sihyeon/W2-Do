@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.team.codealmanac.w2do.R;
 import com.team.codealmanac.w2do.adapter.SimpleTodayAdapter;
 import com.team.codealmanac.w2do.models.MainSchedule;
-import com.team.codealmanac.w2do.models.SimpleToday;
+import com.team.codealmanac.w2do.models.SimpleTodo;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -90,7 +89,7 @@ public class TodoSimpleListFragment extends Fragment {
         frag_main_schedule_checkbox = (CheckBox)view.findViewById(R.id.frag_main_schedule_checkbox);
 
         mschedule_input_btn = (Button)view.findViewById(R.id.mainschedule_input_btn);
-        today_header_text = (TextView)view.findViewById(R.id.today_header_text);
+        today_header_text = (TextView)view.findViewById(R.id.act_simpleinput_header_text);
         today_listview = (RecyclerView)view.findViewById(R.id.frag_today_listview);
 
 
@@ -107,11 +106,11 @@ public class TodoSimpleListFragment extends Fragment {
         view.findViewById(R.id.frag_todosimple_main_schedule_input_layout).setVisibility(View.VISIBLE);
         view.findViewById(R.id.frag_todosimple_main_schedule_exist_layout).setVisibility(View.GONE);
 
-        ArrayList<SimpleToday> item = new ArrayList<>();
-        item.add(new SimpleToday(1, "영어 복습 하기", true));
-        item.add(new SimpleToday(2, "안드로이드 개발", false));
-        item.add(new SimpleToday(3, "하하하하하", true));
-        item.add(new SimpleToday(4, "밥먹기", false));
+        ArrayList<SimpleTodo> item = new ArrayList<>();
+//        item.add(new SimpleTodo(1, "영어 복습 하기", true));
+//        item.add(new SimpleTodo(2, "안드로이드 개발", false));
+//        item.add(new SimpleTodo(3, "하하하하하", true));
+//        item.add(new SimpleTodo(4, "밥먹기", false));
         today_listview.setLayoutManager(new GridLayoutManager(getContext(), 1));
         today_listview.setAdapter(new SimpleTodayAdapter(item));
 

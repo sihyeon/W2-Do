@@ -74,7 +74,7 @@ public class FolderInputDialogFragment extends DialogFragment implements View.On
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if(dataSnapshot.exists()){
-                        mTodoFolderReference.child(key).setValue(new TodoFolder((long)dataSnapshot.getValue(), frag_folderInput_edit.getText().toString(), 0));
+                        mTodoFolderReference.child(key).setValue(new TodoFolder((long)dataSnapshot.getValue()+1, frag_folderInput_edit.getText().toString(), 0));
                         mTodoFolderCountReference.setValue( ((long)dataSnapshot.getValue()+1) );
                     } else {
                         mTodoFolderReference.child(key).setValue(new TodoFolder((long)0, frag_folderInput_edit.getText().toString(), 0));
