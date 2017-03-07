@@ -7,8 +7,12 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.google.firebase.database.Query;
 import com.team.codealmanac.w2do.R;
 import com.team.codealmanac.w2do.models.SimpleTodo;
+
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.team.codealmanac.w2do.viewholder.SimpleTodoViewHolder;
 
 import java.util.ArrayList;
 
@@ -16,40 +20,24 @@ import java.util.ArrayList;
  * Created by Choi Jaeung on 2017-01-18.
  */
 
-public class SimpleTodayAdapter extends RecyclerView.Adapter<SimpleTodayAdapter.ViewHolder> {
-    private ArrayList<SimpleTodo> mItemList;
-
-    class ViewHolder extends RecyclerView.ViewHolder {
-        CheckBox today_checkbox;
-        TextView today_content;
-        ViewHolder(View itemView) {
-            super(itemView);
-            today_checkbox = (CheckBox)itemView.findViewById(R.id.adp_simpletoday_checkbox);
-            today_content = (TextView)itemView.findViewById(R.id.adp_simpletoday_content);
-        }
-    }
-
-    public SimpleTodayAdapter(ArrayList<SimpleTodo> mItemList){
-        this.mItemList = mItemList;
-    }
-
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adpitem_simpletoday_item, null);
-        return (new ViewHolder(v));
+public class SimpleTodayAdapter extends FirebaseRecyclerAdapter<SimpleTodo, SimpleTodoViewHolder> {
+    /**
+     * @param modelClass      Firebase will marshall the data at a location into
+     *                        an instance of a class that you provide
+     * @param modelLayout     This is the layout used to represent a single item in the list.
+     *                        You will be responsible for populating an instance of the corresponding
+     *                        view with the data from an instance of modelClass.
+     * @param viewHolderClass The class that hold references to all sub-views in an instance modelLayout.
+     * @param ref             The Firebase location to watch for data changes. Can also be a slice of a location,
+     *                        using some combination of {@code limit()}, {@code startAt()}, and {@code endAt()}.
+     */
+    public SimpleTodayAdapter(Class<SimpleTodo> modelClass, int modelLayout, Class<SimpleTodoViewHolder> viewHolderClass, Query ref) {
+        super(modelClass, modelLayout, viewHolderClass, ref);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        SimpleTodo todayItem = mItemList.get(position);
-        holder.today_checkbox.setActivated(todayItem.check_state);
-        holder.today_content.setText(todayItem.content);
+    protected void populateViewHolder(SimpleTodoViewHolder viewHolder, SimpleTodo model, int position) {
+        viewHolder.today_content.setText(model.content);
+        viewHolder.today_checkbox.setActivated(model.visible);
     }
-
-    @Override
-    public int getItemCount() {
-        return mItemList.size();
-    }
-
-
 }
