@@ -1,20 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="#f2f2f2"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:fitsSystemWindows="true">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusable="true"
         android:focusableInTouchMode="true"
+        android:fitsSystemWindows="true"
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/Edit_Profile_linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:background="@drawable/bg_toparea_profile"
+            android:fitsSystemWindows="true"
             android:orientation="vertical">
 
             <Button
@@ -63,39 +71,42 @@
             android:textColor="#999999"
             android:text="닉네임" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:id="@+id/nav_profile_edittext"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:imeOptions="actionDone"
-            android:layout_marginTop="15dp"
-            android:layout_marginStart="16dp"
-            android:textColorHint="#333333"
-            android:textSize="15dp"
-            android:inputType="textPersonName"
-            android:background="@null"/>
+            android:fitsSystemWindows="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
 
-        <View
-            android:id="@+id/nav_profile_edittext_bottom_line"
-            android:layout_width="304dp"
-            android:layout_height="1dp"
-            android:layout_below="@+id/nav_profile_edittext"
-            android:layout_marginTop="5dp"
-            android:layout_marginStart="16dp"
-            android:background="#1A999999" />
+            <EditText
+                android:id="@+id/nav_profile_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:imeOptions="actionDone"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="16dp"
+                android:textColorHint="#333333"
+                android:textSize="15dp"
+                android:inputType="textPersonName"
+                android:background="@null"/>
 
-        <Button
-            android:id="@+id/nav_edit_profile_btn"
-            android:layout_width="17dp"
-            android:layout_height="17dp"
-            android:layout_marginLeft="7dp"
-            android:layout_alignBottom="@+id/nav_profile_edittext_bottom_line"
-            android:layout_toEndOf="@id/nav_profile_edittext_bottom_line"
-            android:background="@drawable/btn_modify_profile" />
-    </RelativeLayout>
+            <View
+                android:id="@+id/nav_profile_edittext_bottom_line"
+                android:layout_width="304dp"
+                android:layout_height="1dp"
+                android:layout_below="@+id/nav_profile_edittext"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="16dp"
+                android:background="#1A999999" />
+
+            <Button
+                android:id="@+id/nav_edit_profile_btn"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:layout_marginLeft="7dp"
+                android:layout_alignBottom="@+id/nav_profile_edittext_bottom_line"
+                android:layout_toEndOf="@id/nav_profile_edittext_bottom_line"
+                android:background="@drawable/btn_modify_profile" />
+        </RelativeLayout>
     </LinearLayout>
 </ScrollView>

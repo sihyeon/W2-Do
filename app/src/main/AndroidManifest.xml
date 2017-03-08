@@ -90,7 +90,6 @@
             android:theme="@android:style/Theme.Dialog" />
 
         <activity android:name=".NavEditProfileActivity"
-            android:windowSoftInputMode="stateAlwaysVisible|adjustPan"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity android:name=".NavTeamActivity"
