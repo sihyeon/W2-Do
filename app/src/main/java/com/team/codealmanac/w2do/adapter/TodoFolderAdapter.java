@@ -7,60 +7,34 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.Query;
 import com.team.codealmanac.w2do.R;
 import com.team.codealmanac.w2do.models.TodoFolder;
+import com.team.codealmanac.w2do.viewholder.TodoFolderViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TodoFolderAdapter extends RecyclerView.Adapter<TodoFolderAdapter.ViewHolder> {
-    private List<TodoFolder> mItemList;
-    class ViewHolder extends RecyclerView.ViewHolder {
-        protected TextView folder_name;
-        protected TextView todo_count;
+public class TodoFolderAdapter extends FirebaseRecyclerAdapter<TodoFolder, TodoFolderViewHolder> {
 
-        ViewHolder(View itemView) {
-            super(itemView);
-            Typeface typeface = Typeface.createFromAsset(itemView.getContext().getAssets(), "NanumSquareR.ttf");
-            folder_name = (TextView)itemView.findViewById(R.id.adp_todofolder_name);
-            todo_count = (TextView)itemView.findViewById(R.id.adp_todofolder_count);
-            folder_name.setTypeface(typeface); todo_count.setTypeface(typeface);
-        }
-    }
-
-    public TodoFolderAdapter(List<TodoFolder> itemList) {
-        this.mItemList = itemList;
-    }
-
-    public void addItem(TodoFolder item){
-        mItemList.add(item);
-        notifyItemInserted(getItemCount());
-    }
-
-    public void changeItem(TodoFolder item){
-        mItemList.set((int)item.sequence, item);
-        notifyItemChanged((int)item.sequence);
-    }
-
-    public void removeItem(int position){
-        mItemList.remove(position);
-        notifyItemRemoved(position);
-    }
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adpitem_todofolder_item, null);
-        return (new ViewHolder(v));
+    /**
+     * @param modelClass      Firebase will marshall the data at a location into
+     *                        an instance of a class that you provide
+     * @param modelLayout     This is the layout used to represent a single item in the list.
+     *                        You will be responsible for populating an instance of the corresponding
+     *                        view with the data from an instance of modelClass.
+     * @param viewHolderClass The class that hold references to all sub-views in an instance modelLayout.
+     * @param ref             The Firebase location to watch for data changes. Can also be a slice of a location,
+     *                        using some combination of {@code limit()}, {@code startAt()}, and {@code endAt()}.
+     */
+    public TodoFolderAdapter(Class<TodoFolder> modelClass, int modelLayout, Class<TodoFolderViewHolder> viewHolderClass, Query ref) {
+        super(modelClass, modelLayout, viewHolderClass, ref);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        TodoFolder todoFolderItem = mItemList.get(position);
-        holder.folder_name.setText(todoFolderItem.name);
-        holder.todo_count.setText(String.valueOf(todoFolderItem.todo_count));
-    }
-
-    @Override
-    public int getItemCount() {
-        return mItemList.size();
+    protected void populateViewHolder(TodoFolderViewHolder viewHolder, TodoFolder model, int position) {
+        viewHolder.folder_name.setText(model.name);
+        viewHolder.todo_count.setText(String.valueOf(model.todo_count));
     }
 }

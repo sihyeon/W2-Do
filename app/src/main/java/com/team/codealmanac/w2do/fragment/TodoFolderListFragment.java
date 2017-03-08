@@ -29,6 +29,7 @@ import com.team.codealmanac.w2do.R;
 import com.team.codealmanac.w2do.adapter.TodoFolderAdapter;
 import com.team.codealmanac.w2do.listeners.RecyclerViewOnItemClickListener;
 import com.team.codealmanac.w2do.models.TodoFolder;
+import com.team.codealmanac.w2do.viewholder.TodoFolderViewHolder;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -85,43 +86,7 @@ public class TodoFolderListFragment extends Fragment {
         mFolderListView.setHasFixedSize(true);
         mFolderListView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         mFolderListView.addOnItemTouchListener(folderItemListener);
-        mFolderListAdapter = new TodoFolderAdapter(TodoFolderItemList);
+        mFolderListAdapter = new TodoFolderAdapter(TodoFolder.class, R.layout.adpitem_todofolder_item, TodoFolderViewHolder.class, mTodoFolderReference);
         mFolderListView.setAdapter(mFolderListAdapter);
-
-        mTodoFolderListener = new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Log.d(TAG, "onChildAdded: " + dataSnapshot.getKey() + " - " + dataSnapshot.getValue());
-                mFolderListAdapter.addItem(dataSnapshot.getValue(TodoFolder.class));
-            }
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                Log.d(TAG, "onChildChanged: " + dataSnapshot.getValue());
-                mFolderListAdapter.changeItem(dataSnapshot.getValue(TodoFolder.class));
-
-            }
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Log.d(TAG, "onChildRemoved: " + dataSnapshot.getKey() + " - " + dataSnapshot.getValue());
-                mFolderListAdapter.removeItem((int)dataSnapshot.getValue(TodoFolder.class).sequence);
-            }
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
-            @Override
-            public void onCancelled(DatabaseError databaseError) {}
-        };
-
-        mTodoFolderReference.orderByValue().addChildEventListener(mTodoFolderListener);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if(mTodoFolderListener != null) mTodoFolderReference.removeEventListener(mTodoFolderListener);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
     }
 }
