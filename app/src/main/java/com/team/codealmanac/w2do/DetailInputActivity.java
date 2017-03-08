@@ -273,9 +273,8 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
                     SimpleTodo simpleTodo = new SimpleTodo(mStartDate, act_detailInput_todo_content_edt.getText().toString(),
                             true, false);
                     String todoKey = mTodoReference.push().getKey();
-                    String simpleTodoKey = mSimpleTodoReference.push().getKey();
                     mTodoReference.child(todoKey).setValue(todo);
-                    mSimpleTodoReference.child(simpleTodoKey).setValue(simpleTodo);
+                    mSimpleTodoReference.child(todoKey).setValue(simpleTodo);
                     Toast.makeText(DetailInputActivity.this, "Todo가 저장되었습니다.", Toast.LENGTH_SHORT).show();
                     DetailInputActivity.this.finish();
                     break;

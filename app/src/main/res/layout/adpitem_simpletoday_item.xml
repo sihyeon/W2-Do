@@ -16,7 +16,8 @@
             android:layout_height="24dp"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="16dp"
-            android:button="@drawable/check_box_layout" />
+            android:button="@drawable/check_box_layout"
+            android:clickable="false"/>
 
         <TextView
             android:id="@+id/adp_simpletoday_content"

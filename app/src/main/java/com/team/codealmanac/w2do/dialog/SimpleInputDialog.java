@@ -96,9 +96,8 @@ public class SimpleInputDialog extends AppCompatActivity implements View.OnClick
                     SimpleTodo simpleTodo = new SimpleTodo(System.currentTimeMillis(),
                             act_simpleinput_edittext.getText().toString(), true, false);
                     Todo todo = new Todo(mFolder.todo_count, System.currentTimeMillis(), act_simpleinput_edittext.getText().toString(), mFolder.name);
-                    String simpleTodoKey = mSimpleTodoReference.push().getKey();
                     String todoKey = mTodoReference.push().getKey();
-                    mSimpleTodoReference.child(simpleTodoKey).setValue(simpleTodo);
+                    mSimpleTodoReference.child(todoKey).setValue(simpleTodo);
                     mTodoReference.child(todoKey).setValue(todo);
                     if (!dataSnapshot.exists()) {
                         String key = mFolderReference.child("folder").push().getKey();

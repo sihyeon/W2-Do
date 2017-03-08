@@ -3,7 +3,6 @@ package com.team.codealmanac.w2do.fragment;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,11 +15,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -29,12 +30,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.team.codealmanac.w2do.R;
-import com.team.codealmanac.w2do.adapter.SimpleTodayAdapter;
 import com.team.codealmanac.w2do.models.MainSchedule;
 import com.team.codealmanac.w2do.models.SimpleTodo;
 import com.team.codealmanac.w2do.viewholder.SimpleTodoViewHolder;
 
-import java.sql.Date;
 import java.util.Calendar;
 
 
@@ -114,8 +113,18 @@ public class TodoSimpleListFragment extends Fragment {
 
         Query simpleTodoQuery = mSimpleTodoReference.orderByChild("date").startAt(calendar.getTimeInMillis()).endAt(calendar.getTimeInMillis() + (1000 * 60 * 60 * 24 - 1000));
         today_listview.setLayoutManager(new GridLayoutManager(getContext(), 1));
-        today_listview.setAdapter(new SimpleTodayAdapter(SimpleTodo.class, R.layout.adpitem_simpletoday_item, SimpleTodoViewHolder.class, simpleTodoQuery));
+        today_listview.setAdapter(new FirebaseRecyclerAdapter<SimpleTodo, SimpleTodoViewHolder>(SimpleTodo.class, R.layout.adpitem_simpletoday_item, SimpleTodoViewHolder.class, simpleTodoQuery) {
+            private String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            @Override
+            protected void populateViewHolder(SimpleTodoViewHolder viewHolder, SimpleTodo model, int position) {
+                viewHolder.mSimpleTodoReference = getRef(position);
+                viewHolder.mTodoReference = FirebaseDatabase.getInstance().getReference().child("todo").
+                        child(userId).child(getRef(position).getKey());
+                viewHolder.today_content.setText(model.content);
+                viewHolder.today_checkbox.setChecked(model.check_state);
+            }
 
+        });
         return view;
     }
 
