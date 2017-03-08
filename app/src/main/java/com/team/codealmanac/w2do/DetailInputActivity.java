@@ -187,7 +187,9 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
                     spinnerItem.add(item.getValue(TodoFolder.class).name);
                 }
                 if(!dataSnapshot.exists()){
-                    mFolderReference.setValue(new TodoFolder(0, "auto-create", 0));
+                    String todoFolderKey = mFolderReference.push().getKey();
+                    mFolderReference.child(todoFolderKey).setValue(new TodoFolder(0, "auto-create", 0));
+                    mFolderReference.getParent().child("folder_count").setValue(0);
                     spinnerItem.add("auto-create");
                 }
                 ArrayAdapter<String> Folder_Spinner_Adapter = new FolderSpinnerAdapter(
