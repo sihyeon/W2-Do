@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -96,6 +97,7 @@ public class NavEditProfileActivity extends BaseActivity implements View.OnClick
             }
             mNicknameReference.child( FirebaseAuth.getInstance().getCurrentUser().getUid() ).setValue(ChangedNickName);
             PreferencesManager.setNickname(getApplicationContext(), ChangedNickName);
+            Toast.makeText(this,"닉네임이 변경되었습니다.",Toast.LENGTH_SHORT).show();
         }
         return false;
     }

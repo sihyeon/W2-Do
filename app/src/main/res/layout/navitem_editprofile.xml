@@ -71,6 +71,7 @@
             android:id="@+id/nav_profile_edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:imeOptions="actionDone"
             android:layout_marginTop="15dp"
             android:layout_marginStart="16dp"
             android:textColorHint="#333333"
