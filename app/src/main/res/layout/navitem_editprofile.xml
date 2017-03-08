@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="#f2f2f2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:orientation="vertical">
 
         <LinearLayout
@@ -12,11 +17,19 @@
             android:background="@drawable/bg_toparea_profile"
             android:orientation="vertical">
 
+            <Button
+                android:id="@+id/nav_profile_backpress_btn"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="29dp"
+                android:background="@drawable/btn_arrow_left"/>
+
             <ImageView
                 android:id="@+id/nav_item_user_image"
                 android:layout_width="108dp"
                 android:layout_height="108dp"
-                android:layout_marginTop="171dp"
+                android:layout_marginTop="110dp"
                 android:layout_gravity="center"/>
 
             <TextView
@@ -24,6 +37,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:textSize="16dp"
+                android:textColor="#333333"
                 android:layout_marginTop="25dp"
                 android:text="UserName" />
 
@@ -31,15 +46,55 @@
                 android:id="@+id/nav_item_user_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:textColor="#666666"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:text="email"/>
         </LinearLayout>
 
-    <TextView
-        android:id="@+id/nav_item_user_nickname"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="85dp"
-        android:text="NickName" />
-</LinearLayout>
+        <TextView
+            android:id="@+id/nav_item_nickname_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="17dp"
+            android:textSize="13dp"
+            android:textColor="#999999"
+            android:text="닉네임" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/nav_profile_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="16dp"
+            android:textColorHint="#333333"
+            android:textSize="15dp"
+            android:inputType="textPersonName"
+            android:background="@null"/>
+
+        <View
+            android:id="@+id/nav_profile_edittext_bottom_line"
+            android:layout_width="304dp"
+            android:layout_height="1dp"
+            android:layout_below="@+id/nav_profile_edittext"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="16dp"
+            android:background="#1A999999" />
+
+        <Button
+            android:id="@+id/nav_edit_profile_btn"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:layout_marginLeft="7dp"
+            android:layout_alignBottom="@+id/nav_profile_edittext_bottom_line"
+            android:layout_toEndOf="@id/nav_profile_edittext_bottom_line"
+            android:background="@drawable/btn_modify_profile" />
+    </RelativeLayout>
+    </LinearLayout>
+</ScrollView>

@@ -372,7 +372,7 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
                 act_detailInput_more_detail_side_btn_memo.setVisibility(View.GONE);
                 break;
             case R.id.act_detailInput_toolbar_back_btn:
-                finish();
+                onBackPressed();
                 break;
             case R.id.act_detailInput_toolbar_save_btn:     //세이브버튼
                 setTodo();
