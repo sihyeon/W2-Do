@@ -7,10 +7,9 @@ import com.google.firebase.database.IgnoreExtraProperties;
  */
 @IgnoreExtraProperties
 public class Todo {
-    public long today_sequence;
     public long folder_sequence;
     public boolean check_state;
-    public String color;
+    public int color;
     public String folder_name;
     public String content;
     public long start_date;
@@ -18,23 +17,22 @@ public class Todo {
     public long alarm_date;
     public boolean alarm_recycle;
     public String sharing;
-    public int latitude;
-    public int longitude;
+    public double latitude;
+    public double longitude;
     public String memo;
     public boolean visible;
 
     public Todo() {}
 
-    public Todo(long today_sequence, long date, String content, String folder_name) {
-        this.today_sequence = today_sequence;
+    public Todo(long folder_sequence, long date, String content, String folder_name) {
+        this.folder_sequence = folder_sequence;
         this.start_date = date;
         this.end_date = date;
         this.content = content;
         this.folder_name = folder_name;
     }
 
-    public Todo(long today_sequence, long folder_sequence, boolean check_state, String color, String folder_name, String content, long start_date, long end_date, long alarm_date, boolean alarm_recycle, String sharing, int latitude, int longitude, String memo, boolean visible) {
-        this.today_sequence = today_sequence;
+    public Todo(long folder_sequence, boolean check_state, int color, String folder_name, String content, long start_date, long end_date, long alarm_date, boolean alarm_recycle, String sharing, double latitude, double longitude, String memo, boolean visible) {
         this.folder_sequence = folder_sequence;
         this.check_state = check_state;
         this.color = color;

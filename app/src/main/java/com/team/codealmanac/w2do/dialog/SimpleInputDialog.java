@@ -76,7 +76,7 @@ public class SimpleInputDialog extends AppCompatActivity implements View.OnClick
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.act_simpleinput_submit_btn) {
-            if (TextUtils.isEmpty(act_simpleinput_edittext.getText().toString())) {
+            if (TextUtils.isEmpty(act_simpleinput_edittext.getText())) {
                 act_simpleinput_edittext.setError("내용을 입력해주세요.");
                 return;
             }
@@ -93,11 +93,8 @@ public class SimpleInputDialog extends AppCompatActivity implements View.OnClick
                         break;
                     }
 
-                    SimpleTodo simpleTodo = new SimpleTodo(mFolder.todo_count,
-                            System.currentTimeMillis(),
-                            act_simpleinput_edittext.getText().toString(),
-                            true,
-                            false);
+                    SimpleTodo simpleTodo = new SimpleTodo(System.currentTimeMillis(),
+                            act_simpleinput_edittext.getText().toString(), true, false);
                     Todo todo = new Todo(mFolder.todo_count, System.currentTimeMillis(), act_simpleinput_edittext.getText().toString(), mFolder.name);
                     String simpleTodoKey = mSimpleTodoReference.push().getKey();
                     String todoKey = mTodoReference.push().getKey();
@@ -112,9 +109,9 @@ public class SimpleInputDialog extends AppCompatActivity implements View.OnClick
                     }
                     SimpleInputDialog.this.finish();
                 }
-
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
+                    SimpleInputDialog.this.finish();
                 }
             });
         } else {

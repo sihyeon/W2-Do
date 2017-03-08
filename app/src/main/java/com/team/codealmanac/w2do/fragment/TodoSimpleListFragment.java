@@ -3,12 +3,14 @@ package com.team.codealmanac.w2do.fragment;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,12 +27,14 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.team.codealmanac.w2do.R;
 import com.team.codealmanac.w2do.adapter.SimpleTodayAdapter;
 import com.team.codealmanac.w2do.models.MainSchedule;
 import com.team.codealmanac.w2do.models.SimpleTodo;
+import com.team.codealmanac.w2do.viewholder.SimpleTodoViewHolder;
 
-import java.util.ArrayList;
+import java.sql.Date;
 import java.util.Calendar;
 
 
@@ -53,6 +57,7 @@ public class TodoSimpleListFragment extends Fragment {
     private DatabaseReference mMainScheduleReference;
     private ChildEventListener mMainScheduleListener;
 
+    private DatabaseReference mSimpleTodoReference;
 
     public TodoSimpleListFragment() {
         // Required empty public constructor
@@ -61,17 +66,7 @@ public class TodoSimpleListFragment extends Fragment {
 
     // TODO: Rename and change types and number of parameters
     public static TodoSimpleListFragment newInstance() {
-        TodoSimpleListFragment fragment = new TodoSimpleListFragment();
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        // [START initialize_database_ref]
-        mMainScheduleReference = FirebaseDatabase.getInstance().getReference().child("main_schedule").child(userId);
-        // [END initialize_database_ref]
+        return new TodoSimpleListFragment();
     }
 
     @Override
@@ -79,6 +74,11 @@ public class TodoSimpleListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_todo_simple_list, container, false);
+
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        mMainScheduleReference = FirebaseDatabase.getInstance().getReference().child("main_schedule").child(userId);
+        mSimpleTodoReference = FirebaseDatabase.getInstance().getReference().child("simple_todo").child(userId);
 
         main_schedule_framelayout = (FrameLayout)view.findViewById(R.id.main_schedule_framelayout);
         frag_main_schedule_input_layout = (LinearLayout)view.findViewById(R.id.frag_main_schedule_input_layout);
@@ -106,13 +106,15 @@ public class TodoSimpleListFragment extends Fragment {
         view.findViewById(R.id.frag_todosimple_main_schedule_input_layout).setVisibility(View.VISIBLE);
         view.findViewById(R.id.frag_todosimple_main_schedule_exist_layout).setVisibility(View.GONE);
 
-        ArrayList<SimpleTodo> item = new ArrayList<>();
-//        item.add(new SimpleTodo(1, "영어 복습 하기", true));
-//        item.add(new SimpleTodo(2, "안드로이드 개발", false));
-//        item.add(new SimpleTodo(3, "하하하하하", true));
-//        item.add(new SimpleTodo(4, "밥먹기", false));
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        Log.d(TAG, "time: " + (calendar.getTimeInMillis() + (1000 * 60 * 60 * 24 - 1000)));
+
+        Query simpleTodoQuery = mSimpleTodoReference.orderByChild("date").startAt(calendar.getTimeInMillis()).endAt(calendar.getTimeInMillis() + (1000 * 60 * 60 * 24 - 1000));
         today_listview.setLayoutManager(new GridLayoutManager(getContext(), 1));
-        today_listview.setAdapter(new SimpleTodayAdapter(item));
+        today_listview.setAdapter(new SimpleTodayAdapter(SimpleTodo.class, R.layout.adpitem_simpletoday_item, SimpleTodoViewHolder.class, simpleTodoQuery));
 
         return view;
     }

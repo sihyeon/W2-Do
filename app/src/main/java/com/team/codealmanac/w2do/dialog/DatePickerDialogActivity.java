@@ -18,6 +18,8 @@ import android.widget.TimePicker;
 
 import com.team.codealmanac.w2do.R;
 
+import java.util.Calendar;
+
 public class DatePickerDialogActivity extends Activity implements View.OnClickListener{
     private ViewPager act_date_picker_dialog_viewpager;
     private Button act_date_picker_dialog_okButton;
@@ -81,18 +83,34 @@ public class DatePickerDialogActivity extends Activity implements View.OnClickLi
     @Override
     public void onClick(View view) {
         if(view.getId() == R.id.act_date_picker_dialog_okButton){
+//            intent.putExtra("time", act_date_picker_dialog_datePicker);
+//            intent.putExtra("Year", act_date_picker_dialog_datePicker.getYear());
+//            intent.putExtra("Month", act_date_picker_dialog_datePicker.getMonth()+1);
+//            intent.putExtra("Day", act_date_picker_dialog_datePicker.getDayOfMonth());
+////            intent.putExtra("요일", act_date_picker_dialog_datePicker.getFirstDayOfWeek());
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                intent.putExtra("Hour", act_date_picker_dialog_timePicker.getHour());
+//                intent.putExtra("Minute", act_date_picker_dialog_timePicker.getMinute());
+//            } else {
+//                intent.putExtra("Hour", act_date_picker_dialog_timePicker.getCurrentHour());
+//                intent.putExtra("Minute", act_date_picker_dialog_timePicker.getCurrentMinute());
+//            }
+            Calendar calendar = Calendar.getInstance();
             Intent intent = new Intent();
-            intent.putExtra("Year", act_date_picker_dialog_datePicker.getYear());
-            intent.putExtra("Month", act_date_picker_dialog_datePicker.getMonth()+1);
-            intent.putExtra("Day", act_date_picker_dialog_datePicker.getDayOfMonth());
-//            intent.putExtra("요일", act_date_picker_dialog_datePicker.getFirstDayOfWeek());
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                intent.putExtra("Hour", act_date_picker_dialog_timePicker.getHour());
-                intent.putExtra("Minute", act_date_picker_dialog_timePicker.getMinute());
+                calendar.set(act_date_picker_dialog_datePicker.getYear(),
+                        act_date_picker_dialog_datePicker.getMonth(),
+                        act_date_picker_dialog_datePicker.getDayOfMonth(),
+                        act_date_picker_dialog_timePicker.getHour(),
+                        act_date_picker_dialog_timePicker.getMinute());
             } else {
-                intent.putExtra("Hour", act_date_picker_dialog_timePicker.getCurrentHour());
-                intent.putExtra("Minute", act_date_picker_dialog_timePicker.getCurrentMinute());
+                calendar.set(act_date_picker_dialog_datePicker.getYear(),
+                        act_date_picker_dialog_datePicker.getMonth(),
+                        act_date_picker_dialog_datePicker.getDayOfMonth(),
+                        act_date_picker_dialog_timePicker.getCurrentHour(),
+                        act_date_picker_dialog_timePicker.getCurrentMinute());
             }
+            intent.putExtra("date", calendar.getTimeInMillis());
             setResult(RESULT_OK, intent);
             finish();
         }
