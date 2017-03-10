@@ -21,7 +21,7 @@ public class InFolderTodoAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adpitem_infodertodo_item, null);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adpitem_infodertodolist, null);
         return (new InFolderTodoAdapter.ViewHolder(v));
     }
 

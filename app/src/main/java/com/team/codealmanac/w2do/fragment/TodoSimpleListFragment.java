@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -40,10 +39,9 @@ import java.util.Calendar;
 public class TodoSimpleListFragment extends Fragment {
     private final String TAG = "TodoSimpleListFragment";
 
-    private OnFragmentInteractionListener mListener;
-
     private FrameLayout main_schedule_framelayout;
     private RecyclerView today_listview;
+    private FirebaseRecyclerAdapter mSimpleTodayAdapter;
     private TextView main_schedule_header_text;
     private TextView main_schedule_sec_header_textview;
     private EditText main_schedule_edittext;
@@ -113,8 +111,10 @@ public class TodoSimpleListFragment extends Fragment {
 
         Query simpleTodoQuery = mSimpleTodoReference.orderByChild("date").startAt(calendar.getTimeInMillis()).endAt(calendar.getTimeInMillis() + (1000 * 60 * 60 * 24 - 1000));
         today_listview.setLayoutManager(new GridLayoutManager(getContext(), 1));
-        today_listview.setAdapter(new FirebaseRecyclerAdapter<SimpleTodo, SimpleTodoViewHolder>(SimpleTodo.class, R.layout.adpitem_simpletoday_item, SimpleTodoViewHolder.class, simpleTodoQuery) {
+
+        mSimpleTodayAdapter = new FirebaseRecyclerAdapter<SimpleTodo, SimpleTodoViewHolder>(SimpleTodo.class, R.layout.adpitem_simpletoday, SimpleTodoViewHolder.class, simpleTodoQuery) {
             private String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
             @Override
             protected void populateViewHolder(SimpleTodoViewHolder viewHolder, SimpleTodo model, int position) {
                 viewHolder.mSimpleTodoReference = getRef(position);
@@ -123,8 +123,8 @@ public class TodoSimpleListFragment extends Fragment {
                 viewHolder.today_content.setText(model.content);
                 viewHolder.today_checkbox.setChecked(model.check_state);
             }
-
-        });
+        };
+        today_listview.setAdapter(mSimpleTodayAdapter);
         return view;
     }
 
@@ -217,27 +217,11 @@ public class TodoSimpleListFragment extends Fragment {
         mMainScheduleReference.child("visible").setValue(mainScheduleModel.toVisibleMainSchedule());
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if(mSimpleTodayAdapter != null){
+            mSimpleTodayAdapter.cleanup();
         }
     }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
-
-
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
-
 }
