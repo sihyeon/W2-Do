@@ -1,10 +1,7 @@
 package com.team.codealmanac.w2do;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -13,25 +10,18 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.google.android.gms.ads.formats.NativeAd;
-import com.google.android.gms.vision.text.Line;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.team.codealmanac.w2do.database.PreferencesManager;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
-
-import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 
 
 /**
@@ -50,13 +40,10 @@ public class NavEditProfileActivity extends BaseActivity implements View.OnClick
     private Button nav_profile_edit_btn;
     private FontContract mFontContract;
     private DatabaseReference mNicknameReference;
-    private LinearLayout Edit_Profile_linearLayout;
-    private LinearLayout.LayoutParams layoutParams;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
 
@@ -73,7 +60,6 @@ public class NavEditProfileActivity extends BaseActivity implements View.OnClick
         nav_profile_edit_btn = (Button)findViewById(R.id.nav_edit_profile_btn);
         BackpressBtn = (Button)findViewById(R.id.nav_profile_backpress_btn);
 
-
         mUser = getUserSession();
         CallProfileInfo(mUser);
 
@@ -84,12 +70,8 @@ public class NavEditProfileActivity extends BaseActivity implements View.OnClick
         nav_profile_edittext.setOnEditorActionListener(this);
         nav_profile_edit_btn.setOnEditorActionListener(this);
 
-        nav_profile_edittext.setOnClickListener(this);
         nav_profile_edit_btn.setOnClickListener(this);
         BackpressBtn.setOnClickListener(this);
-
-        Edit_Profile_linearLayout = (LinearLayout)findViewById(R.id.Edit_Profile_linearLayout);
-        layoutParams = (LinearLayout.LayoutParams)Edit_Profile_linearLayout.getLayoutParams();
 
     }
 
@@ -109,6 +91,7 @@ public class NavEditProfileActivity extends BaseActivity implements View.OnClick
             mNicknameReference.child( FirebaseAuth.getInstance().getCurrentUser().getUid() ).setValue(ChangedNickName);
             PreferencesManager.setNickname(getApplicationContext(), ChangedNickName);
             Toast.makeText(this,"닉네임이 변경되었습니다.",Toast.LENGTH_SHORT).show();
+
         } else if(v.getId()==R.id.nav_edit_profile_btn && actionId==EditorInfo.IME_ACTION_DONE){
             String ChangedNickName = nav_profile_edittext.getText().toString();
             if (TextUtils.isEmpty(ChangedNickName)) {
@@ -128,9 +111,6 @@ public class NavEditProfileActivity extends BaseActivity implements View.OnClick
                 onBackPressed();
                 break;
             case R.id.nav_profile_edittext:
-                nav_profile_edittext.setText(null);
-                break;
-            case R.id.nav_edit_profile_btn:
                 nav_profile_edittext.setText(null);
                 break;
         }

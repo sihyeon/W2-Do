@@ -118,6 +118,7 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
         ((TextView)findViewById(R.id.act_lockscreen_mainschedule)).setTypeface(mFont.NahumSquareB_Regular());
         ((TextView)findViewById(R.id.act_lockscreen_what_mainschedule)).setTypeface(mFont.NahumSquareB_Regular());
     }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -131,6 +132,8 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
         String format = new String("MM .dd  EEEE");
         SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.ENGLISH);
         date.setText(sdf.format(new Date()));
+
+
 
         //파베 실시간디비 리스너 등록
         mUserReference.child("nickname").addValueEventListener(new ValueEventListener() {

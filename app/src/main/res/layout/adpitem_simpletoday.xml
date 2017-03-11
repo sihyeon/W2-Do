@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
-    android:paddingBottom="1dp"
-    android:background="#40FFFFFF">
-
+    android:layout_height="50dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:orientation="horizontal"
-        android:background="#400345FF">
+        android:background="@drawable/activity_simpletoday_item_background">
         <CheckBox
             android:id="@+id/adp_simpletoday_checkbox"
             android:layout_width="24dp"
@@ -17,15 +14,17 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="16dp"
             android:button="@drawable/check_box_layout"
-            android:clickable="false"/>
+            android:clickable="false" />
 
-        <TextView
+        <EditText
             android:id="@+id/adp_simpletoday_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="7dp"
             android:text="영어 회화 공부"
-            android:textColor="#FFF"/>
+            android:textColor="#FFF"
+            android:background="@null"
+            android:focusable="false"/>
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>

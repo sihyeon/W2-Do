@@ -3,36 +3,34 @@ package com.team.codealmanac.w2do;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-import com.team.codealmanac.w2do.models.SimpleFolderTodo;
 import com.team.codealmanac.w2do.models.Todo;
-
-import java.util.ArrayList;
+import com.team.codealmanac.w2do.viewholder.InFolderTodoListViewHolder;
 
 public class InFolderActivity extends AppCompatActivity {
-
     private DatabaseReference mTodoReference;
-    private Query mTodoQuery;
-    private ChildEventListener mTodoListener;
 
-    private RecyclerView mInFolderTodoListView;
+    private RecyclerView act_infolder_todolist;
+    private FirebaseRecyclerAdapter mInFolderListAdapter;
     private TextView mFolderNameView;
     private Toolbar mToolbar;
 
     private String mFolderName;
+
+    private String USER_ID;
+    private final String TAG = "InFolderActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,11 +40,24 @@ public class InFolderActivity extends AppCompatActivity {
         mToolbar = (Toolbar)findViewById(R.id.act_infolder_toolbar);
         setSupportActionBar(mToolbar);
 
-        mTodoReference = FirebaseDatabase.getInstance().getReference().child("todo").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-        mTodoQuery = mTodoReference.equalTo(mFolderName);
-        mInFolderTodoListView = (RecyclerView)findViewById(R.id.act_infolder_todolist);
-        mFolderNameView = (TextView)findViewById(R.id.act_infolder_name);
+        USER_ID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
+        mFolderNameView = (TextView)findViewById(R.id.act_infolder_name);
+        mTodoReference = FirebaseDatabase.getInstance().getReference().child("todo").child(USER_ID);
+        Query TodoQuery = mTodoReference.orderByChild("folder_name").equalTo(mFolderName);
+        act_infolder_todolist = (RecyclerView)findViewById(R.id.act_infolder_todolist);
+        Log.d(TAG, TodoQuery.getRef().toString() + "userId: " + USER_ID + "folder: (" + mFolderName + ")");
+        mInFolderListAdapter = new FirebaseRecyclerAdapter<Todo, InFolderTodoListViewHolder>(Todo.class,
+                R.layout.adpitem_infodertodolist, InFolderTodoListViewHolder.class, TodoQuery) {
+            @Override
+            protected void populateViewHolder(InFolderTodoListViewHolder viewHolder, Todo model, int position) {
+                Log.d(TAG, "model: " + model.content);
+                viewHolder.adp_infodertodolist_sequence.setText(String.valueOf(model.folder_sequence));
+                viewHolder.adp_infodertodolist_content.setText(model.content);
+            }
+        };
+        act_infolder_todolist.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
+        act_infolder_todolist.setAdapter(mInFolderListAdapter);
     }
 
     @Override
@@ -55,19 +66,12 @@ public class InFolderActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mFolderNameView.setText(mFolderName);
-        mTodoQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(!dataSnapshot.exists()) return;
-                for(DataSnapshot data : dataSnapshot.getChildren()){
-                    SimpleFolderTodo item = data.getValue(SimpleFolderTodo.class);
-                    item.key = data.getKey();
+    }
 
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {}
-        });
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(mInFolderListAdapter != null) mInFolderListAdapter.cleanup();
     }
 
     @Override
