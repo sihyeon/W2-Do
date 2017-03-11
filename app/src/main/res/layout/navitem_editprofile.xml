@@ -72,6 +72,7 @@
             android:text="닉네임" />
 
         <RelativeLayout
+            android:id="@+id/edittext_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
@@ -88,7 +89,8 @@
                 android:textColorHint="#333333"
                 android:textSize="15dp"
                 android:inputType="textPersonName"
-                android:background="@null"/>
+                android:background="@null"
+                android:clickable="false"/>
 
             <View
                 android:id="@+id/nav_profile_edittext_bottom_line"
