@@ -79,7 +79,9 @@ public class DatePickerDialogActivity extends Activity implements View.OnClickLi
 
         act_date_picker_dialog_okButton = (Button)findViewById(R.id.act_date_picker_dialog_okButton);
         act_date_picker_dialog_okButton.setOnClickListener(this);
+
     }
+
     @Override
     public void onClick(View view) {
         if(view.getId() == R.id.act_date_picker_dialog_okButton){
