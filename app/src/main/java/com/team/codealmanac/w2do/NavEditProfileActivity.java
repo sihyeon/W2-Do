@@ -10,7 +10,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,13 +41,10 @@ public class NavEditProfileActivity extends BaseActivity implements View.OnClick
     private Button nav_profile_edit_btn;
     private FontContract mFontContract;
     private DatabaseReference mNicknameReference;
-    private LinearLayout Edit_Profile_linearLayout;
-    private LinearLayout.LayoutParams layoutParams;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
 
@@ -78,9 +74,6 @@ public class NavEditProfileActivity extends BaseActivity implements View.OnClick
         nav_profile_edit_btn.setOnClickListener(this);
         BackpressBtn.setOnClickListener(this);
 
-        Edit_Profile_linearLayout = (LinearLayout)findViewById(R.id.Edit_Profile_linearLayout);
-        layoutParams = (LinearLayout.LayoutParams)Edit_Profile_linearLayout.getLayoutParams();
-
     }
 
     @Override
@@ -99,6 +92,7 @@ public class NavEditProfileActivity extends BaseActivity implements View.OnClick
             mNicknameReference.child( FirebaseAuth.getInstance().getCurrentUser().getUid() ).setValue(ChangedNickName);
             PreferencesManager.setNickname(getApplicationContext(), ChangedNickName);
             Toast.makeText(this,"닉네임이 변경되었습니다.",Toast.LENGTH_SHORT).show();
+
         } else if(v.getId()==R.id.nav_edit_profile_btn && actionId==EditorInfo.IME_ACTION_DONE){
             String ChangedNickName = nav_profile_edittext.getText().toString();
             if (TextUtils.isEmpty(ChangedNickName)) {

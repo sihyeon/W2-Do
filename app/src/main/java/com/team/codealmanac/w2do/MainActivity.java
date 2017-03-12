@@ -39,6 +39,8 @@ import com.team.codealmanac.w2do.dialog.SimpleInputDialog;
 import com.team.codealmanac.w2do.fragment.TodoFolderListFragment;
 import com.team.codealmanac.w2do.fragment.TodoSimpleListFragment;
 
+import java.util.Calendar;
+
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class MainActivity extends BaseActivity
@@ -92,10 +94,6 @@ public class MainActivity extends BaseActivity
                 .add(R.id.act_main_todo_fragment_layout, mTodoFolderListFragment)
                 .hide(mTodoFolderListFragment)
                 .commit();
-//        getSupportFragmentManager()
-//                .beginTransaction()
-//                .replace(R.id.act_main_todo_fragment_layout, mTodoSimpleListFragment)
-//                .commit();
 
         // act_main_toolbar 설정
         act_main_toolbar = (Toolbar) findViewById(R.id.act_main_toolbar);
@@ -229,6 +227,8 @@ public class MainActivity extends BaseActivity
     @Override
     protected void onStart() {
         super.onStart();
+
+        setGreetingText();
         act_main_user_name.setText(PreferencesManager.getNickname(getApplicationContext()));
         act_main_nav_user_name.setText(mUser.getDisplayName());
         act_main_nav_user_email.setText(mUser.getEmail());
@@ -248,7 +248,6 @@ public class MainActivity extends BaseActivity
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        // Sync the toggle state after onRestoreInstanceState has occurred.
         mDrawerToggle.syncState();
     }
 
@@ -269,8 +268,6 @@ public class MainActivity extends BaseActivity
      //menu inflater
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-//        this.menu = menu;
         getMenuInflater().inflate(R.menu.menu_main_toolbar, menu);
         menu.findItem(R.id.menu_change_todo_frg).setChecked(false);
 
@@ -288,7 +285,6 @@ public class MainActivity extends BaseActivity
                             .setCustomAnimations(R.anim.zoom_in,R.anim.zoom_out)
                             .hide(mTodoFolderListFragment)
                             .show(mTodoSimpleListFragment)
-//                            .replace(R.id.act_main_todo_fragment_layout, mTodoSimpleListFragment)
                             .commit();
 
                     isFolderFragment = false;
@@ -299,7 +295,6 @@ public class MainActivity extends BaseActivity
                             .setCustomAnimations(R.anim.zoom_in,R.anim.zoom_out)
                             .hide(mTodoSimpleListFragment)
                             .show(mTodoFolderListFragment)
-//                            .replace(R.id.act_main_todo_fragment_layout, mTodoFolderListFragment)
                             .commit();
 
                     isFolderFragment = true;
@@ -312,6 +307,19 @@ public class MainActivity extends BaseActivity
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setGreetingText(){
+        String greetingMessage = "";
+        int presentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+
+        if( 4 <= presentHour && presentHour <= 11 ){
+            greetingMessage += getString(R.string.greetings_morning_1);
+        } else if( 12<=presentHour && presentHour <= 18 ){
+            greetingMessage += getString(R.string.greetings_afternoon_1);
+        }else greetingMessage += getString(R.string.greetings_evening_1);
+
+        act_main_greetingmsg.setText(greetingMessage);
     }
 
     private void createNotification(){
@@ -360,8 +368,8 @@ public class MainActivity extends BaseActivity
             startActivity(EditProfile);
 
         } else if (id == R.id.nav_team) {
-        // 팀 기능 화면으로 이동
-            Intent TeamIntent = new Intent(MainActivity.this, NavTeamActivity.class);
+        // 팀 기능 화면으로 이동 - 현재 잠금화면으로 이동하게
+            Intent TeamIntent = new Intent(MainActivity.this, LockScreenActivity.class);
             startActivity(TeamIntent);
 
         } else if (id == R.id.nav_setting) {

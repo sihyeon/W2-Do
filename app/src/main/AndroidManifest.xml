@@ -87,16 +87,13 @@
             android:theme="@style/AppTheme.TransparentStatusBarOnToolbar" />
         <activity
             android:name=".dialog.DatePickerDialogActivity"
-            android:theme="@android:style/Theme.Dialog" />
+            android:theme="@style/MyDatePickerDialogTheme" />
 
         <activity android:name=".NavEditProfileActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan"/>
 
         <activity android:name=".NavTeamActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity android:name=".NavSettingActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity android:name=".NavFeedbackCenterActivity"
