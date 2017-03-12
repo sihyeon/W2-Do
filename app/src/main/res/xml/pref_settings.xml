@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <PreferenceCategory android:title="계정 관리" >
+        <Preference android:title="로그아웃" />
+        <Preference android:title="계정 탈퇴" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="서비스 &amp; PUSH 알림 관리" >
+        <SwitchPreference
+            android:defaultValue="true"
+            android:switchTextOff="OFF"
+            android:switchTextOn="ON"
+            android:key="switch_preference_1"
+            android:summary="잠금화면 스크린 기능을 설정하세요."
+            android:title="잠금화면 서비스" />
+        <Preference
+            android:title="PUSH 알림 관리" >
+            <intent
+                android:targetClass="com.team.codealmanac.w2do.NavSettingPushAlarm"
+                android:targetPackage="com.team.codealmanac.w2do" />
+        </Preference>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="애플리케이션 정보" >
+        <Preference android:summary="현재 버전은" android:title="버전정보" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="autoUpdate"
+            android:summary="자동 업데이트를 설정합니다"
+            android:switchTextOff="OFF"
+            android:switchTextOn="ON"
+            android:title="자동 업데이트" />
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -87,7 +87,7 @@
             android:theme="@style/AppTheme.TransparentStatusBarOnToolbar" />
         <activity
             android:name=".dialog.DatePickerDialogActivity"
-            android:theme="@style/MyDatePickerDialogTheme" />
+            android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
 
         <activity android:name=".NavEditProfileActivity"
             android:theme="@style/AppTheme.NoActionBar"
@@ -95,6 +95,14 @@
 
         <activity android:name=".NavTeamActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity android:name=".NavSettingActivity"
+            android:label="@string/nav_setting"
+            android:theme="@style/SettingAppTheme"/>
+
+        <activity android:name=".NavSettingPushAlarm"
+            android:label="@string/nav_pushsetting"
+            android:theme="@style/SettingAppTheme"/>
 
         <activity android:name=".NavFeedbackCenterActivity"
             android:theme="@style/AppTheme.NoActionBar" />
