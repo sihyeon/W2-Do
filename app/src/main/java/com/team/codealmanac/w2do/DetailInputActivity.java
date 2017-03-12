@@ -264,9 +264,8 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
                     data.child("todo_count").getRef().setValue(todoFolder.todo_count+1);
                     Todo todo = new Todo(todoFolder.todo_count, false, mPickedColor,
                             act_detailInput_folder_spinner.getSelectedItem().toString(), act_detailInput_todo_content_edt.getText().toString(),
-                            mStartDate, mEndDate, /*alarm*/0, /*alarm-recycle*/false, /*sharing*/null, /*lat*/0, /*lon*/0, /*memo*/null, true);
-                    SimpleTodo simpleTodo = new SimpleTodo(mStartDate, act_detailInput_todo_content_edt.getText().toString(),
-                            true, false);
+                            mStartDate, mEndDate, /*alarm*/0, /*alarm-recycle*/false, /*sharing*/null, /*lat*/0, /*lon*/0, /*memo*/null);
+                    SimpleTodo simpleTodo = new SimpleTodo(mStartDate, act_detailInput_todo_content_edt.getText().toString(), false);
                     String todoKey = mTodoReference.push().getKey();
                     mTodoReference.child(todoKey).setValue(todo);
                     mSimpleTodoReference.child(todoKey).setValue(simpleTodo);

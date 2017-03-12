@@ -11,14 +11,12 @@ public class SimpleTodo {
     public long date;
     public String content;
     public boolean check_state;
-    public boolean visible;
 
     public SimpleTodo(){}
 
-    public SimpleTodo(long date, String content, boolean visible, boolean check_state) {
+    public SimpleTodo(long date, String content, boolean check_state) {
         this.date = date;
         this.content = content;
-        this.visible = visible;
         this.check_state = check_state;
     }
 }

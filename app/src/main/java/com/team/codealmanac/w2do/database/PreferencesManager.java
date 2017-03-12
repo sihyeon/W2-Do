@@ -14,7 +14,8 @@ import java.util.ArrayList;
  * Created by Choi Jaeung on 2017-01-05.
  */
 
-public class PreferencesManager {
+public final class PreferencesManager {
+    //nickname
     public static void setNickname(Context context, String nickname){
         SharedPreferences userInfoPref = context.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = userInfoPref.edit();
@@ -31,70 +32,24 @@ public class PreferencesManager {
         editor.remove("nickname");
         editor.apply();
     }
-
-    public static void setStringArrayPref(Context context, String key, ArrayList<String> values) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences.Editor editor = prefs.edit();
-        JSONArray temp = new JSONArray();
-        for (int i = 0; i < values.size(); i++) {
-            temp.put(values.get(i));
-        }
-        if (!values.isEmpty()) {
-            editor.putString(key, temp.toString());
-        } else {
-            editor.putString(key, null);
-        }
+    //
+//    public static void setDatabaseVersion(Context context){
+//        SharedPreferences dbInfoPref = context.getSharedPreferences("dbInfo", Context.MODE_PRIVATE);
+//        SharedPreferences.Editor editor = dbInfoPref.edit();
+//        editor.putString("version", String.valueOf(0));
+//        editor.apply();
+//    }
+    public static void addDatabaseVersion(Context context){
+        SharedPreferences dbInfoPref = context.getSharedPreferences("dbInfo", Context.MODE_PRIVATE);
+        long version = Long.getLong(dbInfoPref.getString("version", String.valueOf(0)));
+        SharedPreferences.Editor editor = dbInfoPref.edit();
+        editor.putString("version", String.valueOf(version+1));
         editor.apply();
     }
-
-    public static void setIntegerArrayPref(Context context, String key, ArrayList<Integer> values) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences.Editor editor = prefs.edit();
-        JSONArray temp = new JSONArray();
-        for (int i = 0; i < values.size(); i++) {
-            temp.put(values.get(i));
-        }
-        if (!values.isEmpty()) {
-            editor.putString(key, temp.toString());
-        } else {
-            editor.putString(key, null);
-        }
+    public static void deleteDatabaseVersion(Context context){
+        SharedPreferences dbInfoPref = context.getSharedPreferences("dbInfo", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = dbInfoPref.edit();
+        editor.remove("version");
         editor.apply();
-    }
-
-    public static ArrayList<String> getStringArrayPref(Context context, String key) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        String json = prefs.getString(key, null);
-        ArrayList<String> dataArray = new ArrayList<>();
-        if (json != null) {
-            try {
-                JSONArray temp = new JSONArray(json);
-                for (int i = 0; i < temp.length(); i++) {
-                    String url = temp.optString(i);
-                    dataArray.add(url);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return dataArray;
-    }
-
-    public static ArrayList<Integer> getIntegerArrayPref(Context context, String key) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        String json = prefs.getString(key, null);
-        ArrayList<Integer> dataArray = new ArrayList<>();
-        if (json != null) {
-            try {
-                JSONArray temp = new JSONArray(json);
-                for (int i = 0; i < temp.length(); i++) {
-                    Integer url = temp.optInt(i);
-                    dataArray.add(url);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return dataArray;
     }
 }
