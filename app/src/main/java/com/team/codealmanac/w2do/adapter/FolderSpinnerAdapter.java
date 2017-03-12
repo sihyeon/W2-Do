@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.team.codealmanac.w2do.FontContract;
+import com.team.codealmanac.w2do.contract.FontContract;
 
 /**
  * Created by Choi Jaeung on 2017-02-05.

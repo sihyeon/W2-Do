@@ -30,6 +30,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.firebase.auth.FirebaseUser;
+import com.team.codealmanac.w2do.contract.FontContract;
 import com.team.codealmanac.w2do.database.PreferencesManager;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;

@@ -1,4 +1,4 @@
-package com.team.codealmanac.w2do;
+package com.team.codealmanac.w2do.contract;
 
 import android.content.Context;
 import android.content.res.AssetManager;

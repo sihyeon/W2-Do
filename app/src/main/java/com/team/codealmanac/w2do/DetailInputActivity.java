@@ -11,10 +11,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 
 import android.text.TextUtils;
-import android.util.Log;
 
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
 import android.widget.ArrayAdapter;
@@ -45,16 +42,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.team.codealmanac.w2do.adapter.FolderSpinnerAdapter;
+import com.team.codealmanac.w2do.contract.FontContract;
 import com.team.codealmanac.w2do.dialog.DatePickerDialogActivity;
-import com.team.codealmanac.w2do.dialog.SimpleInputDialog;
 import com.team.codealmanac.w2do.models.SimpleTodo;
 import com.team.codealmanac.w2do.models.Todo;
 import com.team.codealmanac.w2do.models.TodoFolder;
 
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import petrov.kristiyan.colorpicker.ColorPicker;
@@ -240,7 +235,7 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
                 }
             }
         } else if( (requestCode == DATEPICKER_START_DATE_REQUEST_CODE || requestCode == DATEPICKER_END_DATE_REQUEST_CODE) && resultCode == RESULT_OK){
-            long timeInMillis = data.getLongExtra("date", 0);
+            long timeInMillis = data.getLongExtra("start_date", 0);
             SimpleDateFormat format = new SimpleDateFormat("M월 d일(E)\nhh:mm a");
             String date = format.format(timeInMillis);
 

@@ -35,6 +35,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.team.codealmanac.w2do.assistant.LocationInfoAssistant;
+import com.team.codealmanac.w2do.contract.FontContract;
 import com.team.codealmanac.w2do.listeners.OnSwipeTouchListener;
 
 import org.json.JSONException;

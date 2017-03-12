@@ -10,8 +10,8 @@ import com.google.firebase.database.IgnoreExtraProperties;
 public class SimpleTodo {
     public long date;
     public String content;
-    public boolean visible;
     public boolean check_state;
+    public boolean visible;
 
     public SimpleTodo(){}
 

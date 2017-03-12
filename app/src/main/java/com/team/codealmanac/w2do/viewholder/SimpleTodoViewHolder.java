@@ -2,16 +2,12 @@ package com.team.codealmanac.w2do.viewholder;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.team.codealmanac.w2do.R;
 
 /**
@@ -19,32 +15,41 @@ import com.team.codealmanac.w2do.R;
  */
 
 public class SimpleTodoViewHolder extends RecyclerView.ViewHolder {
-    public CheckBox today_checkbox;
-    public EditText today_content;
+    public CheckBox adp_simpletoday_checkbox;
+    public EditText adp_simpletoday_content;
+    public Button adp_simpletoday_delete_btn;
     public DatabaseReference mSimpleTodoReference;
     public DatabaseReference mTodoReference;
     public SimpleTodoViewHolder(View itemView) {
         super(itemView);
-        today_checkbox = (CheckBox)itemView.findViewById(R.id.adp_simpletoday_checkbox);
-        today_content = (EditText) itemView.findViewById(R.id.adp_simpletoday_content);
+        adp_simpletoday_checkbox = (CheckBox)itemView.findViewById(R.id.adp_simpletoday_checkbox);
+        adp_simpletoday_content = (EditText) itemView.findViewById(R.id.adp_simpletoday_content);
+        adp_simpletoday_delete_btn = (Button) itemView.findViewById(R.id.adp_simpletoday_delete_btn);
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean isChecked = !today_checkbox.isChecked();
-                today_checkbox.setChecked(isChecked);
+                boolean isChecked = !adp_simpletoday_checkbox.isChecked();
+                adp_simpletoday_checkbox.setChecked(isChecked);
                 mSimpleTodoReference.child("check_state").setValue(isChecked);
                 mTodoReference.child("check_state").setValue(isChecked);
             }
         });
+        adp_simpletoday_delete_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mSimpleTodoReference.child("visible").setValue(false);
+            }
+        });
 
-        today_content.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        adp_simpletoday_content.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
                 if(!b){ //b == false
-                    today_content.setFocusable(false);
-                    today_content.setClickable(false);
-                    today_content.setFocusableInTouchMode(false);
+                    adp_simpletoday_content.setFocusable(false);
+                    adp_simpletoday_content.setClickable(false);
+                    adp_simpletoday_content.setFocusableInTouchMode(false);
+                    adp_simpletoday_delete_btn.setVisibility(View.GONE);
                 }
             }
         });
@@ -52,10 +57,10 @@ public class SimpleTodoViewHolder extends RecyclerView.ViewHolder {
             @Override
             public boolean onLongClick(View view) {
                 Log.d("SimpleTodoViewHolder", "long click");
-                today_content.setFocusable(true);
-                today_content.setFocusableInTouchMode(true);
-                today_content.requestFocus(EditText.FOCUS_LEFT);
-//                today_content.setSelection(0, today_content.length());
+                adp_simpletoday_content.setFocusable(true);
+                adp_simpletoday_content.setFocusableInTouchMode(true);
+                adp_simpletoday_content.requestFocus(EditText.FOCUS_LEFT);
+                adp_simpletoday_delete_btn.setVisibility(View.VISIBLE);
                 return true;
             }
         });

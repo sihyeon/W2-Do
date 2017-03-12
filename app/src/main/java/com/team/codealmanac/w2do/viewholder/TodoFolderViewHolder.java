@@ -1,13 +1,12 @@
 package com.team.codealmanac.w2do.viewholder;
 
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.team.codealmanac.w2do.FontContract;
+import com.team.codealmanac.w2do.contract.FontContract;
 import com.team.codealmanac.w2do.InFolderActivity;
 import com.team.codealmanac.w2do.R;
 
