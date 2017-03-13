@@ -90,7 +90,6 @@ public class SimpleInputDialog extends AppCompatActivity implements View.OnClick
                         tempSnapshot = item;
                         break;
                     }
-
                     SimpleTodo simpleTodo = new SimpleTodo(System.currentTimeMillis(),
                             act_simpleinput_edittext.getText().toString(), false);
                     Todo todo = new Todo(mFolder.todo_count, System.currentTimeMillis(), act_simpleinput_edittext.getText().toString(), mFolder.name);

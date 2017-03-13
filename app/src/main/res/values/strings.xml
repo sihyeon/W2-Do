@@ -26,6 +26,7 @@
     <string name="detailInputActivity_color_picker_text">color</string>
 
     <!-- ) contentDescription-->
+    <string name="act_detailInput_Description_alarm_remove">셀프알람 제거</string>
     <string name="imgbtn_contentDescription_location">위치</string>
     <string name="imgbtn_contentDescription_invite">초대</string>
     <string name="imgbtn_contentDescription_alarm">알람</string>

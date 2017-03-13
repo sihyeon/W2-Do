@@ -6,10 +6,6 @@
 
     <DatePicker
         android:id="@+id/act_date_picker_dialog_datePicker"
-        android:background="#ffffff"
-        android:headerBackground="@color/blue_grey"
-        android:yearListSelectorColor="@color/blue_grey"
-        android:calendarTextColor="@color/amber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

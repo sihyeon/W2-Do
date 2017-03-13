@@ -15,7 +15,6 @@ public class Todo {
     public long start_date;
     public long end_date;
     public long alarm_date;
-    public boolean alarm_recycle;
     public String sharing;
     public double latitude;
     public double longitude;
@@ -31,7 +30,7 @@ public class Todo {
         this.folder_name = folder_name;
     }
 
-    public Todo(long folder_sequence, boolean check_state, int color, String folder_name, String content, long start_date, long end_date, long alarm_date, boolean alarm_recycle, String sharing, double latitude, double longitude, String memo) {
+    public Todo(long folder_sequence, boolean check_state, int color, String folder_name, String content, long start_date, long end_date, long alarm_date, String sharing, double latitude, double longitude, String memo) {
         this.folder_sequence = folder_sequence;
         this.check_state = check_state;
         this.color = color;
@@ -40,7 +39,6 @@ public class Todo {
         this.start_date = start_date;
         this.end_date = end_date;
         this.alarm_date = alarm_date;
-        this.alarm_recycle = alarm_recycle;
         this.sharing = sharing;
         this.latitude = latitude;
         this.longitude = longitude;
