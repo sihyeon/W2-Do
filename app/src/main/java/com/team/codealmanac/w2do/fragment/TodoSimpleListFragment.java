@@ -73,7 +73,7 @@ public class TodoSimpleListFragment extends Fragment {
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         mMainScheduleReference = FirebaseDatabase.getInstance().getReference().child("main_schedule").child(userId);
-        mSimpleTodoReference = FirebaseDatabase.getInstance().getReference().child("simple_todo").child(userId).child("visible");
+        mSimpleTodoReference = FirebaseDatabase.getInstance().getReference().child("simple_todo").child(userId);
 
         main_schedule_framelayout = (FrameLayout)view.findViewById(R.id.main_schedule_framelayout);
         frag_main_schedule_input_layout = (LinearLayout)view.findViewById(R.id.frag_main_schedule_input_layout);
@@ -107,7 +107,7 @@ public class TodoSimpleListFragment extends Fragment {
         calendar.set(Calendar.SECOND, 0);
         Log.d(TAG, "time: " + (calendar.getTimeInMillis() + (1000 * 60 * 60 * 24 - 1000)));
 
-        Query simpleTodoQuery = mSimpleTodoReference.orderByChild("start_date").
+        Query simpleTodoQuery = mSimpleTodoReference.orderByChild("date").
                 startAt(calendar.getTimeInMillis()).endAt(calendar.getTimeInMillis() + (1000 * 60 * 60 * 24 - 1000));
         today_listview.setLayoutManager(new GridLayoutManager(getContext(), 1));
 

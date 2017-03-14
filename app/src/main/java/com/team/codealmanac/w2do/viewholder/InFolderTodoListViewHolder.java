@@ -15,7 +15,7 @@ public class InFolderTodoListViewHolder extends RecyclerView.ViewHolder{
     public TextView adp_infodertodolist_content;
     public InFolderTodoListViewHolder(View itemView) {
         super(itemView);
-        adp_infodertodolist_sequence = (TextView)itemView.findViewById(R.id.adp_infodertodolist_sequence);
-        adp_infodertodolist_content = (TextView)itemView.findViewById(R.id.adp_infodertodolist_content);
+        adp_infodertodolist_sequence = (TextView)itemView.findViewById(R.id.adp_infodertodo_sequence);
+        adp_infodertodolist_content = (TextView)itemView.findViewById(R.id.adp_infodertodo_content);
     }
 }

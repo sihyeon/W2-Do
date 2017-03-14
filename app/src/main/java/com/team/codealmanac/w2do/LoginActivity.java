@@ -39,6 +39,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigInfo;
 import com.team.codealmanac.w2do.database.PreferencesManager;
 import com.team.codealmanac.w2do.models.User;
 
@@ -75,6 +76,7 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
     private Animation animation;
 
     private DatabaseReference mUserReference;
+    private DatabaseReference mPublicUserReference;
     private DatabaseReference mNicknameReference;
 
     @Override
@@ -84,6 +86,7 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
         setContentView(R.layout.activity_login);
 
         mUserReference = FirebaseDatabase.getInstance().getReference().child("user");
+        mPublicUserReference = FirebaseDatabase.getInstance().getReference().child("public_users");
         mNicknameReference = FirebaseDatabase.getInstance().getReference().child("nickname");
 
         //구글 로그인
@@ -214,9 +217,19 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
                         if (task.isSuccessful()) {
                             Log.d(TAG, "signInWithCredential - onComplete: 로그인 성공");
                             //로그인 성공시 서버디비에 유저 정보 저장.
-                            FirebaseUser user = task.getResult().getUser();
+                            final FirebaseUser user = task.getResult().getUser();
                             User userModel = new User(user.getEmail(), user.getDisplayName(), user.getPhotoUrl().toString());
                             mUserReference.child(user.getUid()).setValue(userModel);
+                            mPublicUserReference.orderByChild("email").equalTo(user.getEmail()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    if(dataSnapshot.exists()) return;
+                                    User publicUserModel = new User(user.getEmail(), user.getDisplayName());
+                                    mPublicUserReference.child(mPublicUserReference.push().getKey()).setValue(publicUserModel);
+                                }
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {}
+                            });
                         } else {
                             Log.w(TAG, "signInWithCredential", task.getException());
                             Toast.makeText(LoginActivity.this, "Authentication failed.",

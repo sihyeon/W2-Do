@@ -1,0 +1,47 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="328dp"
+    android:layout_height="218dp"
+    android:orientation="vertical"
+    tools:context="com.team.codealmanac.w2do.dialog.ShareInputDialogFragment">
+
+    <LinearLayout
+        android:layout_width="298dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/fragment_shareinput_search_layout_border"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/frag_shareInput_edt"
+            android:layout_width="244dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="12dp"
+            android:background="@null"
+            android:hint="초대할 상대방의 이메일을 입력하세요."
+            android:textColor="#333333"
+            android:textColorHint="#999999"
+            android:textSize="14dp"
+            android:inputType="text"
+            android:focusable="true"/>
+
+        <ImageButton
+            android:id="@+id/frag_shareInput_search_btn"
+            android:layout_width="38dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="4dp"
+            android:background="@null"
+            android:src="@drawable/btn_invite_search" />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/frag_shareInput_recyclerview"
+        android:layout_width="298dp"
+        android:layout_height="123dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="25dp" />
+</LinearLayout>

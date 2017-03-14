@@ -133,7 +133,7 @@ public class MainActivity extends BaseActivity
         act_main_appbar_folder_floatingbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FolderInputDialogFragment.newInstance().show(getFragmentManager(), "test");
+                FolderInputDialogFragment.newInstance().show(getFragmentManager(), "folder_input");
                 act_main_appbar_floatingActionsMenu.collapse();
             }
         });

@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
@@ -48,7 +47,7 @@ public class InFolderActivity extends AppCompatActivity {
         act_infolder_todolist = (RecyclerView)findViewById(R.id.act_infolder_todolist);
         Log.d(TAG, TodoQuery.getRef().toString() + "userId: " + USER_ID + "folder: (" + mFolderName + ")");
         mInFolderListAdapter = new FirebaseRecyclerAdapter<Todo, InFolderTodoListViewHolder>(Todo.class,
-                R.layout.adpitem_infodertodolist, InFolderTodoListViewHolder.class, TodoQuery) {
+                R.layout.adpitem_infoder_todo, InFolderTodoListViewHolder.class, TodoQuery) {
             @Override
             protected void populateViewHolder(InFolderTodoListViewHolder viewHolder, Todo model, int position) {
                 Log.d(TAG, "model: " + model.content);

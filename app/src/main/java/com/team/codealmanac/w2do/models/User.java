@@ -14,6 +14,10 @@ public class User {
 
     public User() {
     }
+    public User(String email, String display_name){
+        this.email = email;
+        this.display_name = display_name;
+    }
 
     public User(String email, String display_name, String profile_image) {
         this.email = email;

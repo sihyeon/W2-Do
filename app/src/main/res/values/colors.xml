@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="detailInput_Text">#333333</color>
+    <color name="detailInput_Hint">#999999</color>
+
+    <color name="real_white">#FFFFFF</color>
+    <color name="real_black">#000000</color>
+
     <color name="colorPrimary">@color/blue_grey</color>
     <color name="colorPrimaryDark">@color/blue_grey</color>
     <color name="colorAccent">@color/blue_grey</color>
@@ -34,7 +40,6 @@
     <color name="accent">#ff5252</color>
     <color name="secondary_text">#727272</color>
     <color name="white">#f3f3f3</color>
-    <color name="black">#000</color>
 
     <!-- color picker -->
     <color name="red">#F6402C</color>
