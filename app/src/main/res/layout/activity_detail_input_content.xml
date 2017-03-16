@@ -131,7 +131,7 @@
                         android:layout_marginStart="3dp"
                         android:background="@drawable/activity_detailinput_folder_spinner_background"
                         android:dropDownWidth="match_parent"
-                        android:spinnerMode="dropdown" />
+                        android:spinnerMode="dropdown"/>
 
                     <View
                         android:id="@+id/act_detailInput_folder_spinner_bottom_line"

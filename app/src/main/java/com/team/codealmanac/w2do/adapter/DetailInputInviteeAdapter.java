@@ -8,6 +8,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.team.codealmanac.w2do.R;
+import com.team.codealmanac.w2do.contract.FontContract;
 
 import java.util.ArrayList;
 
@@ -64,8 +65,10 @@ public class DetailInputInviteeAdapter extends RecyclerView.Adapter<DetailInputI
         public ImageButton adp_detailinput_invitee_remove_btn;
         public ViewHolder(View itemView) {
             super(itemView);
+            FontContract mFont = new FontContract(itemView.getContext().getAssets());
             adp_detailinput_invitee_text = (TextView)itemView.findViewById(R.id.adp_detailinput_invitee_text);
             adp_detailinput_invitee_remove_btn = (ImageButton)itemView.findViewById(R.id.adp_detailinput_invitee_remove_btn);
+            adp_detailinput_invitee_text.setTypeface(mFont.NahumSquareR_Regular());
         }
     }
 }

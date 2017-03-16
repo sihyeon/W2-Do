@@ -355,13 +355,16 @@ public class MainActivity extends BaseActivity
 
         if (id == R.id.nav_home) {
         // 메인 홈 화면으로 이동
-            Intent HomeIntent = new Intent(this, MainActivity.class);
-            HomeIntent.putExtra("mainhomefragment","homeintent");
-            TaskStackBuilder stackBuilder = TaskStackBuilder.create(MainActivity.this);
-            stackBuilder.addParentStack(MainActivity.class);
-            stackBuilder.addNextIntent(HomeIntent);
-            stackBuilder.startActivities();
-
+//            Intent HomeIntent = new Intent(this, MainActivity.class);
+//            HomeIntent.putExtra("mainhomefragment","homeintent");
+//            TaskStackBuilder stackBuilder = TaskStackBuilder.create(MainActivity.this);
+//            stackBuilder.addParentStack(MainActivity.class);
+//            stackBuilder.addNextIntent(HomeIntent);
+//            stackBuilder.startActivities();
+            Intent HomeIntent = new Intent(MainActivity.this, MainActivity.class);
+            HomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(HomeIntent);
+//            startActivity(new Intent(MainActivity.this, LockScreenActivity.class));
         } else if (id == R.id.nav_edit_profile) {
         //프로필 정보 화면으로 이동
             Intent EditProfile  = new Intent(MainActivity.this, NavEditProfileActivity.class);

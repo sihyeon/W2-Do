@@ -139,7 +139,9 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
                     if(PreferencesManager.getNickname(LoginActivity.this.getApplicationContext()) != null){
                         //nickname을 이미 입력했으면
                         Log.d(TAG, "닉네임 있음");
-                        startActivity( new Intent(LoginActivity.this,MainActivity.class) ); finish();
+                        Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
+                        mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        startActivity(mainIntent); finish();
                     } else {
                         //nickname이 없으면 폰 데이터를 지웠을 경우 서버DB에는 닉네임 데이터가 있는지 확인해봐야함.
                         mNicknameReference.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {        //닉네임 데이터 한번 가져오기
@@ -147,7 +149,9 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 if(dataSnapshot.exists()){
                                     PreferencesManager.setNickname(LoginActivity.this.getApplicationContext(), dataSnapshot.getValue().toString());
-                                    startActivity( new Intent(LoginActivity.this,MainActivity.class) ); finish();
+                                    Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
+                                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                    startActivity(mainIntent); finish();
                                 }
                             }
                             @Override
@@ -312,7 +316,9 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
                 mNicknameReference.child( FirebaseAuth.getInstance().getCurrentUser().getUid() ).setValue(nickname);
                 PreferencesManager.setNickname(getApplicationContext(), nickname);
 
-                startActivity( new Intent(LoginActivity.this,MainActivity.class) ); finish();
+                Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
+                mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(mainIntent); finish();
                 break;
         }
     }

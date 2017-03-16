@@ -38,10 +38,37 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/frag_shareInput_guide_layout"
+        android:layout_width="298dp"
+        android:layout_height="123dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="25dp"
+        android:orientation="vertical"
+        android:background="#f9f9f9"
+        android:layout_marginBottom="15dp">
+        <ImageView
+            android:layout_width="63dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/img_invite_email"
+            android:layout_gravity="center_horizontal"/>
+        <TextView
+            android:id="@+id/frag_shareInput_guide_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="이메일을 입력해주세요!"
+            android:textColor="#999999"
+            android:textSize="14dp"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal"/>
+    </LinearLayout>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/frag_shareInput_recyclerview"
         android:layout_width="298dp"
         android:layout_height="123dp"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="25dp" />
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="15dp"
+        android:visibility="gone"/>
 </LinearLayout>

@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.team.codealmanac.w2do.R;
+import com.team.codealmanac.w2do.contract.FontContract;
 import com.team.codealmanac.w2do.models.User;
 import com.team.codealmanac.w2do.viewholder.ShareInputInviteeViewHolder;
 
@@ -44,6 +45,7 @@ public class ShareInputDialogFragment extends DialogFragment implements View.OnC
     private DatabaseReference mPublicUsersReference;
     private Query mQuery;
     private FirebaseRecyclerAdapter mAdapter;
+    private FontContract mFont;
 
     public ShareInputDialogFragment() {}
     // TODO: Rename and change types and number of parameters
@@ -66,6 +68,7 @@ public class ShareInputDialogFragment extends DialogFragment implements View.OnC
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
+        mFont = new FontContract(getDialog().getContext().getAssets());
         mPublicUsersReference = FirebaseDatabase.getInstance().getReference().child("public_users");
         return inflater.inflate(R.layout.fragment_share_input_dialog, container, false);
     }
@@ -76,6 +79,7 @@ public class ShareInputDialogFragment extends DialogFragment implements View.OnC
         frag_shareInput_edt = (EditText)getDialog().findViewById(R.id.frag_shareInput_edt);
         frag_shareInput_search_btn = (ImageButton)getDialog().findViewById(R.id.frag_shareInput_search_btn);
         frag_shareInput_recyclerview = (RecyclerView)getDialog().findViewById(R.id.frag_shareInput_recyclerview);
+        frag_shareInput_edt.setTypeface(mFont.NahumSquareR_Regular());
         frag_shareInput_edt.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
         frag_shareInput_edt.setOnEditorActionListener(this);
         frag_shareInput_search_btn.setOnClickListener(this);
@@ -125,6 +129,8 @@ public class ShareInputDialogFragment extends DialogFragment implements View.OnC
             }
         };
         frag_shareInput_recyclerview.setAdapter(mAdapter);
+        getDialog().findViewById(R.id.frag_shareInput_guide_layout).setVisibility(View.GONE);
+        frag_shareInput_recyclerview.setVisibility(View.VISIBLE);
     }
 
     @Override

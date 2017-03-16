@@ -128,6 +128,7 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
     private ImageButton act_detailInput_more_detail_side_btn_memo;
 
     //title 부분
+    private TextView act_detailInput_toolbar_title;
     private ImageButton act_detailInput_toolbar_save_btn;
     private Button act_detailInput_toolbar_back_btn;
 
@@ -152,9 +153,10 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
         mSimpleTodoReference = FirebaseDatabase.getInstance().getReference().child("simple_todo").child(USER_ID);
 
         // 타이틀 아이템
+        act_detailInput_toolbar_title = (TextView)findViewById(R.id.act_detailInput_toolbar_title);
         act_detailInput_toolbar_save_btn = (ImageButton)findViewById(R.id.act_detailInput_toolbar_save_btn);
         act_detailInput_toolbar_back_btn = (Button)findViewById(R.id.act_detailInput_toolbar_back_btn);
-
+        act_detailInput_toolbar_title.setTypeface(mFont.NahumSquareB_Regular());
         // 투두 내용 카드뷰 아이템
         act_detailInput_todo_content_edt = (EditText)findViewById(R.id.act_detailInput_todo_content_edt);
         act_detailInput_todo_content_color_picker = (Button)findViewById(R.id.act_detailInput_todo_content_color_picker);
@@ -197,6 +199,7 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
         mShareInviteeAdapter = new DetailInputInviteeAdapter(act_detailInput_share_invitee_recyclerview);
         act_detailInput_share_invitee_recyclerview.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
         act_detailInput_share_invitee_recyclerview.setAdapter(mShareInviteeAdapter);
+        act_detailInput_share_guide_text.setTypeface(mFont.NahumSquareR_Regular());
 
         //알람 카드뷰 아이템
         mAlarmDate = 0;
@@ -224,6 +227,7 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
                 }
             }
         };
+        act_detailInput_alarm_self_text.setTypeface(mFont.NahumSquareR_Regular());
 
         //메모 카드뷰 아이템
         act_detailInput_memo_cardview = (CardView)findViewById(R.id.act_detailInput_memo_cardview);
@@ -250,14 +254,15 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
                     mFolderReference.getParent().child("folder_count").setValue(0);
                     spinnerItem.add("auto-create");
                 }
-                ArrayAdapter<String> Folder_Spinner_Adapter = new FolderSpinnerAdapter(
+                ArrayAdapter<String> FolderSpinnerAdapter = new FolderSpinnerAdapter(
                         DetailInputActivity.this, R.layout.adpitem_spinner_text, spinnerItem.toArray(new String[spinnerItem.size()]));
-                Folder_Spinner_Adapter.setDropDownViewResource(R.layout.adpitem_spinner_dropdown);
-                act_detailInput_folder_spinner.setAdapter(Folder_Spinner_Adapter);
+                FolderSpinnerAdapter.setDropDownViewResource(R.layout.adpitem_spinner_dropdown);
+                act_detailInput_folder_spinner.setAdapter(FolderSpinnerAdapter);
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {}
         });
+
         //타이틀 리스너 등록
         act_detailInput_toolbar_save_btn.setOnClickListener(this);
         act_detailInput_toolbar_back_btn.setOnClickListener(this);
