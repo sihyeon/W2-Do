@@ -3,14 +3,13 @@ package com.team.codealmanac.w2do.dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.MailTo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.google.firebase.database.DatabaseError;
 import com.team.codealmanac.w2do.R;
 
 /**

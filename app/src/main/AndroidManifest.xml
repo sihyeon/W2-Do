@@ -104,8 +104,8 @@
             android:label="@string/nav_pushsetting"
             android:theme="@style/SettingAppTheme"/>
 
-        <activity android:name=".NavFeedbackCenterActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".dialog.NavFeedbackDialog"
+            android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
 
     </application>
 

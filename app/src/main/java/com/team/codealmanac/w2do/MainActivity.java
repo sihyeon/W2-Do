@@ -35,6 +35,7 @@ import com.team.codealmanac.w2do.database.PreferencesManager;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.team.codealmanac.w2do.dialog.FolderInputDialogFragment;
+import com.team.codealmanac.w2do.dialog.NavFeedbackDialog;
 import com.team.codealmanac.w2do.dialog.SimpleInputDialog;
 import com.team.codealmanac.w2do.fragment.TodoFolderListFragment;
 import com.team.codealmanac.w2do.fragment.TodoSimpleListFragment;
@@ -374,7 +375,7 @@ public class MainActivity extends BaseActivity
 
         } else if (id == R.id.nav_setting) {
         // 설정 화면으로 이동
-            Intent SettingIntent = new Intent(MainActivity.this, NavSettingActivity.class);
+            Intent SettingIntent = new Intent(MainActivity.this, NavFeedbackDialog.class);
             startActivity(SettingIntent);
 
         } else if (id == R.id.nav_send_msg) {
