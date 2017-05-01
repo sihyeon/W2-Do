@@ -375,12 +375,13 @@ public class MainActivity extends BaseActivity
 
         } else if (id == R.id.nav_setting) {
         // 설정 화면으로 이동
-            Intent SettingIntent = new Intent(MainActivity.this, NavFeedbackDialog.class);
+            Intent SettingIntent = new Intent(MainActivity.this, NavSettingActivity.class);
             startActivity(SettingIntent);
 
         } else if (id == R.id.nav_send_msg) {
         // 의견 보낼 화면 팝업
-
+            Intent FeedbackIntent = new Intent(MainActivity.this,NavFeedbackDialog.class);
+            startActivity(FeedbackIntent);
         }
         act_main_drawer_layout.closeDrawer(GravityCompat.START);
         return true;

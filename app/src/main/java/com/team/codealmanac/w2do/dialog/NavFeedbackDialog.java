@@ -30,7 +30,9 @@ public class NavFeedbackDialog extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onClick(View view){
-        if(view.getId() == R.id.act_nav_feedback_sendbtn){
+        int id = view.getId();
+
+        if (id == R.id.nav_home) {
             Intent mail = new Intent(Intent.ACTION_SEND);
             String[] mailaddr = {"sihyun2139@gmail.com"};
 
@@ -39,6 +41,8 @@ public class NavFeedbackDialog extends AppCompatActivity implements View.OnClick
             mail.putExtra(Intent.EXTRA_TEXT,"The email body text");
             startActivity(Intent.createChooser(mail,"Choose email client"));
         }
+        else if(id == R.id.act_nav_feedback_cancelbtn){
+            NavFeedbackDialog.this.finish();
+        }
     }
-
 }
