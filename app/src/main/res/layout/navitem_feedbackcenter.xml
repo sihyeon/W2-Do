@@ -1,6 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/activity_simpleinput_background_border"
+    android:layout_width="288dp"
+    android:layout_height="400dp"
+    android:layout_gravity="center"
+    tools:ignore="RtlSymmetry">
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/act_nav_feedback_header_text"
+        android:text="@string/nav_feedback_header"
+        android:textColor="#4D4D4D"
+        android:textSize="25dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="21dp"
+        android:layout_marginBottom="-5dp"
+        android:layout_marginStart="24dp" />
+
+    <EditText
+        android:id="@+id/act_nav_feedback_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_below="@+id/act_nav_feedback_header_text"
+        android:layout_marginStart="28dp"
+        android:textSize="14dp"
+        android:textColor="#333333"
+        android:textColorHint="#BFBFBF"
+        android:background="@null"
+        android:hint="사용자님의 소중한 의견을 보내주세요!"
+        android:ems="140"
+        android:inputType="text" />
+
+    <View
+        android:layout_width="240dp"
+        android:layout_height="1dp"
+        android:layout_below="@+id/act_nav_feedback_edittext"
+        android:layout_marginBottom="31dp"
+        android:layout_alignStart="@+id/act_nav_feedback_edittext"
+        android:layout_marginTop="5dp"
+        android:background="#eeeeee" />
+
+    <RelativeLayout
+        android:layout_below="@+id/act_nav_feedback_edittext"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="15dp">
+
+        <Button
+            android:id="@+id/act_nav_feedback_cancelbtn"
+            android:text="@string/nav_cancelbtn"
+            android:textSize="13dp"
+            android:textColor="#999999"
+            android:layout_width="113dp"
+            android:layout_height="35dp"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/activity_simpleinput_cancel_btn" />
+
+        <Button
+            android:id="@+id/act_nav_feedback_sendbtn"
+            android:text="@string/todaySavebtn"
+            android:textSize="13dp"
+            android:layout_width="113dp"
+            android:layout_height="35dp"
+            android:textColor="#0087FF"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_marginLeft="14dp"
+            android:layout_toRightOf="@+id/act_nav_feedback_cancelbtn"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/activity_simpleinput_save_btn"/>
+    </RelativeLayout>
+
+</RelativeLayout>

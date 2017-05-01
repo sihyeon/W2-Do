@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
     <PreferenceCategory android:title="계정 관리" >
-        <Preference android:title="로그아웃" />
-        <Preference android:title="계정 탈퇴" />
+        <Preference android:title="로그아웃" android:key="pref_Logout"/>
+        <Preference android:title="계정 탈퇴" android:key="pref_EndW2do"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="서비스 &amp; PUSH 알림 관리" >
@@ -10,22 +10,22 @@
             android:defaultValue="true"
             android:switchTextOff="OFF"
             android:switchTextOn="ON"
-            android:key="switch_preference_1"
+            android:key="pref_LockscreenService"
             android:summary="잠금화면 스크린 기능을 설정하세요."
             android:title="잠금화면 서비스" />
         <Preference
-            android:title="PUSH 알림 관리" >
+            android:title="PUSH 알림 관리" android:key="pref_PushAlarm">
             <intent
                 android:targetClass="com.team.codealmanac.w2do.NavSettingPushAlarm"
                 android:targetPackage="com.team.codealmanac.w2do" />
         </Preference>
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="애플리케이션 정보" >
-        <Preference android:summary="현재 버전은" android:title="버전정보" />
+    <PreferenceCategory android:title="애플리케이션 정보" android:key="pref_AppData">
+        <Preference android:summary="현재 버전은" android:title="버전정보" android:key="pref_AppVersionInfo"/>
         <SwitchPreference
             android:defaultValue="false"
-            android:key="autoUpdate"
+            android:key="pref_AutoUpdate"
             android:summary="자동 업데이트를 설정합니다"
             android:switchTextOff="OFF"
             android:switchTextOn="ON"

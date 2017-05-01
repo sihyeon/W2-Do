@@ -88,4 +88,9 @@
     <string name="title_activity_main2">Main2Activity</string>
     <string name="nav_setting">환경설정</string>
     <string name="nav_pushsetting">PUSH 알림 관리</string>
+
+    <string name="nav_feedback_header">의견 보내기</string>
+    <string name="nav_feedback">사용자님의 소중한 의견을 보내주세요.</string>
+    <string name="nav_sendbtn">Send</string>
+    <string name="nav_cancelbtn">Cancel</string>
 </resources>
