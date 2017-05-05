@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
     <PreferenceCategory android:title="계정 관리" >
-        <Preference android:title="로그아웃" />
-        <Preference android:title="계정 탈퇴" />
+        <Preference android:title="로그아웃" android:key="logout"/>
+        <Preference android:title="계정 탈퇴" android:key="deleteAccount"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="서비스 &amp; PUSH 알림 관리" >

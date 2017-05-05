@@ -313,11 +313,16 @@ public class MainActivity extends BaseActivity
         String greetingMessage = "";
         int presentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
 
-        if( 4 <= presentHour && presentHour <= 11 ){
-            greetingMessage += getString(R.string.greetings_morning_1);
-        } else if( 12<=presentHour && presentHour <= 18 ){
-            greetingMessage += getString(R.string.greetings_afternoon_1);
-        }else greetingMessage += getString(R.string.greetings_evening_1);
+        if (4 <= presentHour && presentHour <= 11) {            //아침
+            String[] morning = getResources().getStringArray(R.array.greetings_morning);
+            greetingMessage = morning[(int)(Math.random()*morning.length)];
+        }else if (12 <= presentHour && presentHour <= 18) {     //오후(점심)
+            String[] afternoon = getResources().getStringArray(R.array.greetings_afternoon);
+            greetingMessage = afternoon[(int)(Math.random()*afternoon.length)];
+        }else {                                                 //저녁
+            String[] evening = getResources().getStringArray(R.array.greetings_evening);
+            greetingMessage = evening[(int)(Math.random()*evening.length)];
+        }
 
         act_main_greetingmsg.setText(greetingMessage);
     }

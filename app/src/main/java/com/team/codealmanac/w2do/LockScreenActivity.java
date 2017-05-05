@@ -372,20 +372,22 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
     }
 
     private void setGreetingText(String nickname) {
-        String greetingMessage = "";
+        String greetingMessage;
         int presentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
 
         TextView greetingText = (TextView) findViewById(R.id.act_lockscreen_greeting);
         TextView userNameText = (TextView) findViewById(R.id.act_lockscreen_nickname);
 
-        //아침
-        if (4 <= presentHour && presentHour <= 11)
-            greetingMessage += getString(R.string.greetings_morning_1);
-            //오후(점심)
-        else if (12 <= presentHour && presentHour <= 18)
-            greetingMessage += getString(R.string.greetings_afternoon_1);
-            //저녁
-        else greetingMessage += getString(R.string.greetings_evening_1);
+        if (4 <= presentHour && presentHour <= 11) {            //아침
+            String[] morning = getResources().getStringArray(R.array.greetings_morning);
+            greetingMessage = morning[(int)(Math.random()*morning.length)];
+        }else if (12 <= presentHour && presentHour <= 18) {     //오후(점심)
+            String[] afternoon = getResources().getStringArray(R.array.greetings_afternoon);
+            greetingMessage = afternoon[(int)(Math.random()*afternoon.length)];
+        }else {                                                 //저녁
+            String[] evening = getResources().getStringArray(R.array.greetings_evening);
+            greetingMessage = evening[(int)(Math.random()*evening.length)];
+        }
 
         greetingText.setText(greetingMessage);
         if(nickname != null) userNameText.setText(nickname);
