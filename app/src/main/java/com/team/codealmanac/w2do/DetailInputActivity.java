@@ -95,6 +95,7 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
     private MapFragment act_detailInput_googleMap_frag;
     private GoogleMap mGoogleMap;
     private LatLng mLocation;
+    private String mLocationName;
     private Marker mMarker;
 
     // cardview items : 공유
@@ -298,6 +299,7 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
                 findViewById(R.id.act_detailInput_map_used_location_layout).setVisibility(View.VISIBLE);
                 act_detailInput_map_location_text.setText(place.getName());
                 mLocation = place.getLatLng();
+                mLocationName = String.valueOf(place.getName());
                 if(mGoogleMap != null){
                     mMarker = mGoogleMap.addMarker(new MarkerOptions().position(mLocation));
                     mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(mLocation));
@@ -358,7 +360,7 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
                     data.child("todo_count").getRef().setValue(todoFolder.todo_count+1);
                     Todo todo = new Todo(todoFolder.todo_count, false, mPickedColor,
                             act_detailInput_folder_spinner.getSelectedItem().toString(), act_detailInput_todo_content_edt.getText().toString(),
-                            mStartDate, mEndDate, /*alarm*/mAlarmDate, /*sharing*/null, /*lat*/0, /*lon*/0, /*memo*/act_detailInput_memo_edt.getText().toString());
+                            mStartDate, mEndDate, /*alarm*/mAlarmDate, /*sharing*/null, /*lat*/-1, /*lon*/-1, /*location_name*/null, /*memo*/act_detailInput_memo_edt.getText().toString());
                     //시작날의 00시 00분
                     Calendar now = Calendar.getInstance();
                     now.setTimeInMillis(mStartDate);
@@ -367,6 +369,7 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
                     if(mLocation != null){
                         todo.latitude = mLocation.latitude;
                         todo.longitude = mLocation.longitude;
+                        todo.location_name = mLocationName;
                     }
                     if(act_detailInput_alarm_radiogroup.getCheckedRadioButtonId() != -1){
                         switch (act_detailInput_alarm_radiogroup.getCheckedRadioButtonId()){
