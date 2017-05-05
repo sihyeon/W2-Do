@@ -107,8 +107,9 @@ public class TodoSimpleListFragment extends Fragment {
         calendar.set(Calendar.SECOND, 0);
         Log.d(TAG, "time: " + (calendar.getTimeInMillis() + (1000 * 60 * 60 * 24 - 1000)));
 
-        Query simpleTodoQuery = mSimpleTodoReference.orderByChild("date").
-                startAt(calendar.getTimeInMillis()).endAt(calendar.getTimeInMillis() + (1000 * 60 * 60 * 24 - 1000));
+        Query simpleTodoQuery = mSimpleTodoReference.orderByChild("check_state").equalTo(false);
+//      Query simpleTodoQuery = mSimpleTodoReference.orderByChild("date").
+//                startAt(calendar.getTimeInMillis()).endAt(calendar.getTimeInMillis() + (1000 * 60 * 60 * 24 - 1000));
         today_listview.setLayoutManager(new GridLayoutManager(getContext(), 1));
 
         mSimpleTodayAdapter = new FirebaseRecyclerAdapter<SimpleTodo, SimpleTodoViewHolder>(SimpleTodo.class,
