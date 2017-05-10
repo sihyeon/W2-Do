@@ -1,66 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="100dp">
+    android:id="@+id/adp_listitem_layout"
+    android:orientation="vertical"
+    android:layout_width="328dp"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp"
+    android:background="#F2FFFFFF">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <CheckBox
-            android:id="@+id/adp_infodertodo_checkbox"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:button="@drawable/check_box_layout" />
-
-        <TextView
-            android:id="@+id/adp_infodertodo_content"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content" />
-
-        <ImageView
-            android:id="@+id/adp_infodertodo_alarm_img"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            app:srcCompat="@drawable/activity_detailinput_colorpicker_border"
-            android:visibility="gone"/>
-
-        <ImageView
-            android:id="@+id/adp_infodertodo_invite_img"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            app:srcCompat="@drawable/activity_detailinput_colorpicker_border"
-            android:visibility="gone"/>
-
-        <ImageView
-            android:id="@+id/adp_infodertodo_memo_img"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            app:srcCompat="@drawable/activity_detailinput_colorpicker_border"
-            android:visibility="gone"/>
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:id="@+id/adp_infodertodo_time_text"
-            android:layout_width="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginBottom="11dp">
+        <LinearLayout
+            android:id="@+id/adp_infodertodo_content_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="5월 9일(금) 11:59 오후"/>
-        <ImageView
-            android:id="@+id/adp_infodertodo_location_img"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            app:srcCompat="@drawable/activity_detailinput_colorpicker_border"
-            android:visibility="gone"/>
-        <TextView
-            android:id="@+id/adp_infodertodo_location_text"
-            android:layout_width="wrap_content"
+            android:orientation="horizontal">
+            <CheckBox
+                android:id="@+id/adp_infodertodo_checkbox"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:button="@drawable/activity_infolder_check_btn" />
+            <TextView
+                android:id="@+id/adp_infodertodo_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="바리스타 실기 시험 준비"
+                android:includeFontPadding="false"
+                android:layout_marginStart="12dp"
+                android:textSize="16dp"
+                android:textColor="@color/detailInput_Text"
+                android:layout_gravity="center_vertical"/>
+
+            <ImageView
+                android:id="@+id/adp_infodertodo_alarm_img"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                app:srcCompat="@drawable/icn_alarm_list"
+                android:layout_marginStart="6dp"
+                android:layout_gravity="center_vertical"
+                android:visibility="gone"/>
+
+            <ImageView
+                android:id="@+id/adp_infodertodo_invite_img"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                app:srcCompat="@drawable/icn_invite_list"
+                android:layout_marginStart="3dp"
+                android:layout_gravity="center_vertical"
+                android:visibility="gone"/>
+
+            <ImageView
+                android:id="@+id/adp_infodertodo_memo_img"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                app:srcCompat="@drawable/icn_memo_list"
+                android:layout_marginStart="2dp"
+                android:layout_gravity="center_vertical"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="웨스턴돔"
-            android:visibility="gone"/>
+            android:orientation="horizontal"
+            android:layout_marginStart="35dp">
+            <TextView
+                android:id="@+id/adp_infodertodo_time_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5월 9일(금) 11:59 오후"
+                android:textColor="@color/gray_999"
+                android:textSize="14dp"
+                android:layout_marginEnd="13dp" />
+
+            <ImageView
+                android:id="@+id/adp_infodertodo_location_img"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                app:srcCompat="@drawable/icn_location_list"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/adp_infodertodo_location_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="웨스턴돔"
+                android:textColor="@color/gray_999"
+                android:textSize="14dp"
+                android:layout_marginStart="1dp"
+                android:visibility="gone"/>
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/adp_infodertodo_endline"
+        android:layout_alignParentEnd="true"
+        android:layout_width="7dp"
+        android:layout_height="46dp"
+        android:background="@color/black_de"/>
+</RelativeLayout>

@@ -78,7 +78,7 @@
         </activity>
         <activity
             android:name=".InFolderActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.TransparentStatusBarOnToolbar" />
         <activity
             android:name=".dialog.SimpleInputDialog"
             android:theme="@style/Theme.AppCompat.Dialog.Alert" />

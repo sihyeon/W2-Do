@@ -383,7 +383,7 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
                                 mAlarmDate = nowTimeInMillis - 1000*60*60; break;
                             case R.id.act_detailInput_alarm_radiobtn_5:
                                 mAlarmDate = nowTimeInMillis - 1000*60*60*2; break;
-                            case R.id.act_detailInput_alarm_radiobtn_6:
+                            case R.id.act_detailInput_alarm_radiobtn_6: //하루전 12시 정각
                                 mAlarmDate = nowTimeInMillis - 1000*60*60*12; break;
                         }
                         todo.alarm_date = mAlarmDate;
