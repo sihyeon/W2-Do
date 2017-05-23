@@ -11,47 +11,29 @@ import java.util.Date;
 
 //DB 정의서
 public final class SQLContract {
-    public static final String DATABASE_NAME = "AlmanacDB.db";
+    public static final String DATABASE_NAME = "What2do.db";
 
-    private static final String DATE_FORMAT = "yyyy-MM-dd";
-
-    public static String convertDateToString(Date date){
-        return (new SimpleDateFormat(DATE_FORMAT)).format(date);
+    //투두 테이블
+    public static class TodoFolderEntry implements BaseColumns{
+        public static final String TABLE_NAME = "todo_folder";
+        public static final String COLUMN_NAME_NAME = "name";
+        public static final String COLUMN_NAME_SEQUENCE = "sequence";
+        public static final String COLUMN_NAME_TODO_COUNT = "todo_count";
     }
 
-    //사용자 이름 테이블
-    public static class UserEntry implements BaseColumns{
-        public static final String TABLE_NAME = "user_table";
-        public static final String COLUMN_NAME_UUID = "user_uuid";
-        public static final String COLUMN_NAME_NAME = "display_name";
-    }
-
-    public static class FcmUserEntry implements BaseColumns{
-        public static final String TABLE_NAME = "fcm_table";
-        public static final String COLUMN_NAME_TOKEN = "fcm_token";
-    }
-
-    // 할일 테이블
-    public static class ToDoEntry implements BaseColumns{
-        public static final String TABLE_NAME = "todo_table";
-        public static final String COLUMN_NAME_TODO = "todo_text";
-        public static final String COLUMN_NAME_DATE = "todo_date";
-        public static final String COLUMN_NAME_BUTTON_VISIBLE = "todo_btvisible";
-        public static final String COLUMN_NAME_SHOW = "todo_show";
-    }
-
-    public static class MainScheduleEntry implements BaseColumns{    //순서대로 insert 및 쿼리 해주세요.
-        public static final String TABLE_NAME = "main_schedule_table";
-        public static final String COLUMN_NAME_MAIN_SCHEDULE = "main_schedule_text";
-        public static final String COLUMN_NAME_DATE = "main_schedule_date";
-        public static final String COLUMN_NAME_USED = "main_schedule_activity";
-//        public static final String COLUMN_NAME_BUTTON_VISIBLE = "main_focus_btvisible";
-//        public static final String COLUMN_NAME_SHOW = "main_focus_show";
-    }
-
-    public static class AppFolderEntry implements BaseColumns {
-        public static final String TABLE_NAME = "app_folder_table";
-        public static final String COLUMN_NAME_APP_NAME = "app_name";
-        public static final String COLUMN_NAME_APP_PATH = "app_path";
+    public static class TodoEntry implements BaseColumns{
+        public static final String TABLE_NAME = "todo";
+        public static final String COLUMN_NAME_SEQUENCE = "folder_sequence";
+        public static final String COLUMN_NAME_CHECK = "check_state";
+        public static final String COLUMN_NAME_COLOR = "color";
+        public static final String COLUMN_NAME_FOLDER = "folder_name";
+        public static final String COLUMN_NAME_CONTENT = "content";
+        public static final String COLUMN_NAME_START_DATE = "start_date";
+        public static final String COLUMN_NAME_END_DATE = "end_date";
+        public static final String COLUMN_NAME_ALARM = "alarm_date";
+        public static final String COLUMN_NAME_LATITUDE = "latitude";
+        public static final String COLUMN_NAME_LONGITUDE = "longitude";
+        public static final String COLUMN_NAME_LOCATION = "location_name";
+        public static final String COLUMN_NAME_MEMO = "memo";
     }
 }

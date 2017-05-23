@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -20,6 +21,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -36,6 +38,7 @@ import com.team.codealmanac.w2do.contract.FontContract;
 import com.team.codealmanac.w2do.database.PreferencesManager;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.team.codealmanac.w2do.database.SQLiteManager;
 import com.team.codealmanac.w2do.dialog.FolderInputDialogFragment;
 import com.team.codealmanac.w2do.dialog.SimpleInputDialog;
 import com.team.codealmanac.w2do.fragment.TodoFolderListFragment;
@@ -47,7 +50,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener{
-
+    private final String TAG = "MainActivity";
     private DrawerLayout act_main_drawer_layout;
     private NavigationView navigationView;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -76,6 +79,8 @@ public class MainActivity extends BaseActivity
 
     private boolean isFloatingOpen = false;
 
+    private SQLiteManager sqliteManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -85,7 +90,9 @@ public class MainActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Firebase Realtime DB setting
+//        sqliteManager = new SQLiteManager(getApplicationContext());
+//        sqliteManager.viewDatabaseTable();
+
         mUser = getUserSession();
 
         mFontContract = new FontContract(getApplication().getAssets());

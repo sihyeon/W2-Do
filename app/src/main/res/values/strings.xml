@@ -65,7 +65,7 @@
     <string name="frag_maininput_msg">오늘의 메인 스케줄은 무엇인가요?</string>
     <string name="mainschedule_hint">ex) lunch at 3:00pm</string>
 
-    <string name="todayheader">TODAY</string>
+    <string name="simpleTodoHeader">Todo</string>
     <string name="todaymsg">오늘의 할일은 무엇인가요?</string>
     <string name="todaySavebtn">SAVE</string>
     <string name="todayCancelbtn">CANCEL</string>

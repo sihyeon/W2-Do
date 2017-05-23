@@ -33,13 +33,13 @@ public class TodoFolderViewHolder extends RecyclerView.ViewHolder {
                 itemView.getContext().startActivity(intent);
             }
         });
-        itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                Log.d("folder", "gg");
-                return true;
-            }
-        });
+//        itemView.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View view) {
+//                Log.d("folder", "gg");
+//                return true;
+//            }
+//        });
     }
 }
 

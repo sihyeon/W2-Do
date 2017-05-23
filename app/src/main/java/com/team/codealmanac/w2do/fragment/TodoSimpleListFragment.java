@@ -27,9 +27,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.team.codealmanac.w2do.R;
+import com.team.codealmanac.w2do.adapter.FolderListAdapter;
+import com.team.codealmanac.w2do.database.SQLiteManager;
 import com.team.codealmanac.w2do.models.MainSchedule;
-import com.team.codealmanac.w2do.models.SimpleTodo;
-import com.team.codealmanac.w2do.viewholder.SimpleTodoViewHolder;
+
 
 import java.util.Calendar;
 
@@ -110,22 +111,26 @@ public class TodoSimpleListFragment extends Fragment {
         Query simpleTodoQuery = mSimpleTodoReference.orderByChild("check_state").equalTo(false);
 //      Query simpleTodoQuery = mSimpleTodoReference.orderByChild("date").
 //                startAt(calendar.getTimeInMillis()).endAt(calendar.getTimeInMillis() + (1000 * 60 * 60 * 24 - 1000));
+        today_listview.setHasFixedSize(true);
         today_listview.setLayoutManager(new GridLayoutManager(getContext(), 1));
 
-        mSimpleTodayAdapter = new FirebaseRecyclerAdapter<SimpleTodo, SimpleTodoViewHolder>(SimpleTodo.class,
-                R.layout.adpitem_simpletoday, SimpleTodoViewHolder.class, simpleTodoQuery) {
-            private String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-            @Override
-            protected void populateViewHolder(SimpleTodoViewHolder viewHolder, SimpleTodo model, int position) {
-                viewHolder.mSimpleTodoReference = getRef(position);
-                viewHolder.mTodoReference = FirebaseDatabase.getInstance().getReference().child("todo").
-                        child(userId).child(getRef(position).getKey());
-                viewHolder.adp_simpletoday_content.setText(model.content);
-                viewHolder.adp_simpletoday_checkbox.setChecked(model.check_state);
-            }
-        };
-        today_listview.setAdapter(mSimpleTodayAdapter);
+//        SQLiteManager sqliteManager = new SQLiteManager(getContext());
+//        FolderListAdapter mFolderListAdapter = new FolderListAdapter(sqliteManager.getAllTodoFolder());
+//        today_listview.setAdapter(mFolderListAdapter);
+//        mSimpleTodayAdapter = new FirebaseRecyclerAdapter<SimpleTodo, SimpleTodoViewHolder>(SimpleTodo.class,
+//                R.layout.adpitem_simpletoday, SimpleTodoViewHolder.class, simpleTodoQuery) {
+//            private String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+//
+//            @Override
+//            protected void populateViewHolder(SimpleTodoViewHolder viewHolder, SimpleTodo model, int position) {
+//                viewHolder.mSimpleTodoReference = getRef(position);
+//                viewHolder.mTodoReference = FirebaseDatabase.getInstance().getReference().child("todo").
+//                        child(userId).child(getRef(position).getKey());
+//                viewHolder.adp_simpletoday_content.setText(model.content);
+//                viewHolder.adp_simpletoday_checkbox.setChecked(model.check_state);
+//            }
+//        };
+//        today_listview.setAdapter(mSimpleTodayAdapter);
         return view;
     }
 

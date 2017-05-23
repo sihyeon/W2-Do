@@ -10,7 +10,7 @@
 
     <TextView
         android:id="@+id/act_simpleinput_header_text"
-        android:text="@string/todayheader"
+        android:text="@string/simpleTodoHeader"
         android:textColor="#4D4D4D"
         android:textSize="25dp"
         android:layout_width="match_parent"
