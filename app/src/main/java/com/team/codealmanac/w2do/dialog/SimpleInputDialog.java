@@ -82,7 +82,7 @@ public class SimpleInputDialog extends AppCompatActivity implements View.OnClick
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     DataSnapshot tempSnapshot = null;
-                    mFolder = new TodoFolder(0, "auto-create", 1);
+                    mFolder = new TodoFolder(0, "ALL", 1);
                     for (DataSnapshot item : dataSnapshot.getChildren()) {
                         if (item.exists()) {
                             mFolder = item.getValue(TodoFolder.class);

@@ -1,8 +1,6 @@
 package com.team.codealmanac.w2do.dialog;
 
 import android.app.DialogFragment;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -26,12 +24,12 @@ import com.team.codealmanac.w2do.models.TodoFolder;
  */
 
 public class FolderInputDialogFragment extends DialogFragment implements View.OnClickListener{
-    public  FolderInputDialogFragment(){}
     private EditText frag_folderInput_edit;
     private Button frag_folderInput_okbtn;
     private DatabaseReference mTodoFolderReference;
     private DatabaseReference mTodoFolderCountReference;
     private String USER_ID;
+    public  FolderInputDialogFragment(){}
     public static FolderInputDialogFragment newInstance(){
         return new FolderInputDialogFragment();
     }

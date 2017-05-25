@@ -29,6 +29,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,6 +37,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.team.codealmanac.w2do.assistant.LocationInfoAssistant;
 import com.team.codealmanac.w2do.contract.FontContract;
+import com.team.codealmanac.w2do.database.PreferencesManager;
 import com.team.codealmanac.w2do.listeners.OnSwipeTouchListener;
 
 import org.json.JSONException;
@@ -49,6 +51,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class LockScreenActivity extends BaseActivity implements LocationInfoAssistant.InterfaceLocationInfoManager {
+    private final String TAG = "LockScreenActivity";
     private final int GEO_PERMISSIONS_REQUEST = 1;
     private LocationInfoAssistant mLocationInfoManager;
 
@@ -57,8 +60,9 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
     private FontContract mFont;
 
     private DatabaseReference mMainScheduleReference;
-    private DatabaseReference mUserReference;
-    private ValueEventListener mMainScheduleListener;
+    private DatabaseReference mNicknameReference;
+    private ChildEventListener mMainScheduleListener;
+    private ChildEventListener mNicknameListener;
 
     //인터페이스
     @Override
@@ -91,26 +95,25 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
             mLocationInfoManager.onStartLocation(getApplicationContext(), this);
         }
 
-
-
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         // [START initialize_database_ref]
         mMainScheduleReference = FirebaseDatabase.getInstance().getReference().child("main_schedule").child(userId).child("visible");
-        mUserReference = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
+        mNicknameReference = FirebaseDatabase.getInstance().getReference().child("nickname").child(userId);
         // [END initialize_database_ref]
 
         //스와이프 동작.
         findViewById(R.id.layout_lock_screen_main).setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()){
             public void onSwipeLeft(){
-                Intent mainappintent = new Intent(LockScreenActivity.this, MainActivity.class);
+                Intent mainappintent = new Intent(LockScreenActivity.this, LoginActivity.class);
+                mainappintent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(mainappintent);
                 finish();
             }
             public void onSwipeRight(){
-                Toast.makeText(LockScreenActivity.this, "Right", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
+        setGreetingText(PreferencesManager.getNickname(getApplicationContext()));
 
         //폰트지정
         ((TextView)findViewById(R.id.act_lockscreen_greeting)).setTypeface(mFont.NahumSquareB_Regular());
@@ -118,6 +121,52 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
         ((TextView)findViewById(R.id.act_lockscreen_mainschedule_header)).setTypeface(mFont.FranklinGothic_Demi());
         ((TextView)findViewById(R.id.act_lockscreen_mainschedule)).setTypeface(mFont.NahumSquareB_Regular());
         ((TextView)findViewById(R.id.act_lockscreen_what_mainschedule)).setTypeface(mFont.NahumSquareB_Regular());
+
+        //파베 실시간디비 리스너 등록
+        mNicknameReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    String item = dataSnapshot.getValue().toString();
+                    setGreetingText(item);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+
+        ChildEventListener mainScheduleListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                if(dataSnapshot.exists()){
+                    existMainSchedule(dataSnapshot.getValue().toString());
+                } else {
+                    nonexistMainSchedule();
+                }
+            }
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                if(dataSnapshot.exists()){
+                    existMainSchedule(dataSnapshot.getValue().toString());
+                } else {
+                    nonexistMainSchedule();
+                }
+            }
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                nonexistMainSchedule();
+            }
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                nonexistMainSchedule();
+            }
+        };
+//        mNicknameReference.addChildEventListener(nicknameListener);
+//        mNicknameListener = nicknameListener;
+        mMainScheduleReference.addChildEventListener(mainScheduleListener);
+        mMainScheduleListener = mainScheduleListener;
     }
 
     @Override
@@ -136,48 +185,19 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
 
 
 
-        //파베 실시간디비 리스너 등록
-        mUserReference.child("nickname").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()){
-//                    User_NickName item = dataSnapshot.getValue(User_NickName.class);
-                    String item = dataSnapshot.getValue().toString();
-                    Log.d("파베테스트", dataSnapshot.toString());
-                    setGreetingText(item);
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {}
-        });
-
-        ValueEventListener mainScheduleListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()){
-                    existMainSchedule(dataSnapshot.getValue().toString());
-                } else {
-                    nonexistMainSchedule();
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {}
-        };
-
-        mMainScheduleReference.addValueEventListener(mainScheduleListener);
-        mMainScheduleListener = mainScheduleListener;
+        setGreetingText(null);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if(mMainScheduleListener != null){
-            mMainScheduleReference.removeEventListener(mMainScheduleListener);
-        }
+
     }
 
     @Override
     protected void onDestroy() {
+        if(mMainScheduleListener != null) mMainScheduleReference.removeEventListener(mMainScheduleListener);
+        if(mNicknameListener != null) mNicknameReference.removeEventListener(mNicknameListener);
         if (isPermission) mLocationInfoManager.onStopLocation();
         super.onDestroy();
     }
@@ -210,6 +230,7 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
                 } else { //권한 거부함
                     Log.d("LcokScreenFragment", "권한 거부함");
                     isPermission = false;
+                    LockScreenActivity.this.finish();
                     return;
                 }
             }
@@ -221,15 +242,8 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
 
     //지역정보를 불러오는데 하나라도 실패하면 전부 안보이게함.
     private void setLocationVisibility(boolean visibility) {
-        if (visibility) {
-            findViewById(R.id.act_lockscreen_location).setVisibility(View.VISIBLE);
-            findViewById(R.id.act_lockscreen_weathericon).setVisibility(View.VISIBLE);
-            findViewById(R.id.act_lockscreen_temperature).setVisibility(View.VISIBLE);
-        } else {
-            findViewById(R.id.act_lockscreen_location).setVisibility(View.INVISIBLE);
-            findViewById(R.id.act_lockscreen_weathericon).setVisibility(View.INVISIBLE);
-            findViewById(R.id.act_lockscreen_temperature).setVisibility(View.INVISIBLE);
-        }
+        if (visibility) findViewById(R.id.act_lockscreen_location_layout).setVisibility(View.VISIBLE);
+        else findViewById(R.id.act_lockscreen_location_layout).setVisibility(View.INVISIBLE);
     }
 
     //네트워크 상태 체크
@@ -258,7 +272,7 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
                         try {
                             //날씨 텍스트를 받아와서 아이콘을 지정함, 그리고 온도를 지정
                             setWeatherText(response.getJSONArray("weather").getJSONObject(0).getInt("id")
-                                    , response.getJSONObject("menu_main_toolbar").getDouble("temp"));
+                                    , response.getJSONObject("main").getDouble("temp"));
                             setLocationVisibility(true);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -329,7 +343,7 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
         TextView temperatureText = (TextView) findViewById(R.id.act_lockscreen_temperature);
         Typeface tempType = Typeface.createFromAsset(getAssets(), "FranklinGothicMediumCond.TTF");
         temperatureText.setTypeface(tempType);
-        temperatureText.setText((int) temperature + "º");
+        temperatureText.setText(String.format(Locale.KOREA, "%dº", (int)temperature));
     }
 
     //지역정보를 설정함
@@ -358,34 +372,38 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
     }
 
     private void setGreetingText(String nickname) {
-        String greetingMessage = "";
+        String greetingMessage;
         int presentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
 
         TextView greetingText = (TextView) findViewById(R.id.act_lockscreen_greeting);
         TextView userNameText = (TextView) findViewById(R.id.act_lockscreen_nickname);
 
-        //아침
-        if (4 <= presentHour && presentHour <= 11)
-            greetingMessage += getString(R.string.greetings_morning_1);
-            //오후(점심)
-        else if (12 <= presentHour && presentHour <= 18)
-            greetingMessage += getString(R.string.greetings_afternoon_1);
-            //저녁
-        else greetingMessage += getString(R.string.greetings_evening_1);
+        if (4 <= presentHour && presentHour <= 11) {            //아침
+            String[] morning = getResources().getStringArray(R.array.greetings_morning);
+            greetingMessage = morning[(int)(Math.random()*morning.length)];
+        }else if (12 <= presentHour && presentHour <= 18) {     //오후(점심)
+            String[] afternoon = getResources().getStringArray(R.array.greetings_afternoon);
+            greetingMessage = afternoon[(int)(Math.random()*afternoon.length)];
+        }else {                                                 //저녁
+            String[] evening = getResources().getStringArray(R.array.greetings_evening);
+            greetingMessage = evening[(int)(Math.random()*evening.length)];
+        }
 
         greetingText.setText(greetingMessage);
-        userNameText.setText(nickname);
+        if(nickname != null) userNameText.setText(nickname);
     }
 
     private void existMainSchedule(String mainSchedule){
         findViewById(R.id.act_lockscreen_layout_exist_mainschedule).setVisibility(View.VISIBLE);
         findViewById(R.id.act_lockscreen_layout_ignore_mainschedule).setVisibility(View.GONE);
         ((TextView)findViewById(R.id.act_lockscreen_mainschedule)).setText(mainSchedule);
+        Log.d(TAG, "existMainSchedule 불림");
     }
 
     private void nonexistMainSchedule(){
         findViewById(R.id.act_lockscreen_layout_exist_mainschedule).setVisibility(View.GONE);
         findViewById(R.id.act_lockscreen_layout_ignore_mainschedule).setVisibility(View.VISIBLE);
+        Log.d(TAG, "nonexistMainSchedule 불림");
     }
 
     //메뉴키, 백키 잠금

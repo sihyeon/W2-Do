@@ -5,6 +5,7 @@ package com.team.codealmanac.w2do;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
@@ -17,6 +18,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,7 +37,6 @@ import com.team.codealmanac.w2do.database.PreferencesManager;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.team.codealmanac.w2do.dialog.FolderInputDialogFragment;
-import com.team.codealmanac.w2do.dialog.NavFeedbackDialog;
 import com.team.codealmanac.w2do.dialog.SimpleInputDialog;
 import com.team.codealmanac.w2do.fragment.TodoFolderListFragment;
 import com.team.codealmanac.w2do.fragment.TodoSimpleListFragment;
@@ -72,6 +73,8 @@ public class MainActivity extends BaseActivity
     private Fragment mTodoFolderListFragment;
 
     private FontContract mFontContract;
+
+    private boolean isFloatingOpen = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,12 +121,14 @@ public class MainActivity extends BaseActivity
                         return true;
                     }
                 });
+                isFloatingOpen = true;
             }
 
             @Override
             public void onMenuCollapsed() {
                 act_main_appbar_floatingButtonLayout.setVisibility(View.GONE);
                 act_main_appbar_floatingButtonLayout.setOnTouchListener(null);
+                isFloatingOpen = false;
             }
         });
 
@@ -134,7 +139,7 @@ public class MainActivity extends BaseActivity
         act_main_appbar_folder_floatingbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FolderInputDialogFragment.newInstance().show(getFragmentManager(), "test");
+                FolderInputDialogFragment.newInstance().show(getFragmentManager(), "folder_input");
                 act_main_appbar_floatingActionsMenu.collapse();
             }
         });
@@ -261,8 +266,29 @@ public class MainActivity extends BaseActivity
     // act_main_drawer_layout 상태 확인 후 act_main_drawer_layout oepn/close 함수
     @Override
     public void onBackPressed() {
-            super.onBackPressed();
-            overridePendingTransition(R.anim.pull_in_left,R.anim.push_out_right);
+        if(isFloatingOpen){
+            act_main_appbar_floatingActionsMenu.collapse();
+            return;
+        }
+        AlertDialog.Builder alt_bld = new AlertDialog.Builder(this);
+        alt_bld.setMessage("앱을 종료하시겠습니까?").setCancelable(
+                false).setPositiveButton("Yes",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        MainActivity.this.finish();
+                        // Action for 'Yes' Button
+                    }
+                }).setNegativeButton("No",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // Action for 'NO' Button
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = alt_bld.create();
+        // Title for AlertDialog
+        alert.show();
+//      overridePendingTransition(R.anim.pull_in_left,R.anim.push_out_right);
     }
 
 
@@ -314,38 +340,43 @@ public class MainActivity extends BaseActivity
         String greetingMessage = "";
         int presentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
 
-        if( 4 <= presentHour && presentHour <= 11 ){
-            greetingMessage += getString(R.string.greetings_morning_1);
-        } else if( 12<=presentHour && presentHour <= 18 ){
-            greetingMessage += getString(R.string.greetings_afternoon_1);
-        }else greetingMessage += getString(R.string.greetings_evening_1);
+        if (4 <= presentHour && presentHour <= 11) {            //아침
+            String[] morning = getResources().getStringArray(R.array.greetings_morning);
+            greetingMessage = morning[(int)(Math.random()*morning.length)];
+        }else if (12 <= presentHour && presentHour <= 18) {     //오후(점심)
+            String[] afternoon = getResources().getStringArray(R.array.greetings_afternoon);
+            greetingMessage = afternoon[(int)(Math.random()*afternoon.length)];
+        }else {                                                 //저녁
+            String[] evening = getResources().getStringArray(R.array.greetings_evening);
+            greetingMessage = evening[(int)(Math.random()*evening.length)];
+        }
 
         act_main_greetingmsg.setText(greetingMessage);
     }
 
-    private void createNotification(){
-        PendingIntent buttonIntent = PendingIntent.getActivity(this, 0, new Intent(this, SimpleInputDialog.class), PendingIntent.FLAG_UPDATE_CURRENT);
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.icn_logo)
-                .setContentTitle("test")
-                .setContentText("tessssstt")
-                .addAction(R.drawable.icn_memo, "간단입력", buttonIntent)
-                .setAutoCancel(true);
-
-        Intent resultIntent = new Intent(this, MainActivity.class);
-
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-
-        stackBuilder.addParentStack(MainActivity.class);
-        stackBuilder.addNextIntent(resultIntent);
-
-        PendingIntent resultPendingIntent =
-                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        mBuilder.setContentIntent(resultPendingIntent);
-        NotificationManager mNotificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(1, mBuilder.build());
-    }
+//    private void createNotification(){
+//        PendingIntent buttonIntent = PendingIntent.getActivity(this, 0, new Intent(this, SimpleInputDialog.class), PendingIntent.FLAG_UPDATE_CURRENT);
+//        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
+//                .setSmallIcon(R.drawable.icn_logo)
+//                .setContentTitle("test")
+//                .setContentText("tessssstt")
+//                .addAction(R.drawable.icn_memo, "간단입력", buttonIntent)
+//                .setAutoCancel(true);
+//
+//        Intent resultIntent = new Intent(this, MainActivity.class);
+//
+//        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+//
+//        stackBuilder.addParentStack(MainActivity.class);
+//        stackBuilder.addNextIntent(resultIntent);
+//
+//        PendingIntent resultPendingIntent =
+//                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+//
+//        mBuilder.setContentIntent(resultPendingIntent);
+//        NotificationManager mNotificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+//        mNotificationManager.notify(1, mBuilder.build());
+//    }
 
     // nagivation 내부 item 선언
     @SuppressWarnings("StatementWithEmptyBody")
@@ -356,13 +387,16 @@ public class MainActivity extends BaseActivity
 
         if (id == R.id.nav_home) {
         // 메인 홈 화면으로 이동
-            Intent HomeIntent = new Intent(this, MainActivity.class);
-            HomeIntent.putExtra("mainhomefragment","homeintent");
-            TaskStackBuilder stackBuilder = TaskStackBuilder.create(MainActivity.this);
-            stackBuilder.addParentStack(MainActivity.class);
-            stackBuilder.addNextIntent(HomeIntent);
-            stackBuilder.startActivities();
-
+//            Intent HomeIntent = new Intent(this, MainActivity.class);
+//            HomeIntent.putExtra("mainhomefragment","homeintent");
+//            TaskStackBuilder stackBuilder = TaskStackBuilder.create(MainActivity.this);
+//            stackBuilder.addParentStack(MainActivity.class);
+//            stackBuilder.addNextIntent(HomeIntent);
+//            stackBuilder.startActivities();
+            Intent HomeIntent = new Intent(MainActivity.this, MainActivity.class);
+            HomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(HomeIntent);
+//            startActivity(new Intent(MainActivity.this, LockScreenActivity.class));
         } else if (id == R.id.nav_edit_profile) {
         //프로필 정보 화면으로 이동
             Intent EditProfile  = new Intent(MainActivity.this, NavEditProfileActivity.class);
@@ -380,8 +414,13 @@ public class MainActivity extends BaseActivity
 
         } else if (id == R.id.nav_send_msg) {
         // 의견 보낼 화면 팝업
-            Intent FeedbackIntent = new Intent(MainActivity.this,NavFeedbackDialog.class);
-            startActivity(FeedbackIntent);
+            Intent mail = new Intent(Intent.ACTION_SEND);
+            String[] mailaddr = {"infow2do@gmail.com"};
+            mail.setType("Plain/text");
+            mail.putExtra(Intent.EXTRA_SUBJECT,"[이보시오, 내 말을 좀 들어보시오!]");
+            mail.putExtra(Intent.EXTRA_EMAIL,mailaddr);
+            mail.putExtra(Intent.EXTRA_TEXT,"고객님의 소중한 의견을 작성해주세요 : )");
+            startActivity(Intent.createChooser(mail,"Choose email client"));
         }
         act_main_drawer_layout.closeDrawer(GravityCompat.START);
         return true;

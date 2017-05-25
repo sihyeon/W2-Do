@@ -6,21 +6,23 @@ import android.graphics.drawable.GradientDrawable;
 
 import android.os.Bundle;
 
-import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import android.text.TextUtils;
 
+import android.util.Log;
 import android.view.View;
 
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.support.v4.content.ContextCompat;
@@ -45,9 +47,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.team.codealmanac.w2do.adapter.DetailInputInviteeAdapter;
 import com.team.codealmanac.w2do.adapter.FolderSpinnerAdapter;
 import com.team.codealmanac.w2do.contract.FontContract;
 import com.team.codealmanac.w2do.dialog.DatePickerDialogActivity;
+import com.team.codealmanac.w2do.dialog.ShareInputDialogFragment;
 import com.team.codealmanac.w2do.models.SimpleTodo;
 import com.team.codealmanac.w2do.models.Todo;
 import com.team.codealmanac.w2do.models.TodoFolder;
@@ -59,7 +63,7 @@ import java.util.List;
 
 import petrov.kristiyan.colorpicker.ColorPicker;
 
-public class DetailInputActivity extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback{
+public class DetailInputActivity extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback, ShareInputDialogFragment.OnShareInputDialogListener{
     private final String TAG = "DetailInputActivity";
     private final int GOOGLE_MAP_REQUEST_CODE = 1;
     private final int DATEPICKER_START_DATE_REQUEST_CODE = 2;
@@ -91,10 +95,14 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
     private MapFragment act_detailInput_googleMap_frag;
     private GoogleMap mGoogleMap;
     private LatLng mLocation;
+    private String mLocationName;
     private Marker mMarker;
 
     // cardview items : 공유
     private CardView act_detailInput_share_cardview;
+    private TextView act_detailInput_share_guide_text;
+    private RecyclerView act_detailInput_share_invitee_recyclerview;
+    private DetailInputInviteeAdapter mShareInviteeAdapter;
 
     // cardview items : 알람
     private CardView act_detailInput_alarm_cardview;
@@ -121,6 +129,7 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
     private ImageButton act_detailInput_more_detail_side_btn_memo;
 
     //title 부분
+    private TextView act_detailInput_toolbar_title;
     private ImageButton act_detailInput_toolbar_save_btn;
     private Button act_detailInput_toolbar_back_btn;
 
@@ -145,9 +154,10 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
         mSimpleTodoReference = FirebaseDatabase.getInstance().getReference().child("simple_todo").child(USER_ID);
 
         // 타이틀 아이템
+        act_detailInput_toolbar_title = (TextView)findViewById(R.id.act_detailInput_toolbar_title);
         act_detailInput_toolbar_save_btn = (ImageButton)findViewById(R.id.act_detailInput_toolbar_save_btn);
         act_detailInput_toolbar_back_btn = (Button)findViewById(R.id.act_detailInput_toolbar_back_btn);
-
+        act_detailInput_toolbar_title.setTypeface(mFont.NahumSquareB_Regular());
         // 투두 내용 카드뷰 아이템
         act_detailInput_todo_content_edt = (EditText)findViewById(R.id.act_detailInput_todo_content_edt);
         act_detailInput_todo_content_color_picker = (Button)findViewById(R.id.act_detailInput_todo_content_color_picker);
@@ -185,6 +195,12 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
 
         //공유 카드뷰 아이템
         act_detailInput_share_cardview = (CardView)findViewById(R.id.act_detailInput_share_cardview);
+        act_detailInput_share_guide_text = (TextView)findViewById(R.id.act_detailInput_share_guide_text);
+        act_detailInput_share_invitee_recyclerview = (RecyclerView)findViewById(R.id.act_detailInput_share_invitee_recyclerview);
+        mShareInviteeAdapter = new DetailInputInviteeAdapter(act_detailInput_share_invitee_recyclerview);
+        act_detailInput_share_invitee_recyclerview.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
+        act_detailInput_share_invitee_recyclerview.setAdapter(mShareInviteeAdapter);
+        act_detailInput_share_guide_text.setTypeface(mFont.NahumSquareR_Regular());
 
         //알람 카드뷰 아이템
         mAlarmDate = 0;
@@ -204,18 +220,26 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
             public void onClick(View view) {
                 switch (view.getId()){
                     case R.id.act_detailInput_alarm_radiobtn_1:
+
                     case R.id.act_detailInput_alarm_radiobtn_2:
+
                     case R.id.act_detailInput_alarm_radiobtn_3:
+
                     case R.id.act_detailInput_alarm_radiobtn_4:
+
                     case R.id.act_detailInput_alarm_radiobtn_5:
+
                     case R.id.act_detailInput_alarm_radiobtn_6:
+
                 }
             }
         };
+        act_detailInput_alarm_self_text.setTypeface(mFont.NahumSquareR_Regular());
 
         //메모 카드뷰 아이템
         act_detailInput_memo_cardview = (CardView)findViewById(R.id.act_detailInput_memo_cardview);
         act_detailInput_memo_edt = (EditText)findViewById(R.id.act_detailInput_memo_edt);
+        act_detailInput_memo_edt.setTypeface(mFont.NahumSquareR_Regular());
 
         // more detail 버튼 아이템
         act_detailInput_more_detail_side_btn_gps = (ImageButton)findViewById(R.id.act_detailInput_more_detail_side_btn_gps);
@@ -237,14 +261,15 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
                     mFolderReference.getParent().child("folder_count").setValue(0);
                     spinnerItem.add("auto-create");
                 }
-                ArrayAdapter<String> Folder_Spinner_Adapter = new FolderSpinnerAdapter(
+                ArrayAdapter<String> FolderSpinnerAdapter = new FolderSpinnerAdapter(
                         DetailInputActivity.this, R.layout.adpitem_spinner_text, spinnerItem.toArray(new String[spinnerItem.size()]));
-                Folder_Spinner_Adapter.setDropDownViewResource(R.layout.adpitem_spinner_dropdown);
-                act_detailInput_folder_spinner.setAdapter(Folder_Spinner_Adapter);
+                FolderSpinnerAdapter.setDropDownViewResource(R.layout.adpitem_spinner_dropdown);
+                act_detailInput_folder_spinner.setAdapter(FolderSpinnerAdapter);
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {}
         });
+
         //타이틀 리스너 등록
         act_detailInput_toolbar_save_btn.setOnClickListener(this);
         act_detailInput_toolbar_back_btn.setOnClickListener(this);
@@ -257,7 +282,9 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
         //장소 카드뷰 리스너 등록
         act_detailInput_map_location_guide_text.setOnClickListener(this);
         act_detailInput_map_remove_btn.setOnClickListener(this);
-        //알람 리스너 등록
+        //공유 카드뷰 리스너 등록
+        act_detailInput_share_guide_text.setOnClickListener(this);
+        //알람 카드뷰 리스너 등록
         act_detailInput_alarm_selfinput_btn.setOnClickListener(this);
         act_detailInput_alarm_self_text.setOnClickListener(this);
         act_detailInput_alarm_remove_btn.setOnClickListener(this);
@@ -278,6 +305,7 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
                 findViewById(R.id.act_detailInput_map_used_location_layout).setVisibility(View.VISIBLE);
                 act_detailInput_map_location_text.setText(place.getName());
                 mLocation = place.getLatLng();
+                mLocationName = String.valueOf(place.getName());
                 if(mGoogleMap != null){
                     mMarker = mGoogleMap.addMarker(new MarkerOptions().position(mLocation));
                     mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(mLocation));
@@ -338,7 +366,7 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
                     data.child("todo_count").getRef().setValue(todoFolder.todo_count+1);
                     Todo todo = new Todo(todoFolder.todo_count, false, mPickedColor,
                             act_detailInput_folder_spinner.getSelectedItem().toString(), act_detailInput_todo_content_edt.getText().toString(),
-                            mStartDate, mEndDate, /*alarm*/mAlarmDate, /*sharing*/null, /*lat*/0, /*lon*/0, /*memo*/act_detailInput_memo_edt.getText().toString());
+                            mStartDate, mEndDate, /*alarm*/mAlarmDate, /*sharing*/null, /*lat*/-1, /*lon*/-1, /*location_name*/null, /*memo*/act_detailInput_memo_edt.getText().toString());
                     //시작날의 00시 00분
                     Calendar now = Calendar.getInstance();
                     now.setTimeInMillis(mStartDate);
@@ -347,6 +375,7 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
                     if(mLocation != null){
                         todo.latitude = mLocation.latitude;
                         todo.longitude = mLocation.longitude;
+                        todo.location_name = mLocationName;
                     }
                     if(act_detailInput_alarm_radiogroup.getCheckedRadioButtonId() != -1){
                         switch (act_detailInput_alarm_radiogroup.getCheckedRadioButtonId()){
@@ -360,7 +389,7 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
                                 mAlarmDate = nowTimeInMillis - 1000*60*60; break;
                             case R.id.act_detailInput_alarm_radiobtn_5:
                                 mAlarmDate = nowTimeInMillis - 1000*60*60*2; break;
-                            case R.id.act_detailInput_alarm_radiobtn_6:
+                            case R.id.act_detailInput_alarm_radiobtn_6: //하루전 12시 정각
                                 mAlarmDate = nowTimeInMillis - 1000*60*60*12; break;
                         }
                         todo.alarm_date = mAlarmDate;
@@ -470,7 +499,10 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
                 findViewById(R.id.act_detailInput_map_null_location_layout).setVisibility(View.VISIBLE);
                 findViewById(R.id.act_detailInput_map_used_location_layout).setVisibility(View.GONE);
                 break;
-
+            //공유 카드뷰
+            case R.id.act_detailInput_share_guide_text:
+                ShareInputDialogFragment.newInstance(new String[]{"test", "test2"}).show(getFragmentManager(), "share_input");
+                break;
             //알람 카드뷰
             case R.id.act_detailInput_alarm_selfinput_btn:
             case R.id.act_detailInput_alarm_self_text:
@@ -516,6 +548,13 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
         mGoogleMap.addMarker(new MarkerOptions().position(mLocation));
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(mLocation));
         mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+    }
+
+    @Override
+    public void onInviteeClick(String email) {
+        act_detailInput_share_invitee_recyclerview.setVisibility(View.VISIBLE);
+        if(mShareInviteeAdapter.getList().indexOf(email) != -1) return;
+        mShareInviteeAdapter.addItem(email);
     }
 }
 

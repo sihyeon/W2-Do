@@ -10,30 +10,32 @@
 
     <!--날씨 & 지역설정 start-->
     <RelativeLayout
+        android:id="@+id/act_lockscreen_location_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="16dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/act_lockscreen_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:text="-3º"
+            android:textColor="#FFF"
+            android:textSize="26dp" />
 
         <TextView
             android:id="@+id/act_lockscreen_weathericon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_alignStart="@+id/act_lockscreen_location"
+            android:layout_toStartOf="@id/act_lockscreen_temperature"
             android:text="날"
-            android:textColor="#FFF"
-            android:textSize="26dp" />
-
-        <TextView
-            android:id="@+id/act_lockscreen_temperature"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/act_lockscreen_location"
-            android:layout_alignParentTop="true"
-            android:text="-3º"
             android:textColor="#FFF"
             android:textSize="26dp" />
 
@@ -58,7 +60,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp"
         android:layout_marginBottom="-15dp"
-        android:format12Hour="17:28"
+        android:format12Hour="H:mm"
         android:gravity="center_vertical"
         android:textColor="#FFF"
         android:textSize="90dp" />
@@ -112,9 +114,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/act_lockscreen_nickname"
         android:layout_marginTop="79dp"
-        android:paddingTop="5dp"
         android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="5dp"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/act_lockscreen_mainschedule_header"
@@ -143,10 +146,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/act_lockscreen_nickname"
         android:layout_marginTop="79dp"
-        android:paddingTop="5dp"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        >
+        android:paddingTop="5dp"
+        android:visibility="visible">
 
         <TextView
             android:id="@+id/act_lockscreen_what_mainschedule"
@@ -154,7 +157,7 @@
             android:layout_height="wrap_content"
             android:text="@string/what_main_schedule"
             android:textColor="#fff"
-            android:textSize="17dp"/>
+            android:textSize="17dp" />
     </LinearLayout>
     <!--메인 스케줄 없을때 end-->
 

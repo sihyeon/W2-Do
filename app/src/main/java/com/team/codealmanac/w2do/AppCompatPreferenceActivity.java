@@ -2,6 +2,7 @@ package com.team.codealmanac.w2do;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
@@ -19,6 +20,8 @@ import android.view.ViewGroup;
 public abstract class AppCompatPreferenceActivity extends PreferenceActivity {
 
     private AppCompatDelegate mDelegate;
+    private Preference logoutPref;
+    private Preference deleteAccountPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/adp_spinner_dropdown_textview"
-    android:layout_width="match_parent"
-    android:layout_height="40dp"
-    android:layout_marginBottom="3dp"
-    android:background="#eeeeee"
+    android:layout_width="255dp"
+    android:layout_height="41dp"
+    android:paddingStart="16dp"
+    android:background="@drawable/adpitem_folder_spinner_item_bg"
     android:textColor="#333333"
-    android:textSize="16dp"/>
+    android:textSize="16dp"
+    android:gravity="center_vertical"/>
+
+

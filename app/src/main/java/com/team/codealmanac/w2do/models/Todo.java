@@ -9,15 +9,16 @@ import com.google.firebase.database.IgnoreExtraProperties;
 public class Todo {
     public long folder_sequence;
     public boolean check_state;
-    public int color;
+    public int color = -15690763;
     public String folder_name;
     public String content;
     public long start_date;
     public long end_date;
     public long alarm_date;
     public String sharing;
-    public double latitude;
-    public double longitude;
+    public double latitude = -1;
+    public double longitude = -1;
+    public String location_name;
     public String memo;
 
     public Todo() {}
@@ -30,7 +31,7 @@ public class Todo {
         this.folder_name = folder_name;
     }
 
-    public Todo(long folder_sequence, boolean check_state, int color, String folder_name, String content, long start_date, long end_date, long alarm_date, String sharing, double latitude, double longitude, String memo) {
+    public Todo(long folder_sequence, boolean check_state, int color, String folder_name, String content, long start_date, long end_date, long alarm_date, String sharing, double latitude, double longitude, String location_name, String memo) {
         this.folder_sequence = folder_sequence;
         this.check_state = check_state;
         this.color = color;

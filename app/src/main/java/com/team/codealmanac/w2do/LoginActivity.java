@@ -39,6 +39,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigInfo;
 import com.team.codealmanac.w2do.database.PreferencesManager;
 import com.team.codealmanac.w2do.models.User;
 
@@ -75,6 +76,7 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
     private Animation animation;
 
     private DatabaseReference mUserReference;
+    private DatabaseReference mPublicUserReference;
     private DatabaseReference mNicknameReference;
 
     @Override
@@ -84,6 +86,7 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
         setContentView(R.layout.activity_login);
 
         mUserReference = FirebaseDatabase.getInstance().getReference().child("user");
+        mPublicUserReference = FirebaseDatabase.getInstance().getReference().child("public_users");
         mNicknameReference = FirebaseDatabase.getInstance().getReference().child("nickname");
 
         //구글 로그인
@@ -136,7 +139,9 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
                     if(PreferencesManager.getNickname(LoginActivity.this.getApplicationContext()) != null){
                         //nickname을 이미 입력했으면
                         Log.d(TAG, "닉네임 있음");
-                        startActivity( new Intent(LoginActivity.this,MainActivity.class) ); finish();
+                        Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
+                        mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        startActivity(mainIntent); finish();
                     } else {
                         //nickname이 없으면 폰 데이터를 지웠을 경우 서버DB에는 닉네임 데이터가 있는지 확인해봐야함.
                         mNicknameReference.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {        //닉네임 데이터 한번 가져오기
@@ -144,7 +149,9 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 if(dataSnapshot.exists()){
                                     PreferencesManager.setNickname(LoginActivity.this.getApplicationContext(), dataSnapshot.getValue().toString());
-                                    startActivity( new Intent(LoginActivity.this,MainActivity.class) ); finish();
+                                    Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
+                                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                    startActivity(mainIntent); finish();
                                 }
                             }
                             @Override
@@ -214,9 +221,19 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
                         if (task.isSuccessful()) {
                             Log.d(TAG, "signInWithCredential - onComplete: 로그인 성공");
                             //로그인 성공시 서버디비에 유저 정보 저장.
-                            FirebaseUser user = task.getResult().getUser();
+                            final FirebaseUser user = task.getResult().getUser();
                             User userModel = new User(user.getEmail(), user.getDisplayName(), user.getPhotoUrl().toString());
                             mUserReference.child(user.getUid()).setValue(userModel);
+                            mPublicUserReference.orderByChild("email").equalTo(user.getEmail()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    if(dataSnapshot.exists()) return;
+                                    User publicUserModel = new User(user.getEmail(), user.getDisplayName());
+                                    mPublicUserReference.child(mPublicUserReference.push().getKey()).setValue(publicUserModel);
+                                }
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {}
+                            });
                         } else {
                             Log.w(TAG, "signInWithCredential", task.getException());
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
@@ -299,7 +316,9 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
                 mNicknameReference.child( FirebaseAuth.getInstance().getCurrentUser().getUid() ).setValue(nickname);
                 PreferencesManager.setNickname(getApplicationContext(), nickname);
 
-                startActivity( new Intent(LoginActivity.this,MainActivity.class) ); finish();
+                Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
+                mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(mainIntent); finish();
                 break;
         }
     }

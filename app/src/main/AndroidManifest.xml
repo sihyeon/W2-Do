@@ -65,11 +65,11 @@
 
         <activity
             android:name=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".LockScreenActivity"
-            android:theme="@style/AppTheme.NoActionBarFullscreen" />
+            android:theme="@style/AppTheme.NoActionBarFullscreen"
+            android:launchMode="singleInstance"/>
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -78,7 +78,7 @@
         </activity>
         <activity
             android:name=".InFolderActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.TransparentStatusBarOnToolbar" />
         <activity
             android:name=".dialog.SimpleInputDialog"
             android:theme="@style/Theme.AppCompat.Dialog.Alert" />
@@ -91,22 +91,18 @@
 
         <activity android:name=".NavEditProfileActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
 
         <activity android:name=".NavTeamActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity android:name=".NavSettingActivity"
             android:label="@string/nav_setting"
-            android:theme="@style/SettingAppTheme"/>
+            android:theme="@style/SettingAppTheme" />
 
         <activity android:name=".NavSettingPushAlarm"
             android:label="@string/nav_pushsetting"
-            android:theme="@style/SettingAppTheme"/>
-
-        <activity android:name=".dialog.NavFeedbackDialog"
-            android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
-
+            android:theme="@style/SettingAppTheme" />
     </application>
 
 </manifest>
