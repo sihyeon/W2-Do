@@ -13,12 +13,18 @@
             android:key="pref_LockscreenService"
             android:summary="잠금화면 스크린 기능을 설정하세요."
             android:title="잠금화면 서비스" />
-        <Preference
-            android:title="PUSH 알림 관리" android:key="pref_PushAlarm">
-            <intent
-                android:targetClass="com.team.codealmanac.w2do.NavSettingPushAlarm"
-                android:targetPackage="com.team.codealmanac.w2do" />
-        </Preference>
+        <SwitchPreference
+            android:title="전체 Push 알림"
+            android:key="pref_PushAlarm_All"
+            android:switchTextOff="OFF"
+            android:switchTextOn="ON"
+            android:summary="W2DO의 전체 PUSH 알림을 설정합니다."/>
+        <SwitchPreference
+            android:title="아침 일정 입력 알림"
+            android:key="pref_PushAlarm_morning"
+            android:switchTextOff="OFF"
+            android:switchTextOn="ON"
+            android:summary="매일 오전 7시 일정 입력 알림을 받으세요."/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="애플리케이션 정보" android:key="pref_AppData">

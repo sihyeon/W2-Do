@@ -96,12 +96,8 @@
         <activity android:name=".NavTeamActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <activity android:name=".NavSettingActivity"
+        <activity android:name=".NavSettingPrefActivity"
             android:label="@string/nav_setting"
-            android:theme="@style/SettingAppTheme" />
-
-        <activity android:name=".NavSettingPushAlarm"
-            android:label="@string/nav_pushsetting"
             android:theme="@style/SettingAppTheme" />
     </application>
 

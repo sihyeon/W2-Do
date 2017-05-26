@@ -93,4 +93,6 @@
     <string name="nav_feedback">사용자님의 소중한 의견을 보내주세요.</string>
     <string name="nav_sendbtn">Send</string>
     <string name="nav_cancelbtn">Cancel</string>
+
+
 </resources>
