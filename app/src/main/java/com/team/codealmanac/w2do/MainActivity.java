@@ -2,6 +2,10 @@ package com.team.codealmanac.w2do;
 
 
 
+import android.app.AlarmManager;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -10,6 +14,8 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -43,6 +49,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
+    public static Context mContext;
     private DrawerLayout act_main_drawer_layout;
     private NavigationView navigationView;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -82,7 +89,7 @@ public class MainActivity extends BaseActivity
 
         //Firebase Realtime DB setting
         mUser = getUserSession();
-
+        mContext = this;
         mFontContract = new FontContract(getApplication().getAssets());
 
         //투두 심플, 폴더리스트 프래그먼트 설정
@@ -222,7 +229,6 @@ public class MainActivity extends BaseActivity
 
         act_main_greetingmsg.setTypeface(mFontContract.NahumSquareR_Regular());
         act_main_user_name.setTypeface(mFontContract.NahumSquareR_Regular());
-
     }
 
     @Override
@@ -349,29 +355,19 @@ public class MainActivity extends BaseActivity
         act_main_greetingmsg.setText(greetingMessage);
     }
 
-//    private void createNotification(){
-//        PendingIntent buttonIntent = PendingIntent.getActivity(this, 0, new Intent(this, SimpleInputDialog.class), PendingIntent.FLAG_UPDATE_CURRENT);
-//        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
-//                .setSmallIcon(R.drawable.icn_logo)
-//                .setContentTitle("test")
-//                .setContentText("tessssstt")
-//                .addAction(R.drawable.icn_memo, "간단입력", buttonIntent)
-//                .setAutoCancel(true);
-//
-//        Intent resultIntent = new Intent(this, MainActivity.class);
-//
-//        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-//
-//        stackBuilder.addParentStack(MainActivity.class);
-//        stackBuilder.addNextIntent(resultIntent);
-//
-//        PendingIntent resultPendingIntent =
-//                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-//
-//        mBuilder.setContentIntent(resultPendingIntent);
-//        NotificationManager mNotificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-//        mNotificationManager.notify(1, mBuilder.build());
-//    }
+    public void createNotification(){
+        AlarmManager am = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(MainActivity.this, PushAlarmReciever.class);
+        PendingIntent sender = PendingIntent.getBroadcast(MainActivity.this,0,intent,0);
+
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.set(Calendar.HOUR_OF_DAY,7);
+        calendar.set(Calendar.MINUTE,0);
+        calendar.set(Calendar.SECOND,0);
+        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24*60*60*1000, sender);
+
+    }
 
     // nagivation 내부 item 선언
     @SuppressWarnings("StatementWithEmptyBody")
@@ -380,27 +376,15 @@ public class MainActivity extends BaseActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_home) {
-        // 메인 홈 화면으로 이동
-//            Intent HomeIntent = new Intent(this, MainActivity.class);
-//            HomeIntent.putExtra("mainhomefragment","homeintent");
-//            TaskStackBuilder stackBuilder = TaskStackBuilder.create(MainActivity.this);
-//            stackBuilder.addParentStack(MainActivity.class);
-//            stackBuilder.addNextIntent(HomeIntent);
-//            stackBuilder.startActivities();
-            Intent HomeIntent = new Intent(MainActivity.this, MainActivity.class);
-            HomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            startActivity(HomeIntent);
-//            startActivity(new Intent(MainActivity.this, LockScreenActivity.class));
-        } else if (id == R.id.nav_edit_profile) {
+       if (id == R.id.nav_edit_profile) {
         //프로필 정보 화면으로 이동
             Intent EditProfile  = new Intent(MainActivity.this, NavEditProfileActivity.class);
             startActivity(EditProfile);
 
-        } else if (id == R.id.nav_team) {
-        // 팀 기능 화면으로 이동 - 현재 잠금화면으로 이동하게
-            Intent TeamIntent = new Intent(MainActivity.this, LockScreenActivity.class);
-            startActivity(TeamIntent);
+//        } else if (id == R.id.nav_team) {
+//        // 팀 기능 화면으로 이동 - 현재 잠금화면으로 이동하게
+//            Intent TeamIntent = new Intent(MainActivity.this, LockScreenActivity.class);
+//            startActivity(TeamIntent);
 
         } else if (id == R.id.nav_setting) {
         // 설정 화면으로 이동

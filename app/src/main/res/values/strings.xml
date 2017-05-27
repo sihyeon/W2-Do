@@ -86,7 +86,12 @@
     <string name="colorpickertitle">Select Schedule Color</string>
     <string name="frag">datepick</string>
     <string name="title_activity_main2">Main2Activity</string>
-    <string name="nav_setting">환경설정</string>
+
+    <string name="drawer_option1">바로 가기</string>
+    <string name="drawer_completeTodo">"완료된 할일"</string>
+    <string name="drawer_option2">잠금화면 보기 옵션</string>
+
+    <string name="nav_setting">설정</string>
     <string name="nav_pushsetting">PUSH 알림 관리</string>
 
     <string name="nav_feedback_header">의견 보내기</string>

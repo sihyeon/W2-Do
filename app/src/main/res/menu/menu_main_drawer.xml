@@ -1,23 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item android:title="@string/drawer_option1">
+            <menu>
+                <item
+                    android:id="@+id/nav_edit_profile"
+                    android:icon="@drawable/icn_profile"
+                    android:title="닉네임 변경" />
+                <item
+                    android:title="@string/drawer_completeTodo"
+                    android:id="@+id/nav_complete_todo"/>
+
+            </menu>
+        </item>
+        <item android:title="@string/drawer_option2">
+            <menu>
+                <item
+                    android:title="메인스케줄 보기"
+                    android:id="@+id/nav_lockscreen_mainschedule_switch"/>
+                <item
+                    android:title="Todo 보기"
+                    android:id="@+id/nav_lockscreen_todo_switch"/>
+            </menu>
+        </item>
+    </group>
 
     <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_home"
-            android:icon="@drawable/home"
-            android:title="Home" />
-        <item
-            android:id="@+id/nav_edit_profile"
-            android:icon="@drawable/icn_profile"
-            android:title="프로필" />
-        <item
-            android:id="@+id/nav_team"
-            android:icon="@drawable/icn_team"
-            android:title="Team" />
+        <!--<item-->
+            <!--android:id="@+id/nav_team"-->
+            <!--android:icon="@drawable/icn_team"-->
+            <!--android:title="Team" />-->
         <item
             android:id="@+id/nav_setting"
             android:icon="@drawable/icn_setting"
-            android:title="Setting" />
+            android:title="@string/nav_setting" />
         <item
             android:id="@+id/nav_send_msg"
             android:icon="@drawable/icn_feedback"

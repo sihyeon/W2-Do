@@ -6,6 +6,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
     // permission for google+ login
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -39,14 +41,10 @@
             android:exported="false" />
 
         <receiver
-            android:name=".W2DoBroadcastReceiver"
+            android:name=".PushAlarmReciever"
             android:enabled="true"
             android:exported="false" />
 
-        <service
-            android:name=".W2DoService"
-            android:enabled="true"
-            android:exported="false" />
         <!-- [START firebase_service] -->
         <service android:name=".MyFirebaseMessagingService">
             <intent-filter>
@@ -54,6 +52,7 @@
             </intent-filter>
         </service>
         <!-- [END firebase_service] -->
+
         <!-- [START firebase_iid_service] -->
         <service android:name=".MyFirebaseInstanceIDService">
             <intent-filter>
@@ -99,6 +98,7 @@
         <activity android:name=".NavSettingPrefActivity"
             android:label="@string/nav_setting"
             android:theme="@style/SettingAppTheme" />
+
     </application>
 
 </manifest>
