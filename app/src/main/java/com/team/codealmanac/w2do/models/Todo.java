@@ -2,6 +2,8 @@ package com.team.codealmanac.w2do.models;
 
 import android.support.annotation.NonNull;
 
+import com.team.codealmanac.w2do.database.SQLContract;
+
 /**
  * Created by Choi Jaeung on 2017-01-24.
  */
@@ -21,19 +23,12 @@ public class Todo {
     public String location_name;
     public String memo;
 
-    public Todo() {}
-
-    public Todo(long _ID, int check_state, String content) {
-        this._ID = _ID;
-        this.check_state = check_state;
-        this.content = content;
-    }
-
-    public Todo(long date, String content, String folder_name) {
+    //TODO: Simple Input
+    public Todo(long date, String content) {
         this.start_date = date;
         this.end_date = date;
         this.content = content;
-        this.folder_name = folder_name;
+        this.folder_name = SQLContract.DEFUALT_FOLDER_NAME;
     }
 
     public Todo(int color, String folder_name, String content,

@@ -2,7 +2,7 @@ package com.team.codealmanac.w2do.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -40,9 +40,8 @@ public class TodoFolderListFragment extends Fragment{
         //content_main의 recyclerview 설정
         mFolderListView = (RecyclerView) getActivity().findViewById(R.id.frag_todofolder_folderlist);
         mFolderListView.setHasFixedSize(true);
-        mFolderListView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-
-        mFolderListAdapter = new FolderListAdapter(getContext());
+        mFolderListView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        mFolderListAdapter = new FolderListAdapter(getActivity());
         mFolderListView.setAdapter(mFolderListAdapter);
     }
 

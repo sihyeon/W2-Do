@@ -312,10 +312,10 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
                 act_detailInput_folder_spinner.getSelectedItem().toString(), act_detailInput_todo_content_edt.getText().toString(),
                 mStartDate, mEndDate, /*alarm*/mAlarmDate, /*lat*/-1, /*lon*/-1, /*location_name*/null, /*memo*/act_detailInput_memo_edt.getText().toString());
         //시작날의 00시 00분
-        Calendar now = Calendar.getInstance();
-        now.setTimeInMillis(mStartDate);
-        now.set(Calendar.HOUR, 0); now.set(Calendar.MINUTE, 0); now.set(Calendar.SECOND, 0);
-        long nowTimeInMillis = now.getTimeInMillis();
+        Calendar today = Calendar.getInstance();
+        today.setTimeInMillis(mStartDate);
+        today.set(Calendar.HOUR, 0); today.set(Calendar.MINUTE, 0); today.set(Calendar.SECOND, 0);
+        long todayTimeInMillis = today.getTimeInMillis();
         if(mLocation != null){
             todo.latitude = mLocation.latitude;
             todo.longitude = mLocation.longitude;
@@ -324,17 +324,17 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
         if(act_detailInput_alarm_radiogroup.getCheckedRadioButtonId() != -1){
             switch (act_detailInput_alarm_radiogroup.getCheckedRadioButtonId()){
                 case R.id.act_detailInput_alarm_radiobtn_1:
-                    mAlarmDate = nowTimeInMillis; break;
+                    mAlarmDate = todayTimeInMillis; break;
                 case R.id.act_detailInput_alarm_radiobtn_2:
-                    mAlarmDate = nowTimeInMillis - 1000*60*10; break;
+                    mAlarmDate = todayTimeInMillis - 1000*60*10; break;
                 case R.id.act_detailInput_alarm_radiobtn_3:
-                    mAlarmDate = nowTimeInMillis - 1000*60*30; break;
+                    mAlarmDate = todayTimeInMillis - 1000*60*30; break;
                 case R.id.act_detailInput_alarm_radiobtn_4:
-                    mAlarmDate = nowTimeInMillis - 1000*60*60; break;
+                    mAlarmDate = todayTimeInMillis - 1000*60*60; break;
                 case R.id.act_detailInput_alarm_radiobtn_5:
-                    mAlarmDate = nowTimeInMillis - 1000*60*60*2; break;
+                    mAlarmDate = todayTimeInMillis - 1000*60*60*2; break;
                 case R.id.act_detailInput_alarm_radiobtn_6: //하루전 12시 정각
-                    mAlarmDate = nowTimeInMillis - 1000*60*60*12; break;
+                    mAlarmDate = todayTimeInMillis - 1000*60*60*12; break;
             }
             todo.alarm_date = mAlarmDate;
         }

@@ -12,7 +12,7 @@ import java.util.Date;
 //DB 정의서
 public final class SQLContract {
     public static final String DATABASE_NAME = "What2do.db";
-
+    public static final String DEFUALT_FOLDER_NAME = "ALL";
     //투두 테이블
     public static class TodoFolderEntry implements BaseColumns{
         public static final String TABLE_NAME = "todo_folder";

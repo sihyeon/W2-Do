@@ -25,8 +25,11 @@ public class FolderListAdapter extends RecyclerView.Adapter<TodoFolderViewHolder
     private Context mContext;
     public FolderListAdapter(Context context){
         mContext = context;
-        mSQLiteManager = new SQLiteManager(mContext);
+        mSQLiteManager = SQLiteManager.getInstance(context);
         mDataList = mSQLiteManager.getAllTodoFolder();
+        if(mDataList == null){
+            mDataList = new ArrayList<>();
+        }
         mSQLiteManager.setFolderTodoListener(this);
     }
 
@@ -51,9 +54,14 @@ public class FolderListAdapter extends RecyclerView.Adapter<TodoFolderViewHolder
     }
 
     @Override
-    public void OnAddTodoFolder(int position) {
+    public void OnAddTodoFolder() {
         mDataList = mSQLiteManager.getAllTodoFolder();
-        Log.d(TAG, "list size: "+mDataList.size());
+        this.notifyDataSetChanged();
+    }
+
+    @Override
+    public void OnUpdateTodoFolder() {
+        mDataList = mSQLiteManager.getAllTodoFolder();
         this.notifyDataSetChanged();
     }
 }

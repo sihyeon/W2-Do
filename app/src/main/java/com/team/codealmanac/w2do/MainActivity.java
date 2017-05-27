@@ -2,26 +2,19 @@ package com.team.codealmanac.w2do;
 
 
 
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.TaskStackBuilder;
+import android.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -40,7 +33,7 @@ import com.team.codealmanac.w2do.database.PreferencesManager;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.team.codealmanac.w2do.database.SQLiteManager;
 import com.team.codealmanac.w2do.dialog.FolderInputDialogFragment;
-import com.team.codealmanac.w2do.dialog.SimpleInputDialog;
+import com.team.codealmanac.w2do.dialog.SimpleInputDialogFragment;
 import com.team.codealmanac.w2do.fragment.TodoFolderListFragment;
 import com.team.codealmanac.w2do.fragment.TodoSimpleListFragment;
 
@@ -90,8 +83,7 @@ public class MainActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        sqliteManager = new SQLiteManager(getApplicationContext());
-//        sqliteManager.viewDatabaseTable();
+        sqliteManager = SQLiteManager.getInstance(getApplicationContext());
 
         mUser = getUserSession();
 
@@ -100,7 +92,7 @@ public class MainActivity extends BaseActivity
         //투두 심플, 폴더리스트 프래그먼트 설정
         mTodoSimpleListFragment = TodoSimpleListFragment.newInstance();
         mTodoFolderListFragment = TodoFolderListFragment.newInstance();
-        getSupportFragmentManager().beginTransaction()
+        getFragmentManager().beginTransaction()
                 .add(R.id.act_main_todo_fragment_layout, mTodoSimpleListFragment)
                 .add(R.id.act_main_todo_fragment_layout, mTodoFolderListFragment)
                 .hide(mTodoFolderListFragment)
@@ -157,8 +149,7 @@ public class MainActivity extends BaseActivity
         act_main_appbar_simpleInput_floatingbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent SimpleInput = new Intent(MainActivity.this,SimpleInputDialog.class);
-                startActivity(SimpleInput);
+                SimpleInputDialogFragment.newInstance().show(getFragmentManager(), "simple_input");
                 act_main_appbar_floatingActionsMenu.collapse();
             }
         });
@@ -315,8 +306,8 @@ public class MainActivity extends BaseActivity
             case R.id.menu_change_todo_frg:
                 act_main_appbar_folder_floatingbtn.setVisibility(View.VISIBLE);
                 if(isFolderFragment){   //심플투두리스트
-                    getSupportFragmentManager().beginTransaction()
-                            .setCustomAnimations(R.anim.zoom_in,R.anim.zoom_out)
+                    getFragmentManager().beginTransaction()
+                            .setCustomAnimations(R.animator.zoom_in,R.animator.zoom_out, 0, 0)
                             .hide(mTodoFolderListFragment)
                             .show(mTodoSimpleListFragment)
                             .commit();
@@ -325,8 +316,8 @@ public class MainActivity extends BaseActivity
                     act_main_appbar_folder_floatingbtn.setVisibility(View.GONE);
                     item.setIcon(R.drawable.btn_gridview);
                 }else{                  //폴더리스트
-                    getSupportFragmentManager().beginTransaction()
-                            .setCustomAnimations(R.anim.zoom_in,R.anim.zoom_out)
+                    getFragmentManager().beginTransaction()
+                            .setCustomAnimations(R.animator.zoom_in,R.animator.zoom_out, 0, 0)
                             .hide(mTodoSimpleListFragment)
                             .show(mTodoFolderListFragment)
                             .commit();
@@ -384,6 +375,17 @@ public class MainActivity extends BaseActivity
 //        NotificationManager mNotificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
 //        mNotificationManager.notify(1, mBuilder.build());
 //    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(mTodoSimpleListFragment != null)
+            getFragmentManager().beginTransaction().remove(mTodoSimpleListFragment).commit();
+
+        if(mTodoFolderListFragment != null)
+            getFragmentManager().beginTransaction().remove(mTodoFolderListFragment).commit();
+    }
 
     // nagivation 내부 item 선언
     @SuppressWarnings("StatementWithEmptyBody")

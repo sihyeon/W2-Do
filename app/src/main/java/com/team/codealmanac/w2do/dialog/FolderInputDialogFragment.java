@@ -31,18 +31,14 @@ public class FolderInputDialogFragment extends DialogFragment implements View.On
         if(getDialog().getWindow() != null){
             getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         }
-        sqliteManager = new SQLiteManager(getDialog().getContext());
-        return inflater.inflate(R.layout.fragment_folderinput_dialog, container);
-    }
+        View v = inflater.inflate(R.layout.fragment_folderinput_dialog, container);
+        sqliteManager = SQLiteManager.getInstance(getDialog().getContext());
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        frag_folderInput_edit = (EditText)getDialog().findViewById(R.id.frag_folderInput_edit);
-        frag_folderInput_okbtn = (Button)getDialog().findViewById(R.id.frag_folderInput_okbtn);
+        frag_folderInput_edit = (EditText)v.findViewById(R.id.frag_folderInput_edit);
+        frag_folderInput_okbtn = (Button)v.findViewById(R.id.frag_folderInput_okbtn);
 
         frag_folderInput_okbtn.setOnClickListener(this);
+        return v;
     }
 
     @Override
