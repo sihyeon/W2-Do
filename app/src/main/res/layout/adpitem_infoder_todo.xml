@@ -47,15 +47,6 @@
                 android:visibility="gone"/>
 
             <ImageView
-                android:id="@+id/adp_infodertodo_invite_img"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                app:srcCompat="@drawable/icn_invite_list"
-                android:layout_marginStart="3dp"
-                android:layout_gravity="center_vertical"
-                android:visibility="gone"/>
-
-            <ImageView
                 android:id="@+id/adp_infodertodo_memo_img"
                 android:layout_width="18dp"
                 android:layout_height="18dp"

@@ -351,74 +351,74 @@
         </android.support.v7.widget.CardView>
 
         <!-- 공유 -->
-        <android.support.v7.widget.CardView
-            android:id="@+id/act_detailInput_share_cardview"
-            android:layout_width="328dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="11dp"
-            android:minHeight="94dp"
-            android:visibility="gone"
-            app:cardCornerRadius="1dp"
-            app:cardElevation="4dp">
+        <!--<android.support.v7.widget.CardView-->
+            <!--android:id="@+id/act_detailInput_share_cardview"-->
+            <!--android:layout_width="328dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="11dp"-->
+            <!--android:minHeight="94dp"-->
+            <!--android:visibility="gone"-->
+            <!--app:cardCornerRadius="1dp"-->
+            <!--app:cardElevation="4dp">-->
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:minHeight="94dp"
-                android:orientation="horizontal">
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:minHeight="94dp"-->
+                <!--android:orientation="horizontal">-->
 
-                <ImageView
-                    android:id="@+id/act_detailInput_todo_share_icon"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginEnd="9dp"
-                    android:layout_marginStart="9dp"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/icn_invite" />
+                <!--<ImageView-->
+                    <!--android:id="@+id/act_detailInput_todo_share_icon"-->
+                    <!--android:layout_width="32dp"-->
+                    <!--android:layout_height="32dp"-->
+                    <!--android:layout_marginEnd="9dp"-->
+                    <!--android:layout_marginStart="9dp"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:src="@drawable/icn_invite" />-->
 
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="7dp"
-                    android:layout_marginBottom="7dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="11dp"
-                    android:background="#eeeeee" />
+                <!--<View-->
+                    <!--android:layout_width="1dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_marginTop="7dp"-->
+                    <!--android:layout_marginBottom="7dp"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:layout_marginEnd="11dp"-->
+                    <!--android:background="#eeeeee" />-->
 
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
+                    <!--<LinearLayout-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_gravity="center_vertical"-->
 
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginStart="3dp"
-                        android:orientation="vertical">
+                        <!--android:layout_marginBottom="5dp"-->
+                        <!--android:layout_marginStart="3dp"-->
+                        <!--android:orientation="vertical">-->
 
-                        <TextView
-                            android:id="@+id/act_detailInput_share_guide_text"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="14dp"
-                            android:text="초대할 상대방의 이메일을 입력하세요."
-                            android:textColor="#999999"
-                            android:textSize="14dp" />
+                        <!--<TextView-->
+                            <!--android:id="@+id/act_detailInput_share_guide_text"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_marginTop="14dp"-->
+                            <!--android:text="초대할 상대방의 이메일을 입력하세요."-->
+                            <!--android:textColor="#999999"-->
+                            <!--android:textSize="14dp" />-->
 
-                        <View
-                            android:layout_width="255dp"
-                            android:layout_height="1dp"
-                            android:layout_marginTop="4dp"
-                            android:background="#f3f3f3" />
+                        <!--<View-->
+                            <!--android:layout_width="255dp"-->
+                            <!--android:layout_height="1dp"-->
+                            <!--android:layout_marginTop="4dp"-->
+                            <!--android:background="#f3f3f3" />-->
 
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/act_detailInput_share_invitee_recyclerview"
-                            android:layout_width="255dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="14dp"
-                            android:visibility="gone"/>
-                    </LinearLayout>
-                </LinearLayout>
-        </android.support.v7.widget.CardView>
+                        <!--<android.support.v7.widget.RecyclerView-->
+                            <!--android:id="@+id/act_detailInput_share_invitee_recyclerview"-->
+                            <!--android:layout_width="255dp"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_marginTop="14dp"-->
+                            <!--android:visibility="gone"/>-->
+                    <!--</LinearLayout>-->
+                <!--</LinearLayout>-->
+        <!--</android.support.v7.widget.CardView>-->
 
         <!-- 알람 -->
         <android.support.v7.widget.CardView
@@ -616,29 +616,30 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:weightSum="3">
 
             <ImageButton
                 android:id="@+id/act_detailInput_more_detail_side_btn_gps"
-                android:layout_width="75dp"
+                android:layout_width="103.3dp"
                 android:layout_height="39dp"
                 android:layout_marginEnd="9dp"
                 android:background="@drawable/btn_more"
                 android:contentDescription="@string/imgbtn_contentDescription_location"
                 android:src="@drawable/icn_location" />
 
-            <ImageButton
-                android:id="@+id/act_detailInput_more_detail_side_btn_share"
-                android:layout_width="75dp"
-                android:layout_height="39dp"
-                android:layout_marginEnd="9dp"
-                android:background="@drawable/btn_more"
-                android:contentDescription="@string/imgbtn_contentDescription_invite"
-                android:src="@drawable/icn_invite" />
+            <!--<ImageButton-->
+                <!--android:id="@+id/act_detailInput_more_detail_side_btn_share"-->
+                <!--android:layout_width="75dp"-->
+                <!--android:layout_height="39dp"-->
+                <!--android:layout_marginEnd="9dp"-->
+                <!--android:background="@drawable/btn_more"-->
+                <!--android:contentDescription="@string/imgbtn_contentDescription_invite"-->
+                <!--android:src="@drawable/icn_invite" />-->
 
             <ImageButton
                 android:id="@+id/act_detailInput_more_detail_side_btn_alarm"
-                android:layout_width="75dp"
+                android:layout_width="103.3dp"
                 android:layout_height="39dp"
                 android:layout_marginEnd="9dp"
                 android:background="@drawable/btn_more"
@@ -647,7 +648,7 @@
 
             <ImageButton
                 android:id="@+id/act_detailInput_more_detail_side_btn_memo"
-                android:layout_width="75dp"
+                android:layout_width="103.3dp"
                 android:layout_height="39dp"
                 android:background="@drawable/btn_more"
                 android:contentDescription="@string/imgbtn_contentDescription_memo"

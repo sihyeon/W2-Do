@@ -19,20 +19,20 @@
           "client_type": 1,
           "android_info": {
             "package_name": "com.team.codealmanac.w2do",
-            "certificate_hash": "CF0A233031FAA2054B7BCC8CAA3F3A229F26A4A3"
+            "certificate_hash": "cf0a233031faa2054b7bcc8caa3f3a229f26a4a3"
           }
+        },
+        {
+          "client_id": "1010255551118-gq1124sf7gmjbdkq2k56ti3bbgbc0kot.apps.googleusercontent.com",
+          "client_type": 3
         },
         {
           "client_id": "1010255551118-0s95kd3l7nj5sfjjpu3qd6sq1ssb75oa.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.team.codealmanac.w2do",
-            "certificate_hash": "FFB37D281F8E49FCB23E99C3D2E99C015AB76C20"
+            "certificate_hash": "ffb37d281f8e49fcb23e99c3d2e99c015ab76c20"
           }
-        },
-        {
-          "client_id": "1010255551118-gq1124sf7gmjbdkq2k56ti3bbgbc0kot.apps.googleusercontent.com",
-          "client_type": 3
         },
         {
           "client_id": "1010255551118-djbi9tanj35tmsqllrfefvroq6g4dee5.apps.googleusercontent.com",

@@ -84,9 +84,6 @@
             android:name=".InFolderActivity"
             android:theme="@style/AppTheme.TransparentStatusBarOnToolbar" />
         <activity
-            android:name=".dialog.SimpleInputDialog"
-            android:theme="@style/Theme.AppCompat.Dialog.Alert" />
-        <activity
             android:name=".DetailInputActivity"
             android:theme="@style/AppTheme.TransparentStatusBarOnToolbar" />
         <activity

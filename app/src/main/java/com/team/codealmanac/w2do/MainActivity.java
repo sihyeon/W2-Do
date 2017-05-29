@@ -13,9 +13,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 
-import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -37,8 +37,9 @@ import com.team.codealmanac.w2do.contract.FontContract;
 import com.team.codealmanac.w2do.database.PreferencesManager;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.team.codealmanac.w2do.database.SQLiteManager;
 import com.team.codealmanac.w2do.dialog.FolderInputDialogFragment;
-import com.team.codealmanac.w2do.dialog.SimpleInputDialog;
+import com.team.codealmanac.w2do.dialog.SimpleInputDialogFragment;
 import com.team.codealmanac.w2do.fragment.TodoFolderListFragment;
 import com.team.codealmanac.w2do.fragment.TodoSimpleListFragment;
 
@@ -50,7 +51,7 @@ import static com.team.codealmanac.w2do.NavSettingFragment.mPrefContext;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener{
-
+    private final String TAG = "MainActivity";
     public static Context mContext;
     private DrawerLayout act_main_drawer_layout;
     private NavigationView navigationView;
@@ -81,6 +82,8 @@ public class MainActivity extends BaseActivity
 
     private boolean isFloatingOpen = false;
 
+    private SQLiteManager sqliteManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -90,7 +93,8 @@ public class MainActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Firebase Realtime DB setting
+        sqliteManager = SQLiteManager.getInstance(getApplicationContext());
+
         mUser = getUserSession();
         mContext = this;
         mFontContract = new FontContract(getApplication().getAssets());
@@ -98,7 +102,7 @@ public class MainActivity extends BaseActivity
         //투두 심플, 폴더리스트 프래그먼트 설정
         mTodoSimpleListFragment = TodoSimpleListFragment.newInstance();
         mTodoFolderListFragment = TodoFolderListFragment.newInstance();
-        getSupportFragmentManager().beginTransaction()
+        getFragmentManager().beginTransaction()
                 .add(R.id.act_main_todo_fragment_layout, mTodoSimpleListFragment)
                 .add(R.id.act_main_todo_fragment_layout, mTodoFolderListFragment)
                 .hide(mTodoFolderListFragment)
@@ -155,8 +159,7 @@ public class MainActivity extends BaseActivity
         act_main_appbar_simpleInput_floatingbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent SimpleInput = new Intent(MainActivity.this,SimpleInputDialog.class);
-                startActivity(SimpleInput);
+                SimpleInputDialogFragment.newInstance().show(getFragmentManager(), "simple_input");
                 act_main_appbar_floatingActionsMenu.collapse();
             }
         });
@@ -315,8 +318,8 @@ public class MainActivity extends BaseActivity
             case R.id.menu_change_todo_frg:
                 act_main_appbar_folder_floatingbtn.setVisibility(View.VISIBLE);
                 if(isFolderFragment){   //심플투두리스트
-                    getSupportFragmentManager().beginTransaction()
-                            .setCustomAnimations(R.anim.zoom_in,R.anim.zoom_out)
+                    getFragmentManager().beginTransaction()
+                            .setCustomAnimations(R.animator.zoom_in,R.animator.zoom_out, 0, 0)
                             .hide(mTodoFolderListFragment)
                             .show(mTodoSimpleListFragment)
                             .commit();
@@ -325,8 +328,8 @@ public class MainActivity extends BaseActivity
                     act_main_appbar_folder_floatingbtn.setVisibility(View.GONE);
                     item.setIcon(R.drawable.btn_gridview);
                 }else{                  //폴더리스트
-                    getSupportFragmentManager().beginTransaction()
-                            .setCustomAnimations(R.anim.zoom_in,R.anim.zoom_out)
+                    getFragmentManager().beginTransaction()
+                            .setCustomAnimations(R.animator.zoom_in,R.animator.zoom_out, 0, 0)
                             .hide(mTodoSimpleListFragment)
                             .show(mTodoFolderListFragment)
                             .commit();
@@ -372,6 +375,13 @@ public class MainActivity extends BaseActivity
         calendar.set(Calendar.MINUTE,0);
         calendar.set(Calendar.SECOND,0);
         am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24*60*60*1000, sender);
+
+    }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
 
     }
 

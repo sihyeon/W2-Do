@@ -21,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.team.codealmanac.w2do.adapter.InFolderListAdapter;
 import com.team.codealmanac.w2do.contract.FontContract;
 import com.team.codealmanac.w2do.models.Todo;
 import com.team.codealmanac.w2do.viewholder.InFolderTodoListViewHolder;
@@ -32,7 +33,7 @@ public class InFolderActivity extends AppCompatActivity {
     private DatabaseReference mTodoReference;
 
     private RecyclerView act_infolder_todolist;
-    private FirebaseRecyclerAdapter mInFolderListAdapter;
+    private InFolderListAdapter mInFolderListAdapter;
     private Toolbar mToolbar;
 
     private String mFolderName;
@@ -47,55 +48,9 @@ public class InFolderActivity extends AppCompatActivity {
         mToolbar = (Toolbar)findViewById(R.id.act_infolder_toolbar);
         setSupportActionBar(mToolbar);
 
-        USER_ID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        mTodoReference = FirebaseDatabase.getInstance().getReference().child("todo").child(USER_ID);
-        Query TodoQuery = mTodoReference.orderByChild("folder_name").equalTo(mFolderName);
         act_infolder_todolist = (RecyclerView)findViewById(R.id.act_infolder_todolist);
+        mInFolderListAdapter = new InFolderListAdapter(getApplicationContext(), mFolderName);
 
-        Log.d(TAG, TodoQuery.getRef().toString() + "userId: " + USER_ID + "folder: (" + mFolderName + ")");
-        mInFolderListAdapter = new FirebaseRecyclerAdapter<Todo, InFolderTodoListViewHolder>(Todo.class,
-                R.layout.adpitem_infoder_todo, InFolderTodoListViewHolder.class, TodoQuery) {
-            @Override
-            protected void populateViewHolder(InFolderTodoListViewHolder viewHolder, Todo model, int position) {
-//                Log.d(TAG, "model: " + model.content);
-                boolean heightChageflag = true;
-                final int height = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 64, getResources().getDisplayMetrics());
-                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(viewHolder.adp_infodertodo_endline.getLayoutParams());
-                params.addRule(RelativeLayout.ALIGN_PARENT_END);
-                params.height = height;
-
-                viewHolder.adp_infodertodo_endline.setBackgroundColor(model.color);
-                viewHolder.adp_infodertodo_checkbox.setChecked(model.check_state);
-                viewHolder.adp_infodertodo_content.setText(model.content);
-                if(model.alarm_date != 0)   viewHolder.adp_infodertodo_alarm_img.setVisibility(View.VISIBLE);
-
-                if(model.sharing != null && !model.sharing.isEmpty())   viewHolder.adp_infodertodo_invite_img.setVisibility(View.VISIBLE);
-
-                if(model.memo != null && !model.memo.isEmpty())   viewHolder.adp_infodertodo_memo_img.setVisibility(View.VISIBLE);
-
-                SimpleDateFormat format = new SimpleDateFormat("M월 d일(E) hh:mm a");
-                viewHolder.adp_infodertodo_time_text.setText(format.format(model.end_date));
-
-                Calendar today = Calendar.getInstance();
-                today.setTimeInMillis(model.start_date);
-                today.set(Calendar.HOUR, 0); today.set(Calendar.MINUTE, 0); today.set(Calendar.SECOND, 0);
-                long todayTimeInMillis = today.getTimeInMillis() + 1000*60*60*24;
-
-                if (model.end_date < todayTimeInMillis){
-                    viewHolder.adp_infodertodo_time_text.setVisibility(View.GONE);
-                    heightChageflag = false;
-                }
-
-                if(model.latitude != -1 && model.longitude != -1){
-                    viewHolder.adp_infodertodo_location_img.setVisibility(View.VISIBLE);
-                    viewHolder.adp_infodertodo_location_text.setVisibility(View.VISIBLE);
-                    viewHolder.adp_infodertodo_location_text.setText(model.location_name);
-                    heightChageflag = true;
-                }
-                if (heightChageflag) viewHolder.adp_infodertodo_endline.setLayoutParams(params);
-            }
-        };
         act_infolder_todolist.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
         act_infolder_todolist.setAdapter(mInFolderListAdapter);
     }
@@ -119,7 +74,6 @@ public class InFolderActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(mInFolderListAdapter != null) mInFolderListAdapter.cleanup();
     }
 
     @Override

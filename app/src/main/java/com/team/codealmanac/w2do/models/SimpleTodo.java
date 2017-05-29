@@ -1,22 +1,17 @@
 package com.team.codealmanac.w2do.models;
 
-import com.google.firebase.database.IgnoreExtraProperties;
-
 /**
- * Created by Choi Jaeung on 2017-01-21.
+ * Created by Choi Jaeung on 2017-05-23.
  */
 
-@IgnoreExtraProperties
-public class SimpleTodo {
-    public long date;
+public class SimpleTodo{
+    public long _ID;
+    public int check_state;
     public String content;
-    public boolean check_state;
 
-    public SimpleTodo(){}
-
-    public SimpleTodo(long date, String content, boolean check_state) {
-        this.date = date;
-        this.content = content;
+    public SimpleTodo(long _ID, int check_state, String content) {
+        this._ID = _ID;
         this.check_state = check_state;
+        this.content = content;
     }
 }
