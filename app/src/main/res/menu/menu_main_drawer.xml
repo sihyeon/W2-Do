@@ -17,9 +17,11 @@
             <menu>
                 <item
                     android:title="메인스케줄 보기"
+                    android:icon="@drawable/icn_profile"
                     android:id="@+id/nav_lockscreen_mainschedule_switch"/>
                 <item
                     android:title="Todo 보기"
+                    android:icon="@drawable/icn_profile"
                     android:id="@+id/nav_lockscreen_todo_switch"/>
             </menu>
         </item>

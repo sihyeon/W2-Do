@@ -38,7 +38,12 @@
         <service
             android:name=".W2DoService"
             android:enabled="true"
-            android:exported="false" />
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.team.codealmanac.w2do.startLockService" />
+            </intent-filter>
+
+        </service>
 
         <receiver
             android:name=".PushAlarmReciever"

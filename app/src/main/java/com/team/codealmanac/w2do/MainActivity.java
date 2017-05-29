@@ -46,6 +46,8 @@ import java.util.Calendar;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
+import static com.team.codealmanac.w2do.NavSettingFragment.mPrefContext;
+
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -68,6 +70,7 @@ public class MainActivity extends BaseActivity
     private com.getbase.floatingactionbutton.FloatingActionButton act_main_appbar_simpleInput_floatingbtn;
     private com.getbase.floatingactionbutton.FloatingActionButton act_main_appbar_detailInput_floatingbtn;
     boolean isFolderFragment = false;
+    boolean isShowOptionType = false;
 
     private FirebaseUser mUser;
 
@@ -229,6 +232,9 @@ public class MainActivity extends BaseActivity
 
         act_main_greetingmsg.setTypeface(mFontContract.NahumSquareR_Regular());
         act_main_user_name.setTypeface(mFontContract.NahumSquareR_Regular());
+
+
+
     }
 
     @Override
@@ -399,7 +405,16 @@ public class MainActivity extends BaseActivity
             mail.putExtra(Intent.EXTRA_EMAIL,mailaddr);
             mail.putExtra(Intent.EXTRA_TEXT,"고객님의 소중한 의견을 작성해주세요 : )");
             startActivity(Intent.createChooser(mail,"Choose email client"));
-        }
+        } else if(id == R.id.nav_lockscreen_mainschedule_switch) {
+            // 메인 스케줄만 보이게 하는 옵션
+           if(isShowOptionType) {   //심플투두리스트
+
+               isShowOptionType = false;
+               item.setIcon(R.drawable.icn_profile);
+           }
+       } else if(id == R.id.nav_lockscreen_todo_switch) {
+
+       }
         act_main_drawer_layout.closeDrawer(GravityCompat.START);
         return true;
     }

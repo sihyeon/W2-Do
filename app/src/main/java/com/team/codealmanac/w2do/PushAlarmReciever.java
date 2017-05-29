@@ -20,7 +20,6 @@ public class PushAlarmReciever extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent)
     {
-        Log.d("test", "call broad");
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         Intent intentActivity = new Intent(context, LoginActivity.class);
