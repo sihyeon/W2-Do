@@ -49,6 +49,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.team.codealmanac.w2do.adapter.FolderSpinnerAdapter;
 import com.team.codealmanac.w2do.contract.FontContract;
+import com.team.codealmanac.w2do.database.SQLiteManager;
 import com.team.codealmanac.w2do.dialog.DatePickerDialogActivity;
 import com.team.codealmanac.w2do.models.Todo;
 import com.team.codealmanac.w2do.models.TodoFolder;
@@ -127,7 +128,8 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
 
     private FontContract mFont;
 
-    private String USER_ID;
+    private SQLiteManager sqliteManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,8 +138,8 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         mFont = new FontContract(getApplication().getAssets());
-        USER_ID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
+        sqliteManager = SQLiteManager.getInstance(getApplicationContext());
         // 타이틀 아이템
         TextView act_detailInput_toolbar_title = (TextView)findViewById(R.id.act_detailInput_toolbar_title);
         ImageButton act_detailInput_toolbar_save_btn = (ImageButton)findViewById(R.id.act_detailInput_toolbar_save_btn);
@@ -216,6 +218,7 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
 
         // 폴더 선택 spinner adapter
         List<String> spinnerItem = new ArrayList<>();
+        spinnerItem = sqliteManager.getAllTodoFolderName();
         //TODO SQLite 폴더데이터 필요
         ArrayAdapter<String> FolderSpinnerAdapter = new FolderSpinnerAdapter(
                 DetailInputActivity.this, R.layout.adpitem_spinner_text, spinnerItem.toArray(new String[spinnerItem.size()]));
@@ -311,6 +314,7 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
         Todo todo = new Todo(mPickedColor,
                 act_detailInput_folder_spinner.getSelectedItem().toString(), act_detailInput_todo_content_edt.getText().toString(),
                 mStartDate, mEndDate, /*alarm*/mAlarmDate, /*lat*/-1, /*lon*/-1, /*location_name*/null, /*memo*/act_detailInput_memo_edt.getText().toString());
+
         //시작날의 00시 00분
         Calendar today = Calendar.getInstance();
         today.setTimeInMillis(mStartDate);
@@ -321,6 +325,7 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
             todo.longitude = mLocation.longitude;
             todo.location_name = mLocationName;
         }
+
         if(act_detailInput_alarm_radiogroup.getCheckedRadioButtonId() != -1){
             switch (act_detailInput_alarm_radiogroup.getCheckedRadioButtonId()){
                 case R.id.act_detailInput_alarm_radiobtn_1:
@@ -338,6 +343,8 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
             }
             todo.alarm_date = mAlarmDate;
         }
+        sqliteManager.addTodo(todo);
+        this.finish();
     }
     //컬러피커
     private void setColorPicker(){

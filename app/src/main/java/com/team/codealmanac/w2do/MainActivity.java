@@ -378,13 +378,9 @@ public class MainActivity extends BaseActivity
 
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if(mTodoSimpleListFragment != null)
-            getFragmentManager().beginTransaction().remove(mTodoSimpleListFragment).commit();
+    protected void onStop() {
+        super.onStop();
 
-        if(mTodoFolderListFragment != null)
-            getFragmentManager().beginTransaction().remove(mTodoFolderListFragment).commit();
     }
 
     // nagivation 내부 item 선언

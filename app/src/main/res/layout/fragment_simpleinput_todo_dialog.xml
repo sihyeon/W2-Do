@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/act_simpleinput_header_text"
+        android:id="@+id/frag_simpleinput_header_text"
         android:text="@string/simpleTodoHeader"
         android:textColor="#4D4D4D"
         android:textSize="25dp"

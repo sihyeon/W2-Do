@@ -20,7 +20,6 @@ public class InFolderTodoListViewHolder extends RecyclerView.ViewHolder{
     public CheckBox adp_infodertodo_checkbox;
     public TextView adp_infodertodo_content;
     public ImageView adp_infodertodo_alarm_img;
-    public ImageView adp_infodertodo_invite_img;
     public ImageView adp_infodertodo_memo_img;
     public TextView adp_infodertodo_time_text;
     public ImageView adp_infodertodo_location_img;
@@ -32,7 +31,6 @@ public class InFolderTodoListViewHolder extends RecyclerView.ViewHolder{
         adp_infodertodo_checkbox = (CheckBox)itemView.findViewById(R.id.adp_infodertodo_checkbox);
         adp_infodertodo_content = (TextView)itemView.findViewById(R.id.adp_infodertodo_content);
         adp_infodertodo_alarm_img = (ImageView)itemView.findViewById(R.id.adp_infodertodo_alarm_img);
-        adp_infodertodo_invite_img = (ImageView)itemView.findViewById(R.id.adp_infodertodo_invite_img);
         adp_infodertodo_memo_img = (ImageView)itemView.findViewById(R.id.adp_infodertodo_memo_img);
         adp_infodertodo_time_text = (TextView)itemView.findViewById(R.id.adp_infodertodo_time_text);
         adp_infodertodo_location_img = (ImageView)itemView.findViewById(R.id.adp_infodertodo_location_img);

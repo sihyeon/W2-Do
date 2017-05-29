@@ -44,7 +44,7 @@ public class SimpleInputDialogFragment extends DialogFragment implements View.On
         View v = inflater.inflate(R.layout.fragment_simpleinput_todo_dialog, container);
         FontContract mFontContract = new FontContract(getDialog().getContext().getAssets());
 
-        TextView act_simpleinput_header_text = (TextView) v.findViewById(R.id.act_simpleinput_header_text);
+        TextView act_simpleinput_header_text = (TextView) v.findViewById(R.id.frag_simpleinput_header_text);
         act_simpleinput_edittext = (EditText) v.findViewById(R.id.act_simpleinput_edittext);
         Button act_simpleinput_cancel_btn = (Button) v.findViewById(R.id.act_simpleinput_cancel_btn);
         Button act_simpleinput_submit_btn = (Button) v.findViewById(R.id.act_simpleinput_submit_btn);
