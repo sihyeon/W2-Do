@@ -101,6 +101,9 @@
             android:label="@string/nav_setting"
             android:theme="@style/SettingAppTheme" />
 
+        <activity
+            android:name=".dialog.OpensourceDialogActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
     </application>
 
 </manifest>

@@ -22,13 +22,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="애플리케이션 정보" android:key="pref_AppData">
-        <Preference android:summary="현재 버전은" android:title="버전정보" android:key="pref_AppVersionInfo"/>
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="pref_AutoUpdate"
-            android:summary="자동 업데이트를 설정합니다"
-            android:switchTextOff="OFF"
-            android:switchTextOn="ON"
-            android:title="자동 업데이트" />
+        <Preference android:summary="현재 버전은 v.1.0.0입니다." android:title="버전정보" android:key="pref_AppVersionInfo"/>
+        <PreferenceScreen android:title="오픈소스 라이선스" android:key="pref_opensource"/>
     </PreferenceCategory>
 </PreferenceScreen>

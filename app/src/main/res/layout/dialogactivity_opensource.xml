@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/header_text"
+        android:text="@string/opensource_header"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/blue_grey"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+    <ListView
+        android:id="@+id/opensource_listView"
+        android:isScrollContainer="true"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="330dp"
+        android:layout_height="350dp" />
+
+    <Button
+        android:id="@+id/close_btn"
+        android:background="#00000000"
+        android:layout_gravity="bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="270dp"
+        android:textColor="#666"
+        android:text="Close" />
+
+</LinearLayout>

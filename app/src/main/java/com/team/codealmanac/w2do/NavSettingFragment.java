@@ -2,12 +2,16 @@ package com.team.codealmanac.w2do;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
 import android.widget.Toast;
 
+
+import com.team.codealmanac.w2do.dialog.OpensourceDialogActivity;
 
 import static com.team.codealmanac.w2do.MainActivity.mContext;
 
@@ -51,18 +55,24 @@ public class NavSettingFragment extends PreferenceFragment {
             }
         });
 
-        SwitchPreference UpdatePreference = (SwitchPreference)findPreference("pref_AutoUpdate");
-        UpdatePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        Preference Versionpreference = (Preference) findPreference("pref_AppVersionInfo");
+        Versionpreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                boolean checked = ((SwitchPreference) preference).isChecked();
-                if (checked) {
-                    Toast.makeText(getActivity(), "자동 업데이트 서비스를 실행합니다.", Toast.LENGTH_SHORT).show();
-                    return true;
-                } else {
-                    Toast.makeText(getActivity(), "자동 업데이트 서비스를 해제합니다.", Toast.LENGTH_SHORT).show();
-                    return false;
-                }
+                Intent AppstoreIntent = new Intent(Intent.ACTION_VIEW);
+                AppstoreIntent.setData(Uri.parse("market://details?id=com.google.android.apps.maps" ));
+                startActivity(AppstoreIntent);
+                return true;
+            }
+        });
+
+        PreferenceScreen pref_opensource = (PreferenceScreen) getPreferenceScreen().findPreference("pref_opensource");
+        pref_opensource.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent dialogIntent = new Intent(getActivity(),OpensourceDialogActivity.class);
+                startActivity(dialogIntent);
+                return true;
             }
         });
     }

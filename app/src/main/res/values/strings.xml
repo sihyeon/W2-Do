@@ -99,5 +99,9 @@
     <string name="nav_sendbtn">Send</string>
     <string name="nav_cancelbtn">Cancel</string>
 
-
+    <string name="opensource_header">
+        This application is Copyright ⓒ Code Almanac. \n All rights reserved.
+        This application use Open Source \n Software. You can find the source code of these open \n source projects, below. \n\n
+        Any questions about our use of licensed work can be \n sent to infow2do@gmail.com \n
+    </string>
 </resources>
