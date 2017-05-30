@@ -31,7 +31,7 @@
             android:value="@string/google_map_api_key" />
 
         <receiver
-            android:name=".W2DoBroadcastReceiver"
+            android:name=".W2DoBroadCastReceiver"
             android:enabled="true"
             android:exported="false" />
 

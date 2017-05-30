@@ -27,7 +27,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/frag_main_schedule_header_text"
+                android:id="@+id/frag_simpletodo_main_schedule_header_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -46,7 +46,7 @@
                 android:orientation="horizontal">
 
                     <CheckBox
-                        android:id="@+id/frag_main_schedule_checkbox"
+                        android:id="@+id/frag_simpletodo_main_schedule_checkbox"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_gravity="center_vertical"
@@ -55,7 +55,7 @@
 
 
                     <TextView
-                        android:id="@+id/frag_todosimple_main_schedule_content"
+                        android:id="@+id/frag_simpletodo_main_schedule_content"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -79,7 +79,7 @@
             android:background="@drawable/all_contents_border_layout">
 
             <TextView
-                android:id="@+id/frag_maininput_msg"
+                android:id="@+id/frag_simpletodo_maininput_msg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
@@ -98,7 +98,7 @@
                 android:weightSum="3">
 
                 <EditText
-                    android:id="@+id/frag_main_schedule_input"
+                    android:id="@+id/frag_simpletodo_main_schedule_input"
                     android:layout_width="240dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -111,7 +111,7 @@
                     android:textSize="14dp" />
 
                 <Button
-                    android:id="@+id/frag_main_schedule_input_btn"
+                    android:id="@+id/frag_simpetodo_main_schedule_input_btn"
                     android:layout_width="49dp"
                     android:layout_height="32dp"
                     android:layout_marginEnd="16dp"
@@ -133,7 +133,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/frag_simpleinput_header_text"
+                android:id="@+id/frag_simpletodo_header_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -143,7 +143,7 @@
                 android:textSize="25dp" />
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/frag_today_listview"
+                android:id="@+id/frag_simpletodo_listview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

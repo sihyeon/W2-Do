@@ -9,7 +9,7 @@ import android.content.Intent;
 import android.os.health.SystemHealthManager;
 import android.util.Log;
 
-public class W2DoBroadcastReceiver extends BroadcastReceiver {
+public class W2DoBroadCastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         // TODO: This method is called when the BroadcastReceiver is receiving
