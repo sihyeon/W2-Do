@@ -31,7 +31,7 @@ public class FolderInputDialogFragment extends DialogFragment implements View.On
         if(getDialog().getWindow() != null){
             getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         }
-        View v = inflater.inflate(R.layout.fragment_folderinput_dialog, container);
+        View v = inflater.inflate(R.layout.dialogfragment_folderinput, container);
         sqliteManager = SQLiteManager.getInstance(getDialog().getContext());
 
         frag_folderInput_edit = (EditText)v.findViewById(R.id.frag_folderInput_edit);

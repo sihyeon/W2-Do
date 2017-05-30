@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@drawable/adpitem_simpletodo_bg"
+    android:orientation="horizontal">
+
+    <CheckBox
+        android:id="@+id/adp_simpletoday_checkbox"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="16dp"
+        android:button="@drawable/check_box_layout"
+        android:clickable="false" />
+
+    <EditText
+        android:id="@+id/adp_simpletoday_content"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="7dp"
+        android:background="@null"
+        android:focusable="false"
+        android:text="영어 회화 공부"
+        android:textColor="#FFF"
+        android:textSize="16dp" />
+
+    <!--<Button-->
+    <!--android:id="@+id/adp_simpletoday_delete_btn"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="1"-->
+    <!--android:text="delete"-->
+    <!--android:visibility="gone"/>-->
+</LinearLayout>

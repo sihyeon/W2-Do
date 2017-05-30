@@ -70,7 +70,7 @@ public class ShareInputDialogFragment extends DialogFragment implements View.OnC
                              Bundle savedInstanceState){
         mFont = new FontContract(getDialog().getContext().getAssets());
         mPublicUsersReference = FirebaseDatabase.getInstance().getReference().child("public_users");
-        return inflater.inflate(R.layout.fragment_share_input_dialog, container, false);
+        return inflater.inflate(R.layout.dialogfragment_share_input, container, false);
     }
 
     @Override

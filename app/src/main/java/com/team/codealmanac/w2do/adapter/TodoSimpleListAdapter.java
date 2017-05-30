@@ -40,14 +40,37 @@ public class TodoSimpleListAdapter extends RecyclerView.Adapter<SimpleTodoViewHo
 
     @Override
     public SimpleTodoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adpitem_simpletoday, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adpitem_simpletodo, parent, false);
         return new SimpleTodoViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(SimpleTodoViewHolder holder, int position) {
+    public void onBindViewHolder(final SimpleTodoViewHolder holder, final int position) {
         holder.adp_simpletoday_content.setText(mDataList.get(position).content);
         holder.adp_simpletoday_checkbox.setChecked(false);
+
+        View.OnClickListener itemClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "OnClick Call");
+                if(mSQLiteManager.updateCheckStateInTodo(mDataList.get(position)._ID)){
+//                    Animation goneAnimation = new AlphaAnimation(1, 0);
+//                    goneAnimation.setDuration(1000);
+//                    goneAnimation.setAnimationListener(new Animation.AnimationListener() {
+//                        @Override
+//                        public void onAnimationStart(Animation animation) {}
+//                        @Override
+//                        public void onAnimationEnd(Animation animation) {
+//                            holder.mView.setVisibility(View.GONE);
+//                        }
+//                        @Override
+//                        public void onAnimationRepeat(Animation animation) {}
+//                    });
+//                    holder.mView.startAnimation(goneAnimation);
+                }
+            }
+        };
+        holder.mView.setOnClickListener(itemClickListener);
     }
 
     @Override
@@ -59,8 +82,15 @@ public class TodoSimpleListAdapter extends RecyclerView.Adapter<SimpleTodoViewHo
     }
 
     @Override
+    public void OnUpdateTodo() {
+        mDataList = mSQLiteManager.getSimpleTodo();
+        this.notifyDataSetChanged();
+    }
+
+    @Override
     public void OnAddTodo(Todo todo) {
-        mDataList.add(new SimpleTodo(todo._ID, todo.check_state, todo.content));
+//        mDataList.add(new SimpleTodo(todo._ID, todo.check_state, todo.content));
+        mDataList = mSQLiteManager.getSimpleTodo();
         this.notifyDataSetChanged();
         Log.d(TAG, "OnAddTodo");
     }

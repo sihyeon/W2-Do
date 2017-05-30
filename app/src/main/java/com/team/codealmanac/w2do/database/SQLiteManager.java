@@ -63,12 +63,12 @@ public class SQLiteManager extends SQLiteOpenHelper {
 
     public interface FolderSQLiteEventListener {
         void OnAddTodoFolder();
-
         void OnUpdateTodoFolder();
     }
 
     public interface TodoSQLiteEventListener {
         void OnAddTodo(Todo todo);
+        void OnUpdateTodo();
     }
 
     public void viewDatabaseTable() {
@@ -207,15 +207,15 @@ public class SQLiteManager extends SQLiteOpenHelper {
             if (sqliteDB.insert(SQLContract.TodoEntry.TABLE_NAME, null, contentValues) != -1) {
                 incrementTodoCountInFolder(todo.folder_name);
             }
-            if (mTodoListener != null && mFolderListener != null) {
-                mTodoListener.OnAddTodo(todo);
-                mFolderListener.OnUpdateTodoFolder();
-            }
             sqliteDB.setTransactionSuccessful();
         } catch (Exception e) {
             Log.d(TAG, "Error addTodo: " + e);
         } finally {
             sqliteDB.endTransaction();
+            if (mTodoListener != null && mFolderListener != null) {
+                mTodoListener.OnAddTodo(todo);
+                mFolderListener.OnUpdateTodoFolder();
+            }
         }
     }
 
@@ -245,13 +245,45 @@ public class SQLiteManager extends SQLiteOpenHelper {
         return tempArray;
     }
 
+    public boolean updateCheckStateInTodo(long _ID){
+        sqliteDB.beginTransaction();
+        int check_state;
+        try{
+            Cursor cursor = sqliteDB.query(SQLContract.TodoEntry.TABLE_NAME, new String[]{SQLContract.TodoEntry.COLUMN_NAME_CHECK},
+                    SQLContract.TodoEntry._ID + "=?", new String[]{String.valueOf(_ID)}, null, null, null);
+            if(!cursor.moveToFirst()) return false;
+            check_state = cursor.getInt(0);
+            if(check_state == 0){
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(SQLContract.TodoEntry.COLUMN_NAME_CHECK, 1);
+                sqliteDB.update(SQLContract.TodoEntry.TABLE_NAME, contentValues,
+                        SQLContract.TodoEntry._ID + "=?", new String[]{String.valueOf(_ID)});
+            } else {
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(SQLContract.TodoEntry.COLUMN_NAME_CHECK, 0);
+                sqliteDB.update(SQLContract.TodoEntry.TABLE_NAME, contentValues,
+                        SQLContract.TodoEntry._ID + " =?", new String[]{String.valueOf(_ID)});
+            }
+            sqliteDB.setTransactionSuccessful();
+            cursor.close();
+            return true;
+        } catch (Exception e) {
+            Log.d(TAG, "Error updateCheckStateInTodo: " + e);
+        } finally {
+            sqliteDB.endTransaction();
+            if(mTodoListener != null) mTodoListener.OnUpdateTodo();
+        }
+        return false;
+    }
+
+
     public ArrayList<Todo> getTodoListInFolder(String folder) {
         ArrayList<Todo> tempArray = new ArrayList<>();
         sqliteDB.beginTransaction();
         try {
             Cursor cursor = sqliteDB.query(SQLContract.TodoEntry.TABLE_NAME,
                     null,
-                    SQLContract.TodoEntry.COLUMN_NAME_FOLDER + "=?", new String[]{folder}, null, null, null);
+                    SQLContract.TodoEntry.COLUMN_NAME_FOLDER + " =? ", new String[]{folder}, null, null, null);
             if (!cursor.moveToFirst()) {
                 return null;
             }
@@ -294,7 +326,6 @@ public class SQLiteManager extends SQLiteOpenHelper {
             Log.d(TAG, "Error getSimpleTodo: " + e);
         } finally {
             sqliteDB.endTransaction();
-
         }
         return tempArray;
     }
