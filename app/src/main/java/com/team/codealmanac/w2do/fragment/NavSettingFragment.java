@@ -1,4 +1,4 @@
-package com.team.codealmanac.w2do;
+package com.team.codealmanac.w2do.fragment;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +11,9 @@ import android.preference.SwitchPreference;
 import android.widget.Toast;
 
 
+import com.team.codealmanac.w2do.MainActivity;
+import com.team.codealmanac.w2do.R;
+import com.team.codealmanac.w2do.W2DoService;
 import com.team.codealmanac.w2do.dialog.OpensourceDialogActivity;
 
 import static com.team.codealmanac.w2do.MainActivity.mContext;

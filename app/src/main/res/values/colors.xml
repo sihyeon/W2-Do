@@ -8,9 +8,9 @@
     <color name="real_white">#FFFFFF</color>
     <color name="real_black">#000000</color>
 
-    <color name="colorPrimary">@color/blue_grey</color>
-    <color name="colorPrimaryDark">@color/blue_grey</color>
-    <color name="colorAccent">@color/blue_grey</color>
+    <!--<color name="colorPrimary">@color/blue_grey</color>-->
+    <!--<color name="colorPrimaryDark">@color/blue_grey</color>-->
+    <!--<color name="colorAccent">@color/blue_grey</color>-->
 
     <color name="light_blue_100">#00000000</color>
     <color name="light_blue_300">#00000000</color>    //생성되어있는 폴더 색상
@@ -63,4 +63,12 @@
     <color name="brown">#7A5547</color>
     <color name="gray">#9D9D9D</color>
     <color name="blue_grey">#5E7C8B</color>
+
+    <!-- Tab Colors-->
+    <color name="colorPrimary">#125688</color>
+    <color name="colorPrimaryDark">#125688</color>
+    <color name="textColorPrimary">#FFFFFF</color>
+    <color name="windowBackground">#FFFFFF</color>
+    <color name="navigationBarColor">#000000</color>
+    <color name="colorAccent">@color/blue_grey</color>
 </resources>

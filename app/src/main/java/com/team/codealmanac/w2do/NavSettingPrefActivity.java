@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 
+import com.team.codealmanac.w2do.fragment.NavSettingFragment;
+
 
 /**
  * Created by sihyeon on 2017-05-26.

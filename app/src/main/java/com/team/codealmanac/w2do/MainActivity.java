@@ -3,7 +3,6 @@ package com.team.codealmanac.w2do;
 
 
 import android.app.AlarmManager;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,8 +12,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
 import android.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -46,8 +43,6 @@ import com.team.codealmanac.w2do.fragment.TodoSimpleListFragment;
 import java.util.Calendar;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
-
-import static com.team.codealmanac.w2do.NavSettingFragment.mPrefContext;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -402,10 +397,16 @@ public class MainActivity extends BaseActivity
 //            Intent TeamIntent = new Intent(MainActivity.this, LockScreenActivity.class);
 //            startActivity(TeamIntent);
 
-        } else if (id == R.id.nav_setting) {
+        } else if(id == R.id.nav_complete_todo){
+           //완료된 할일 탭 화면으로 이동
+           Intent CompleteIntent = new Intent(MainActivity.this, CompleteTodoTabActivity.class);
+           startActivity(CompleteIntent);
+
+       } else if (id == R.id.nav_setting) {
         // 설정 화면으로 이동
             Intent SettingIntent = new Intent(MainActivity.this, NavSettingPrefActivity.class);
             startActivity(SettingIntent);
+
         } else if (id == R.id.nav_send_msg) {
         // 의견 보낼 화면 팝업
             Intent mail = new Intent(Intent.ACTION_SEND);
