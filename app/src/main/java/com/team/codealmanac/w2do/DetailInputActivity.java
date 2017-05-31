@@ -21,6 +21,7 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.support.v4.content.ContextCompat;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -237,8 +238,8 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
             if(dateTimeInMillis == data.start_date && data.start_date == data.end_date){
                 format = new SimpleDateFormat("M월 d일(E)");
             }
-            act_detailInput_calendar_start_date.setText(format.format(mStartDate));
-            act_detailInput_calendar_end_date.setText(format.format(mEndDate));
+            act_detailInput_calendar_start_date.setText(format.format(data.start_date));
+            act_detailInput_calendar_end_date.setText(format.format(data.end_date));
             //장소
             if(data.latitude != 500 && data.longitude != 500){
                 mLocationName = data.location_name;
@@ -326,9 +327,17 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
             format = new SimpleDateFormat("M월 d일(E)\nhh:mm a");
             String date = format.format(timeInMillis);
             if(requestCode == DATEPICKER_START_DATE_REQUEST_CODE) {
+                if(mEndDate < timeInMillis){
+                    Toast.makeText(getApplicationContext(), "종료날짜보다 작아야합니다.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 act_detailInput_calendar_start_date.setText(date);
                 mStartDate = timeInMillis;
             } else {
+                if(mStartDate > timeInMillis){
+                    Toast.makeText(getApplicationContext(), "시작날짜보다 커야합니다.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 act_detailInput_calendar_end_date.setText(date);
                 mEndDate = timeInMillis;
             }
@@ -478,6 +487,8 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
                 break;
             //장소 제거
             case R.id.act_detailInput_map_remove_btn:
+                mLocation = null;
+                mLocationName = null;
                 findViewById(R.id.act_detailInput_map_null_location_layout).setVisibility(View.VISIBLE);
                 findViewById(R.id.act_detailInput_map_used_location_layout).setVisibility(View.GONE);
                 break;
