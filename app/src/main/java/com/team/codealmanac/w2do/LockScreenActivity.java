@@ -38,7 +38,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.team.codealmanac.w2do.assistant.LocationInfoAssistant;
 import com.team.codealmanac.w2do.contract.FontContract;
 import com.team.codealmanac.w2do.database.PreferencesManager;
+import com.team.codealmanac.w2do.database.SQLiteManager;
 import com.team.codealmanac.w2do.listeners.OnSwipeTouchListener;
+import com.team.codealmanac.w2do.models.MainSchedule;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -58,11 +60,6 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
     private boolean isPermission;
 
     private FontContract mFont;
-
-    private DatabaseReference mMainScheduleReference;
-    private DatabaseReference mNicknameReference;
-    private ChildEventListener mMainScheduleListener;
-    private ChildEventListener mNicknameListener;
 
     //인터페이스
     @Override
@@ -95,12 +92,6 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
             mLocationInfoManager.onStartLocation(getApplicationContext(), this);
         }
 
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        // [START initialize_database_ref]
-        mMainScheduleReference = FirebaseDatabase.getInstance().getReference().child("main_schedule").child(userId).child("visible");
-        mNicknameReference = FirebaseDatabase.getInstance().getReference().child("nickname").child(userId);
-        // [END initialize_database_ref]
-
         //스와이프 동작.
         findViewById(R.id.layout_lock_screen_main).setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()){
             public void onSwipeLeft(){
@@ -122,51 +113,17 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
         ((TextView)findViewById(R.id.act_lockscreen_mainschedule)).setTypeface(mFont.NahumSquareB_Regular());
         ((TextView)findViewById(R.id.act_lockscreen_what_mainschedule)).setTypeface(mFont.NahumSquareB_Regular());
 
+        String nickname = PreferencesManager.getNickname(getApplicationContext());
         //파베 실시간디비 리스너 등록
-        mNicknameReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()){
-                    String item = dataSnapshot.getValue().toString();
-                    setGreetingText(item);
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {}
-        });
+        setGreetingText(nickname);
 
-        ChildEventListener mainScheduleListener = new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if(dataSnapshot.exists()){
-                    existMainSchedule(dataSnapshot.getValue().toString());
-                } else {
-                    nonexistMainSchedule();
-                }
-            }
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                if(dataSnapshot.exists()){
-                    existMainSchedule(dataSnapshot.getValue().toString());
-                } else {
-                    nonexistMainSchedule();
-                }
-            }
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                nonexistMainSchedule();
-            }
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                nonexistMainSchedule();
-            }
-        };
-//        mNicknameReference.addChildEventListener(nicknameListener);
-//        mNicknameListener = nicknameListener;
-        mMainScheduleReference.addChildEventListener(mainScheduleListener);
-        mMainScheduleListener = mainScheduleListener;
+        SQLiteManager sqliteManager = new SQLiteManager(getApplicationContext());
+        MainSchedule mainSchedule = sqliteManager.getMainSchedule();
+        if(mainSchedule != null){
+            existMainSchedule(mainSchedule.content);
+        } else {
+            nonexistMainSchedule();
+        }
     }
 
     @Override
@@ -196,8 +153,6 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
 
     @Override
     protected void onDestroy() {
-        if(mMainScheduleListener != null) mMainScheduleReference.removeEventListener(mMainScheduleListener);
-        if(mNicknameListener != null) mNicknameReference.removeEventListener(mNicknameListener);
         if (isPermission) mLocationInfoManager.onStopLocation();
         super.onDestroy();
     }

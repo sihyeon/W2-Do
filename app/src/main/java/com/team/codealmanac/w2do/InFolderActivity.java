@@ -49,15 +49,7 @@ public class InFolderActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
 
         act_infolder_todolist = (RecyclerView)findViewById(R.id.act_infolder_todolist);
-        mInFolderListAdapter = new InFolderListAdapter(getApplicationContext(), mFolderName);
 
-        act_infolder_todolist.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
-        act_infolder_todolist.setAdapter(mInFolderListAdapter);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
         ImageButton backButton = (ImageButton)mToolbar.findViewById(R.id.act_infolder_toolbar_back_btn);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +61,15 @@ public class InFolderActivity extends AppCompatActivity {
         TextView titleText = (TextView)mToolbar.findViewById(R.id.act_infolder_toolbar_title);
         titleText.setText(mFolderName);
         titleText.setTypeface(font.NahumSquareB_Regular());
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mInFolderListAdapter = new InFolderListAdapter(getApplicationContext(), mFolderName);
+
+        act_infolder_todolist.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
+        act_infolder_todolist.setAdapter(mInFolderListAdapter);
     }
 
     @Override

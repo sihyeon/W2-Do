@@ -7,6 +7,7 @@ import android.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,6 +58,7 @@ public class TodoSimpleListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d(TAG, "call onCreateView");
         // Inflate the layout for this fragment
         sqliteManager = SQLiteManager.getInstance(getActivity());
         View view = inflater.inflate(R.layout.fragment_simpletodo_list, container, false);
@@ -97,13 +99,6 @@ public class TodoSimpleListFragment extends Fragment {
         return view;
     }
 
-    // TODO: 2017-05-25 메인스케줄 디비 및 추가 제거 생성 필요
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
-
     private void checkExistMainSchedule() {
         mMainSchedule = sqliteManager.getMainSchedule();
         if (mMainSchedule != null) {
@@ -132,8 +127,8 @@ public class TodoSimpleListFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        Log.d(TAG, "call onStart");
         checkExistMainSchedule();
-
         frag_simpetodo_main_schedule_input_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
