@@ -34,6 +34,6 @@ public class PushAlarmReciever extends BroadcastReceiver {
                 .setContentText("오늘의 일정은 무엇인가요?")
                 .setAutoCancel(true)
                 .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE).setContentIntent(pendingIntent);
-        notificationManager.notify(2,builder.build());
+        notificationManager.notify( 2, builder.build());
     }
 }
