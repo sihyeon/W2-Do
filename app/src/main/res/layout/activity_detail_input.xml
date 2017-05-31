@@ -7,9 +7,8 @@
     android:clipToPadding="false"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
-
     <android.support.v7.widget.Toolbar
-        android:id="@+id/act_main_toolbar"
+        android:id="@+id/frag_detailtodo_toolbar"
         android:layout_width="match_parent"
         android:layout_height="42dp"
         android:background="#965b93c2"
@@ -20,7 +19,7 @@
             android:layout_height="match_parent">
 
             <Button
-                android:id="@+id/act_detailInput_toolbar_back_btn"
+                android:id="@+id/frag_detailtodo_toolbar_back_btn"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_alignParentStart="true"
@@ -29,7 +28,7 @@
                 android:background="@drawable/btn_arrow_left" />
 
             <TextView
-                android:id="@+id/act_detailInput_toolbar_title"
+                android:id="@+id/frag_detailtodo_toolbar_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -44,7 +43,7 @@
                 android:background="#10000000"/>
 
             <ImageButton
-                android:id="@+id/act_detailInput_toolbar_save_btn"
+                android:id="@+id/frag_detailtodo_toolbar_save_btn"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:src="@drawable/btn_save_detail"
@@ -52,10 +51,19 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="14dp"
                 android:background="@null"/>
+            
+            <ImageButton
+                android:id="@+id/frag_detailtodo_toolbar_delete_btn"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/icn_delete_list"
+                android:layout_toStartOf="@id/frag_detailtodo_toolbar_save_btn"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="16dp"
+                android:background="@null"
+                android:visibility="gone"/>
         </RelativeLayout>
-
     </android.support.v7.widget.Toolbar>
 
     <include layout="@layout/activity_detail_input_content" />
-
 </LinearLayout>

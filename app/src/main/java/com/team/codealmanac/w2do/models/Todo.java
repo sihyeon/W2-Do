@@ -4,11 +4,13 @@ import android.support.annotation.NonNull;
 
 import com.team.codealmanac.w2do.database.SQLContract;
 
+import java.io.Serializable;
+
 /**
  * Created by Choi Jaeung on 2017-01-24.
  */
 
-public class Todo {
+public class Todo implements Serializable{
     public long _ID;
     public long folder_sequence;
     public int check_state = 0;
@@ -18,8 +20,8 @@ public class Todo {
     public long start_date;
     public long end_date;
     public long alarm_date = 0;
-    public double latitude = -1;
-    public double longitude = -1;
+    public double latitude = 500;
+    public double longitude = 500;
     public String location_name;
     public String memo;
 

@@ -12,7 +12,6 @@ import com.team.codealmanac.w2do.models.SimpleTodo;
 import com.team.codealmanac.w2do.models.Todo;
 import com.team.codealmanac.w2do.models.TodoFolder;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -67,7 +66,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
     }
 
     public interface TodoSQLiteEventListener {
-        void OnAddTodo(Todo todo);
+        void OnAddTodo();
         void OnUpdateTodo();
     }
 
@@ -107,8 +106,8 @@ public class SQLiteManager extends SQLiteOpenHelper {
     }
 
     public ArrayList<TodoFolder> getAllTodoFolder() {
-        sqliteDB.beginTransaction();
         ArrayList<TodoFolder> tempArray = new ArrayList<>();
+        sqliteDB.beginTransaction();
         try {
             Cursor cursor = sqliteDB.query(SQLContract.TodoFolderEntry.TABLE_NAME,
                     null, null, null, null, null, SQLContract.TodoFolderEntry.COLUMN_NAME_SEQUENCE);
@@ -129,9 +128,10 @@ public class SQLiteManager extends SQLiteOpenHelper {
         return tempArray;
     }
 
+    //
     public ArrayList<String> getAllTodoFolderName() {
-        sqliteDB.beginTransaction();
         ArrayList<String> tempArray = new ArrayList<>();
+        sqliteDB.beginTransaction();
         try {
             Cursor cursor = sqliteDB.query(SQLContract.TodoFolderEntry.TABLE_NAME,
                     new String[]{SQLContract.TodoFolderEntry.COLUMN_NAME_NAME}, null, null, null, null, SQLContract.TodoFolderEntry.COLUMN_NAME_SEQUENCE);
@@ -153,36 +153,62 @@ public class SQLiteManager extends SQLiteOpenHelper {
     }
 
     private int getCountInFolder(String folderName) {
+        int count = 0;
         sqliteDB.beginTransaction();
         try {
             Cursor cursor = sqliteDB.query(SQLContract.TodoFolderEntry.TABLE_NAME,
                     new String[]{SQLContract.TodoFolderEntry.COLUMN_NAME_TODO_COUNT},
                     SQLContract.TodoFolderEntry.COLUMN_NAME_NAME + "=?", new String[]{folderName}, null, null, null);
             if (cursor.moveToFirst()) {
-                int count = cursor.getInt(0);
-                cursor.close();
-                return count;
+                count = cursor.getInt(0);
             }
+            cursor.close();
             sqliteDB.setTransactionSuccessful();
         } catch (Exception e) {
             Log.d(TAG, "Error getCountInFolder: " + e);
+        } finally {
             sqliteDB.endTransaction();
         }
-        return 0;
+        return count;
     }
 
-    private void incrementTodoCountInFolder(String folderName) {
-        String updateSQL = "UPDATE " + SQLContract.TodoFolderEntry.TABLE_NAME +
-                " SET " + SQLContract.TodoFolderEntry.COLUMN_NAME_TODO_COUNT + " = " + SQLContract.TodoFolderEntry.COLUMN_NAME_TODO_COUNT + " + 1" +
-                " WHERE " + SQLContract.TodoFolderEntry.COLUMN_NAME_NAME + " = '" + folderName + "'";
-        sqliteDB.execSQL(updateSQL);
-        if (!folderName.equals(SQLContract.DEFUALT_FOLDER_NAME)) {
-            String defaultFolder = "UPDATE " + SQLContract.TodoFolderEntry.TABLE_NAME +
-                    " SET " + SQLContract.TodoFolderEntry.COLUMN_NAME_TODO_COUNT + " = " + SQLContract.TodoFolderEntry.COLUMN_NAME_TODO_COUNT + " + 1" +
-                    " WHERE " + SQLContract.TodoFolderEntry.COLUMN_NAME_NAME + " = '" + SQLContract.DEFUALT_FOLDER_NAME + "'";
-            sqliteDB.execSQL(defaultFolder);
+    //try catch 안에 존재해야함.
+    private void updateTodoCountInFolder(String folderName) {
+        Cursor cursor;
+        int todoCount;
+        String updateSQL;
+        if(!folderName.equals(SQLContract.DEFUALT_FOLDER_NAME)){
+            cursor = sqliteDB.query(SQLContract.TodoEntry.TABLE_NAME, new String[]{SQLContract.TodoEntry._ID},
+                    SQLContract.TodoEntry.COLUMN_NAME_FOLDER + "=? AND " + SQLContract.TodoEntry.COLUMN_NAME_CHECK + "=?"
+                    , new String[]{folderName, String.valueOf(0)}, null, null, null);
+            todoCount = cursor.getCount();
+            updateSQL = "UPDATE " + SQLContract.TodoFolderEntry.TABLE_NAME +
+                    " SET " + SQLContract.TodoFolderEntry.COLUMN_NAME_TODO_COUNT + " = " + todoCount +
+                    " WHERE " + SQLContract.TodoFolderEntry.COLUMN_NAME_NAME + " = '" + folderName + "'";
+            sqliteDB.execSQL(updateSQL);
         }
+        cursor = sqliteDB.query(SQLContract.TodoEntry.TABLE_NAME, new String[]{SQLContract.TodoEntry._ID},
+                SQLContract.TodoEntry.COLUMN_NAME_CHECK + "=?", new String[]{String.valueOf(0)}, null, null, null);
+        todoCount = cursor.getCount();
+        updateSQL = "UPDATE " + SQLContract.TodoFolderEntry.TABLE_NAME +
+                " SET " + SQLContract.TodoFolderEntry.COLUMN_NAME_TODO_COUNT + " = " + todoCount +
+                " WHERE " + SQLContract.TodoFolderEntry.COLUMN_NAME_NAME + " = '" + SQLContract.DEFUALT_FOLDER_NAME + "'";
+        sqliteDB.execSQL(updateSQL);
+        cursor.close();
     }
+
+//    private void incrementTodoCountInFolder(String folderName) {
+//        String updateSQL = "UPDATE " + SQLContract.TodoFolderEntry.TABLE_NAME +
+//                " SET " + SQLContract.TodoFolderEntry.COLUMN_NAME_TODO_COUNT + " = " + SQLContract.TodoFolderEntry.COLUMN_NAME_TODO_COUNT + " + 1" +
+//                " WHERE " + SQLContract.TodoFolderEntry.COLUMN_NAME_NAME + " = '" + folderName + "'";
+//        sqliteDB.execSQL(updateSQL);
+//        if (!folderName.equals(SQLContract.DEFUALT_FOLDER_NAME)) {
+//            String defaultFolder = "UPDATE " + SQLContract.TodoFolderEntry.TABLE_NAME +
+//                    " SET " + SQLContract.TodoFolderEntry.COLUMN_NAME_TODO_COUNT + " = " + SQLContract.TodoFolderEntry.COLUMN_NAME_TODO_COUNT + " + 1" +
+//                    " WHERE " + SQLContract.TodoFolderEntry.COLUMN_NAME_NAME + " = '" + SQLContract.DEFUALT_FOLDER_NAME + "'";
+//            sqliteDB.execSQL(defaultFolder);
+//        }
+//    }
 
     public void addTodo(Todo todo) {
         todo.folder_sequence = getCountInFolder(todo.folder_name) + 1;
@@ -204,37 +230,88 @@ public class SQLiteManager extends SQLiteOpenHelper {
             if (todo.memo != null)
                 contentValues.put(SQLContract.TodoEntry.COLUMN_NAME_MEMO, todo.memo);
 
-            if (sqliteDB.insert(SQLContract.TodoEntry.TABLE_NAME, null, contentValues) != -1) {
-                incrementTodoCountInFolder(todo.folder_name);
-            }
+            sqliteDB.insert(SQLContract.TodoEntry.TABLE_NAME, null, contentValues);
+            updateTodoCountInFolder(todo.folder_name);
+
             sqliteDB.setTransactionSuccessful();
         } catch (Exception e) {
             Log.d(TAG, "Error addTodo: " + e);
+            return;
         } finally {
             sqliteDB.endTransaction();
-            if (mTodoListener != null && mFolderListener != null) {
-                mTodoListener.OnAddTodo(todo);
-                mFolderListener.OnUpdateTodoFolder();
+        }
+        if (mTodoListener != null && mFolderListener != null) {
+            mTodoListener.OnAddTodo();
+            mFolderListener.OnUpdateTodoFolder();
+        }
+    }
+
+    public void updateTodo(Todo todo){
+        sqliteDB.beginTransaction();
+        try {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(SQLContract.TodoEntry.COLUMN_NAME_SEQUENCE, todo.folder_sequence);
+            contentValues.put(SQLContract.TodoEntry.COLUMN_NAME_COLOR, todo.color);
+            contentValues.put(SQLContract.TodoEntry.COLUMN_NAME_FOLDER, todo.folder_name);
+            contentValues.put(SQLContract.TodoEntry.COLUMN_NAME_CONTENT, todo.content);
+            contentValues.put(SQLContract.TodoEntry.COLUMN_NAME_START_DATE, todo.start_date);
+            contentValues.put(SQLContract.TodoEntry.COLUMN_NAME_END_DATE, todo.end_date);
+            contentValues.put(SQLContract.TodoEntry.COLUMN_NAME_ALARM, todo.alarm_date);
+            if (todo.location_name != null) {
+                contentValues.put(SQLContract.TodoEntry.COLUMN_NAME_LATITUDE, todo.latitude);
+                contentValues.put(SQLContract.TodoEntry.COLUMN_NAME_LONGITUDE, todo.longitude);
+                contentValues.put(SQLContract.TodoEntry.COLUMN_NAME_LOCATION, todo.location_name);
             }
+            if (todo.memo != null)
+                contentValues.put(SQLContract.TodoEntry.COLUMN_NAME_MEMO, todo.memo);
+
+            sqliteDB.update(SQLContract.TodoEntry.TABLE_NAME, contentValues, SQLContract.TodoEntry._ID + "=?", new String[]{String.valueOf(todo._ID)});
+            updateTodoCountInFolder(todo.folder_name);
+            sqliteDB.setTransactionSuccessful();
+        } catch (Exception e) {
+            Log.d(TAG, "Error updateTodo: " + e);
+            return;
+        } finally {
+            sqliteDB.endTransaction();
+        }
+        if (mTodoListener != null && mFolderListener != null) {
+            mTodoListener.OnAddTodo();
+            mFolderListener.OnUpdateTodoFolder();
+        }
+    }
+
+    public void deleteTodo(long _ID, String folderName){
+        sqliteDB.beginTransaction();
+        try{
+            sqliteDB.delete(SQLContract.TodoEntry.TABLE_NAME, SQLContract.TodoEntry._ID + "=?", new String[]{String.valueOf(_ID)});
+            updateTodoCountInFolder(folderName);
+            sqliteDB.setTransactionSuccessful();
+        }catch (Exception e) {
+            Log.d(TAG, "Error deleteTodo: " + e);
+            return;
+        } finally {
+            sqliteDB.endTransaction();
+        }
+        if (mTodoListener != null && mFolderListener != null) {
+            mTodoListener.OnAddTodo();
+            mFolderListener.OnUpdateTodoFolder();
         }
     }
 
     public ArrayList<SimpleTodo> getSimpleTodo() {
-        sqliteDB.beginTransaction();
         ArrayList<SimpleTodo> tempArray = new ArrayList<>();
+        sqliteDB.beginTransaction();
         try {
             Cursor cursor = sqliteDB.query(SQLContract.TodoEntry.TABLE_NAME,
                     new String[]{SQLContract.TodoEntry._ID, SQLContract.TodoEntry.COLUMN_NAME_CHECK, SQLContract.TodoEntry.COLUMN_NAME_CONTENT},
                     SQLContract.TodoEntry.COLUMN_NAME_CHECK + "=?", new String[]{String.valueOf(0)}, null, null, null);
-
-            if (!cursor.moveToFirst()) {
-                return null;
+            if (cursor.moveToFirst()) {
+                do {
+                    //name, sequence, todo_count
+                    SimpleTodo simpleTodo = new SimpleTodo(cursor.getLong(0), cursor.getInt(1), cursor.getString(2));
+                    tempArray.add(simpleTodo);
+                } while (cursor.moveToNext());
             }
-            do {
-                //name, sequence, todo_count
-                SimpleTodo simpleTodo = new SimpleTodo(cursor.getLong(0), cursor.getInt(1), cursor.getString(2));
-                tempArray.add(simpleTodo);
-            } while (cursor.moveToNext());
             cursor.close();
             sqliteDB.setTransactionSuccessful();
         } catch (Exception e) {
@@ -248,11 +325,13 @@ public class SQLiteManager extends SQLiteOpenHelper {
     public boolean updateCheckStateInTodo(long _ID){
         sqliteDB.beginTransaction();
         int check_state;
+        String folderName;
         try{
-            Cursor cursor = sqliteDB.query(SQLContract.TodoEntry.TABLE_NAME, new String[]{SQLContract.TodoEntry.COLUMN_NAME_CHECK},
+            Cursor cursor = sqliteDB.query(SQLContract.TodoEntry.TABLE_NAME, new String[]{SQLContract.TodoEntry.COLUMN_NAME_CHECK, SQLContract.TodoEntry.COLUMN_NAME_FOLDER},
                     SQLContract.TodoEntry._ID + "=?", new String[]{String.valueOf(_ID)}, null, null, null);
             if(!cursor.moveToFirst()) return false;
             check_state = cursor.getInt(0);
+            folderName = cursor.getString(1);
             if(check_state == 0){
                 ContentValues contentValues = new ContentValues();
                 contentValues.put(SQLContract.TodoEntry.COLUMN_NAME_CHECK, 1);
@@ -264,14 +343,17 @@ public class SQLiteManager extends SQLiteOpenHelper {
                 sqliteDB.update(SQLContract.TodoEntry.TABLE_NAME, contentValues,
                         SQLContract.TodoEntry._ID + " =?", new String[]{String.valueOf(_ID)});
             }
-            sqliteDB.setTransactionSuccessful();
             cursor.close();
+            updateTodoCountInFolder(folderName);
+            if(mTodoListener != null) mTodoListener.OnUpdateTodo();
+            if(mFolderListener != null) mFolderListener.OnUpdateTodoFolder();
+            sqliteDB.setTransactionSuccessful();
             return true;
         } catch (Exception e) {
             Log.d(TAG, "Error updateCheckStateInTodo: " + e);
         } finally {
             sqliteDB.endTransaction();
-            if(mTodoListener != null) mTodoListener.OnUpdateTodo();
+
         }
         return false;
     }
@@ -281,19 +363,26 @@ public class SQLiteManager extends SQLiteOpenHelper {
         ArrayList<Todo> tempArray = new ArrayList<>();
         sqliteDB.beginTransaction();
         try {
-            Cursor cursor = sqliteDB.query(SQLContract.TodoEntry.TABLE_NAME,
-                    null,
-                    SQLContract.TodoEntry.COLUMN_NAME_FOLDER + " =? ", new String[]{folder}, null, null, null);
-            if (!cursor.moveToFirst()) {
-                return null;
+            Cursor cursor;
+            if(folder.equals(SQLContract.DEFUALT_FOLDER_NAME)){
+                cursor = sqliteDB.query(SQLContract.TodoEntry.TABLE_NAME,
+                        null,
+                        SQLContract.TodoEntry.COLUMN_NAME_CHECK + "=?", new String[]{String.valueOf(0)}, null, null, null);
+            } else {
+                cursor = sqliteDB.query(SQLContract.TodoEntry.TABLE_NAME,
+                        null,
+                        SQLContract.TodoEntry.COLUMN_NAME_FOLDER + "=? AND "+SQLContract.TodoEntry.COLUMN_NAME_CHECK + "=?"
+                        , new String[]{folder, String.valueOf(0)}, null, null, null);
             }
-            do {
-                //name, sequence, todo_count
-                Todo Todo = new Todo(cursor.getLong(0), cursor.getLong(1), cursor.getInt(2), cursor.getInt(3),
-                        cursor.getString(4), cursor.getString(5), cursor.getLong(6), cursor.getLong(7), cursor.getLong(8),
-                        cursor.getDouble(9), cursor.getDouble(10), cursor.getString(11), cursor.getString(12));
-                tempArray.add(Todo);
-            } while (cursor.moveToNext());
+            if (cursor.moveToFirst()) {
+                do {
+                    //name, sequence, todo_count
+                    Todo Todo = new Todo(cursor.getLong(0), cursor.getLong(1), cursor.getInt(2), cursor.getInt(3),
+                            cursor.getString(4), cursor.getString(5), cursor.getLong(6), cursor.getLong(7), cursor.getLong(8),
+                            cursor.getDouble(9), cursor.getDouble(10), cursor.getString(11), cursor.getString(12));
+                    tempArray.add(Todo);
+                } while (cursor.moveToNext());
+            }
             cursor.close();
             sqliteDB.setTransactionSuccessful();
         } catch (Exception e) {
@@ -303,33 +392,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
         }
         return tempArray;
     }
-
-    public ArrayList<Todo> getAllTodoList() {
-        ArrayList<Todo> tempArray = new ArrayList<>();
-        sqliteDB.beginTransaction();
-        try {
-            Cursor cursor = sqliteDB.query(SQLContract.TodoEntry.TABLE_NAME,
-                    null, null, null, null, null, null);
-            if (!cursor.moveToFirst()) {
-                return null;
-            }
-            do {
-                //name, sequence, todo_count
-                Todo Todo = new Todo(cursor.getLong(0), cursor.getLong(1), cursor.getInt(2), cursor.getInt(3),
-                        cursor.getString(4), cursor.getString(5), cursor.getLong(6), cursor.getLong(7), cursor.getLong(8),
-                        cursor.getDouble(9), cursor.getDouble(10), cursor.getString(11), cursor.getString(12));
-                tempArray.add(Todo);
-            } while (cursor.moveToNext());
-            cursor.close();
-            sqliteDB.setTransactionSuccessful();
-        } catch (Exception e) {
-            Log.d(TAG, "Error getSimpleTodo: " + e);
-        } finally {
-            sqliteDB.endTransaction();
-        }
-        return tempArray;
-    }
-
+    
     public boolean setMainSchedule(String content) {
         sqliteDB.beginTransaction();
         try {
@@ -358,6 +421,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
                 return new MainSchedule(cursor.getLong(0), cursor.getLong(1), cursor.getString(2), cursor.getInt(3));
             }
             cursor.close();
+            sqliteDB.setTransactionSuccessful();
         } catch (Exception e) {
             Log.d(TAG, "Error getMainSchedule: " + e);
         } finally {
@@ -403,13 +467,6 @@ public class SQLiteManager extends SQLiteOpenHelper {
         return null;
     }
 
-//    public void updateTodoButtonVisibility(String date, String visible) {
-//        ContentValues contentValues = new ContentValues();
-//        contentValues.put(SQLContract.ToDoEntry.COLUMN_NAME_BUTTON_VISIBLE, visible);
-//        sqliteDB.update(SQLContract.ToDoEntry.TABLE_NAME, contentValues,
-//                SQLContract.ToDoEntry.COLUMN_NAME_DATE+"=?", new String[] {date});
-//    }
-
     private void init(SQLiteDatabase db) {
         Log.d(TAG, "데이터베이스 초기화");
 
@@ -447,8 +504,8 @@ public class SQLiteManager extends SQLiteOpenHelper {
                             SQLContract.TodoEntry.COLUMN_NAME_START_DATE + " INTEGER NOT NULL, " +
                             SQLContract.TodoEntry.COLUMN_NAME_END_DATE + " INTEGER NOT NULL, " +
                             SQLContract.TodoEntry.COLUMN_NAME_ALARM + " INTEGER, " +
-                            SQLContract.TodoEntry.COLUMN_NAME_LATITUDE + " REAL DEFAULT -1, " +
-                            SQLContract.TodoEntry.COLUMN_NAME_LONGITUDE + " REAL DEFAULT -1, " +
+                            SQLContract.TodoEntry.COLUMN_NAME_LATITUDE + " REAL DEFAULT 500, " +
+                            SQLContract.TodoEntry.COLUMN_NAME_LONGITUDE + " REAL DEFAULT 500, " +
                             SQLContract.TodoEntry.COLUMN_NAME_LOCATION + " TEXT, " +
                             SQLContract.TodoEntry.COLUMN_NAME_MEMO + " TEXT " +
 //                        "FOREIGN KEY(" + SQLContract.TodoEntry.COLUMN_NAME_FOLDER + ")" +

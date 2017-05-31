@@ -88,7 +88,7 @@ public class TodoSimpleListAdapter extends RecyclerView.Adapter<SimpleTodoViewHo
     }
 
     @Override
-    public void OnAddTodo(Todo todo) {
+    public void OnAddTodo() {
 //        mDataList.add(new SimpleTodo(todo._ID, todo.check_state, todo.content));
         mDataList = mSQLiteManager.getSimpleTodo();
         this.notifyDataSetChanged();

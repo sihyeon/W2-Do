@@ -104,7 +104,7 @@ public class MainActivity extends BaseActivity
                 .commit();
 
         // act_main_toolbar 설정
-        act_main_toolbar = (Toolbar) findViewById(R.id.act_main_toolbar);
+        act_main_toolbar = (Toolbar) findViewById(R.id.frag_detailtodo_toolbar);
 
         setSupportActionBar(act_main_toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -165,8 +165,9 @@ public class MainActivity extends BaseActivity
         act_main_appbar_detailInput_floatingbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent DetailInput = new Intent(MainActivity.this, DetailInputActivity.class);
-                startActivity(DetailInput);
+                Intent detailInput = new Intent(MainActivity.this, DetailInputActivity.class);
+                detailInput.putExtra("type", DetailInputActivity.TODOINPUT);
+                startActivity(detailInput);
                 act_main_appbar_floatingActionsMenu.collapse();
                 overridePendingTransition(R.anim.push_out_left,R.anim.pull_in_right);
             }

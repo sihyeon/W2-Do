@@ -1,6 +1,7 @@
 package com.team.codealmanac.w2do.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.TypedValue;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.team.codealmanac.w2do.DetailInputActivity;
 import com.team.codealmanac.w2do.R;
 import com.team.codealmanac.w2do.database.SQLContract;
 import com.team.codealmanac.w2do.database.SQLiteManager;
@@ -32,11 +34,8 @@ public class InFolderListAdapter extends RecyclerView.Adapter<InFolderTodoListVi
     public InFolderListAdapter(Context context, String folder) {
         mContext = context;
         mSQLiteManager = SQLiteManager.getInstance(mContext);
-        if(folder.equals(SQLContract.DEFUALT_FOLDER_NAME)){
-            mDataList = mSQLiteManager.getAllTodoList();
-        } else {
-            mDataList = mSQLiteManager.getTodoListInFolder(folder);
-        }
+
+        mDataList = mSQLiteManager.getTodoListInFolder(folder);
         if(mDataList == null){
             mDataList = new ArrayList<>();
         }
@@ -50,7 +49,7 @@ public class InFolderListAdapter extends RecyclerView.Adapter<InFolderTodoListVi
 
     @Override
     public void onBindViewHolder(InFolderTodoListViewHolder holder, int position) {
-        Todo model = mDataList.get(position);
+        final Todo model = mDataList.get(position);
         boolean heightChangeFlag = true;
         final int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 64, mContext.getResources().getDisplayMetrics());
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(holder.adp_infodertodo_endline.getLayoutParams());
@@ -58,7 +57,7 @@ public class InFolderListAdapter extends RecyclerView.Adapter<InFolderTodoListVi
         params.height = height;
 
         holder.adp_infodertodo_endline.setBackgroundColor(model.color);
-        if(model.check_state == 1) holder.adp_infodertodo_checkbox.setChecked(true);
+        holder.adp_infodertodo_checkbox.setChecked(false);
 
         holder.adp_infodertodo_content.setText(model.content);
         if (model.alarm_date != 0) holder.adp_infodertodo_alarm_img.setVisibility(View.VISIBLE);
@@ -81,13 +80,32 @@ public class InFolderListAdapter extends RecyclerView.Adapter<InFolderTodoListVi
             heightChangeFlag = false;
         }
         Log.d(TAG, "lat: " + model.latitude + "lon: " + model.longitude);
-        if (model.latitude != -1 && model.longitude != -1) {
+        if (model.latitude != 500 && model.longitude != 500) {
             holder.adp_infodertodo_location_img.setVisibility(View.VISIBLE);
             holder.adp_infodertodo_location_text.setVisibility(View.VISIBLE);
             holder.adp_infodertodo_location_text.setText(model.location_name);
             heightChangeFlag = true;
         }
         if (heightChangeFlag) holder.adp_infodertodo_endline.setLayoutParams(params);
+
+        holder.mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, DetailInputActivity.class);
+                intent.putExtra("type", DetailInputActivity.TODOUPDATE);
+                intent.putExtra("data", model);
+                mContext.startActivity(intent);
+            }
+        });
+
+        holder.adp_infodertodo_checkbox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mSQLiteManager.updateCheckStateInTodo(model._ID);
+                mDataList = mSQLiteManager.getTodoListInFolder(model.folder_name);
+                InFolderListAdapter.this.notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
