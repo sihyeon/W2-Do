@@ -83,6 +83,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
         }
     }
 
+    // TODO: 2017-06-01 폴더
     public void addTodoFolder(String name) {
         sqliteDB.beginTransaction();
         try {
@@ -210,6 +211,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
 //        }
 //    }
 
+    // TODO: 2017-06-01 투두
     public void addTodo(Todo todo) {
         todo.folder_sequence = getCountInFolder(todo.folder_name) + 1;
         sqliteDB.beginTransaction();
@@ -322,6 +324,30 @@ public class SQLiteManager extends SQLiteOpenHelper {
         return tempArray;
     }
 
+    public ArrayList<Todo> getCheckedTodo(){
+        ArrayList<Todo> tempList = new ArrayList<>();
+        sqliteDB.beginTransaction();
+        try{
+            Cursor cursor = sqliteDB.query(SQLContract.TodoEntry.TABLE_NAME, null,
+                    SQLContract.TodoEntry.COLUMN_NAME_CHECK + "=?", new String[]{String.valueOf(1)}, null, null, null);
+            if(cursor.moveToFirst()){
+                do{
+                    Todo Todo = new Todo(cursor.getLong(0), cursor.getLong(1), cursor.getInt(2), cursor.getInt(3),
+                            cursor.getString(4), cursor.getString(5), cursor.getLong(6), cursor.getLong(7), cursor.getLong(8),
+                            cursor.getDouble(9), cursor.getDouble(10), cursor.getString(11), cursor.getString(12));
+                    tempList.add(Todo);
+                }while (cursor.moveToNext());
+            }
+            cursor.close();
+            sqliteDB.setTransactionSuccessful();
+        } catch (Exception e){
+            Log.d(TAG, "Error getCheckedTodo: " + e);
+        } finally {
+            sqliteDB.endTransaction();
+        }
+        return tempList;
+    }
+
     public boolean updateCheckStateInTodo(long _ID){
         sqliteDB.beginTransaction();
         int check_state;
@@ -392,7 +418,8 @@ public class SQLiteManager extends SQLiteOpenHelper {
         }
         return tempArray;
     }
-    
+
+    // TODO: 2017-06-01 메인스케줄
     public boolean setMainSchedule(String content) {
         sqliteDB.beginTransaction();
         try {
@@ -428,6 +455,28 @@ public class SQLiteManager extends SQLiteOpenHelper {
             sqliteDB.endTransaction();
         }
         return null;
+    }
+    public ArrayList<MainSchedule> getAllMainSchedule(){
+        Log.d(TAG, "call getAllMainSchedule");
+        ArrayList<MainSchedule> tempList = new ArrayList<>();
+        sqliteDB.beginTransaction();
+        try{
+            Cursor cursor = sqliteDB.query(SQLContract.MainScheduleEntry.TABLE_NAME, null,
+                    SQLContract.MainScheduleEntry.COLUMN_NAME_CHECK_STATE + "=?", new String[]{String.valueOf(1)}, null, null, null);
+            if(cursor.moveToFirst()){
+                do{
+                    Log.d(TAG, "MainSchedule: " + cursor.getString(2));
+                    tempList.add(new MainSchedule(cursor.getLong(0), cursor.getLong(1), cursor.getString(2), cursor.getInt(3)));
+                }while(cursor.moveToNext());
+            }
+            cursor.close();
+            sqliteDB.setTransactionSuccessful();
+        } catch (Exception e){
+            Log.d(TAG, "Error getAllMainSchedule: " + e);
+        } finally {
+            sqliteDB.endTransaction();
+        }
+        return tempList;
     }
 
     public String updateCheckInMainSchedule(long _ID) {

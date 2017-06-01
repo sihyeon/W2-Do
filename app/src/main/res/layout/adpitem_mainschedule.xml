@@ -6,7 +6,7 @@
     android:orientation="horizontal">
 
     <CheckBox
-        android:id="@+id/adp_simpletoday_checkbox"
+        android:id="@+id/adp_mainschedule_checkbox"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_gravity="center_vertical"
@@ -15,7 +15,7 @@
         android:clickable="false" />
 
     <EditText
-        android:id="@+id/adp_simpletoday_content"
+        android:id="@+id/adp_mainschedule_content"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
