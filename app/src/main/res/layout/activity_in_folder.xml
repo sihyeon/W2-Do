@@ -52,6 +52,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="11dp"
             android:orientation="horizontal">
+            <ImageButton
+                android:id="@+id/act_infolder_simpletodo_input_btn"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
             <EditText
                 android:id="@+id/act_infolder_simpletodo_input_edt"
                 android:layout_width="match_parent"

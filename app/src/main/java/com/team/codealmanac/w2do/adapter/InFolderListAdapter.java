@@ -31,10 +31,12 @@ public class InFolderListAdapter extends RecyclerView.Adapter<InFolderTodoListVi
     private ArrayList<Todo> mDataList;
     private SQLiteManager mSQLiteManager;
     private Context mContext;
+    private String mFolder;
 
     public InFolderListAdapter(Context context, String folder) {
         mContext = context;
         mSQLiteManager = SQLiteManager.getInstance(mContext);
+        mFolder = folder;
         if(folder == null){
             mDataList = mSQLiteManager.getCheckedTodo();
         } else {
@@ -116,6 +118,15 @@ public class InFolderListAdapter extends RecyclerView.Adapter<InFolderTodoListVi
                 InFolderListAdapter.this.notifyDataSetChanged();
             }
         });
+    }
+
+    public void updateList(){
+        if(mFolder == null){
+            mDataList = mSQLiteManager.getCheckedTodo();
+        } else {
+            mDataList = mSQLiteManager.getTodoListInFolder(mFolder);
+        }
+        this.notifyDataSetChanged();
     }
 
     @Override
