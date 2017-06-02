@@ -2,7 +2,7 @@ package com.team.codealmanac.w2do.dialog;
 
 import android.app.DialogFragment;
 import android.content.Context;
-import android.content.DialogInterface;
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -25,20 +25,28 @@ import java.util.Calendar;
  * Created by sihyeon on 2017-01-15.
  */
 
-public class SimpleInputDialogFragment extends DialogFragment implements View.OnClickListener {
+public class SimpleInputDialogFragment extends DialogFragment{
     private final String TAG = "SimpleInputDialog";
     private EditText frag_simpleinput_edittext;
     private InputMethodManager mInputMethodManager;
+    private static final String PARAM = "type";
+    public static final String TYPE_TODO = "todo";
+    public static final String TYPE_FOLDER = "folder";
+    private String mType;
 
     public SimpleInputDialogFragment() {}
-    public static SimpleInputDialogFragment newInstance() {
-        return new SimpleInputDialogFragment();
+
+    public static SimpleInputDialogFragment newInstance(String param) {
+        SimpleInputDialogFragment fragment = new SimpleInputDialogFragment();
+        Bundle args = new Bundle();
+        args.putString(PARAM, param);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setStyle(DialogFragment.STYLE_NO_TITLE, 0);
     }
 
@@ -47,6 +55,7 @@ public class SimpleInputDialogFragment extends DialogFragment implements View.On
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.dialogfragment_simpleinput_todo, container);
         FontContract mFontContract = new FontContract(getDialog().getContext().getAssets());
+        mType = getArguments().getString(PARAM);
 
         TextView frag_simpletodo_header_text = (TextView) v.findViewById(R.id.frag_simpletodo_header_text);
         frag_simpleinput_edittext = (EditText) v.findViewById(R.id.frag_simpleinput_edittext);
@@ -62,33 +71,57 @@ public class SimpleInputDialogFragment extends DialogFragment implements View.On
         frag_simpleinput_cancel_btn.setTypeface(mFontContract.NahumSquareR_Regular());
         frag_simpleinput_submit_btn.setTypeface(mFontContract.NahumSquareR_Regular());
 
-        frag_simpleinput_cancel_btn.setOnClickListener(this);
-        frag_simpleinput_submit_btn.setOnClickListener(this);
-
+        if(mType.equals(TYPE_TODO)){
+            frag_simpleinput_submit_btn.setOnClickListener(onTodoClickListener);
+            frag_simpleinput_cancel_btn.setOnClickListener(onTodoClickListener);
+        } else if(mType.equals(TYPE_FOLDER)){
+            frag_simpletodo_header_text.setText("폴더 추가");
+            frag_simpleinput_edittext.setHint("폴더명을 입력해주세요.");
+            frag_simpleinput_submit_btn.setOnClickListener(onFolderClickListener);
+            frag_simpleinput_cancel_btn.setOnClickListener(onFolderClickListener);
+        }
         return v;
     }
 
-    @Override
-    public void onClick(View view) {
-        if (view.getId() == R.id.frag_simpleinput_submit_btn) {
-            if (TextUtils.isEmpty(frag_simpleinput_edittext.getText())) {
-                frag_simpleinput_edittext.setError("내용을 입력해주세요.");
-                return;
+    private View.OnClickListener onFolderClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (v.getId() == R.id.frag_simpleinput_submit_btn) {
+                if (TextUtils.isEmpty(frag_simpleinput_edittext.getText())) {
+                    frag_simpleinput_edittext.setError("내용을 입력해주세요.");
+                    return;
+                }
+                SQLiteManager sqliteManager = SQLiteManager.getInstance(getDialog().getContext());
+                sqliteManager.addTodoFolder(frag_simpleinput_edittext.getText().toString());
+                dismiss();
+            }else {
+                dismiss();
             }
-            Calendar today = Calendar.getInstance();
-            today.set(Calendar.HOUR, 0);
-            today.set(Calendar.MINUTE, 0);
-            today.set(Calendar.SECOND, 0);
-            long todayTimeInMillis = today.getTimeInMillis();
-            Todo todo = new Todo(todayTimeInMillis, frag_simpleinput_edittext.getText().toString());
-            SQLiteManager sqliteManager = SQLiteManager.getInstance(getDialog().getContext());
-            sqliteManager.addTodo(todo);
-            dismiss();
-        }else {
-            dismiss();
         }
-    }
+    };
 
+    private View.OnClickListener onTodoClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (v.getId() == R.id.frag_simpleinput_submit_btn) {
+                if (TextUtils.isEmpty(frag_simpleinput_edittext.getText())) {
+                    frag_simpleinput_edittext.setError("내용을 입력해주세요.");
+                    return;
+                }
+                Calendar today = Calendar.getInstance();
+                today.set(Calendar.HOUR, 0);
+                today.set(Calendar.MINUTE, 0);
+                today.set(Calendar.SECOND, 0);
+                long todayTimeInMillis = today.getTimeInMillis();
+                Todo todo = new Todo(todayTimeInMillis, frag_simpleinput_edittext.getText().toString());
+                SQLiteManager sqliteManager = SQLiteManager.getInstance(getDialog().getContext());
+                sqliteManager.addTodo(todo);
+                dismiss();
+            }else {
+                dismiss();
+            }
+        }
+    };
 
     @Override
     public void dismiss() {

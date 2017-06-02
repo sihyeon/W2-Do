@@ -1,45 +1,25 @@
 package com.team.codealmanac.w2do;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.GridLayout;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.team.codealmanac.w2do.adapter.InFolderListAdapter;
 import com.team.codealmanac.w2do.contract.FontContract;
-import com.team.codealmanac.w2do.models.Todo;
-import com.team.codealmanac.w2do.viewholder.InFolderTodoListViewHolder;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 public class InFolderActivity extends AppCompatActivity {
-    private DatabaseReference mTodoReference;
-
+    private final String TAG = "InFolderActivity";
     private RecyclerView act_infolder_todolist;
     private InFolderListAdapter mInFolderListAdapter;
     private Toolbar mToolbar;
-
     private String mFolderName;
-
-    private String USER_ID;
-    private final String TAG = "InFolderActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

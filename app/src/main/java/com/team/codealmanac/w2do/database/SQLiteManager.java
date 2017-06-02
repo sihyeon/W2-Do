@@ -23,6 +23,8 @@ public class SQLiteManager extends SQLiteOpenHelper {
     private final String TAG = "SQLiteManager";
     private static final int DATABASE_VERSION = 1;
     private SQLiteDatabase sqliteDB;
+    private final String mOrderByTodo = SQLContract.TodoEntry._ID + " DESC";
+    private final String mOrderByMainSchedule = SQLContract.MainScheduleEntry._ID + " DESC";
 
     //    private static List<FolderSQLiteEventListener> mFolderListener;
 //    private static List<TodoSQLiteEventListener> mTodoListener;
@@ -306,7 +308,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
         try {
             Cursor cursor = sqliteDB.query(SQLContract.TodoEntry.TABLE_NAME,
                     new String[]{SQLContract.TodoEntry._ID, SQLContract.TodoEntry.COLUMN_NAME_CHECK, SQLContract.TodoEntry.COLUMN_NAME_CONTENT},
-                    SQLContract.TodoEntry.COLUMN_NAME_CHECK + "=?", new String[]{String.valueOf(0)}, null, null, null);
+                    SQLContract.TodoEntry.COLUMN_NAME_CHECK + "=?", new String[]{String.valueOf(0)}, null, null, mOrderByTodo);
             if (cursor.moveToFirst()) {
                 do {
                     //name, sequence, todo_count
@@ -329,7 +331,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
         sqliteDB.beginTransaction();
         try{
             Cursor cursor = sqliteDB.query(SQLContract.TodoEntry.TABLE_NAME, null,
-                    SQLContract.TodoEntry.COLUMN_NAME_CHECK + "=?", new String[]{String.valueOf(1)}, null, null, null);
+                    SQLContract.TodoEntry.COLUMN_NAME_CHECK + "=?", new String[]{String.valueOf(1)}, null, null, mOrderByTodo);
             if(cursor.moveToFirst()){
                 do{
                     Todo Todo = new Todo(cursor.getLong(0), cursor.getLong(1), cursor.getInt(2), cursor.getInt(3),
@@ -393,7 +395,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
             if(folder.equals(SQLContract.DEFUALT_FOLDER_NAME)){
                 cursor = sqliteDB.query(SQLContract.TodoEntry.TABLE_NAME,
                         null,
-                        SQLContract.TodoEntry.COLUMN_NAME_CHECK + "=?", new String[]{String.valueOf(0)}, null, null, null);
+                        SQLContract.TodoEntry.COLUMN_NAME_CHECK + "=?", new String[]{String.valueOf(0)}, null, null, mOrderByTodo);
             } else {
                 cursor = sqliteDB.query(SQLContract.TodoEntry.TABLE_NAME,
                         null,
@@ -456,13 +458,13 @@ public class SQLiteManager extends SQLiteOpenHelper {
         }
         return null;
     }
-    public ArrayList<MainSchedule> getAllMainSchedule(){
-        Log.d(TAG, "call getAllMainSchedule");
+    public ArrayList<MainSchedule> getCheckedMainSchedule(){
+        Log.d(TAG, "call getCheckedMainSchedule");
         ArrayList<MainSchedule> tempList = new ArrayList<>();
         sqliteDB.beginTransaction();
         try{
             Cursor cursor = sqliteDB.query(SQLContract.MainScheduleEntry.TABLE_NAME, null,
-                    SQLContract.MainScheduleEntry.COLUMN_NAME_CHECK_STATE + "=?", new String[]{String.valueOf(1)}, null, null, null);
+                    SQLContract.MainScheduleEntry.COLUMN_NAME_CHECK_STATE + "=?", new String[]{String.valueOf(1)}, null, null, mOrderByMainSchedule);
             if(cursor.moveToFirst()){
                 do{
                     Log.d(TAG, "MainSchedule: " + cursor.getString(2));
@@ -472,7 +474,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
             cursor.close();
             sqliteDB.setTransactionSuccessful();
         } catch (Exception e){
-            Log.d(TAG, "Error getAllMainSchedule: " + e);
+            Log.d(TAG, "Error getCheckedMainSchedule: " + e);
         } finally {
             sqliteDB.endTransaction();
         }
