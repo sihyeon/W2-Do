@@ -142,7 +142,7 @@ public class MainActivity extends BaseActivity
         act_main_appbar_folder_floatingbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SimpleInputDialogFragment.newInstance(SimpleInputDialogFragment.TYPE_FOLDER).show(getFragmentManager(), "folder_input");
+                SimpleInputDialogFragment.newInstance(SimpleInputDialogFragment.TYPE_FOLDER_INPUT).show(getFragmentManager(), "folder_input");
                 act_main_appbar_floatingActionsMenu.collapse();
             }
         });
@@ -153,7 +153,7 @@ public class MainActivity extends BaseActivity
         act_main_appbar_simpleInput_floatingbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SimpleInputDialogFragment.newInstance(SimpleInputDialogFragment.TYPE_TODO).show(getFragmentManager(), "simple_input");
+                SimpleInputDialogFragment.newInstance(SimpleInputDialogFragment.TYPE_TODO_INPUT).show(getFragmentManager(), "simple_input");
                 act_main_appbar_floatingActionsMenu.collapse();
             }
         });

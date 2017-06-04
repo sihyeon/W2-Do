@@ -186,7 +186,7 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
         act_detailInput_more_detail_side_btn_memo = (ImageButton)findViewById(R.id.act_detailInput_more_detail_side_btn_memo);
 
         // 폴더 선택 spinner adapter
-        ArrayList<String> spinnerItem = sqliteManager.getAllTodoFolderName();
+        ArrayList<String> spinnerItem = sqliteManager.getAllTodoFolderOnlyName();
         //TODO SQLite 폴더데이터 필요
         ArrayAdapter<String> FolderSpinnerAdapter = new FolderSpinnerAdapter(
                 DetailInputActivity.this, R.layout.adpitem_spinner_text, spinnerItem.toArray(new String[spinnerItem.size()]));

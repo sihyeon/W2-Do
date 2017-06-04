@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import com.team.codealmanac.w2do.R;
 import com.team.codealmanac.w2do.database.SQLiteManager;
 import com.team.codealmanac.w2do.models.SimpleTodo;
-import com.team.codealmanac.w2do.models.Todo;
 
 import com.team.codealmanac.w2do.viewholder.SimpleTodoViewHolder;
 
@@ -35,7 +34,7 @@ public class TodoSimpleListAdapter extends RecyclerView.Adapter<SimpleTodoViewHo
         if(mDataList == null){
             mDataList = new ArrayList<>();
         }
-        mSQLiteManager.setTodoListener(this);
+        mSQLiteManager.setTodoDataListener(this);
     }
 
     @Override
@@ -82,16 +81,8 @@ public class TodoSimpleListAdapter extends RecyclerView.Adapter<SimpleTodoViewHo
     }
 
     @Override
-    public void OnUpdateTodo() {
+    public void OnChangeTodo() {
         mDataList = mSQLiteManager.getSimpleTodo();
         this.notifyDataSetChanged();
-    }
-
-    @Override
-    public void OnAddTodo() {
-//        mDataList.add(new SimpleTodo(todo._ID, todo.check_state, todo.content));
-        mDataList = mSQLiteManager.getSimpleTodo();
-        this.notifyDataSetChanged();
-        Log.d(TAG, "OnAddTodo");
     }
 }

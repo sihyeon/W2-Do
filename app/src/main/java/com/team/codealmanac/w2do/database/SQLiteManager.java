@@ -26,8 +26,6 @@ public class SQLiteManager extends SQLiteOpenHelper {
     private final String mOrderByTodo = SQLContract.TodoEntry._ID + " DESC";
     private final String mOrderByMainSchedule = SQLContract.MainScheduleEntry._ID + " DESC";
 
-    //    private static List<FolderSQLiteEventListener> mFolderListener;
-//    private static List<TodoSQLiteEventListener> mTodoListener;
     private static FolderSQLiteEventListener mFolderListener;
     private static TodoSQLiteEventListener mTodoListener;
 
@@ -49,27 +47,22 @@ public class SQLiteManager extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         init(db);
     }
-
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }
 
-    public void setFolderTodoListener(FolderSQLiteEventListener listener) {
+    public void setFolderTodoDataListener(FolderSQLiteEventListener listener) {
         mFolderListener = listener;
     }
-
-    public void setTodoListener(TodoSQLiteEventListener listener) {
+    public void setTodoDataListener(TodoSQLiteEventListener listener) {
         mTodoListener = listener;
     }
 
     public interface FolderSQLiteEventListener {
-        void OnAddTodoFolder();
-        void OnUpdateTodoFolder();
+        void OnChangeTodoFolder();
     }
-
     public interface TodoSQLiteEventListener {
-        void OnAddTodo();
-        void OnUpdateTodo();
+        void OnChangeTodo();
     }
 
     public void viewDatabaseTable() {
@@ -98,7 +91,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
             sqliteDB.insert(SQLContract.TodoFolderEntry.TABLE_NAME, null, contentValues);
             cursor.close();
             if (mFolderListener != null) {
-                mFolderListener.OnAddTodoFolder();
+                mFolderListener.OnChangeTodoFolder();
             }
             sqliteDB.setTransactionSuccessful();
         } catch (Exception e) {
@@ -116,7 +109,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
                     null, null, null, null, null, SQLContract.TodoFolderEntry.COLUMN_NAME_SEQUENCE);
             if (cursor.moveToFirst()) {
                 do {
-                    //name, sequence, todo_count
+                    //name, sequence, adp_todofolder_count
                     TodoFolder todofolder = new TodoFolder(cursor.getString(0), cursor.getLong(1), cursor.getLong(2));
                     tempArray.add(todofolder);
                 } while (cursor.moveToNext());
@@ -132,7 +125,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
     }
 
     //
-    public ArrayList<String> getAllTodoFolderName() {
+    public ArrayList<String> getAllTodoFolderOnlyName() {
         ArrayList<String> tempArray = new ArrayList<>();
         sqliteDB.beginTransaction();
         try {
@@ -140,7 +133,6 @@ public class SQLiteManager extends SQLiteOpenHelper {
                     new String[]{SQLContract.TodoFolderEntry.COLUMN_NAME_NAME}, null, null, null, null, SQLContract.TodoFolderEntry.COLUMN_NAME_SEQUENCE);
             if (cursor.moveToFirst()) {
                 do {
-                    //name, sequence, todo_count
                     String folderName = cursor.getString(0);
                     tempArray.add(folderName);
                 } while (cursor.moveToNext());
@@ -153,6 +145,30 @@ public class SQLiteManager extends SQLiteOpenHelper {
             sqliteDB.endTransaction();
         }
         return tempArray;
+    }
+
+    public void updateTodoFolderOnlyName(String oldFolderName, String newFolderName){
+        sqliteDB.beginTransaction();
+        try {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(SQLContract.TodoFolderEntry.COLUMN_NAME_NAME, newFolderName);
+            sqliteDB.update(SQLContract.TodoFolderEntry.TABLE_NAME, contentValues,
+                    SQLContract.TodoFolderEntry.COLUMN_NAME_NAME + "=?", new String[]{oldFolderName});
+
+            contentValues.clear();
+            contentValues.put(SQLContract.TodoEntry.COLUMN_NAME_FOLDER, newFolderName);
+            sqliteDB.update(SQLContract.TodoEntry.TABLE_NAME, contentValues,
+                    SQLContract.TodoEntry.COLUMN_NAME_FOLDER + "=?", new String[]{oldFolderName});
+            sqliteDB.setTransactionSuccessful();
+        } catch (Exception e){
+            Log.d(TAG, "Error updateTodoFolderOnlyName: " + e);
+            return;
+        } finally {
+          sqliteDB.endTransaction();
+        }
+        if(mFolderListener != null){
+            mFolderListener.OnChangeTodoFolder();
+        }
     }
 
     private int getCountInFolder(String folderName) {
@@ -244,10 +260,8 @@ public class SQLiteManager extends SQLiteOpenHelper {
         } finally {
             sqliteDB.endTransaction();
         }
-        if (mTodoListener != null && mFolderListener != null) {
-            mTodoListener.OnAddTodo();
-            mFolderListener.OnUpdateTodoFolder();
-        }
+        if (mTodoListener != null) mTodoListener.OnChangeTodo();
+        if (mFolderListener != null) mFolderListener.OnChangeTodoFolder();
     }
 
     public void updateTodo(Todo todo){
@@ -278,10 +292,10 @@ public class SQLiteManager extends SQLiteOpenHelper {
         } finally {
             sqliteDB.endTransaction();
         }
-        if (mTodoListener != null && mFolderListener != null) {
-            mTodoListener.OnAddTodo();
-            mFolderListener.OnUpdateTodoFolder();
-        }
+        if (mTodoListener != null) mTodoListener.OnChangeTodo();
+
+        if (mFolderListener != null) mFolderListener.OnChangeTodoFolder();
+
     }
 
     public void deleteTodo(long _ID, String folderName){
@@ -297,8 +311,8 @@ public class SQLiteManager extends SQLiteOpenHelper {
             sqliteDB.endTransaction();
         }
         if (mTodoListener != null && mFolderListener != null) {
-            mTodoListener.OnAddTodo();
-            mFolderListener.OnUpdateTodoFolder();
+            mTodoListener.OnChangeTodo();
+            mFolderListener.OnChangeTodoFolder();
         }
     }
 
@@ -311,7 +325,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
                     SQLContract.TodoEntry.COLUMN_NAME_CHECK + "=?", new String[]{String.valueOf(0)}, null, null, mOrderByTodo);
             if (cursor.moveToFirst()) {
                 do {
-                    //name, sequence, todo_count
+                    //name, sequence, adp_todofolder_count
                     SimpleTodo simpleTodo = new SimpleTodo(cursor.getLong(0), cursor.getInt(1), cursor.getString(2));
                     tempArray.add(simpleTodo);
                 } while (cursor.moveToNext());
@@ -373,8 +387,8 @@ public class SQLiteManager extends SQLiteOpenHelper {
             }
             cursor.close();
             updateTodoCountInFolder(folderName);
-            if(mTodoListener != null) mTodoListener.OnUpdateTodo();
-            if(mFolderListener != null) mFolderListener.OnUpdateTodoFolder();
+            if(mTodoListener != null) mTodoListener.OnChangeTodo();
+            if(mFolderListener != null) mFolderListener.OnChangeTodoFolder();
             sqliteDB.setTransactionSuccessful();
             return true;
         } catch (Exception e) {
@@ -404,7 +418,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
             }
             if (cursor.moveToFirst()) {
                 do {
-                    //name, sequence, todo_count
+                    //name, sequence, adp_todofolder_count
                     Todo Todo = new Todo(cursor.getLong(0), cursor.getLong(1), cursor.getInt(2), cursor.getInt(3),
                             cursor.getString(4), cursor.getString(5), cursor.getLong(6), cursor.getLong(7), cursor.getLong(8),
                             cursor.getDouble(9), cursor.getDouble(10), cursor.getString(11), cursor.getString(12));
@@ -536,44 +550,47 @@ public class SQLiteManager extends SQLiteOpenHelper {
         //테이블 생성
         db.beginTransaction();
         try {
-            db.execSQL(
-                    "CREATE TABLE " + SQLContract.TodoFolderEntry.TABLE_NAME + " ( " +
-                            SQLContract.TodoFolderEntry.COLUMN_NAME_NAME + " TEXT PRIMARY KEY, " +
-                            SQLContract.TodoFolderEntry.COLUMN_NAME_SEQUENCE + " INTEGER UNIQUE NOT NULL, " +
-                            SQLContract.TodoFolderEntry.COLUMN_NAME_TODO_COUNT + " INTEGER DEFAULT 0 " +
-                            " ) "
-            );
+            db.execSQL("PRAGMA foreign_keys=ON;");
 
-            db.execSQL(
-                    "CREATE TABLE " + SQLContract.TodoEntry.TABLE_NAME + " ( " +
-                            SQLContract.TodoEntry._ID + " INTEGER PRIMARY KEY, " +
-                            SQLContract.TodoEntry.COLUMN_NAME_SEQUENCE + " INTEGER NOT NULL, " +
-                            SQLContract.TodoEntry.COLUMN_NAME_CHECK + " INTEGER CHECK(" + SQLContract.TodoEntry.COLUMN_NAME_CHECK + "= 0 OR " + SQLContract.TodoEntry.COLUMN_NAME_CHECK + " = 1) DEFAULT 0, " +
-                            SQLContract.TodoEntry.COLUMN_NAME_COLOR + " INTEGER NOT NULL, " +
-                            SQLContract.TodoEntry.COLUMN_NAME_FOLDER + " TEXT NOT NULL, " +
-                            SQLContract.TodoEntry.COLUMN_NAME_CONTENT + " TEXT NOT NULL, " +
-                            SQLContract.TodoEntry.COLUMN_NAME_START_DATE + " INTEGER NOT NULL, " +
-                            SQLContract.TodoEntry.COLUMN_NAME_END_DATE + " INTEGER NOT NULL, " +
-                            SQLContract.TodoEntry.COLUMN_NAME_ALARM + " INTEGER, " +
-                            SQLContract.TodoEntry.COLUMN_NAME_LATITUDE + " REAL DEFAULT 500, " +
-                            SQLContract.TodoEntry.COLUMN_NAME_LONGITUDE + " REAL DEFAULT 500, " +
-                            SQLContract.TodoEntry.COLUMN_NAME_LOCATION + " TEXT, " +
-                            SQLContract.TodoEntry.COLUMN_NAME_MEMO + " TEXT " +
-//                        "FOREIGN KEY(" + SQLContract.TodoEntry.COLUMN_NAME_FOLDER + ")" +
-//                        " REFERENCES " + SQLContract.TodoFolderEntry.TABLE_NAME + "(" + SQLContract.TodoFolderEntry.COLUMN_NAME_NAME + ")" +
-//                        " ON DELETE CASCADE" +
-//                        " ON UPDATE CASCADE"
-                            " ) "
-            );
+            String createTodoFolderTableSQL =  "CREATE TABLE " + SQLContract.TodoFolderEntry.TABLE_NAME + " ( " +
+                    SQLContract.TodoFolderEntry.COLUMN_NAME_NAME + " TEXT PRIMARY KEY, " +
+                    SQLContract.TodoFolderEntry.COLUMN_NAME_SEQUENCE + " INTEGER UNIQUE NOT NULL, " +
+                    SQLContract.TodoFolderEntry.COLUMN_NAME_TODO_COUNT + " INTEGER DEFAULT 0 " +
+                    " ) ";
+            db.execSQL(createTodoFolderTableSQL);
+            Log.i(TAG, "Create TodoFolder Table - " + createTodoFolderTableSQL);
 
-            db.execSQL(
-                    "CREATE TABLE " + SQLContract.MainScheduleEntry.TABLE_NAME + " ( " +
-                            SQLContract.MainScheduleEntry._ID + " INTEGER PRIMARY KEY, " +
-                            SQLContract.MainScheduleEntry.COLUMN_NAME_DATE + " INTEGER NOT NULL, " +
-                            SQLContract.MainScheduleEntry.COLUMN_NAME_CONTENT + " TEXT NOT NULL, " +
-                            SQLContract.MainScheduleEntry.COLUMN_NAME_CHECK_STATE + " INTEGER CHECK(" + SQLContract.MainScheduleEntry.COLUMN_NAME_CHECK_STATE + "= 0 OR " + SQLContract.MainScheduleEntry.COLUMN_NAME_CHECK_STATE + " = 1) DEFAULT 0 " +
-                            " ) "
-            );
+            String createTodoTableSQL = "CREATE TABLE " + SQLContract.TodoEntry.TABLE_NAME + " ( " +
+                    SQLContract.TodoEntry._ID + " INTEGER PRIMARY KEY, " +
+                    SQLContract.TodoEntry.COLUMN_NAME_SEQUENCE + " INTEGER NOT NULL, " +
+                    SQLContract.TodoEntry.COLUMN_NAME_CHECK + " INTEGER CHECK(" + SQLContract.TodoEntry.COLUMN_NAME_CHECK + "= 0 OR " + SQLContract.TodoEntry.COLUMN_NAME_CHECK + " = 1) DEFAULT 0, " +
+                    SQLContract.TodoEntry.COLUMN_NAME_COLOR + " INTEGER NOT NULL, " +
+                    SQLContract.TodoEntry.COLUMN_NAME_FOLDER + " TEXT NOT NULL, " +
+                    SQLContract.TodoEntry.COLUMN_NAME_CONTENT + " TEXT NOT NULL, " +
+                    SQLContract.TodoEntry.COLUMN_NAME_START_DATE + " INTEGER NOT NULL, " +
+                    SQLContract.TodoEntry.COLUMN_NAME_END_DATE + " INTEGER NOT NULL, " +
+                    SQLContract.TodoEntry.COLUMN_NAME_ALARM + " INTEGER, " +
+                    SQLContract.TodoEntry.COLUMN_NAME_LATITUDE + " REAL DEFAULT 500, " +
+                    SQLContract.TodoEntry.COLUMN_NAME_LONGITUDE + " REAL DEFAULT 500, " +
+                    SQLContract.TodoEntry.COLUMN_NAME_LOCATION + " TEXT, " +
+                    SQLContract.TodoEntry.COLUMN_NAME_MEMO + " TEXT, " +
+                    "FOREIGN KEY(" + SQLContract.TodoEntry.COLUMN_NAME_FOLDER + ")" +
+                    " REFERENCES " + SQLContract.TodoFolderEntry.TABLE_NAME + "(" + SQLContract.TodoFolderEntry.COLUMN_NAME_NAME + ")" +
+                    " ON DELETE CASCADE" +
+                    " ON UPDATE CASCADE" +
+                    " ) ";
+            db.execSQL(createTodoTableSQL);
+            Log.i(TAG, "Create Todo Table - " + createTodoTableSQL);
+
+            String createMainScheduleTableSQL = "CREATE TABLE " + SQLContract.MainScheduleEntry.TABLE_NAME + " ( " +
+                    SQLContract.MainScheduleEntry._ID + " INTEGER PRIMARY KEY, " +
+                    SQLContract.MainScheduleEntry.COLUMN_NAME_DATE + " INTEGER NOT NULL, " +
+                    SQLContract.MainScheduleEntry.COLUMN_NAME_CONTENT + " TEXT NOT NULL, " +
+                    SQLContract.MainScheduleEntry.COLUMN_NAME_CHECK_STATE + " INTEGER CHECK(" + SQLContract.MainScheduleEntry.COLUMN_NAME_CHECK_STATE + "= 0 OR " + SQLContract.MainScheduleEntry.COLUMN_NAME_CHECK_STATE + " = 1) DEFAULT 0 " +
+                    " ) ";
+            db.execSQL(createMainScheduleTableSQL);
+            Log.i(TAG, "Create MainSchedule Table - " + createMainScheduleTableSQL);
+
             db.setTransactionSuccessful();
         } catch (Exception e) {
             Log.d(TAG, "init(): 생성 에러 - " + e);

@@ -5,9 +5,11 @@
     android:padding="1dp"
     android:background="#30FFFFFF">
     <RelativeLayout
+        android:id="@+id/adp_todofolder_nomal_layout"
         android:layout_width="178dp"
         android:layout_height="108dp"
-        android:background="#40000000">
+        android:background="#40000000"
+        android:visibility="visible">
 
         <TextView
             android:id="@+id/adp_todofolder_name"
@@ -32,4 +34,23 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="24dp"/>
     </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/adp_todofolder_longclick_layout"
+        android:layout_width="178dp"
+        android:layout_height="108dp"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:visibility="gone">
+        <ImageButton
+            android:id="@+id/adp_todofolder_delete_btn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+        <ImageButton
+            android:id="@+id/adp_todofolder_editname_btn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+    </LinearLayout>
 </FrameLayout>
