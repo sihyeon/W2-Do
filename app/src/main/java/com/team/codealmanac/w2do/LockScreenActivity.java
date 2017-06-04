@@ -140,8 +140,6 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
         SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.ENGLISH);
         date.setText(sdf.format(new Date()));
 
-
-
         setGreetingText(null);
     }
 
