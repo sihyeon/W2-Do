@@ -71,4 +71,6 @@
     <color name="windowBackground">#FFFFFF</color>
     <color name="navigationBarColor">#000000</color>
     <color name="colorAccent">@color/blue_grey</color>
+
+    <color name="cursorColor">#0087ff</color>
 </resources>
