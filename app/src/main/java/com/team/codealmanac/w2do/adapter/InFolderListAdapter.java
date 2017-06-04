@@ -2,6 +2,7 @@ package com.team.codealmanac.w2do.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.TypedValue;
@@ -30,12 +31,17 @@ public class InFolderListAdapter extends RecyclerView.Adapter<InFolderTodoListVi
     private ArrayList<Todo> mDataList;
     private SQLiteManager mSQLiteManager;
     private Context mContext;
+    private String mFolder;
 
     public InFolderListAdapter(Context context, String folder) {
         mContext = context;
         mSQLiteManager = SQLiteManager.getInstance(mContext);
-
-        mDataList = mSQLiteManager.getTodoListInFolder(folder);
+        mFolder = folder;
+        if(folder == null){
+            mDataList = mSQLiteManager.getCheckedTodo();
+        } else {
+            mDataList = mSQLiteManager.getTodoListInFolder(folder);
+        }
         if(mDataList == null){
             mDataList = new ArrayList<>();
         }
@@ -57,7 +63,12 @@ public class InFolderListAdapter extends RecyclerView.Adapter<InFolderTodoListVi
         params.height = height;
 
         holder.adp_infodertodo_endline.setBackgroundColor(model.color);
-        holder.adp_infodertodo_checkbox.setChecked(false);
+        if(model.check_state == 1){
+            holder.adp_infodertodo_checkbox.setChecked(true);
+        } else {
+            holder.adp_infodertodo_checkbox.setChecked(false);
+        }
+
 
         holder.adp_infodertodo_content.setText(model.content);
         if (model.alarm_date != 0) holder.adp_infodertodo_alarm_img.setVisibility(View.VISIBLE);
@@ -101,11 +112,21 @@ public class InFolderListAdapter extends RecyclerView.Adapter<InFolderTodoListVi
         holder.adp_infodertodo_checkbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Snackbar.make(v, "ITPANGPANG", Snackbar.LENGTH_SHORT).show();
                 mSQLiteManager.updateCheckStateInTodo(model._ID);
                 mDataList = mSQLiteManager.getTodoListInFolder(model.folder_name);
                 InFolderListAdapter.this.notifyDataSetChanged();
             }
         });
+    }
+
+    public void updateList(){
+        if(mFolder == null){
+            mDataList = mSQLiteManager.getCheckedTodo();
+        } else {
+            mDataList = mSQLiteManager.getTodoListInFolder(mFolder);
+        }
+        this.notifyDataSetChanged();
     }
 
     @Override

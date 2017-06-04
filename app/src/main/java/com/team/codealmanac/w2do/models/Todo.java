@@ -33,6 +33,13 @@ public class Todo implements Serializable{
         this.folder_name = SQLContract.DEFUALT_FOLDER_NAME;
     }
 
+    // InFolder Simple Input
+    public Todo(long date, String content, String folder) {
+        this.start_date = date;
+        this.end_date = date;
+        this.content = content;
+        this.folder_name = folder;
+    }
     public Todo(int color, String folder_name, String content,
                 long start_date, long end_date, long alarm_date, double latitude, double longitude, String location_name, String memo) {
         this.color = color;

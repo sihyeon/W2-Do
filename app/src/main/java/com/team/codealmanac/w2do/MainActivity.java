@@ -35,7 +35,6 @@ import com.team.codealmanac.w2do.database.PreferencesManager;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.team.codealmanac.w2do.database.SQLiteManager;
-import com.team.codealmanac.w2do.dialog.FolderInputDialogFragment;
 import com.team.codealmanac.w2do.dialog.SimpleInputDialogFragment;
 import com.team.codealmanac.w2do.fragment.TodoFolderListFragment;
 import com.team.codealmanac.w2do.fragment.TodoSimpleListFragment;
@@ -143,25 +142,25 @@ public class MainActivity extends BaseActivity
         act_main_appbar_folder_floatingbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FolderInputDialogFragment.newInstance().show(getFragmentManager(), "folder_input");
+                SimpleInputDialogFragment.newInstance(SimpleInputDialogFragment.TYPE_FOLDER).show(getFragmentManager(), "folder_input");
                 act_main_appbar_floatingActionsMenu.collapse();
             }
         });
 
         act_main_appbar_simpleInput_floatingbtn = (com.getbase.floatingactionbutton.FloatingActionButton) findViewById(R.id.act_main_appbar_simpleInput_floatingbtn);
         act_main_appbar_simpleInput_floatingbtn.setStrokeVisible(false);
-        act_main_appbar_simpleInput_floatingbtn.setTitle("Simple Text");
+        act_main_appbar_simpleInput_floatingbtn.setTitle("Simple Todo");
         act_main_appbar_simpleInput_floatingbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SimpleInputDialogFragment.newInstance().show(getFragmentManager(), "simple_input");
+                SimpleInputDialogFragment.newInstance(SimpleInputDialogFragment.TYPE_TODO).show(getFragmentManager(), "simple_input");
                 act_main_appbar_floatingActionsMenu.collapse();
             }
         });
 
         act_main_appbar_detailInput_floatingbtn = (com.getbase.floatingactionbutton.FloatingActionButton) findViewById(R.id.act_main_appbar_detailInput_floatingbtn);
         act_main_appbar_detailInput_floatingbtn.setStrokeVisible(false);
-        act_main_appbar_detailInput_floatingbtn.setTitle("Detail Text");
+        act_main_appbar_detailInput_floatingbtn.setTitle("Detail Todo");
         act_main_appbar_detailInput_floatingbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

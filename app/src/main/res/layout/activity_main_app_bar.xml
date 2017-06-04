@@ -44,6 +44,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
+            android:background="@android:color/transparent"
+            android:elevation="0dp"
             fab:fab_colorNormal="@color/white"
             fab:fab_colorPressed="@color/white_pressed"
             fab:fab_labelStyle="@style/menu_labels_style"
