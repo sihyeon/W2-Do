@@ -98,6 +98,7 @@
     <string name="nav_feedback">사용자님의 소중한 의견을 보내주세요.</string>
     <string name="nav_sendbtn">Send</string>
     <string name="nav_cancelbtn">Cancel</string>
+    <string name="undomessage">이전 상태로 되돌리시겠습니까? </string>
 
     <string name="opensource_header">
         This application is Copyright ⓒ Code Almanac. \n All rights reserved.
