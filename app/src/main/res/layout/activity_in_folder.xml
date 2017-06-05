@@ -47,21 +47,34 @@
         android:orientation="vertical"
         android:paddingStart="16dp"
         android:paddingEnd="16dp">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <RelativeLayout
+            android:layout_width="328dp"
+            android:layout_height="45dp"
             android:layout_marginTop="11dp"
-            android:orientation="horizontal">
-            <ImageButton
-                android:id="@+id/act_infolder_simpletodo_input_btn"
-                android:layout_width="40dp"
-                android:layout_height="40dp"/>
+            android:background="@drawable/bg_infolder_simpleinput"
+            android:paddingStart="11dp"
+            android:paddingEnd="11dp"
+            android:gravity="center_vertical">
             <EditText
                 android:id="@+id/act_infolder_simpletodo_input_edt"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:theme="@style/MyOnBottomLineEditTextTheme"/>
-        </LinearLayout>
+                android:hint="할 일을 입력해주세요."
+                android:textColorHint="@color/real_white"
+                android:background="@null"
+                android:theme="@style/NoBottomLineEditTextTheme"
+                android:layout_alignParentStart="true"
+                android:textColor="@color/real_white"
+                android:maxWidth="275dp"/>
+
+            <ImageButton
+                android:id="@+id/act_infolder_simpletodo_input_btn"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/icn_text_add"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="11dp"/>
+        </RelativeLayout>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/act_infolder_todolist"
             android:layout_width="match_parent"

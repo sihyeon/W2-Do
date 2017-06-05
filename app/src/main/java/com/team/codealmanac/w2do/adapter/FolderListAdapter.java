@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.team.codealmanac.w2do.InFolderActivity;
 import com.team.codealmanac.w2do.R;
+import com.team.codealmanac.w2do.database.SQLContract;
 import com.team.codealmanac.w2do.database.SQLiteManager;
 import com.team.codealmanac.w2do.dialog.SimpleInputDialogFragment;
 import com.team.codealmanac.w2do.models.TodoFolder;
@@ -44,7 +45,7 @@ public class FolderListAdapter extends RecyclerView.Adapter<TodoFolderViewHolder
 
     @Override
     public void onBindViewHolder(final TodoFolderViewHolder holder, int position) {
-        TodoFolder todoFolder = mDataList.get(position);
+        final TodoFolder todoFolder = mDataList.get(position);
         holder.adp_todofolder_name.setText(todoFolder.name);
         holder.adp_todofolder_count.setText( String.valueOf(todoFolder.todo_count) );
 
@@ -59,6 +60,7 @@ public class FolderListAdapter extends RecyclerView.Adapter<TodoFolderViewHolder
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
+                if(todoFolder.name.equals(SQLContract.DEFUALT_FOLDER_NAME)) return false;
                 changeFromNomalLayoutToLongClickLayout(holder);
                 return true;
             }
@@ -67,11 +69,11 @@ public class FolderListAdapter extends RecyclerView.Adapter<TodoFolderViewHolder
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(holder.itemView.getContext());
-                builder.setMessage("폴더를 삭제하시겠습니까?").setCancelable(
+                builder.setMessage("폴더 안의 투두들도 삭제됩니다. 폴더를 삭제하시겠습니까?").setCancelable(
                         false).setPositiveButton("Yes",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-
+                                mSQLiteManager.deleteTodoFolder(todoFolder.name);
                                 // Action for 'Yes' Button
                             }
                         }).setNegativeButton("No",

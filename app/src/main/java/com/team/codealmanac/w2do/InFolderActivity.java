@@ -49,9 +49,11 @@ public class InFolderActivity extends AppCompatActivity implements View.OnClickL
             }
         });
         FontContract font = new FontContract(getAssets());
-        TextView titleText = (TextView)mToolbar.findViewById(R.id.act_infolder_toolbar_title);
-        titleText.setText(mFolderName);
-        titleText.setTypeface(font.NahumSquareB_Regular());
+        TextView act_infolder_toolbar_title = (TextView)mToolbar.findViewById(R.id.act_infolder_toolbar_title);
+        act_infolder_toolbar_title.setText(mFolderName);
+
+        act_infolder_simpletodo_input_edt.setTypeface(font.NahumSquareR_Regular());
+        act_infolder_toolbar_title.setTypeface(font.NahumSquareB_Regular());
     }
 
     @Override

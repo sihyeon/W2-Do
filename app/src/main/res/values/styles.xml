@@ -83,4 +83,8 @@
         <item name="colorControlActivated">@color/red</item>
         <item name="colorControlHighlight">@color/red</item>
     </style>
+
+    <style name="NoBottomLineEditTextTheme">
+        <item name="android:textCursorDrawable">@color/real_white</item>
+    </style>
 </resources>
