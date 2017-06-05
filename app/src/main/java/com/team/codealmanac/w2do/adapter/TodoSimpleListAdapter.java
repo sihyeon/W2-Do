@@ -52,21 +52,22 @@ public class TodoSimpleListAdapter extends RecyclerView.Adapter<SimpleTodoViewHo
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "OnClick Call");
-                if(mSQLiteManager.updateCheckStateInTodo(mDataList.get(position)._ID)){
-//                    Animation goneAnimation = new AlphaAnimation(1, 0);
-//                    goneAnimation.setDuration(1000);
-//                    goneAnimation.setAnimationListener(new Animation.AnimationListener() {
-//                        @Override
-//                        public void onAnimationStart(Animation animation) {}
-//                        @Override
-//                        public void onAnimationEnd(Animation animation) {
-//                            holder.mView.setVisibility(View.GONE);
-//                        }
-//                        @Override
-//                        public void onAnimationRepeat(Animation animation) {}
-//                    });
-//                    holder.mView.startAnimation(goneAnimation);
-                }
+                mSQLiteManager.updateCheckStateInTodo(mDataList.get(position)._ID);
+//                if(mSQLiteManager.updateCheckStateInTodo(mDataList.get(position)._ID)){
+////                    Animation goneAnimation = new AlphaAnimation(1, 0);
+////                    goneAnimation.setDuration(1000);
+////                    goneAnimation.setAnimationListener(new Animation.AnimationListener() {
+////                        @Override
+////                        public void onAnimationStart(Animation animation) {}
+////                        @Override
+////                        public void onAnimationEnd(Animation animation) {
+////                            holder.mView.setVisibility(View.GONE);
+////                        }
+////                        @Override
+////                        public void onAnimationRepeat(Animation animation) {}
+////                    });
+////                    holder.mView.startAnimation(goneAnimation);
+//                }
             }
         };
         holder.mView.setOnClickListener(itemClickListener);

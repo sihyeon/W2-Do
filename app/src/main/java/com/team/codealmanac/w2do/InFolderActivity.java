@@ -20,6 +20,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -171,6 +172,10 @@ public class InFolderActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.act_infolder_simpletodo_input_btn:
+                if(TextUtils.isEmpty(act_infolder_simpletodo_input_edt.getText())){
+                    act_infolder_simpletodo_input_edt.setError("입력된 할일이 없습니다.");
+                    return;
+                }
                 SQLiteManager sqliteManager = SQLiteManager.getInstance(getApplicationContext());
                 Calendar today = Calendar.getInstance();
                 today.set(Calendar.HOUR, 0);

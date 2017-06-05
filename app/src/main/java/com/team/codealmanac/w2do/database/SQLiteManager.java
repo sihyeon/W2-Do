@@ -216,13 +216,15 @@ public class SQLiteManager extends SQLiteOpenHelper {
                 " SET " + SQLContract.TodoFolderEntry.COLUMN_NAME_TODO_COUNT + " = "
                 + "( SELECT COUNT(*) FROM " + SQLContract.TodoEntry.TABLE_NAME
                 + " WHERE " + SQLContract.TodoFolderEntry.TABLE_NAME + "." + SQLContract.TodoFolderEntry.COLUMN_NAME_NAME + " = "
-                + SQLContract.TodoEntry.TABLE_NAME + "." + SQLContract.TodoEntry.COLUMN_NAME_FOLDER + " )"
+                + SQLContract.TodoEntry.TABLE_NAME + "." + SQLContract.TodoEntry.COLUMN_NAME_FOLDER
+                + " AND " + SQLContract.TodoEntry.TABLE_NAME + "." + SQLContract.TodoEntry.COLUMN_NAME_CHECK + " = " + "0" + " )"
                 + " WHERE " + SQLContract.TodoFolderEntry.COLUMN_NAME_NAME + " != '" + SQLContract.DEFUALT_FOLDER_NAME + "'";
         sqliteDB.execSQL(updateSQL);
 
         updateSQL = "UPDATE " + SQLContract.TodoFolderEntry.TABLE_NAME +
                 " SET " + SQLContract.TodoFolderEntry.COLUMN_NAME_TODO_COUNT + " = "
-                + "( SELECT COUNT(*) FROM " + SQLContract.TodoEntry.TABLE_NAME + " )"
+                + "( SELECT COUNT(*) FROM " + SQLContract.TodoEntry.TABLE_NAME
+                + " WHERE " + SQLContract.TodoEntry.TABLE_NAME + "." + SQLContract.TodoEntry.COLUMN_NAME_CHECK + " = " + "0" + " )"
                 + " WHERE " + SQLContract.TodoFolderEntry.COLUMN_NAME_NAME + " = '" + SQLContract.DEFUALT_FOLDER_NAME + "'";
         sqliteDB.execSQL(updateSQL);
     }
@@ -361,16 +363,14 @@ public class SQLiteManager extends SQLiteOpenHelper {
         return tempList;
     }
 
-    public boolean updateCheckStateInTodo(long _ID){
+    public void updateCheckStateInTodo(long _ID){
         sqliteDB.beginTransaction();
         int check_state;
-        String folderName;
         try{
             Cursor cursor = sqliteDB.query(SQLContract.TodoEntry.TABLE_NAME, new String[]{SQLContract.TodoEntry.COLUMN_NAME_CHECK, SQLContract.TodoEntry.COLUMN_NAME_FOLDER},
                     SQLContract.TodoEntry._ID + "=?", new String[]{String.valueOf(_ID)}, null, null, null);
-            if(!cursor.moveToFirst()) return false;
+            if(!cursor.moveToFirst()) return;
             check_state = cursor.getInt(0);
-            folderName = cursor.getString(1);
             if(check_state == 0){
                 ContentValues contentValues = new ContentValues();
                 contentValues.put(SQLContract.TodoEntry.COLUMN_NAME_CHECK, 1);
@@ -382,19 +382,17 @@ public class SQLiteManager extends SQLiteOpenHelper {
                 sqliteDB.update(SQLContract.TodoEntry.TABLE_NAME, contentValues,
                         SQLContract.TodoEntry._ID + " =?", new String[]{String.valueOf(_ID)});
             }
-            cursor.close();
             updateTodoCountInFolder();
-            if(mTodoListener != null) mTodoListener.OnChangeTodo();
-            if(mFolderListener != null) mFolderListener.OnChangeTodoFolder();
+            cursor.close();
             sqliteDB.setTransactionSuccessful();
-            return true;
         } catch (Exception e) {
             Log.d(TAG, "Error updateCheckStateInTodo: " + e);
+            return;
         } finally {
             sqliteDB.endTransaction();
-
         }
-        return false;
+        if(mTodoListener != null) mTodoListener.OnChangeTodo();
+        if(mFolderListener != null) mFolderListener.OnChangeTodoFolder();
     }
 
 
