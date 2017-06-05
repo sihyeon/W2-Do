@@ -50,7 +50,7 @@
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="113dp"
             android:layout_height="30dp"
-            android:background="@drawable/fragment_simpleinput_cancel_btn"
+            android:background="@drawable/dialog_cancel_btn"
             android:text="@string/todayCancelbtn"
             android:textColor="#999999"
             android:textSize="13dp" />

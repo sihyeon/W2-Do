@@ -5,6 +5,7 @@ import android.app.DialogFragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -102,8 +103,11 @@ public class SimpleInputDialogFragment extends DialogFragment {
 
             case TYPE_FOLDER_UPDATE:
                 mFolderName = getArguments().getString(PARAM2);
-                frag_simpletodo_header_text.setText("폴더명 변경");
+                frag_simpletodo_header_text.setText("폴더 이름 변경");
                 frag_simpleinput_edittext.setHint("폴더명을 입력해주세요.");
+                frag_simpleinput_edittext.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
+                frag_simpletodo_header_text.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
+                frag_simpletodo_header_text.setTypeface(mFontContract.NahumSquareB_Regular());
                 frag_simpleinput_submit_btn.setOnClickListener(onFolderUpdateClickListener);
                 frag_simpleinput_cancel_btn.setOnClickListener(onFolderUpdateClickListener);
                 break;
