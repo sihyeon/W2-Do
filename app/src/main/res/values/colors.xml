@@ -8,10 +8,6 @@
     <color name="real_white">#FFFFFF</color>
     <color name="real_black">#000000</color>
 
-    <!--<color name="colorPrimary">@color/blue_grey</color>-->
-    <!--<color name="colorPrimaryDark">@color/blue_grey</color>-->
-    <!--<color name="colorAccent">@color/blue_grey</color>-->
-
     <color name="light_blue_100">#00000000</color>
     <color name="light_blue_300">#00000000</color>    //생성되어있는 폴더 색상
     <color name="light_blue_500">#FFC900</color>    // 클릭 시 색상
@@ -44,26 +40,31 @@
     <color name="white">#f3f3f3</color>
 
     <!-- color picker -->
-    <color name="red">#F6402C</color>
-    <color name="pink">#EB1460</color>
-    <color name="purple">#9C1AB1</color>
-    <color name="deep_purple">#6633B9</color>
-    <color name="indigo">#3D4DB7</color>
-    <color name="blue">#1093F5</color>
-    <color name="light_blue">#00A6F6</color>
-    <color name="cyan">#00BBD5</color>
-    <color name="teal">#009687</color>
-    <color name="green">#46AF4A</color>
-    <color name="light_green">#88C440</color>
-    <color name="lime">#CCDD1E</color>
-    <color name="yellow">#FFEC16</color>
-    <color name="amber">#FFC100</color>
-    <color name="orange">#FF9800</color>
-    <color name="deep_orange">#FF5505</color>
-    <color name="brown">#7A5547</color>
-    <color name="gray">#9D9D9D</color>
-    <color name="blue_grey">#5E7C8B</color>
-
+    <color name="red">#ff9f9f</color>
+    <color name="pink">#f2f765</color>
+    <color name="purple">#94ded4</color>
+    <color name="deep_purple">#a8c8f9</color>
+    <color name="indigo">#ccd1ff</color>
+    <color name="blue">#ff6060</color>
+    <color name="light_blue">#d0e94d</color>
+    <color name="cyan">#2ed7d2</color>
+    <color name="teal">#84b8ff</color>
+    <color name="green">#c6b7ff</color>
+    <color name="light_green">#ff7297</color>
+    <color name="lime">#ffd75c</color>
+    <color name="yellow">#39b0b0</color>
+    <color name="amber">#32a1ff</color>
+    <color name="orange">#8d7cca</color>
+    <color name="deep_orange">#ff324f</color>
+    <color name="brown">#ffa800</color>
+    <color name="gray">#15b985</color>
+    <color name="blue_grey">#5980f1</color>
+    <color name="color1">#821af6</color>
+    <color name="color2">#ff4e00</color>
+    <color name="color3">#d7d7d7</color>
+    <color name="color4">#8b9ab7</color>
+    <color name="color5">#3f5681</color>
+    <color name="color6">#424242</color>
     <!-- Tab Colors-->
     <color name="colorPrimary">#125688</color>
     <color name="colorPrimaryDark">#125688</color>
@@ -71,4 +72,6 @@
     <color name="windowBackground">#FFFFFF</color>
     <color name="navigationBarColor">#000000</color>
     <color name="colorAccent">@color/blue_grey</color>
+
+    <color name="cursorColor">#0087ff</color>
 </resources>

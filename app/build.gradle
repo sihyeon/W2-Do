@@ -33,13 +33,7 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    //android support
-    //google gms
-    //firebase
-    //user custom library
-    //Glide
-    // If you want to use the GPU Filters
-    //colorpicker
+
 
     compile 'com.android.support:animated-vector-drawable:25.3.1'
     compile 'com.android.support:mediarouter-v7:25.3.1'
@@ -57,7 +51,7 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'jp.wasabeef:glide-transformations:2.0.1'
     compile 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.3.0'
-    compile 'petrov.kristiyan.colorpicker:colorpicker-library:1.1.2'
+    compile 'petrov.kristiyan:colorpicker-library:1.1.4'
     compile 'com.firebaseui:firebase-ui-database:1.1.0'
 
     testCompile 'junit:junit:4.12'

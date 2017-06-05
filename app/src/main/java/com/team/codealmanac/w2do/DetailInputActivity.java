@@ -402,8 +402,9 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
     //컬러피커
     private void setColorPicker(){
         final ColorPicker colorPicker = new ColorPicker(DetailInputActivity.this);
-        // 다이얼로그 레이아웃 배경색 지정
-        colorPicker.getDialogBaseLayout().setBackgroundColor(Color.parseColor("#FFFFFFFF"));
+        // 다이얼로그 레이아웃 배경색 지정 left top bottom right 순 패딩임
+        colorPicker.setTitle("").getDialogBaseLayout().setBackgroundColor(Color.parseColor("#FFFFFFFF"));
+        colorPicker.setColorButtonMargin(10,10,10,10).setTitlePadding(0,-15,0,0);
         // 팔레트 색상 지정
         colorPicker.setColors(
                 ContextCompat.getColor(getApplicationContext(), R.color.red),
@@ -424,7 +425,13 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
                 ContextCompat.getColor(getApplicationContext(), R.color.deep_orange),
                 ContextCompat.getColor(getApplicationContext(), R.color.brown),
                 ContextCompat.getColor(getApplicationContext(), R.color.gray),
-                ContextCompat.getColor(getApplicationContext(), R.color.blue_grey));
+                ContextCompat.getColor(getApplicationContext(), R.color.blue_grey),
+                ContextCompat.getColor(getApplicationContext(), R.color.color1),
+                ContextCompat.getColor(getApplicationContext(), R.color.color2),
+                ContextCompat.getColor(getApplicationContext(), R.color.color3),
+                ContextCompat.getColor(getApplicationContext(), R.color.color4),
+                ContextCompat.getColor(getApplicationContext(), R.color.color5),
+                ContextCompat.getColor(getApplicationContext(), R.color.color6));
         colorPicker.setOnFastChooseColorListener(new ColorPicker.OnFastChooseColorListener() {
             @Override
             public void setOnFastChooseColorListener(int position, int color) {

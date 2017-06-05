@@ -362,14 +362,17 @@ public class MainActivity extends BaseActivity
     public void createNotification(){
         AlarmManager am = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(MainActivity.this, PushAlarmReciever.class);
-        PendingIntent sender = PendingIntent.getBroadcast(MainActivity.this,0,intent,0);
+        PendingIntent sender = PendingIntent.getBroadcast(MainActivity.this, 5, intent, 0);
 
         Calendar calendar = Calendar.getInstance();
 
-        calendar.set(Calendar.HOUR_OF_DAY,7);
+        calendar.set(Calendar.HOUR_OF_DAY,9);
+        calendar.set(Calendar.AM_PM,1);
         calendar.set(Calendar.MINUTE,0);
         calendar.set(Calendar.SECOND,0);
-        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24*60*60*1000, sender);
+        calendar.set(Calendar.MILLISECOND,0);
+
+        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24 * 60 * 60 * 1000, sender);
 
     }
 

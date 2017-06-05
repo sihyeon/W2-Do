@@ -45,6 +45,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:background="@android:color/transparent"
+            android:src="@drawable/btn_floating_s_add"
             android:elevation="0dp"
             fab:fab_colorNormal="@color/white"
             fab:fab_colorPressed="@color/white_pressed"
