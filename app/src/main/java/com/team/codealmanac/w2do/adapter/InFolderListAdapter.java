@@ -13,9 +13,12 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.team.codealmanac.w2do.DetailInputActivity;
+import com.team.codealmanac.w2do.InFolderActivity;
 import com.team.codealmanac.w2do.R;
 import com.team.codealmanac.w2do.database.SQLiteManager;
 import com.team.codealmanac.w2do.models.Todo;
@@ -25,10 +28,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-
-/**
- * Created by Choi Jaeung on 2017-05-23.
- */
 
 public class InFolderListAdapter extends RecyclerView.Adapter<InFolderTodoListViewHolder> {
     private final String TAG = "InFolderListAdapter";
@@ -50,7 +49,6 @@ public class InFolderListAdapter extends RecyclerView.Adapter<InFolderTodoListVi
         if(mDataList == null){
             mDataList = new ArrayList<>();
         }
-
     }
 
     @Override
@@ -61,15 +59,18 @@ public class InFolderListAdapter extends RecyclerView.Adapter<InFolderTodoListVi
 
     @Override
     public void onBindViewHolder(final InFolderTodoListViewHolder holder, int position) {
+
         final Todo model = mDataList.get(position);
+
         boolean heightChangeFlag = true;
         final int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 64, mContext.getResources().getDisplayMetrics());
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(holder.adp_infodertodo_endline.getLayoutParams());
         params.addRule(RelativeLayout.ALIGN_PARENT_END);
         params.height = height;
 
+
         holder.adp_infodertodo_endline.setBackgroundColor(model.color);
-        if(model.check_state == 1){
+        if (model.check_state == 1) {
             holder.adp_infodertodo_checkbox.setChecked(true);
         } else {
             holder.adp_infodertodo_checkbox.setChecked(false);
@@ -142,4 +143,12 @@ public class InFolderListAdapter extends RecyclerView.Adapter<InFolderTodoListVi
         }
         return 0;
     }
+
+    public void removeItem(int position){
+        mDataList.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position,mDataList.size());
+        InFolderListAdapter.this.notifyDataSetChanged();
+    }
+
 }

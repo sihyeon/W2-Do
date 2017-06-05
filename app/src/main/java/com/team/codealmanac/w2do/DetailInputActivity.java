@@ -404,6 +404,7 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
         final ColorPicker colorPicker = new ColorPicker(DetailInputActivity.this);
         // 다이얼로그 레이아웃 배경색 지정
         colorPicker.getDialogBaseLayout().setBackgroundColor(Color.parseColor("#FFFFFFFF"));
+        colorPicker.setColorButtonMargin(10,10,10,10).setTitlePadding(1,1,1,1);
         // 팔레트 색상 지정
         colorPicker.setColors(
                 ContextCompat.getColor(getApplicationContext(), R.color.red),

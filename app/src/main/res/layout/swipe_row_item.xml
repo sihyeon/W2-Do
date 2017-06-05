@@ -1,38 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_marginBottom="1dp"
     android:layout_width="match_parent"
-    android:layout_height="56dp"
-    >
+    android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/title_text_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_vertical"
-        android:layout_margin="16dp"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        />
-
-    <Button
-        android:id="@+id/undo_button"
+        android:id="@+id/tv_country"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_gravity="center"
+        android:textSize="18sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="button_undo"
-        android:textAllCaps="true"
-        android:textColor="@android:color/white"
-        android:layout_gravity="end|center_vertical"
-        style="@style/Base.Widget.AppCompat.Button.Borderless"
-        />
+        android:textStyle="bold" />
 
-    <!-- quick and dirty divider -->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
-        android:layout_gravity="bottom"
-        />
-
-</FrameLayout>
+</LinearLayout>

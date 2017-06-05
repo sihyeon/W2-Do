@@ -33,13 +33,7 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    //android support
-    //google gms
-    //firebase
-    //user custom library
-    //Glide
-    // If you want to use the GPU Filters
-    //colorpicker
+
 
     compile 'com.android.support:animated-vector-drawable:25.3.1'
     compile 'com.android.support:mediarouter-v7:25.3.1'
