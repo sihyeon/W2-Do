@@ -80,6 +80,7 @@ public class FolderListAdapter extends RecyclerView.Adapter<TodoFolderViewHolder
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 // Action for 'NO' Button
+                                changeFromLongClickLayoutToNomalLayout(holder);
                                 dialog.cancel();
                             }
                         });
