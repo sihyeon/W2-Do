@@ -23,6 +23,7 @@
     <style name="AppTheme.TransparentStatusBarOnToolbar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowContentTransitions">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:fitsSystemWindows">true</item>
     </style>
@@ -86,5 +87,15 @@
 
     <style name="NoBottomLineEditTextTheme">
         <item name="android:textCursorDrawable">@color/real_white</item>
+    </style>
+
+    <style name="MaterialAnimations" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <!-- specify enter and exit transitions -->
+        <item name="android:windowEnterTransition">@transition/activity_slide</item>
+        <item name="android:windowExitTransition">@transition/activity_fade</item>
+
+        <!-- specify shared element transitions -->
+        <item name="android:windowSharedElementEnterTransition">@transition/activity_slide</item>
+        <item name="android:windowSharedElementExitTransition">@transition/activity_fade</item>
     </style>
 </resources>

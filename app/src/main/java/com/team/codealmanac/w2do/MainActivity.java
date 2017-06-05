@@ -18,6 +18,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.transition.Slide;
+import android.transition.TransitionInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -230,9 +232,14 @@ public class MainActivity extends BaseActivity
 
         act_main_greetingmsg.setTypeface(mFontContract.NahumSquareR_Regular());
         act_main_user_name.setTypeface(mFontContract.NahumSquareR_Regular());
+        setupWindowAnimation();
+    }
 
-
-
+    private void setupWindowAnimation(){
+        Slide slide  =  new Slide();
+        slide.setDuration(1000);
+        getWindow().setEnterTransition(slide);
+        getWindow().setReturnTransition(slide);
     }
 
     @Override
@@ -318,7 +325,6 @@ public class MainActivity extends BaseActivity
                             .hide(mTodoFolderListFragment)
                             .show(mTodoSimpleListFragment)
                             .commit();
-
                     isFolderFragment = false;
                     act_main_appbar_folder_floatingbtn.setVisibility(View.GONE);
                     item.setIcon(R.drawable.btn_gridview);
