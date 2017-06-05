@@ -40,6 +40,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigInfo;
+import com.team.codealmanac.w2do.assistant.GoogleAPIAssistant;
 import com.team.codealmanac.w2do.database.PreferencesManager;
 import com.team.codealmanac.w2do.models.User;
 
@@ -52,13 +53,13 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
         (f)signIn() -> (f)onActivityResult() -> (firebaseAuthWithGoogle)AuthCredential 호출 -> 호출 성공 시 AuthStateListener의 onAuthStateChanged 콜백
      */
 
-public class LoginActivity extends BaseActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener{
+public class LoginActivity extends BaseActivity implements /*GoogleApiClient.OnConnectionFailedListener,*/ View.OnClickListener{
     private static final String TAG = "LoginActivity";
     private static final int RC_SIGN_IN = 9001;
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private GoogleApiClient mGoogleApiClient;
+//    private GoogleApiClient mGoogleApiClient;
 
     private ImageView act_login_logo_image;
     //nonuser 레이아웃(로그인 안됐을 경우)
@@ -79,6 +80,7 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
     private DatabaseReference mPublicUserReference;
     private DatabaseReference mNicknameReference;
 
+    private GoogleAPIAssistant mGoogleAPIAssistant;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,14 +92,16 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
         mNicknameReference = FirebaseDatabase.getInstance().getReference().child("nickname");
 
         //구글 로그인
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
+//        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                .requestIdToken(getString(R.string.default_web_client_id))
+//                .requestEmail()
+//                .build();
+//        mGoogleApiClient = new GoogleApiClient.Builder(this)
+//                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+//                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+//                .build();
+        mGoogleAPIAssistant = new GoogleAPIAssistant(getApplicationContext(), LoginActivity.this);
+//        mGoogleAPIAssistant = GoogleAPIAssistant.newInstance(getApplicationContext(), LoginActivity.this);
         mAuth = FirebaseAuth.getInstance();
 
         Typeface font = Typeface.createFromAsset(getAssets(), "NanumSquareR.ttf");
@@ -224,12 +228,12 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
                             final FirebaseUser user = task.getResult().getUser();
                             User userModel = new User(user.getEmail(), user.getDisplayName(), user.getPhotoUrl().toString());
                             mUserReference.child(user.getUid()).setValue(userModel);
-                            mPublicUserReference.orderByChild("email").equalTo(user.getEmail()).addListenerForSingleValueEvent(new ValueEventListener() {
+                            mPublicUserReference.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
                                     if(dataSnapshot.exists()) return;
                                     User publicUserModel = new User(user.getEmail(), user.getDisplayName());
-                                    mPublicUserReference.child(mPublicUserReference.push().getKey()).setValue(publicUserModel);
+                                    mPublicUserReference.child(user.getUid()).setValue(publicUserModel);
                                 }
                                 @Override
                                 public void onCancelled(DatabaseError databaseError) {}
@@ -248,25 +252,26 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
     // [START signin]
     private void signIn() {
         Log.d(TAG, "signIn");
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-        startActivityForResult(signInIntent, RC_SIGN_IN);
+//        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        Intent intent = mGoogleAPIAssistant.signIn();
+        startActivityForResult(intent, RC_SIGN_IN);
     }
     // [END signin]
 
-    private void signOut() {
-        // Firebase sign out
-        mAuth.signOut();
-        // Google sign out
-        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(@NonNull Status status) {
-                        updateUI(null);
-                    }
-                });
-        //프리퍼런스로 등록된 닉네임 데이터 삭제
-        PreferencesManager.deleteNickname(getApplicationContext());
-    }
+//    private void signOut() {
+//        // Firebase sign out
+//        mAuth.signOut();
+//        // Google sign out
+//        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+//                new ResultCallback<Status>() {
+//                    @Override
+//                    public void onResult(@NonNull Status status) {
+//                        updateUI(null);
+//                    }
+//                });
+//        //프리퍼런스로 등록된 닉네임 데이터 삭제
+//        PreferencesManager.deleteNickname(getApplicationContext());
+//    }
 
     private void updateUI(FirebaseUser user) {
         if (user != null) {
@@ -292,11 +297,11 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
         }
     }
 
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Log.d(TAG, "onConnectionFailed:" + connectionResult);
-        Toast.makeText(this, "연결에 실패하였습니다. 데이터 네트워크를 킨 후 다시 시도해주십시오.", Toast.LENGTH_SHORT).show();
-    }
+//    @Override
+//    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+//        Log.d(TAG, "onConnectionFailed:" + connectionResult);
+//        Toast.makeText(this, "연결에 실패하였습니다. 데이터 네트워크를 킨 후 다시 시도해주십시오.", Toast.LENGTH_SHORT).show();
+//    }
 
     @Override
     public void onClick(View v) {
@@ -304,9 +309,9 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
             case R.id.act_login_signin_button:           //로그인 버튼 클릭
                 signIn();
                 break;
-            case R.id.act_login_logo_image:               //로고 이미지 클릭
-                signOut();
-                break;
+//            case R.id.act_login_logo_image:               //로고 이미지 클릭
+//                signOut();
+//                break;
             case R.id.act_login_nick_input_btn:           //닉네임 입력 버튼 클릭
                 String nickname = act_login_nickname_edit.getText().toString();
                 if (TextUtils.isEmpty(nickname)) {

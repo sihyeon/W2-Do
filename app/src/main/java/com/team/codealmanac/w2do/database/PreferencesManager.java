@@ -17,39 +17,22 @@ import java.util.ArrayList;
 public final class PreferencesManager {
     //nickname
     public static void setNickname(Context context, String nickname){
+        context = context.getApplicationContext();
         SharedPreferences userInfoPref = context.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = userInfoPref.edit();
         editor.putString("nickname"/* key */, nickname);
         editor.apply();
     }
     public static String getNickname(Context context){
+        context = context.getApplicationContext();
         SharedPreferences userInfoPref = context.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         return userInfoPref.getString("nickname"/*key*/, null/*default*/);
     }
     public static void deleteNickname(Context context){
+        context = context.getApplicationContext();
         SharedPreferences userInfoPref = context.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = userInfoPref.edit();
         editor.remove("nickname");
-        editor.apply();
-    }
-    //
-//    public static void setDatabaseVersion(Context context){
-//        SharedPreferences dbInfoPref = context.getSharedPreferences("dbInfo", Context.MODE_PRIVATE);
-//        SharedPreferences.Editor editor = dbInfoPref.edit();
-//        editor.putString("version", String.valueOf(0));
-//        editor.apply();
-//    }
-    public static void addDatabaseVersion(Context context){
-        SharedPreferences dbInfoPref = context.getSharedPreferences("dbInfo", Context.MODE_PRIVATE);
-        long version = Long.getLong(dbInfoPref.getString("version", String.valueOf(0)));
-        SharedPreferences.Editor editor = dbInfoPref.edit();
-        editor.putString("version", String.valueOf(version+1));
-        editor.apply();
-    }
-    public static void deleteDatabaseVersion(Context context){
-        SharedPreferences dbInfoPref = context.getSharedPreferences("dbInfo", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = dbInfoPref.edit();
-        editor.remove("version");
         editor.apply();
     }
 }
