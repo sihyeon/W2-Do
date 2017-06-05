@@ -145,10 +145,9 @@ public class InFolderListAdapter extends RecyclerView.Adapter<InFolderTodoListVi
     }
 
     public void removeItem(int position){
-        mDataList.remove(position);
-        notifyItemRemoved(position);
-        notifyItemRangeChanged(position,mDataList.size());
-        InFolderListAdapter.this.notifyDataSetChanged();
+        mSQLiteManager.deleteTodo(mDataList.get(position)._ID);
+        mDataList = mSQLiteManager.getTodoListInFolder(mFolder);
+        this.notifyDataSetChanged();
     }
 
 }

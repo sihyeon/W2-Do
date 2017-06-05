@@ -531,7 +531,7 @@ public class DetailInputActivity extends AppCompatActivity implements View.OnCli
                 setTodo();
                 break;
             case R.id.frag_detailtodo_toolbar_delete_btn:
-                sqliteManager.deleteTodo(mUpdateTodoID, act_detailInput_folder_spinner.getSelectedItem().toString());
+                sqliteManager.deleteTodo(mUpdateTodoID);
                 DetailInputActivity.this.finish();
                 break;
         }

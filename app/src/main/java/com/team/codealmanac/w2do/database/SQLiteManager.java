@@ -295,7 +295,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
 
     }
 
-    public void deleteTodo(long _ID, String folderName){
+    public void deleteTodo(long _ID){
         sqliteDB.beginTransaction();
         try{
             sqliteDB.delete(SQLContract.TodoEntry.TABLE_NAME, SQLContract.TodoEntry._ID + "=?", new String[]{String.valueOf(_ID)});
