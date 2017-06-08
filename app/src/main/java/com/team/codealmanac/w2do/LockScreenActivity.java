@@ -1,22 +1,44 @@
 package com.team.codealmanac.w2do;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.transition.ChangeBounds;
+import android.support.transition.Fade;
+
+import android.support.transition.TransitionManager;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.PermissionChecker;
 import android.os.Bundle;
+
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewAnimationUtils;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnticipateOvershootInterpolator;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,13 +50,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.team.codealmanac.w2do.assistant.LocationInfoAssistant;
 import com.team.codealmanac.w2do.contract.FontContract;
 import com.team.codealmanac.w2do.database.PreferencesManager;
@@ -58,8 +73,13 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
     private LocationInfoAssistant mLocationInfoManager;
 
     private boolean isPermission;
-
     private FontContract mFont;
+    private RelativeLayout layout_lock_screen_main;
+    private ImageView lefticon;
+    private ImageView righticon;
+    private boolean sizeChanged = false;
+    private FrameLayout bg_ms_layer;
+    private FrameLayout bg_todo_layer;
 
     //인터페이스
     @Override
@@ -92,25 +112,37 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
             mLocationInfoManager.onStartLocation(getApplicationContext(), this);
         }
 
+        // 그림자 레이어 선언
+        bg_ms_layer = (FrameLayout)findViewById(R.id.bg_ms_layer);
+        bg_todo_layer = (FrameLayout)findViewById(R.id.bg_todo_layer);
+
+        // 스와이프 애니메이션 실행 준비
+        layout_lock_screen_main = (RelativeLayout)findViewById(R.id.layout_lock_screen_main);
+        lefticon = (ImageView)findViewById(R.id.left_icon);
+        righticon = (ImageView)findViewById(R.id.right_icon);
+
         //스와이프 동작.
-        findViewById(R.id.layout_lock_screen_main).setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()){
+        layout_lock_screen_main.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()){
             public void onSwipeLeft(){
+                // 왓투두 앱 실행하게 된다.
                 Intent mainappintent = new Intent(LockScreenActivity.this, LoginActivity.class);
                 mainappintent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(mainappintent);
                 finish();
             }
             public void onSwipeRight(){
+                // 본인 잠금 화면, 홈화면으로 진입하게 된다.
                 finish();
             }
         });
+
         setGreetingText(PreferencesManager.getNickname(getApplicationContext()));
 
         //폰트지정
-        ((TextView)findViewById(R.id.act_lockscreen_greeting)).setTypeface(mFont.NahumSquareB_Regular());
-        ((TextView)findViewById(R.id.act_lockscreen_nickname)).setTypeface(mFont.NahumSquareB_Regular());
-        ((TextView)findViewById(R.id.act_lockscreen_mainschedule_header)).setTypeface(mFont.FranklinGothic_Demi());
-        ((TextView)findViewById(R.id.act_lockscreen_mainschedule)).setTypeface(mFont.NahumSquareB_Regular());
+        ((TextView)findViewById(R.id.act_lockscreen_greeting)).setTypeface(mFont.NahumSquareR_Regular());
+        ((TextView)findViewById(R.id.act_lockscreen_nickname)).setTypeface(mFont.NahumSquareR_Regular());
+        ((TextView)findViewById(R.id.act_lockscreen_mainschedule_header)).setTypeface(mFont.RobotoMedium());
+        ((TextView)findViewById(R.id.act_lockscreen_mainschedule)).setTypeface(mFont.NahumSquareR_Regular());
         ((TextView)findViewById(R.id.act_lockscreen_what_mainschedule)).setTypeface(mFont.NahumSquareB_Regular());
 
         String nickname = PreferencesManager.getNickname(getApplicationContext());
@@ -131,11 +163,11 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
         super.onStart();
         //Digital Clock FONT asset
         TextClock digitalClock = (TextClock) findViewById(R.id.act_lockscreen_digital_clock);
-        digitalClock.setTypeface(mFont.YiSunShinDotumM_Regular());
+        digitalClock.setTypeface(mFont.RobotoThin());
 
         //datetime
         TextView date = (TextView) findViewById(R.id.act_lockscreen_date);
-        date.setTypeface(mFont.YiSunShinDotumM_Regular());
+        date.setTypeface(mFont.RobotoLight());
         String format = new String("MM .dd  EEEE");
         SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.ENGLISH);
         date.setText(sdf.format(new Date()));
@@ -294,8 +326,7 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
 
         //온도 지정
         TextView temperatureText = (TextView) findViewById(R.id.act_lockscreen_temperature);
-        Typeface tempType = Typeface.createFromAsset(getAssets(), "FranklinGothicMediumCond.TTF");
-        temperatureText.setTypeface(tempType);
+        temperatureText.setTypeface(mFont.RobotoLight());
         temperatureText.setText(String.format(Locale.KOREA, "%dº", (int)temperature));
     }
 
@@ -310,9 +341,9 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
                     String address = (addrData.get(0).getLocality() == null ? "" : addrData.get(0).getLocality())
                             + " " +
                             (addrData.get(0).getSubLocality() == null ? "" : addrData.get(0).getSubLocality());
+                    //장소 텍스트 뷰 글꼴 선언
                     TextView addrText = (TextView) findViewById(R.id.act_lockscreen_location);
-                    Typeface addrType = Typeface.createFromAsset(getAssets(), "NanumSquareR.ttf");
-                    addrText.setTypeface(addrType);
+                    addrText.setTypeface(mFont.NahumSquareR_Regular());
                     addrText.setText(address);
                     setLocationVisibility(true);
                     return;
@@ -333,10 +364,10 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
 
         if (4 <= presentHour && presentHour <= 11) {            //아침
             String[] morning = getResources().getStringArray(R.array.greetings_morning);
-            greetingMessage = morning[(int)(Math.random()*morning.length)];
+            greetingMessage = morning[(int)(Math.random() * morning.length)];
         }else if (12 <= presentHour && presentHour <= 18) {     //오후(점심)
             String[] afternoon = getResources().getStringArray(R.array.greetings_afternoon);
-            greetingMessage = afternoon[(int)(Math.random()*afternoon.length)];
+            greetingMessage = afternoon[(int)(Math.random() * afternoon.length)];
         }else {                                                 //저녁
             String[] evening = getResources().getStringArray(R.array.greetings_evening);
             greetingMessage = evening[(int)(Math.random()*evening.length)];
@@ -349,6 +380,8 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
     private void existMainSchedule(String mainSchedule){
         findViewById(R.id.act_lockscreen_layout_exist_mainschedule).setVisibility(View.VISIBLE);
         findViewById(R.id.act_lockscreen_layout_ignore_mainschedule).setVisibility(View.GONE);
+        bg_ms_layer.setVisibility(View.VISIBLE);
+        bg_todo_layer.setVisibility(View.GONE);
         ((TextView)findViewById(R.id.act_lockscreen_mainschedule)).setText(mainSchedule);
         Log.d(TAG, "existMainSchedule 불림");
     }
@@ -356,6 +389,8 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
     private void nonexistMainSchedule(){
         findViewById(R.id.act_lockscreen_layout_exist_mainschedule).setVisibility(View.GONE);
         findViewById(R.id.act_lockscreen_layout_ignore_mainschedule).setVisibility(View.VISIBLE);
+        bg_ms_layer.setVisibility(View.VISIBLE);
+        bg_todo_layer.setVisibility(View.GONE);
         Log.d(TAG, "nonexistMainSchedule 불림");
     }
 

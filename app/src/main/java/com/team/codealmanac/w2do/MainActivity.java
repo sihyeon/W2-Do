@@ -13,15 +13,22 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 
 import android.app.Fragment;
+
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.transition.Transition;
+import android.transition.Slide;
+import android.transition.TransitionInflater;
+import android.transition.Visibility;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -42,6 +49,8 @@ import com.team.codealmanac.w2do.fragment.TodoSimpleListFragment;
 import java.util.Calendar;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
+
+import static android.R.attr.type;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -92,6 +101,9 @@ public class MainActivity extends BaseActivity
         mUser = getUserSession();
         mContext = this;
         mFontContract = new FontContract(getApplication().getAssets());
+
+       Slide slide = new Slide(Gravity.RIGHT);
+        getWindow().setReturnTransition(slide);
 
         //투두 심플, 폴더리스트 프래그먼트 설정
         mTodoSimpleListFragment = TodoSimpleListFragment.newInstance();
@@ -230,9 +242,14 @@ public class MainActivity extends BaseActivity
 
         act_main_greetingmsg.setTypeface(mFontContract.NahumSquareR_Regular());
         act_main_user_name.setTypeface(mFontContract.NahumSquareR_Regular());
+        setupWindowAnimation();
+    }
 
-
-
+    private void setupWindowAnimation(){
+        Slide slide  =  new Slide();
+        slide.setDuration(1000);
+        getWindow().setEnterTransition(slide);
+        getWindow().setReturnTransition(slide);
     }
 
     @Override
@@ -271,6 +288,7 @@ public class MainActivity extends BaseActivity
     // act_main_drawer_layout 상태 확인 후 act_main_drawer_layout oepn/close 함수
     @Override
     public void onBackPressed() {
+        setupWindowAnimation();
         if(isFloatingOpen){
             act_main_appbar_floatingActionsMenu.collapse();
             return;
@@ -318,7 +336,6 @@ public class MainActivity extends BaseActivity
                             .hide(mTodoFolderListFragment)
                             .show(mTodoSimpleListFragment)
                             .commit();
-
                     isFolderFragment = false;
                     act_main_appbar_folder_floatingbtn.setVisibility(View.GONE);
                     item.setIcon(R.drawable.btn_gridview);
@@ -341,6 +358,19 @@ public class MainActivity extends BaseActivity
         return super.onOptionsItemSelected(item);
     }
 
+    private void setupWindowAnimations() {
+        Transition transition;
+
+        transition = TransitionInflater.from(this).inflateTransition(R.transition.slide_from_bottom);
+        getWindow().setEnterTransition(transition);
+    }
+
+//    private Visibility buildEnterTransition() {
+//        Slide enterTransition = new Slide();
+//        enterTransition.setDuration(getResources().getInteger(R.integer.anim_duration_long));
+//        enterTransition.setSlideEdge(Gravity.RIGHT);
+//        return enterTransition;
+//    }
     private void setGreetingText(){
         String greetingMessage = "";
         int presentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);

@@ -23,6 +23,7 @@
     <style name="AppTheme.TransparentStatusBarOnToolbar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowContentTransitions">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:fitsSystemWindows">true</item>
     </style>
@@ -109,6 +110,37 @@
 
     <style name="NoBottomLineEditTextTheme">
         <item name="android:textCursorDrawable">@color/real_white</item>
+    </style>
+
+    <style name="MaterialAnimations" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowContentTransitions">true</item>
+        <!-- specify enter and exit transitions -->
+    </style>
+
+    <style name="MaterialAnimations.Icon">
+        <item name="android:layout_margin">10dp</item>
+    </style>
+
+    <style name="MaterialAnimations.Icon.Big">
+        <item name="android:layout_width">150dp</item>
+        <item name="android:layout_height">150dp</item>
+    </style>
+
+    <style name="MaterialAnimations.Icon.Medium">
+        <item name="android:layout_width">84dp</item>
+        <item name="android:layout_margin">2dp</item>
+        <item name="android:layout_height">84dp</item>
+    </style>
+
+    <style name="MaterialAnimations.Icon.Medium.Scaled" parent="MaterialAnimations.Icon.Medium">
+        <item name="android:alpha">0</item>
+        <item name="android:scaleX">0.5</item>
+        <item name="android:scaleY">0.5</item>
+    </style>
+
+    <style name="MaterialAnimations.Icon.Small">
+        <item name="android:layout_width">48dp</item>
+        <item name="android:layout_height">48dp</item>
     </style>
 
     <style name="Theme.Window.NoMinWidth" parent="">

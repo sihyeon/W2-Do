@@ -38,4 +38,14 @@ public class FontContract {
     public Typeface YiSunShinDotumM_Regular(){
         return Typeface.createFromAsset(mAssets, "YiSunShinDotumM-Regular.ttf");
     }
+    public Typeface RobotoLight(){
+        return Typeface.createFromAsset(mAssets,"Roboto-Light.ttf");
+    }
+    public Typeface RobotoThin(){
+        return Typeface.createFromAsset(mAssets,"Roboto-Thin.ttf");
+    }
+    public Typeface RobotoMedium(){
+        return Typeface.createFromAsset(mAssets,"Roboto-Medium.ttf");
+    }
+
 }

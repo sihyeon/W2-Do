@@ -2,17 +2,6 @@
 <set xmlns:android="http://schemas.android.com/apk/res/android"
     android:interpolator="@android:anim/decelerate_interpolator">
 
-    <!--<objectAnimator-->
-        <!--android:duration="500"-->
-        <!--android:propertyName="x"-->
-        <!--android:valueFrom="1000"-->
-        <!--android:valueTo="0"-->
-        <!--android:valueType="floatType" />-->
-    <!--<objectAnimator-->
-        <!--android:fromXScale="2.0" android:toXScale="1.0"-->
-        <!--android:fromYScale="2.0" android:toYScale="1.0"-->
-        <!--android:pivotX="50%p" android:pivotY="50%p"-->
-        <!--android:duration="@android:integer/config_mediumAnimTime" />-->
     <objectAnimator
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:duration="500"

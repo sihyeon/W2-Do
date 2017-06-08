@@ -4,10 +4,10 @@
     <!-- 아침인사 -->
     <string-array name="greetings_morning">
         <item>좋은 아침입니다.</item>
-        <item>아침인사2</item>
-        <item>아침인사3</item>
-        <item>아침인사4</item>
-        <item>아침인사5</item>
+        <item>활기찬 하루 보내세요!</item>
+        <item>활기찬 하루 보내세요!</item>
+        <item>활기찬 하루 보내세요!</item>
+        <item>활기찬 하루 보내세요!</item>
     </string-array>
     <string name="greetings_morning_1">좋은 아침입니다.</string>
 
@@ -15,18 +15,18 @@
     <string name="greetings_afternoon_1">점심은 드셨나요?</string>
     <string-array name="greetings_afternoon">
         <item>점심은 드셨나요?</item>
-        <item>점심인사2</item>
-        <item>점심인사3</item>
-        <item>점심인사4</item>
-        <item>점심인사5</item>
+        <item>활기찬 하루 보내세요!</item>
+        <item>활기찬 하루 보내세요!</item>
+        <item>활기찬 하루 보내세요!</item>
+        <item>활기찬 하루 보내세요!</item>
     </string-array>
     <!-- 저녁인사 -->
     <string name="greetings_evening_1">오늘 하루 수고하셨어요.</string>
     <string-array name="greetings_evening">
         <item>오늘 하루 수고하셨어요.</item>
-        <item>저녁인사2</item>
-        <item>저녁인사3</item>
-        <item>저녁인사4</item>
-        <item>저녁인사5</item>
+        <item>활기찬 하루 보내세요!</item>
+        <item>활기찬 하루 보내세요!</item>
+        <item>활기찬 하루 보내세요!</item>
+        <item>활기찬 하루 보내세요!</item>
     </string-array>
 </resources>
