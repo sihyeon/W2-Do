@@ -5,6 +5,10 @@
     <color name="gray_333">#333333</color>
     <color name="gray_999">#999999</color>
 
+    <color name="edittext_highlight">#805677fc</color>
+
+    <color name="adpitem_infolder_todo_layout_bg">#F2FFFFFF</color>
+
     <color name="real_white">#FFFFFF</color>
     <color name="real_black">#000000</color>
 

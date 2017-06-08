@@ -16,7 +16,6 @@ import com.team.codealmanac.w2do.contract.FontContract;
 
 public class InFolderTodoListViewHolder extends RecyclerView.ViewHolder{
     public RelativeLayout adp_infodertodo_endline;
-    public View mView;
     public CheckBox adp_infodertodo_checkbox;
     public TextView adp_infodertodo_content;
     public ImageView adp_infodertodo_alarm_img;
@@ -24,9 +23,9 @@ public class InFolderTodoListViewHolder extends RecyclerView.ViewHolder{
     public TextView adp_infodertodo_time_text;
     public ImageView adp_infodertodo_location_img;
     public TextView adp_infodertodo_location_text;
+    public boolean isMultiChecked = false;
     public InFolderTodoListViewHolder(View itemView) {
         super(itemView);
-        mView = itemView;
         FontContract font = new FontContract(itemView.getContext().getAssets());
 
         adp_infodertodo_checkbox = (CheckBox)itemView.findViewById(R.id.adp_infodertodo_checkbox);
