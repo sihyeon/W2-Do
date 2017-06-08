@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_1"
+    android:clickable="true"
     android:elevation="0dp"
     tools:context="com.team.codealmanac.w2do.LockScreenActivity">
 
@@ -169,17 +170,17 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:paddingBottom="16dp"
-        android:paddingStart="16dp"
+        android:paddingLeft="16dp"
         app:srcCompat="@drawable/btn_wtd" />
 
-    <ImageView
-        android:id="@+id/right_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:paddingBottom="16dp"
-        android:paddingEnd="16dp"
-        app:srcCompat="@drawable/btn_unlock" />
+        <ImageView
+            android:id="@+id/right_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:paddingBottom="16dp"
+            android:paddingEnd="16dp"
+            app:srcCompat="@drawable/btn_unlock" />
 
 </RelativeLayout>

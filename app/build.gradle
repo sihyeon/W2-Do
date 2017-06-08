@@ -55,6 +55,7 @@ dependencies {
     compile 'com.firebaseui:firebase-ui-database:1.1.0'
     compile 'com.github.markushi:android-ui:1.2'
 
+
     testCompile 'junit:junit:4.12'
 }
 apply plugin: 'com.google.gms.google-services'

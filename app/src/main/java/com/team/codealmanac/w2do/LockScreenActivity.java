@@ -2,6 +2,7 @@ package com.team.codealmanac.w2do;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -13,19 +14,28 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.transition.ChangeBounds;
+import android.support.transition.Fade;
+
+import android.support.transition.TransitionManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.PermissionChecker;
 import android.os.Bundle;
-import android.support.v4.content.res.ResourcesCompat;
-import android.support.v4.view.MotionEventCompat;
+
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnticipateOvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextClock;
@@ -39,14 +49,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
-import com.google.firebase.auth.ActionCodeResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.team.codealmanac.w2do.assistant.LocationInfoAssistant;
 import com.team.codealmanac.w2do.contract.FontContract;
 import com.team.codealmanac.w2do.database.PreferencesManager;
@@ -70,11 +72,11 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
     private LocationInfoAssistant mLocationInfoManager;
 
     private boolean isPermission;
-    private boolean isOpen = false;
     private FontContract mFont;
     private RelativeLayout layout_lock_screen_main;
     private ImageView lefticon;
     private ImageView righticon;
+    private boolean sizeChanged = false;
 
     //인터페이스
     @Override
@@ -107,31 +109,15 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
             mLocationInfoManager.onStartLocation(getApplicationContext(), this);
         }
 
-        //하단 아이콘 선언
+        // 스와이프 애니메이션 실행 준비
+        layout_lock_screen_main = (RelativeLayout)findViewById(R.id.layout_lock_screen_main);
         lefticon = (ImageView)findViewById(R.id.left_icon);
         righticon = (ImageView)findViewById(R.id.right_icon);
 
-        // 스와이프 애니메이션 실행 준비
-        layout_lock_screen_main = (RelativeLayout)findViewById(R.id.layout_lock_screen_main);
-
         //스와이프 동작.
-        findViewById(R.id.layout_lock_screen_main).setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()){
+        layout_lock_screen_main.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()){
             public void onSwipeLeft(){
                 // 왓투두 앱 실행하게 된다.
-                int cx = (layout_lock_screen_main.getLeft()+layout_lock_screen_main.getRight()) / 2;
-                int cy = (layout_lock_screen_main.getTop()+layout_lock_screen_main.getBottom()) / 2;
-                int finalRadius = Math.max(layout_lock_screen_main.getWidth(), layout_lock_screen_main.getHeight());
-
-                Animator anim = ViewAnimationUtils.createCircularReveal(layout_lock_screen_main, cx, cy, 0, finalRadius);
-                layout_lock_screen_main.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.color4));
-                anim.addListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        super.onAnimationEnd(animation);
-                    }
-                });
-                anim.start();
-
                 Intent mainappintent = new Intent(LockScreenActivity.this, LoginActivity.class);
                 mainappintent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(mainappintent);
@@ -142,6 +128,7 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
                 finish();
             }
         });
+
         setGreetingText(PreferencesManager.getNickname(getApplicationContext()));
 
         //폰트지정
