@@ -7,7 +7,7 @@
 
     <PreferenceCategory android:title="서비스 &amp; PUSH 알림 관리" >
         <SwitchPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:switchTextOff="OFF"
             android:switchTextOn="ON"
             android:key="pref_LockscreenService"

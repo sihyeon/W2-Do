@@ -91,17 +91,7 @@ public class LoginActivity extends BaseActivity implements /*GoogleApiClient.OnC
         mPublicUserReference = FirebaseDatabase.getInstance().getReference().child("public_users");
         mNicknameReference = FirebaseDatabase.getInstance().getReference().child("nickname");
 
-        //구글 로그인
-//        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//                .requestIdToken(getString(R.string.default_web_client_id))
-//                .requestEmail()
-//                .build();
-//        mGoogleApiClient = new GoogleApiClient.Builder(this)
-//                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
-//                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-//                .build();
         mGoogleAPIAssistant = new GoogleAPIAssistant(getApplicationContext(), LoginActivity.this);
-//        mGoogleAPIAssistant = GoogleAPIAssistant.newInstance(getApplicationContext(), LoginActivity.this);
         mAuth = FirebaseAuth.getInstance();
 
         Typeface font = Typeface.createFromAsset(getAssets(), "NanumSquareR.ttf");
@@ -258,21 +248,6 @@ public class LoginActivity extends BaseActivity implements /*GoogleApiClient.OnC
     }
     // [END signin]
 
-//    private void signOut() {
-//        // Firebase sign out
-//        mAuth.signOut();
-//        // Google sign out
-//        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-//                new ResultCallback<Status>() {
-//                    @Override
-//                    public void onResult(@NonNull Status status) {
-//                        updateUI(null);
-//                    }
-//                });
-//        //프리퍼런스로 등록된 닉네임 데이터 삭제
-//        PreferencesManager.deleteNickname(getApplicationContext());
-//    }
-
     private void updateUI(FirebaseUser user) {
         if (user != null) {
             //로그인 됐을 경우 화면
@@ -297,21 +272,12 @@ public class LoginActivity extends BaseActivity implements /*GoogleApiClient.OnC
         }
     }
 
-//    @Override
-//    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-//        Log.d(TAG, "onConnectionFailed:" + connectionResult);
-//        Toast.makeText(this, "연결에 실패하였습니다. 데이터 네트워크를 킨 후 다시 시도해주십시오.", Toast.LENGTH_SHORT).show();
-//    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.act_login_signin_button:           //로그인 버튼 클릭
                 signIn();
                 break;
-//            case R.id.act_login_logo_image:               //로고 이미지 클릭
-//                signOut();
-//                break;
             case R.id.act_login_nick_input_btn:           //닉네임 입력 버튼 클릭
                 String nickname = act_login_nickname_edit.getText().toString();
                 if (TextUtils.isEmpty(nickname)) {

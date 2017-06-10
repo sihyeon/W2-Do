@@ -26,12 +26,14 @@ import android.widget.TextView;
 import com.team.codealmanac.w2do.adapter.InFolderListAdapter;
 import com.team.codealmanac.w2do.contract.FontContract;
 import com.team.codealmanac.w2do.database.SQLiteManager;
+import com.team.codealmanac.w2do.dialog.DeleteDialogFragment;
 import com.team.codealmanac.w2do.dialog.MoveFolderDialogFragment;
 import com.team.codealmanac.w2do.models.Todo;
 
 import java.util.Calendar;
 
-public class InFolderActivity extends AppCompatActivity implements View.OnClickListener, InFolderListAdapter.InFolderListEventListener, MoveFolderDialogFragment.MoveFolderDialongListener{
+public class InFolderActivity extends AppCompatActivity
+        implements View.OnClickListener, InFolderListAdapter.InFolderListEventListener, MoveFolderDialogFragment.MoveFolderDialongListener, DeleteDialogFragment.DeleteDialogListener{
     private final String TAG = "InFolderActivity";
     private RecyclerView act_infolder_todolist;
     private EditText act_infolder_simpletodo_input_edt;
@@ -161,15 +163,6 @@ public class InFolderActivity extends AppCompatActivity implements View.OnClickL
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.home) {
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.act_infolder_simpletodo_input_btn:
@@ -196,15 +189,9 @@ public class InFolderActivity extends AppCompatActivity implements View.OnClickL
                 MoveFolderDialogFragment.newInstance().show(getFragmentManager(), "move_folder");
                 break;
             case R.id.act_infolder_toolbar_longclick_delete:
-                mInFolderListAdapter.deleteTodoWithMulti();
-                cancelMultiClick();
+                DeleteDialogFragment.newInstance(DeleteDialogFragment.TYPE_TODO, null).show(getFragmentManager(), "delete_todo");
                 break;
         }
-    }
-
-    @Override
-    public void OnMoveButtonClickListener(String newFolder) {
-        mInFolderListAdapter.moveFolderWithMulti(newFolder);
     }
 
     private void cancelMultiClick(){
@@ -221,11 +208,25 @@ public class InFolderActivity extends AppCompatActivity implements View.OnClickL
         mInFolderListAdapter.notifyDataSetChanged();
     }
 
+    //MoveFolderDialogFragment interface
+    @Override
+    public void OnMoveButtonClickListener(String newFolder) {
+        mInFolderListAdapter.moveFolderWithMulti(newFolder);
+        cancelMultiClick();
+    }
+
+    //DeleteDialogFramgent interface
+    @Override
+    public void OnDelete() {
+        mInFolderListAdapter.deleteTodoWithMulti();
+        cancelMultiClick();
+    }
+
+    // [START InFolderListAdapter interface]
     @Override
     public void OnMultiItemClick() {
         act_infolder_toolbar_longclick_count.setText(mInFolderListAdapter.getCheckedItemCount() + "개");
     }
-
     @Override
     public void OnStartMultiClick() {
         act_infolder_toolbar_title.setVisibility(View.GONE);
@@ -238,6 +239,7 @@ public class InFolderActivity extends AppCompatActivity implements View.OnClickL
             }
         });
     }
+    // [END InFolderListAdapter]
 
 
 }

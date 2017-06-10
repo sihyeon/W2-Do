@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class PermissionActivity extends AppCompatActivity implements View.OnClickListener {
+public class PermissionActivity extends AppCompatActivity{
     private final String TAG = PermissionActivity.class.getSimpleName();
     private final int PERMISSIONS_REQUEST = 100;
     private String[] PERMISSIONS;
@@ -33,13 +33,10 @@ public class PermissionActivity extends AppCompatActivity implements View.OnClic
         if (hasPermissions()) {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                requestPermissions(PERMISSIONS, PERMISSIONS_REQUEST);
         }
-
-        Button act_permission_cancel_btn = (Button) findViewById(R.id.act_permission_cancel_btn);
-        Button act_permission_ok_btn = (Button) findViewById(R.id.act_permission_ok_btn);
-
-        act_permission_cancel_btn.setOnClickListener(this);
-        act_permission_ok_btn.setOnClickListener(this);
     }
 
     private boolean hasPermissions() {
@@ -51,16 +48,6 @@ public class PermissionActivity extends AppCompatActivity implements View.OnClic
         }
         //권한 체크 통과
         return true;
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.act_permission_ok_btn) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                requestPermissions(PERMISSIONS, PERMISSIONS_REQUEST);
-        } else if (v.getId() == R.id.act_permission_cancel_btn) {
-            finishAffinity();
-        }
     }
 
     @Override

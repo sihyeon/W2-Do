@@ -71,25 +71,26 @@ public class InFolderListAdapter extends RecyclerView.Adapter<InFolderTodoListVi
         final Todo model = mDataList.get(position);
         boolean heightChangeFlag = true;
         final int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 64, mContext.getResources().getDisplayMetrics());
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(holder.adp_infodertodo_endline.getLayoutParams());
-        params.addRule(RelativeLayout.ALIGN_PARENT_END);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(holder.itemView.getLayoutParams());
         params.height = height;
-        holder.itemView.setBackgroundResource(R.color.adpitem_infolder_todo_layout_bg);
-        holder.adp_infodertodo_endline.setBackgroundColor(model.color);
+
+        holder.adp_infoldertodo_selected_layout.setVisibility(View.GONE);
+        holder.adp_infoldertodo_endline.setBackgroundColor(model.color);
+
         if (model.check_state == 1) {
-            holder.adp_infodertodo_checkbox.setChecked(true);
+            holder.adp_infoldertodo_checkbox.setChecked(true);
         } else {
-            holder.adp_infodertodo_checkbox.setChecked(false);
+            holder.adp_infoldertodo_checkbox.setChecked(false);
         }
 
-        holder.adp_infodertodo_content.setText(model.content);
-        if (model.alarm_date != 0) holder.adp_infodertodo_alarm_img.setVisibility(View.VISIBLE);
+        holder.adp_infoldertodo_content.setText(model.content);
+        if (model.alarm_date != 0) holder.adp_infoldertodo_alarm_img.setVisibility(View.VISIBLE);
 
         if (model.memo != null && !model.memo.isEmpty())
-            holder.adp_infodertodo_memo_img.setVisibility(View.VISIBLE);
+            holder.adp_infoldertodo_memo_img.setVisibility(View.VISIBLE);
 
         SimpleDateFormat format = new SimpleDateFormat("M월 d일(E) hh:mm a");
-        holder.adp_infodertodo_time_text.setText(format.format(model.end_date));
+        holder.adp_infoldertodo_time_text.setText(format.format(model.end_date));
 
         Calendar today = Calendar.getInstance();
         today.setTimeInMillis(model.start_date);
@@ -99,17 +100,19 @@ public class InFolderListAdapter extends RecyclerView.Adapter<InFolderTodoListVi
         long todayTimeInMillis = today.getTimeInMillis() + 1000 * 60 * 60 * 24;
 
         if (model.end_date < todayTimeInMillis) {
-            holder.adp_infodertodo_time_text.setVisibility(View.GONE);
+            holder.adp_infoldertodo_time_text.setVisibility(View.GONE);
             heightChangeFlag = false;
         }
-        Log.d(TAG, "lat: " + model.latitude + "lon: " + model.longitude);
+
         if (model.latitude != 500 && model.longitude != 500) {
-            holder.adp_infodertodo_location_img.setVisibility(View.VISIBLE);
-            holder.adp_infodertodo_location_text.setVisibility(View.VISIBLE);
-            holder.adp_infodertodo_location_text.setText(model.location_name);
+            holder.adp_infoldertodo_location_img.setVisibility(View.VISIBLE);
+            holder.adp_infoldertodo_location_text.setVisibility(View.VISIBLE);
+            holder.adp_infoldertodo_location_text.setText(model.location_name);
             heightChangeFlag = true;
         }
-        if (heightChangeFlag) holder.adp_infodertodo_endline.setLayoutParams(params);
+
+        //어댑터뷰 크기
+        if (heightChangeFlag) holder.itemView.setLayoutParams(params);
 
         final View.OnClickListener viewClickListener = new View.OnClickListener() {
             @Override
@@ -153,7 +156,7 @@ public class InFolderListAdapter extends RecyclerView.Adapter<InFolderTodoListVi
         };
 
         holder.itemView.setOnClickListener(viewClickListener);
-        holder.adp_infodertodo_checkbox.setOnClickListener(checkboxClickListener);
+        holder.adp_infoldertodo_checkbox.setOnClickListener(checkboxClickListener);
         holder.itemView.setOnLongClickListener(viewLongClickListener);
         Log.d(TAG, "call onBindViewHolder");
 
@@ -186,12 +189,12 @@ public class InFolderListAdapter extends RecyclerView.Adapter<InFolderTodoListVi
         if(holder.isMultiChecked){
             //체크 풀기
             holder.isMultiChecked = false;
-            holder.itemView.setBackgroundResource(R.color.adpitem_infolder_todo_layout_bg);
+            holder.adp_infoldertodo_selected_layout.setVisibility(View.GONE);
             mCheckedList.remove(mDataList.get(position));
         } else {
             //지금 체크됨
             holder.isMultiChecked = true;
-            holder.itemView.setBackgroundResource(R.color.red);
+            holder.adp_infoldertodo_selected_layout.setVisibility(View.VISIBLE);
             mCheckedList.add(mDataList.get(position));
         }
         inFolderListEventListener.OnMultiItemClick();
@@ -199,6 +202,7 @@ public class InFolderListAdapter extends RecyclerView.Adapter<InFolderTodoListVi
 
     public void moveFolderWithMulti(String newFolder){
         mSQLiteManager.changeFolderWithMulti(toStringFromList(mCheckedList), newFolder);
+        updateList();
     }
 
     public void deleteTodoWithMulti(){

@@ -24,6 +24,7 @@ import com.team.codealmanac.w2do.contract.FontContract;
 import com.team.codealmanac.w2do.database.SQLiteManager;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Created by Jaeung on 2017-06-09.
@@ -79,6 +80,8 @@ public class MoveFolderDialogFragment extends DialogFragment implements View.OnC
         dialogfragment_movefolder_folderlist.setAdapter(folderAdapter);
 
         dialogfragment_movefolder_title.setTypeface(font.NahumSquareB_Regular());
+        dialogfragment_movefolder_cancel_btn.setTypeface(font.NahumSquareR_Regular());
+        dialogfragment_movefolder_move_btn.setTypeface(font.NahumSquareR_Regular());
 
         dialogfragment_movefolder_cancel_btn.setOnClickListener(this);
         dialogfragment_movefolder_move_btn.setOnClickListener(this);
@@ -88,7 +91,7 @@ public class MoveFolderDialogFragment extends DialogFragment implements View.OnC
     @Override
     public void onClick(View v) {
         if(v.getId() == R.id.dialogfragment_movefolder_move_btn){
-            if(folderAdapter.selectedFolder != null){
+            if(!Objects.equals(folderAdapter.selectedFolder, "")){
                 moveFolderDialongListener.OnMoveButtonClickListener(folderAdapter.selectedFolder);
             } else {
                 Toast.makeText(getDialog().getContext(), "이동할 폴더를 선택해주세요.", Toast.LENGTH_SHORT).show();
@@ -96,14 +99,15 @@ public class MoveFolderDialogFragment extends DialogFragment implements View.OnC
             }
         }
         this.dismiss();
-
     }
 
     private class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ViewHolder>{
         ArrayList<String> mItems;
-        String selectedFolder;
+        String selectedFolder = "";
+        ArrayList<FolderAdapter.ViewHolder> mHolder;
         FolderAdapter(ArrayList<String> mItems) {
             this.mItems = mItems;
+            mHolder = new ArrayList<>();
         }
 
         @Override
@@ -115,12 +119,15 @@ public class MoveFolderDialogFragment extends DialogFragment implements View.OnC
         public void onBindViewHolder(final FolderAdapter.ViewHolder holder, int position) {
             String folder = mItems.get(position);
             holder.adp_movefolder_text.setText(folder);
-            holder.itemView.setBackgroundResource(R.color.real_white);
+            if(selectedFolder.equals(folder)){
+                holder.itemView.setBackgroundResource(R.color.select_list_bg);
+            } else {
+                holder.itemView.setBackgroundResource(R.color.real_white);
+            }
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     selectedFolder = holder.adp_movefolder_text.getText().toString();
-                    holder.itemView.setBackgroundResource(R.color.red);
                     notifyDataSetChanged();
                 }
             });
@@ -149,14 +156,5 @@ public class MoveFolderDialogFragment extends DialogFragment implements View.OnC
         super.onActivityCreated(savedInstanceState);
         if (getDialog().getWindow() != null)
             getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        WindowManager.LayoutParams params = getDialog().getWindow().getAttributes();
-        params.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        params.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        getDialog().getWindow().setAttributes(params);
     }
 }

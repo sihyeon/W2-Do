@@ -337,8 +337,9 @@ public class SQLiteManager extends SQLiteOpenHelper {
     public void changeFolderWithMulti(String whereSQL, String newFolder){
         sqliteDB.beginTransaction();
         try{
+            Log.d(TAG, "changeFolderWithMulti : " + whereSQL + " folder : " + newFolder);
             sqliteDB.execSQL(String.format("UPDATE " + SQLContract.TodoEntry.TABLE_NAME
-                    + " SET " + SQLContract.TodoEntry.COLUMN_NAME_FOLDER  + " = " + newFolder
+                    + " SET " + SQLContract.TodoEntry.COLUMN_NAME_FOLDER  + " = '" + newFolder + "' "
                     + " WHERE " + SQLContract.TodoEntry._ID + " IN (%s);", whereSQL));
             updateTodoCountInFolder();
             sqliteDB.setTransactionSuccessful();

@@ -18,9 +18,6 @@ import android.widget.TextView;
 import com.team.codealmanac.w2do.R;
 import com.team.codealmanac.w2do.contract.FontContract;
 import com.team.codealmanac.w2do.database.SQLiteManager;
-import com.team.codealmanac.w2do.models.Todo;
-
-import java.util.Calendar;
 
 /**
  * Created by jaeung on 2017-06-05.
@@ -34,6 +31,14 @@ public class DeleteDialogFragment extends DialogFragment {
     public static final String TYPE_FOLDER = "folder";
     private String mType;
     private String mData;
+
+    private DeleteDialogListener listener;
+    public interface DeleteDialogListener{
+        void OnDelete();
+    }
+    public void setDeleteDialogListener(DeleteDialogListener listener){
+        this.listener = listener;
+    }
 
     public DeleteDialogFragment() {
     }
@@ -73,12 +78,12 @@ public class DeleteDialogFragment extends DialogFragment {
         dialog_delete_content.setTypeface(font.NahumSquareR_Regular());
         dialog_delete_cancel_btn.setTypeface(font.NahumSquareR_Regular());
         dialog_delete_delete_btn.setTypeface(font.NahumSquareR_Regular());
-
+        View.OnClickListener dialogClickListener;
         if(mType.equals(TYPE_FOLDER)){
             dialog_delete_title.setText("폴더 삭제");
             dialog_delete_content.setText("폴더 안의 ToDo도 전부 삭제됩니다.\n정말로 삭제하시겠습니까?");
 
-            View.OnClickListener dialogClickListener = new View.OnClickListener() {
+            dialogClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(v.getId() == R.id.dialogfragment_delete_delete_btn){
@@ -90,16 +95,21 @@ public class DeleteDialogFragment extends DialogFragment {
                     }
                 }
             };
-            dialog_delete_cancel_btn.setOnClickListener(dialogClickListener);
-            dialog_delete_delete_btn.setOnClickListener(dialogClickListener);
+        } else {
+            dialogClickListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(v.getId() == R.id.dialogfragment_delete_delete_btn){
+                        listener.OnDelete();
+                        dismiss();
+                    } else {
+                        dismiss();
+                    }
+                }
+            };
         }
-
-
+        dialog_delete_cancel_btn.setOnClickListener(dialogClickListener);
+        dialog_delete_delete_btn.setOnClickListener(dialogClickListener);
         return v;
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
     }
 }
