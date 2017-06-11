@@ -576,6 +576,24 @@ public class SQLiteManager extends SQLiteOpenHelper {
         return null;
     }
 
+    public void deleteMainScheduleWithMulti(String whereSQL){
+        sqliteDB.beginTransaction();
+        try{
+            sqliteDB.execSQL(String.format("DELETE FROM " + SQLContract.MainScheduleEntry.TABLE_NAME
+                    + " WHERE " + SQLContract.MainScheduleEntry._ID + " IN (%s);", whereSQL));
+            updateTodoCountInFolder();
+            sqliteDB.setTransactionSuccessful();
+        }catch (Exception e) {
+            Log.d(TAG, "Error deleteTodo: " + e);
+            return;
+        } finally {
+            sqliteDB.endTransaction();
+        }
+    }
+
+
+
+
     private void init(SQLiteDatabase db) {
         Log.d(TAG, "데이터베이스 초기화");
 

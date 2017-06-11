@@ -93,7 +93,7 @@
             android:name=".NavTeamActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".CompleteTodoTabActivity"
+            android:name=".CompleteTabActivity"
             android:theme="@style/MyMaterialTheme" />
         <activity
             android:name=".NavSettingPrefActivity"

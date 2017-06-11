@@ -22,13 +22,11 @@ import android.support.v7.widget.Toolbar;
 import android.transition.Transition;
 import android.transition.Slide;
 import android.transition.TransitionInflater;
-import android.transition.Visibility;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -49,8 +47,6 @@ import com.team.codealmanac.w2do.fragment.TodoSimpleListFragment;
 import java.util.Calendar;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
-
-import static android.R.attr.type;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -432,7 +428,7 @@ public class MainActivity extends BaseActivity
 
         } else if(id == R.id.nav_complete_todo){
            //완료된 할일 탭 화면으로 이동
-           Intent CompleteIntent = new Intent(MainActivity.this, CompleteTodoTabActivity.class);
+           Intent CompleteIntent = new Intent(MainActivity.this, CompleteTabActivity.class);
            startActivity(CompleteIntent);
 
        } else if (id == R.id.nav_setting) {

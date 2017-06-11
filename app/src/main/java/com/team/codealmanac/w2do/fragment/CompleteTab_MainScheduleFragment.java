@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
+import com.team.codealmanac.w2do.CompleteTabActivity;
 import com.team.codealmanac.w2do.R;
 import com.team.codealmanac.w2do.adapter.CompleteAdapter;
 import com.team.codealmanac.w2do.adapter.MainScheduleAdapter;
@@ -17,10 +18,11 @@ import com.team.codealmanac.w2do.adapter.MainScheduleAdapter;
  * Created by sihyeon on 2017-05-31.
  */
 
-public class CompleteTodo_MainScheduleTabFragment extends android.support.v4.app.Fragment {
-
-    public CompleteTodo_MainScheduleTabFragment(){}
+public class CompleteTab_MainScheduleFragment extends android.support.v4.app.Fragment {
+    public CompleteAdapter mCompleteAdapter;
     private RecyclerView tabfragment_mainschedule_recyclerview;
+
+    public CompleteTab_MainScheduleFragment(){}
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -32,7 +34,9 @@ public class CompleteTodo_MainScheduleTabFragment extends android.support.v4.app
         tabfragment_mainschedule_recyclerview = (RecyclerView) view.findViewById(R.id.tabfragment_mainschedule_recyclerview);
         tabfragment_mainschedule_recyclerview.setHasFixedSize(true);
         tabfragment_mainschedule_recyclerview.setLayoutManager(new GridLayoutManager(getActivity(), 1));
-        tabfragment_mainschedule_recyclerview.setAdapter(new CompleteAdapter(getContext(), CompleteAdapter.TYPE_MAINSCHEDULE));
+        mCompleteAdapter = new CompleteAdapter(getContext(), CompleteAdapter.TYPE_MAINSCHEDULE);
+        mCompleteAdapter.setOnCompleteAdapterListener((CompleteTabActivity)getContext());
+        tabfragment_mainschedule_recyclerview.setAdapter(mCompleteAdapter);
         return view;
     }
 }

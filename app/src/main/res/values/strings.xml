@@ -7,6 +7,8 @@
     <string name="expand_all">Expand All</string>
     <string name="collapse_all">Collapse All</string>
 
+    <string name="complete_activity_title">완료된 할 일 목록</string>
+
     <!--테스트-->
     <string name="subscribe_to_news">Subscribe To News</string>
     <string name="log_token">Log Token</string>

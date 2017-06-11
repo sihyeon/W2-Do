@@ -31,6 +31,7 @@ public class DeleteDialogFragment extends DialogFragment {
     private static final String PARAM2 = "data";
     public static final String TYPE_TODO = "todo";
     public static final String TYPE_FOLDER = "folder";
+    public static final String TYPE_MAINSCHEDULE = "main_schedule";
     private String mType;
     private String mData;
 
@@ -104,11 +105,25 @@ public class DeleteDialogFragment extends DialogFragment {
                     }
                 }
             };
-        } else {
+        } else if(mType.equals(TYPE_TODO)){
             dialogClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(v.getId() == R.id.dialogfragment_delete_delete_btn){
+                        listener.OnDelete();
+                        dismiss();
+                    } else {
+                        dismiss();
+                    }
+                }
+            };
+        } else {
+            dialog_delete_title.setText("메인스케줄 삭제");
+            dialog_delete_content.setText("메인스케줄이 전부 삭제됩니다.\n정말로 삭제하시겠습니까?");
+            dialogClickListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (v.getId() == R.id.dialogfragment_delete_delete_btn) {
                         listener.OnDelete();
                         dismiss();
                     } else {

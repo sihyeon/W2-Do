@@ -35,5 +35,10 @@
             android:background="#000"
             android:visibility="gone"/>
     </LinearLayout>
-
+    <RelativeLayout
+        android:id="@+id/adp_completelist_selected_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/select_list_bg"
+        android:visibility="gone"/>
 </RelativeLayout>
