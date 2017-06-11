@@ -47,11 +47,9 @@ public class InFolderListAdapter extends RecyclerView.Adapter<InFolderTodoListVi
         mSQLiteManager = SQLiteManager.getInstance(mContext);
         mFolder = folder;
 
-        if(folder == null){
-            mDataList = mSQLiteManager.getCheckedTodo();
-        } else {
-            mDataList = mSQLiteManager.getTodoListInFolder(folder);
-        }
+
+        mDataList = mSQLiteManager.getTodoListInFolder(folder);
+
         if(mDataList == null){
             mDataList = new ArrayList<>();
         }

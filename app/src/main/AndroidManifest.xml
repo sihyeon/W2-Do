@@ -77,7 +77,8 @@
         </activity>
         <activity
             android:name=".InFolderActivity"
-            android:theme="@style/AppTheme.TransparentStatusBarOnToolbar" />
+            android:theme="@style/AppTheme.TransparentStatusBarOnToolbar"
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".DetailInputActivity"
             android:theme="@style/AppTheme.TransparentStatusBarOnToolbar" />

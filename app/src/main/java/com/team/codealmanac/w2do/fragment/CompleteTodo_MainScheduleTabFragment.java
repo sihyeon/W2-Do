@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 
 import com.team.codealmanac.w2do.R;
+import com.team.codealmanac.w2do.adapter.CompleteAdapter;
 import com.team.codealmanac.w2do.adapter.MainScheduleAdapter;
 
 /**
@@ -31,7 +32,7 @@ public class CompleteTodo_MainScheduleTabFragment extends android.support.v4.app
         tabfragment_mainschedule_recyclerview = (RecyclerView) view.findViewById(R.id.tabfragment_mainschedule_recyclerview);
         tabfragment_mainschedule_recyclerview.setHasFixedSize(true);
         tabfragment_mainschedule_recyclerview.setLayoutManager(new GridLayoutManager(getActivity(), 1));
-        tabfragment_mainschedule_recyclerview.setAdapter(new MainScheduleAdapter(getContext()));
+        tabfragment_mainschedule_recyclerview.setAdapter(new CompleteAdapter(getContext(), CompleteAdapter.TYPE_MAINSCHEDULE));
         return view;
     }
 }

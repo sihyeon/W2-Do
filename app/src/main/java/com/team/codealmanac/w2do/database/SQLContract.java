@@ -35,6 +35,7 @@ public final class SQLContract {
         static final String COLUMN_NAME_LONGITUDE = "longitude";
         static final String COLUMN_NAME_LOCATION = "location_name";
         static final String COLUMN_NAME_MEMO = "memo";
+        static final String COLUMN_NAME_CHECK_DATE = "check_date";
     }
 
     static class MainScheduleEntry implements BaseColumns{
@@ -42,6 +43,6 @@ public final class SQLContract {
         static final String COLUMN_NAME_DATE = "date";
         static final String COLUMN_NAME_CONTENT = "content";
         static final String COLUMN_NAME_CHECK_STATE = "check_state";
+        static final String COLUMN_NAME_CHECK_DATE = "check_date";
     }
-
 }

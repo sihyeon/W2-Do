@@ -180,7 +180,7 @@ public class InFolderActivity extends AppCompatActivity
                 Todo todo = new Todo(todayTimeInMillis, act_infolder_simpletodo_input_edt.getText().toString(), mFolderName);
                 sqliteManager.addTodo(todo);
                 mInFolderListAdapter.updateList();
-                act_infolder_simpletodo_input_edt.getText().clear();
+                act_infolder_simpletodo_input_edt.setText(null);
                 break;
             case R.id.act_infolder_toolbar_longclick_share:
 

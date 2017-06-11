@@ -3,9 +3,11 @@ package com.team.codealmanac.w2do.dialog;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,9 +38,6 @@ public class DeleteDialogFragment extends DialogFragment {
     public interface DeleteDialogListener{
         void OnDelete();
     }
-    public void setDeleteDialogListener(DeleteDialogListener listener){
-        this.listener = listener;
-    }
 
     public DeleteDialogFragment() {
     }
@@ -54,6 +53,16 @@ public class DeleteDialogFragment extends DialogFragment {
         args.putString(PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try{
+            listener = (DeleteDialogListener)context;
+        } catch (Exception e){
+            Log.d(TAG, "error : " + e);
+        }
     }
 
     @Override

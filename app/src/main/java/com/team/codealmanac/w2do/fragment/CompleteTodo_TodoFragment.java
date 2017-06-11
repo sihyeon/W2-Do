@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.team.codealmanac.w2do.R;
+import com.team.codealmanac.w2do.adapter.CompleteAdapter;
 import com.team.codealmanac.w2do.adapter.InFolderListAdapter;
 
 /**
@@ -31,7 +32,7 @@ public class CompleteTodo_TodoFragment extends android.support.v4.app.Fragment {
         tabfragment_todo_recyclerview = (RecyclerView)view.findViewById(R.id.tabfragment_todo_recyclerview);
         tabfragment_todo_recyclerview.setHasFixedSize(true);
         tabfragment_todo_recyclerview.setLayoutManager(new GridLayoutManager(getActivity(), 1));
-        tabfragment_todo_recyclerview.setAdapter(new InFolderListAdapter(getContext(), null));
+        tabfragment_todo_recyclerview.setAdapter(new CompleteAdapter(getContext(), CompleteAdapter.TYPE_TODO));
         return view;
     }
 }

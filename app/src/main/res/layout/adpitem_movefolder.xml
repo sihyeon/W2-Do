@@ -11,5 +11,5 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:textSize="16dp"
-        android:textColor="@color/gray_333" />
+        android:textColor="@color/text_gray_333" />
 </RelativeLayout>
