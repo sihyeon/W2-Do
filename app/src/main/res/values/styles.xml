@@ -79,10 +79,33 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="MyOnBottomLineEditTextTheme" parent="Widget.AppCompat.EditText">
-        <item name="colorControlNormal">@color/red</item>
-        <item name="colorControlActivated">@color/red</item>
-        <item name="colorControlHighlight">@color/red</item>
+    <style name="DetailInputEditTextTheme" parent="Widget.AppCompat.EditText">
+        <item name="colorControlNormal">#805a91c2</item>
+        <item name="colorControlActivated">#5a91c2</item>
+        <item name="colorControlHighlight">@color/edittext_highlight</item>
+        <item name="android:textCursorDrawable">@color/black_semi_transparent</item>
+        <item name="android:paddingStart">5dp</item>
+        <item name="android:layout_margin">0dp</item>
+    </style>
+
+    <style name="SimpleInputDialogEditTextTheme" parent="Widget.AppCompat.EditText">
+        <item name="colorControlNormal">#eeeeee</item>
+        <item name="colorControlActivated">#dddddd</item>
+        <item name="colorControlHighlight">@color/edittext_highlight</item>
+        <item name="android:textCursorDrawable">@color/black_semi_transparent</item>
+        <item name="android:paddingStart">5dp</item>
+        <item name="android:layout_margin">0dp</item>
+        <item name="android:paddingTop">0dp</item>
+    </style>
+
+    <style name="NavitemEditProfileEditTextTheme" parent="Widget.AppCompat.EditText">
+        <item name="colorControlNormal">#0D999999</item>
+        <item name="colorControlActivated">#1A999999</item>
+        <item name="colorControlHighlight">@color/edittext_highlight</item>
+        <item name="android:textCursorDrawable">@color/black_semi_transparent</item>
+        <item name="android:paddingStart">5dp</item>
+        <item name="android:layout_margin">0dp</item>
+        <item name="android:paddingTop">0dp</item>
     </style>
 
     <style name="NoBottomLineEditTextTheme">
@@ -119,4 +142,10 @@
         <item name="android:layout_width">48dp</item>
         <item name="android:layout_height">48dp</item>
     </style>
+
+    <style name="Theme.Window.NoMinWidth" parent="">
+        <item name="android:windowMinWidthMinor">0dip</item>
+        <item name="android:windowMinWidthMajor">0dip</item>
+    </style>
+
 </resources>

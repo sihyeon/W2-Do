@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.team.codealmanac.w2do">
+    // dangerous permissions
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
     // permission for google+ login
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    // google map permission
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -42,7 +41,6 @@
             <intent-filter>
                 <action android:name="com.team.codealmanac.w2do.startLockService" />
             </intent-filter>
-
         </service>
 
         <receiver
@@ -58,6 +56,7 @@
         </service>
         <!-- [END firebase_service] -->
 
+
         <!-- [START firebase_iid_service] -->
         <service android:name=".MyFirebaseInstanceIDService">
             <intent-filter>
@@ -66,47 +65,49 @@
         </service>
         <!-- [END firebase_iid_service] -->
         <activity android:name=".FirebaseTestActivity" />
-
         <activity
             android:name=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".LockScreenActivity"
-            android:theme="@style/AppTheme.NoActionBarFullscreen"
-            android:launchMode="singleInstance"/>
+            android:launchMode="singleInstance"
+            android:theme="@style/AppTheme.NoActionBarFullscreen" />
         <activity android:name=".LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
         <activity
             android:name=".InFolderActivity"
-            android:theme="@style/AppTheme.TransparentStatusBarOnToolbar" />
+            android:theme="@style/AppTheme.TransparentStatusBarOnToolbar"
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".DetailInputActivity"
             android:theme="@style/AppTheme.TransparentStatusBarOnToolbar" />
         <activity
             android:name=".dialog.DatePickerDialogActivity"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
-
-        <activity android:name=".NavEditProfileActivity"
+        <activity
+            android:name=".NavEditProfileActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
-
-        <activity android:name=".NavTeamActivity"
+        <activity
+            android:name=".NavTeamActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity android:name=".CompleteTodoTabActivity"
+        <activity
+            android:name=".CompleteTabActivity"
             android:theme="@style/MyMaterialTheme" />
-
-        <activity android:name=".NavSettingPrefActivity"
+        <activity
+            android:name=".NavSettingPrefActivity"
             android:label="@string/nav_setting"
             android:theme="@style/SettingAppTheme" />
-
         <activity
             android:name=".dialog.OpensourceDialogActivity"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
+        <activity android:name=".PermissionActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

@@ -22,7 +22,7 @@ import com.team.codealmanac.w2do.models.Todo;
 import java.util.Calendar;
 
 /**
- * Created by sihyeon on 2017-01-15.
+ * Created by Jaeung on 2017-05-27.
  */
 
 public class SimpleInputDialogFragment extends DialogFragment {

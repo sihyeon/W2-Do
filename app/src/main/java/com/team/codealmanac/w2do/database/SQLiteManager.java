@@ -23,7 +23,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
     private final String TAG = "SQLiteManager";
     private static final int DATABASE_VERSION = 1;
     private SQLiteDatabase sqliteDB;
-    private final String mOrderByTodo = SQLContract.TodoEntry._ID + " DESC";
+    private final String mOrderTodoByInputDate = SQLContract.TodoEntry.COLUMN_NAME_START_DATE + " DESC";
     private final String mOrderByMainSchedule = SQLContract.MainScheduleEntry._ID + " DESC";
 
     private static FolderSQLiteEventListener mFolderListener;
@@ -315,13 +315,53 @@ public class SQLiteManager extends SQLiteOpenHelper {
         }
     }
 
+    public void deleteTodoWithMulti(String whereSQL){
+        sqliteDB.beginTransaction();
+        try{
+            sqliteDB.execSQL(String.format("DELETE FROM " + SQLContract.TodoEntry.TABLE_NAME
+                    + " WHERE " + SQLContract.TodoEntry._ID + " IN (%s);", whereSQL));
+            updateTodoCountInFolder();
+            sqliteDB.setTransactionSuccessful();
+        }catch (Exception e) {
+            Log.d(TAG, "Error deleteTodo: " + e);
+            return;
+        } finally {
+            sqliteDB.endTransaction();
+        }
+        if (mTodoListener != null && mFolderListener != null) {
+            mTodoListener.OnChangeTodo();
+            mFolderListener.OnChangeTodoFolder();
+        }
+    }
+
+    public void changeFolderWithMulti(String whereSQL, String newFolder){
+        sqliteDB.beginTransaction();
+        try{
+            Log.d(TAG, "changeFolderWithMulti : " + whereSQL + " folder : " + newFolder);
+            sqliteDB.execSQL(String.format("UPDATE " + SQLContract.TodoEntry.TABLE_NAME
+                    + " SET " + SQLContract.TodoEntry.COLUMN_NAME_FOLDER  + " = '" + newFolder + "' "
+                    + " WHERE " + SQLContract.TodoEntry._ID + " IN (%s);", whereSQL));
+            updateTodoCountInFolder();
+            sqliteDB.setTransactionSuccessful();
+        }catch (Exception e) {
+            Log.d(TAG, "Error deleteTodo: " + e);
+            return;
+        } finally {
+            sqliteDB.endTransaction();
+        }
+        if (mTodoListener != null && mFolderListener != null) {
+            mTodoListener.OnChangeTodo();
+            mFolderListener.OnChangeTodoFolder();
+        }
+    }
+
     public ArrayList<SimpleTodo> getSimpleTodo() {
         ArrayList<SimpleTodo> tempArray = new ArrayList<>();
         sqliteDB.beginTransaction();
         try {
             Cursor cursor = sqliteDB.query(SQLContract.TodoEntry.TABLE_NAME,
                     new String[]{SQLContract.TodoEntry._ID, SQLContract.TodoEntry.COLUMN_NAME_CHECK, SQLContract.TodoEntry.COLUMN_NAME_CONTENT},
-                    SQLContract.TodoEntry.COLUMN_NAME_CHECK + "=?", new String[]{String.valueOf(0)}, null, null, mOrderByTodo);
+                    SQLContract.TodoEntry.COLUMN_NAME_CHECK + "=?", new String[]{String.valueOf(0)}, null, null, mOrderTodoByInputDate);
             if (cursor.moveToFirst()) {
                 do {
                     //name, sequence, adp_todofolder_count
@@ -344,12 +384,13 @@ public class SQLiteManager extends SQLiteOpenHelper {
         sqliteDB.beginTransaction();
         try{
             Cursor cursor = sqliteDB.query(SQLContract.TodoEntry.TABLE_NAME, null,
-                    SQLContract.TodoEntry.COLUMN_NAME_CHECK + "=?", new String[]{String.valueOf(1)}, null, null, mOrderByTodo);
+                    SQLContract.TodoEntry.COLUMN_NAME_CHECK + "=?", new String[]{String.valueOf(1)}, null, null,
+                    SQLContract.TodoEntry.COLUMN_NAME_CHECK_DATE + " DESC");
             if(cursor.moveToFirst()){
                 do{
                     Todo Todo = new Todo(cursor.getLong(0), cursor.getLong(1), cursor.getInt(2), cursor.getInt(3),
                             cursor.getString(4), cursor.getString(5), cursor.getLong(6), cursor.getLong(7), cursor.getLong(8),
-                            cursor.getDouble(9), cursor.getDouble(10), cursor.getString(11), cursor.getString(12));
+                            cursor.getDouble(9), cursor.getDouble(10), cursor.getString(11), cursor.getString(12), cursor.getLong(13));
                     tempList.add(Todo);
                 }while (cursor.moveToNext());
             }
@@ -372,13 +413,16 @@ public class SQLiteManager extends SQLiteOpenHelper {
             if(!cursor.moveToFirst()) return;
             check_state = cursor.getInt(0);
             if(check_state == 0){
+                Calendar calendar = Calendar.getInstance();
                 ContentValues contentValues = new ContentValues();
                 contentValues.put(SQLContract.TodoEntry.COLUMN_NAME_CHECK, 1);
+                contentValues.put(SQLContract.TodoEntry.COLUMN_NAME_CHECK_DATE, calendar.getTimeInMillis());
                 sqliteDB.update(SQLContract.TodoEntry.TABLE_NAME, contentValues,
                         SQLContract.TodoEntry._ID + "=?", new String[]{String.valueOf(_ID)});
             } else {
                 ContentValues contentValues = new ContentValues();
                 contentValues.put(SQLContract.TodoEntry.COLUMN_NAME_CHECK, 0);
+                contentValues.put(SQLContract.TodoEntry.COLUMN_NAME_CHECK_DATE, 0);
                 sqliteDB.update(SQLContract.TodoEntry.TABLE_NAME, contentValues,
                         SQLContract.TodoEntry._ID + " =?", new String[]{String.valueOf(_ID)});
             }
@@ -404,12 +448,13 @@ public class SQLiteManager extends SQLiteOpenHelper {
             if(folder.equals(SQLContract.DEFUALT_FOLDER_NAME)){
                 cursor = sqliteDB.query(SQLContract.TodoEntry.TABLE_NAME,
                         null,
-                        SQLContract.TodoEntry.COLUMN_NAME_CHECK + "=?", new String[]{String.valueOf(0)}, null, null, mOrderByTodo);
+                        SQLContract.TodoEntry.COLUMN_NAME_CHECK + "=?", new String[]{String.valueOf(0)}, null, null, mOrderTodoByInputDate);
             } else {
                 cursor = sqliteDB.query(SQLContract.TodoEntry.TABLE_NAME,
                         null,
                         SQLContract.TodoEntry.COLUMN_NAME_FOLDER + "=? AND "+SQLContract.TodoEntry.COLUMN_NAME_CHECK + "=?"
-                        , new String[]{folder, String.valueOf(0)}, null, null, null);
+                        , new String[]{folder, String.valueOf(0)}, null, null,
+                        SQLContract.TodoEntry.COLUMN_NAME_SEQUENCE);
             }
             if (cursor.moveToFirst()) {
                 do {
@@ -456,7 +501,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
                     SQLContract.MainScheduleEntry.COLUMN_NAME_CHECK_STATE + "=?", new String[]{String.valueOf(0)}, null, null, null);
             if (cursor.moveToFirst()) {
                 sqliteDB.setTransactionSuccessful();
-                return new MainSchedule(cursor.getLong(0), cursor.getLong(1), cursor.getString(2), cursor.getInt(3));
+                return new MainSchedule(cursor.getLong(0), cursor.getLong(1), cursor.getString(2), cursor.getInt(3), cursor.getLong(4));
             }
             cursor.close();
             sqliteDB.setTransactionSuccessful();
@@ -473,11 +518,12 @@ public class SQLiteManager extends SQLiteOpenHelper {
         sqliteDB.beginTransaction();
         try{
             Cursor cursor = sqliteDB.query(SQLContract.MainScheduleEntry.TABLE_NAME, null,
-                    SQLContract.MainScheduleEntry.COLUMN_NAME_CHECK_STATE + "=?", new String[]{String.valueOf(1)}, null, null, mOrderByMainSchedule);
+                    SQLContract.MainScheduleEntry.COLUMN_NAME_CHECK_STATE + "=?", new String[]{String.valueOf(1)}, null, null,
+                    SQLContract.MainScheduleEntry.COLUMN_NAME_CHECK_DATE + " DESC");
             if(cursor.moveToFirst()){
                 do{
                     Log.d(TAG, "MainSchedule: " + cursor.getString(2));
-                    tempList.add(new MainSchedule(cursor.getLong(0), cursor.getLong(1), cursor.getString(2), cursor.getInt(3)));
+                    tempList.add(new MainSchedule(cursor.getLong(0), cursor.getLong(1), cursor.getString(2), cursor.getInt(3), cursor.getLong(4)));
                 }while(cursor.moveToNext());
             }
             cursor.close();
@@ -500,9 +546,11 @@ public class SQLiteManager extends SQLiteOpenHelper {
             if (cursor.moveToFirst()) {
                 check_state = cursor.getInt(0);
                 String updateSQL;
+                Calendar calendar = Calendar.getInstance();
                 if(check_state == 0){
                     updateSQL = "UPDATE " + SQLContract.MainScheduleEntry.TABLE_NAME +
-                            " SET " + SQLContract.MainScheduleEntry.COLUMN_NAME_CHECK_STATE + " = " + 1 +
+                            " SET " + SQLContract.MainScheduleEntry.COLUMN_NAME_CHECK_STATE + " = " + 1 + ", " +
+                            SQLContract.MainScheduleEntry.COLUMN_NAME_CHECK_DATE + " = " + calendar.getTimeInMillis() +
                             " WHERE " + SQLContract.MainScheduleEntry._ID + " = " + _ID;
                 } else {
                     if(!sqliteDB.query(SQLContract.MainScheduleEntry.TABLE_NAME,
@@ -510,6 +558,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
                             SQLContract.MainScheduleEntry.COLUMN_NAME_CHECK_STATE + "=?", new String[]{String.valueOf(0)}, null, null, null).moveToFirst()){
                         updateSQL = "UPDATE " + SQLContract.MainScheduleEntry.TABLE_NAME +
                                 " SET " + SQLContract.MainScheduleEntry.COLUMN_NAME_CHECK_STATE + " = " + 0 +
+                                SQLContract.MainScheduleEntry.COLUMN_NAME_CHECK_DATE + " = " + 0 +
                                 " WHERE " + SQLContract.MainScheduleEntry._ID + " = " + _ID;
                     } else {
                         return "두개 이상의 메인스케줄을 활성화 할 수 없습니다.";
@@ -526,6 +575,24 @@ public class SQLiteManager extends SQLiteOpenHelper {
         }
         return null;
     }
+
+    public void deleteMainScheduleWithMulti(String whereSQL){
+        sqliteDB.beginTransaction();
+        try{
+            sqliteDB.execSQL(String.format("DELETE FROM " + SQLContract.MainScheduleEntry.TABLE_NAME
+                    + " WHERE " + SQLContract.MainScheduleEntry._ID + " IN (%s);", whereSQL));
+            updateTodoCountInFolder();
+            sqliteDB.setTransactionSuccessful();
+        }catch (Exception e) {
+            Log.d(TAG, "Error deleteTodo: " + e);
+            return;
+        } finally {
+            sqliteDB.endTransaction();
+        }
+    }
+
+
+
 
     private void init(SQLiteDatabase db) {
         Log.d(TAG, "데이터베이스 초기화");
@@ -569,6 +636,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
                     SQLContract.TodoEntry.COLUMN_NAME_LONGITUDE + " REAL DEFAULT 500, " +
                     SQLContract.TodoEntry.COLUMN_NAME_LOCATION + " TEXT, " +
                     SQLContract.TodoEntry.COLUMN_NAME_MEMO + " TEXT, " +
+                    SQLContract.TodoEntry.COLUMN_NAME_CHECK_DATE + " INTEGER DEFAULT 0, " +
                     "FOREIGN KEY(" + SQLContract.TodoEntry.COLUMN_NAME_FOLDER + ")" +
                     " REFERENCES " + SQLContract.TodoFolderEntry.TABLE_NAME + "(" + SQLContract.TodoFolderEntry.COLUMN_NAME_NAME + ")" +
                     " ON DELETE CASCADE" +
@@ -581,7 +649,8 @@ public class SQLiteManager extends SQLiteOpenHelper {
                     SQLContract.MainScheduleEntry._ID + " INTEGER PRIMARY KEY, " +
                     SQLContract.MainScheduleEntry.COLUMN_NAME_DATE + " INTEGER NOT NULL, " +
                     SQLContract.MainScheduleEntry.COLUMN_NAME_CONTENT + " TEXT NOT NULL, " +
-                    SQLContract.MainScheduleEntry.COLUMN_NAME_CHECK_STATE + " INTEGER CHECK(" + SQLContract.MainScheduleEntry.COLUMN_NAME_CHECK_STATE + "= 0 OR " + SQLContract.MainScheduleEntry.COLUMN_NAME_CHECK_STATE + " = 1) DEFAULT 0 " +
+                    SQLContract.MainScheduleEntry.COLUMN_NAME_CHECK_STATE + " INTEGER CHECK(" + SQLContract.MainScheduleEntry.COLUMN_NAME_CHECK_STATE + "= 0 OR " + SQLContract.MainScheduleEntry.COLUMN_NAME_CHECK_STATE + " = 1) DEFAULT 0, " +
+                    SQLContract.MainScheduleEntry.COLUMN_NAME_CHECK_DATE + " INTEGER DEFAULT 0 " +
                     " ) ";
             db.execSQL(createMainScheduleTableSQL);
             Log.i(TAG, "Create MainSchedule Table - " + createMainScheduleTableSQL);

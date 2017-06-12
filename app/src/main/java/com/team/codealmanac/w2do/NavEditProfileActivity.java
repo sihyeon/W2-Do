@@ -93,7 +93,7 @@ public class NavEditProfileActivity extends BaseActivity implements View.OnClick
             PreferencesManager.setNickname(getApplicationContext(), ChangedNickName);
             Toast.makeText(this,"닉네임이 변경되었습니다.",Toast.LENGTH_SHORT).show();
 
-        } else if(v.getId()==R.id.nav_edit_profile_btn && actionId==EditorInfo.IME_ACTION_DONE){
+        } /*else if(v.getId()==R.id.nav_edit_profile_btn && actionId==EditorInfo.IME_ACTION_DONE){
             String ChangedNickName = nav_profile_edittext.getText().toString();
             if (TextUtils.isEmpty(ChangedNickName)) {
                 nav_profile_edittext.setError("Required");
@@ -101,8 +101,8 @@ public class NavEditProfileActivity extends BaseActivity implements View.OnClick
             mNicknameReference.child( FirebaseAuth.getInstance().getCurrentUser().getUid() ).setValue(ChangedNickName);
             PreferencesManager.setNickname(getApplicationContext(), ChangedNickName);
             Toast.makeText(this,"닉네임이 변경되었습니다.",Toast.LENGTH_SHORT).show();
-        }
-        return false;
+        }*/
+        return true;
     }
 
     @Override
@@ -111,7 +111,7 @@ public class NavEditProfileActivity extends BaseActivity implements View.OnClick
             case R.id.nav_profile_backpress_btn:
                 onBackPressed();
                 break;
-            case R.id.nav_profile_edittext:
+            case R.id.nav_edit_profile_btn:
                 nav_profile_edittext.setText(null);
                 break;
         }

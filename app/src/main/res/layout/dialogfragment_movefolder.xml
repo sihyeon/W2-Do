@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="288dp"
+        android:layout_height="wrap_content"
+        android:maxHeight="292dp"
+        android:orientation="vertical"
+        android:paddingBottom="15dp"
+        android:paddingEnd="24dp"
+        android:paddingStart="24dp"
+        android:paddingTop="25dp"
+        android:background="@drawable/fragment_simpleinput_background_border">
+
+        <TextView
+            android:id="@+id/dialogfragment_movefolder_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="이동할 폴더 선택"
+            android:textColor="#4D4D4D"
+            android:textSize="18dp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/dialogfragment_movefolder_folderlist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:maxHeight="164dp"/>
+
+        <LinearLayout
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/dialogfragment_movefolder_cancel_btn"
+                android:layout_width="113dp"
+                android:layout_height="30dp"
+                android:background="@drawable/dialog_cancel_btn"
+                android:stateListAnimator="@null"
+                android:text="@string/Cancel"
+                android:textColor="#999999"
+                android:textSize="13dp" />
+
+            <Button
+                android:id="@+id/dialogfragment_movefolder_move_btn"
+                android:layout_width="113dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="14dp"
+                android:background="@drawable/dialog_simpleinput_ok_btn"
+                android:stateListAnimator="@null"
+                android:text="이동"
+                android:textColor="#0087FF"
+                android:textSize="13dp" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

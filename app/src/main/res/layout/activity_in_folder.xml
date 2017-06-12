@@ -17,6 +17,7 @@
         app:contentInsetStart="0dp"
         app:contentInsetEnd="0dp"
         android:background="@null">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -38,6 +39,53 @@
                 android:text="ALL"
                 android:textSize="18dp"
                 android:textColor="@color/real_white"/>
+
+            <RelativeLayout
+                android:id="@+id/act_infolder_toolbar_longclick_layout"
+                android:layout_toEndOf="@id/act_infolder_toolbar_back_btn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone">
+                <TextView
+                    android:id="@+id/act_infolder_toolbar_longclick_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="22dp"
+                    android:text="1개"
+                    android:textSize="18dp"
+                    android:textColor="@color/real_white"/>
+
+                <ImageButton
+                    android:id="@+id/act_infolder_toolbar_longclick_delete"
+                    android:src="@drawable/icn_delete_list"
+                    android:background="@null"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="12dp"/>
+
+                <ImageButton
+                    android:id="@+id/act_infolder_toolbar_longclick_movefolder"
+                    android:src="@drawable/icn_folder_move"
+                    android:background="@null"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@id/act_infolder_toolbar_longclick_delete"
+                    android:layout_marginEnd="14dp"/>
+
+                <ImageButton
+                    android:id="@+id/act_infolder_toolbar_longclick_share"
+                    android:src="@drawable/icn_share"
+                    android:background="@null"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@+id/act_infolder_toolbar_longclick_movefolder"
+                    android:layout_marginEnd="18dp"/>
+            </RelativeLayout>
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
 

@@ -3,9 +3,11 @@ package com.team.codealmanac.w2do.dialog;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,12 +20,9 @@ import android.widget.TextView;
 import com.team.codealmanac.w2do.R;
 import com.team.codealmanac.w2do.contract.FontContract;
 import com.team.codealmanac.w2do.database.SQLiteManager;
-import com.team.codealmanac.w2do.models.Todo;
-
-import java.util.Calendar;
 
 /**
- * Created by sihyeon on 2017-01-15.
+ * Created by jaeung on 2017-06-05.
  */
 
 public class DeleteDialogFragment extends DialogFragment {
@@ -32,8 +31,14 @@ public class DeleteDialogFragment extends DialogFragment {
     private static final String PARAM2 = "data";
     public static final String TYPE_TODO = "todo";
     public static final String TYPE_FOLDER = "folder";
+    public static final String TYPE_MAINSCHEDULE = "main_schedule";
     private String mType;
     private String mData;
+
+    private DeleteDialogListener listener;
+    public interface DeleteDialogListener{
+        void OnDelete();
+    }
 
     public DeleteDialogFragment() {
     }
@@ -49,6 +54,16 @@ public class DeleteDialogFragment extends DialogFragment {
         args.putString(PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try{
+            listener = (DeleteDialogListener)context;
+        } catch (Exception e){
+            Log.d(TAG, "error : " + e);
+        }
     }
 
     @Override
@@ -73,12 +88,12 @@ public class DeleteDialogFragment extends DialogFragment {
         dialog_delete_content.setTypeface(font.NahumSquareR_Regular());
         dialog_delete_cancel_btn.setTypeface(font.NahumSquareR_Regular());
         dialog_delete_delete_btn.setTypeface(font.NahumSquareR_Regular());
-
+        View.OnClickListener dialogClickListener;
         if(mType.equals(TYPE_FOLDER)){
             dialog_delete_title.setText("폴더 삭제");
             dialog_delete_content.setText("폴더 안의 ToDo도 전부 삭제됩니다.\n정말로 삭제하시겠습니까?");
 
-            View.OnClickListener dialogClickListener = new View.OnClickListener() {
+            dialogClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(v.getId() == R.id.dialogfragment_delete_delete_btn){
@@ -90,16 +105,35 @@ public class DeleteDialogFragment extends DialogFragment {
                     }
                 }
             };
-            dialog_delete_cancel_btn.setOnClickListener(dialogClickListener);
-            dialog_delete_delete_btn.setOnClickListener(dialogClickListener);
+        } else if(mType.equals(TYPE_TODO)){
+            dialogClickListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(v.getId() == R.id.dialogfragment_delete_delete_btn){
+                        listener.OnDelete();
+                        dismiss();
+                    } else {
+                        dismiss();
+                    }
+                }
+            };
+        } else {
+            dialog_delete_title.setText("메인스케줄 삭제");
+            dialog_delete_content.setText("메인스케줄이 전부 삭제됩니다.\n정말로 삭제하시겠습니까?");
+            dialogClickListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (v.getId() == R.id.dialogfragment_delete_delete_btn) {
+                        listener.OnDelete();
+                        dismiss();
+                    } else {
+                        dismiss();
+                    }
+                }
+            };
         }
-
-
+        dialog_delete_cancel_btn.setOnClickListener(dialogClickListener);
+        dialog_delete_delete_btn.setOnClickListener(dialogClickListener);
         return v;
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
     }
 }

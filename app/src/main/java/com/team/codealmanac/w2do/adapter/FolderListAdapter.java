@@ -1,18 +1,12 @@
 package com.team.codealmanac.w2do.adapter;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.team.codealmanac.w2do.InFolderActivity;
 import com.team.codealmanac.w2do.R;
@@ -57,19 +51,23 @@ public class FolderListAdapter extends RecyclerView.Adapter<TodoFolderViewHolder
         holder.adp_todofolder_name.setText(todoFolder.name);
         holder.adp_todofolder_count.setText(String.valueOf(todoFolder.todo_count));
 
+        holder.adp_todofolder_nomal_layout.setVisibility(View.VISIBLE);
+        holder.adp_todofolder_longclick_layout.setVisibility(View.GONE);
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(holder.itemView.getContext(), InFolderActivity.class);
                 intent.putExtra("folderName", holder.adp_todofolder_name.getText());
                 holder.itemView.getContext().startActivity(intent);
+                notifyDataSetChanged();
             }
         });
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
                 if (todoFolder.name.equals(SQLContract.DEFUALT_FOLDER_NAME)) return false;
-                changeFromNomalLayoutToLongClickLayout(holder);
+                changeFromNormalLayoutToLongClickLayout(holder);
                 return true;
             }
         });
@@ -106,7 +104,7 @@ public class FolderListAdapter extends RecyclerView.Adapter<TodoFolderViewHolder
         holder.adp_todofolder_longclick_layout.setVisibility(View.GONE);
     }
 
-    private void changeFromNomalLayoutToLongClickLayout(TodoFolderViewHolder holder) {
+    private void changeFromNormalLayoutToLongClickLayout(TodoFolderViewHolder holder) {
         holder.adp_todofolder_nomal_layout.setVisibility(View.GONE);
         holder.adp_todofolder_longclick_layout.setVisibility(View.VISIBLE);
     }

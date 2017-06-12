@@ -50,23 +50,34 @@
                     android:layout_marginStart="11dp"
                     android:orientation="vertical">
 
+                    <!--<EditText-->
+                        <!--android:id="@+id/act_detailInput_todo_content_edt"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginBottom="4dp"-->
+                        <!--android:layout_marginStart="3dp"-->
+                        <!--android:background="@null"-->
+                        <!--android:hint="@string/detailInputActivity_todo_content_edt_hint"-->
+                        <!--android:textColorHint="#999999"-->
+                        <!--android:textSize="14dp"-->
+                        <!--android:gravity="top"-->
+                        <!--android:inputType="text"/>-->
+
+                    <!--<View-->
+                        <!--android:layout_width="222dp"-->
+                        <!--android:layout_height="1dp"-->
+                        <!--android:background="#5a91c2" />-->
                     <EditText
                         android:id="@+id/act_detailInput_todo_content_edt"
-                        android:layout_width="wrap_content"
+                        android:layout_width="222dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="4dp"
-                        android:layout_marginStart="3dp"
-                        android:background="@null"
                         android:hint="@string/detailInputActivity_todo_content_edt_hint"
                         android:textColorHint="#999999"
                         android:textSize="14dp"
                         android:gravity="top"
-                        android:inputType="text"/>
+                        android:inputType="text"
+                        android:theme="@style/DetailInputEditTextTheme"/>
 
-                    <View
-                        android:layout_width="222dp"
-                        android:layout_height="1dp"
-                        android:background="#5a91c2" />
                 </LinearLayout>
 
                 <Button
