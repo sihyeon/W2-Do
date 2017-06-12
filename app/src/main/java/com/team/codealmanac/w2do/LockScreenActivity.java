@@ -1,45 +1,27 @@
 package com.team.codealmanac.w2do;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ObjectAnimator;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.transition.ChangeBounds;
-import android.support.transition.Fade;
 
-import android.support.transition.TransitionManager;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.PermissionChecker;
 import android.os.Bundle;
 
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.transition.Transition;
-import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewAnimationUtils;
-import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnticipateOvershootInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextClock;
 import android.widget.TextView;
@@ -53,12 +35,10 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import com.team.codealmanac.w2do.adapter.TodoLockScreenAdapter;
-import com.team.codealmanac.w2do.adapter.TodoSimpleListAdapter;
 import com.team.codealmanac.w2do.assistant.LocationInfoAssistant;
 import com.team.codealmanac.w2do.contract.FontContract;
 import com.team.codealmanac.w2do.database.PreferencesManager;
 import com.team.codealmanac.w2do.database.SQLiteManager;
-import com.team.codealmanac.w2do.fragment.TodoLockScreenFragment;
 import com.team.codealmanac.w2do.listeners.OnSwipeTouchListener;
 import com.team.codealmanac.w2do.models.MainSchedule;
 
@@ -74,34 +54,33 @@ import java.util.Locale;
 
 public class LockScreenActivity extends BaseActivity implements LocationInfoAssistant.InterfaceLocationInfoManager {
     private final String TAG = "LockScreenActivity";
-    private final int GEO_PERMISSIONS_REQUEST = 1;
+
+    public static final String TYPE_TODO = "todo";
+    public static final String TYPE_MAINSCHEDULE = "main_schedule";
+
     private LocationInfoAssistant mLocationInfoManager;
 
-    private boolean isPermission;
     private FontContract mFont;
     private RelativeLayout layout_lock_screen_main;
-    private ImageView lefticon;
-    private ImageView righticon;
-    private boolean sizeChanged = false;
-    private FrameLayout bg_ms_layer;
-    private FrameLayout bg_todo_layer;
-    private RecyclerView lockscreen_todo_listview;
-    private TodoSimpleListAdapter mSimpleTodoAdapter;
-    private TodoLockScreenAdapter mLockTodoAdapter;
-    private Fragment mTodoLockScreenFragment;
-    int showTodo, showMain, REQIEST_CODE, RESULT_MAIN_PICK, RESULT_TODO_PICK;
-    Intent ForMainActIntent;
-    Intent LockIntent;
-    Intent MainIntent;
-    MainSchedule mainSchedule;
-    SQLiteManager sqliteManager;
+    private ImageView act_lockscreen_left_guide_icon;
+    private ImageView act_lockscreen_right_guide_icon;
 
-    public static Context lockContext;
+    private FrameLayout act_lockscreen_mask_mainschedule;
+    private FrameLayout act_lockscreen_mask_todo;
+
+    private LinearLayout act_lockscreen_layout_todo_layout;
+    private RecyclerView act_lockscreen_todo_listview;
+
+    private LinearLayout act_lockscreen_layout_exist_mainschedule;
+    private LinearLayout act_lockscreen_layout_ignore_mainschedule;
+
+    int showTodo, showMain, REQUEST_CODE, RESULT_MAIN_PICK, RESULT_TODO_PICK;
+    SQLiteManager sqliteManager;
 
     //인터페이스
     @Override
     public void setLocation(Location location) {
-        if (location != null && isPermission && getNetworkState()) {
+        if (location != null && getNetworkState()) {
             setAddress(location);
             getWeatherData(location);
             setLocationVisibility(true);
@@ -115,7 +94,8 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lock_screen);
         mFont = new FontContract(getAssets());
-        lockContext = this;
+        sqliteManager = new SQLiteManager(getApplicationContext());
+
         //상태바 없앰
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -124,25 +104,26 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
                 | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
 
-        permissionChecking();
-        if (isPermission) {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mLocationInfoManager = LocationInfoAssistant.getInstance();
             mLocationInfoManager.onStartLocation(getApplicationContext(), this);
         }
+        //메인스케줄 레이아웃
+        act_lockscreen_layout_exist_mainschedule = (LinearLayout)findViewById(R.id.act_lockscreen_layout_exist_mainschedule);
+        act_lockscreen_layout_ignore_mainschedule = (LinearLayout)findViewById(R.id.act_lockscreen_layout_ignore_mainschedule);
+
+        //투두
+        act_lockscreen_layout_todo_layout = (LinearLayout)findViewById(R.id.act_lockscreen_layout_todo_layout);
+        act_lockscreen_todo_listview = (RecyclerView)findViewById(R.id.act_lockscreen_todo_listview);
 
         // 그림자 레이어 선언
-        bg_ms_layer = (FrameLayout)findViewById(R.id.bg_ms_layer);
-        bg_todo_layer = (FrameLayout)findViewById(R.id.bg_todo_layer);
-
-
-        lockscreen_todo_listview = (RecyclerView)findViewById(R.id.act_lockscreen_todo_listview);
-        lockscreen_todo_listview.setAdapter(mSimpleTodoAdapter);
-        mTodoLockScreenFragment = TodoLockScreenFragment.newInstance();
+        act_lockscreen_mask_mainschedule = (FrameLayout)findViewById(R.id.act_lockscreen_mask_mainschedule);
+        act_lockscreen_mask_todo = (FrameLayout)findViewById(R.id.act_lockscreen_mask_todo);
 
         // 스와이프 애니메이션 실행 준비
         layout_lock_screen_main = (RelativeLayout)findViewById(R.id.layout_lock_screen_main);
-        lefticon = (ImageView)findViewById(R.id.left_icon);
-        righticon = (ImageView)findViewById(R.id.right_icon);
+        act_lockscreen_left_guide_icon = (ImageView)findViewById(R.id.act_lockscreen_left_guide_icon);
+        act_lockscreen_right_guide_icon = (ImageView)findViewById(R.id.act_lockscreen_right_guide_icon);
 
         //스와이프 동작.
         layout_lock_screen_main.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()){
@@ -159,8 +140,6 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
             }
         });
 
-        setGreetingText(PreferencesManager.getNickname(getApplicationContext()));
-
         //폰트지정
         ((TextView)findViewById(R.id.act_lockscreen_greeting)).setTypeface(mFont.NahumSquareR_Regular());
         ((TextView)findViewById(R.id.act_lockscreen_nickname)).setTypeface(mFont.NahumSquareR_Regular());
@@ -168,45 +147,7 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
         ((TextView)findViewById(R.id.act_lockscreen_mainschedule)).setTypeface(mFont.NahumSquareR_Regular());
         ((TextView)findViewById(R.id.act_lockscreen_what_mainschedule)).setTypeface(mFont.NahumSquareB_Regular());
 
-        String nickname = PreferencesManager.getNickname(getApplicationContext());
-        //파베 실시간디비 리스너 등록
-        setGreetingText(nickname);
 
-        sqliteManager = new SQLiteManager(getApplicationContext());
-        mainSchedule = sqliteManager.getMainSchedule();
-
-        ForMainActIntent = new Intent(getApplicationContext(),LockScreenActivity.class);
-        startActivityForResult(ForMainActIntent,REQIEST_CODE);
-
-        LockIntent = getIntent();
-        MainIntent = getIntent();
-
-        if(mainSchedule != null){
-            existMainSchedule(mainSchedule.content);
-        } else {
-            nonexistMainSchedule();
-        }
-
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == REQIEST_CODE) {
-            if (resultCode == RESULT_MAIN_PICK) {
-                String key = ForMainActIntent.getExtras().getString("key");
-                showTodo = LockIntent.getIntExtra("showTodo",10);
-                CallTodoShow();
-                Toast.makeText(getApplicationContext(), key, Toast.LENGTH_LONG).show();
-            } else if(resultCode == RESULT_TODO_PICK){
-                showMain = MainIntent.getIntExtra("showMain",20);
-                if(mainSchedule != null){
-                    existMainSchedule(mainSchedule.content);
-                } else {
-                    nonexistMainSchedule();
-                }
-            }
-        }
     }
 
     @Override
@@ -219,11 +160,25 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
         //datetime
         TextView date = (TextView) findViewById(R.id.act_lockscreen_date);
         date.setTypeface(mFont.RobotoLight());
-        String format = new String("MM .dd  EEEE");
-        SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.ENGLISH);
-        date.setText(sdf.format(new Date()));
+        String format = "MM .dd  EEEE";
+        SimpleDateFormat dateFormat = new SimpleDateFormat(format, Locale.ENGLISH);
+        date.setText(dateFormat.format(new Date()));
 
-        setGreetingText(null);
+        setGreetingText(PreferencesManager.getNickname(getApplicationContext()));
+
+        // TODO: 2017-06-12 메인스케줄 / 투두 보이기 구현
+        String lockScreenType = PreferencesManager.getLockScreenType(getApplicationContext());
+        //메인스케줄
+        if(lockScreenType.equals(TYPE_MAINSCHEDULE)){
+            MainSchedule mainSchedule = sqliteManager.getMainSchedule();
+            if(mainSchedule != null){
+                existMainSchedule(mainSchedule.content);
+            } else {
+                nonexistMainSchedule();
+            }
+        } else if(lockScreenType.equals(TYPE_TODO)){
+            callTodoShow();
+        }
     }
 
     @Override
@@ -234,46 +189,8 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
 
     @Override
     protected void onDestroy() {
-        if (isPermission) mLocationInfoManager.onStopLocation();
+        if (mLocationInfoManager != null) mLocationInfoManager.onStopLocation();
         super.onDestroy();
-    }
-
-    private void permissionChecking() {
-        String[] permissions = new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION,
-                android.Manifest.permission.ACCESS_FINE_LOCATION,
-                android.Manifest.permission.INTERNET,
-                android.Manifest.permission.ACCESS_NETWORK_STATE};
-        for (String permission : permissions) {
-            if (PermissionChecker.checkSelfPermission(getApplicationContext(), permission) != PermissionChecker.PERMISSION_GRANTED) {
-                //권한이 없을 경우 권한을 요청
-                ActivityCompat.requestPermissions(this, permissions, GEO_PERMISSIONS_REQUEST);
-                isPermission = false;
-                return;
-            }
-        }
-        isPermission = true;
-    }
-
-    // 권한 요청의 결과를 받아옴.
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        Log.d("LcokScreenFragment", "리퀘스트퍼미션리절트 진입");
-        if (requestCode == GEO_PERMISSIONS_REQUEST) {
-            for (int result : grantResults) {
-                if (result == PackageManager.PERMISSION_GRANTED) {  //권한 받음
-                    Log.d("LcokScreenFragment", "권한 받음");
-                } else { //권한 거부함
-                    Log.d("LcokScreenFragment", "권한 거부함");
-                    isPermission = false;
-                    LockScreenActivity.this.finish();
-                    return;
-                }
-            }
-            isPermission = true;
-            mLocationInfoManager = LocationInfoAssistant.getInstance();
-            mLocationInfoManager.onStartLocation(getApplicationContext(), this);
-        }
     }
 
     //지역정보를 불러오는데 하나라도 실패하면 전부 안보이게함.
@@ -429,31 +346,33 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
     }
 
     public void existMainSchedule(String mainSchedule){
-        findViewById(R.id.act_lockscreen_layout_exist_mainschedule).setVisibility(View.VISIBLE);
-        findViewById(R.id.act_lockscreen_layout_ignore_mainschedule).setVisibility(View.GONE);
-        bg_ms_layer.setVisibility(View.VISIBLE);
-        bg_todo_layer.setVisibility(View.GONE);
+        act_lockscreen_layout_exist_mainschedule.setVisibility(View.VISIBLE);
+        act_lockscreen_layout_ignore_mainschedule.setVisibility(View.GONE);
+        act_lockscreen_mask_mainschedule.setVisibility(View.VISIBLE);
+        act_lockscreen_mask_todo.setVisibility(View.GONE);
         ((TextView)findViewById(R.id.act_lockscreen_mainschedule)).setText(mainSchedule);
         Log.d(TAG, "existMainSchedule 불림");
     }
 
     public void nonexistMainSchedule(){
-        findViewById(R.id.act_lockscreen_layout_exist_mainschedule).setVisibility(View.GONE);
-        findViewById(R.id.act_lockscreen_layout_ignore_mainschedule).setVisibility(View.VISIBLE);
-        bg_ms_layer.setVisibility(View.VISIBLE);
-        bg_todo_layer.setVisibility(View.GONE);
+        act_lockscreen_layout_exist_mainschedule.setVisibility(View.GONE);
+        act_lockscreen_layout_ignore_mainschedule.setVisibility(View.VISIBLE);
+        act_lockscreen_mask_mainschedule.setVisibility(View.VISIBLE);
+        act_lockscreen_mask_todo.setVisibility(View.GONE);
         Log.d(TAG, "nonexistMainSchedule 불림");
     }
 
-    public void CallTodoShow(){
-        findViewById(R.id.act_lockscreen_layout_ignore_mainschedule).setVisibility(View.GONE);
-        findViewById(R.id.act_lockscreen_layout_exist_mainschedule).setVisibility(View.GONE);
-        getFragmentManager().beginTransaction()
-                .add(R.id.act_lockscreen_layout_todo_layout, mTodoLockScreenFragment)
-                .show(mTodoLockScreenFragment)
-                .commit();
-        bg_todo_layer.setVisibility(View.VISIBLE);
-        bg_ms_layer.setVisibility(View.GONE);
+    public void callTodoShow(){
+        act_lockscreen_layout_exist_mainschedule.setVisibility(View.GONE);
+        act_lockscreen_layout_ignore_mainschedule.setVisibility(View.GONE);
+        act_lockscreen_mask_todo.setVisibility(View.VISIBLE);
+        act_lockscreen_mask_mainschedule.setVisibility(View.GONE);
+
+        act_lockscreen_layout_todo_layout.setVisibility(View.VISIBLE);
+        act_lockscreen_todo_listview.setHasFixedSize(true);
+        act_lockscreen_todo_listview.setLayoutManager(new GridLayoutManager(this, 1));
+        TodoLockScreenAdapter todoAdapter = new TodoLockScreenAdapter(getApplicationContext());
+        act_lockscreen_todo_listview.setAdapter(todoAdapter);
         Log.d(TAG, "Calltodoshow 불림");
     }
 

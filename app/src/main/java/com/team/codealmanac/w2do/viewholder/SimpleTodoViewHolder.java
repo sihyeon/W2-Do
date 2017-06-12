@@ -17,13 +17,11 @@ import com.team.codealmanac.w2do.R;
  */
 
 public class SimpleTodoViewHolder extends RecyclerView.ViewHolder {
-    public View mView;
     public CheckBox adp_simpletoday_checkbox;
     public EditText adp_simpletoday_content;
 
     public SimpleTodoViewHolder(View itemView) {
         super(itemView);
-        mView = itemView;
         adp_simpletoday_checkbox = (CheckBox)itemView.findViewById(R.id.adp_simpletoday_checkbox);
         adp_simpletoday_content = (EditText) itemView.findViewById(R.id.adp_simpletoday_content);
     }

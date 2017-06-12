@@ -9,18 +9,21 @@
     android:elevation="0dp"
     android:visibility="visible"
     tools:context="com.team.codealmanac.w2do.LockScreenActivity">
+
     <FrameLayout
-        android:id="@+id/bg_ms_layer"
+        android:id="@+id/act_lockscreen_mask_mainschedule"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/bg_layer_ms"
-        android:visibility="visible"/>
+        android:visibility="visible" />
+
     <FrameLayout
-        android:id="@+id/bg_todo_layer"
+        android:id="@+id/act_lockscreen_mask_todo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/bg_layer_todo"
-        android:visibility="gone"/>
+        android:visibility="gone" />
+
     <!--날씨 & 지역설정 start-->
     <RelativeLayout
         android:id="@+id/act_lockscreen_location_layout"
@@ -48,9 +51,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_toStartOf="@id/act_lockscreen_temperature"
-            android:layout_marginRight="5dp"
             android:layout_marginBottom="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_toStartOf="@id/act_lockscreen_temperature"
             android:text="날씨아이콘"
             android:textColor="#FFFFFF"
             android:textSize="23dp" />
@@ -74,8 +77,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="77dp"
         android:layout_marginBottom="-15dp"
+        android:layout_marginTop="77dp"
         android:format12Hour="H:mm"
         android:gravity="center_vertical"
         android:textColor="#FFF"
@@ -87,8 +90,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/act_lockscreen_digital_clock"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
         android:layout_marginBottom="-5dp"
+        android:layout_marginTop="15dp"
         android:gravity="center_vertical"
         android:text="11.27 sun"
         android:textColor="#FFF"
@@ -102,8 +105,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/act_lockscreen_date"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="74dp"
         android:layout_marginBottom="-5dp"
+        android:layout_marginTop="74dp"
         android:gravity="center_vertical"
         android:text="활기찬 하루 보내세요!"
         android:textColor="#FEFEFE"
@@ -115,8 +118,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/act_lockscreen_greeting"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="7dp"
         android:layout_marginBottom="-5dp"
+        android:layout_marginTop="7dp"
         android:gravity="center_vertical"
         android:text="Jungwon님"
         android:textColor="#FEFEFE"
@@ -184,38 +187,36 @@
         android:layout_height="119dp"
         android:layout_below="@id/act_lockscreen_nickname"
         android:layout_marginTop="67dp"
-        android:gravity="center_horizontal"
+        android:layout_marginStart="16dp"
         android:orientation="vertical"
-        android:paddingTop="5dp"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/act_lockscreen_todo_listview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone" />
+            android:visibility="visible" />
     </LinearLayout>
     <!-- 투두 리스트 보일 때 end-->
 
     <!-- bottom image -->
     <ImageView
-        android:id="@+id/left_icon"
+        android:id="@+id/act_lockscreen_left_guide_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:paddingBottom="16dp"
-        android:paddingLeft="16dp"
-        app:srcCompat="@drawable/btn_wtd" />
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="16dp"
+        app:srcCompat="@drawable/btn_wtd"/>
 
-        <ImageView
-            android:id="@+id/right_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:paddingBottom="16dp"
-            android:paddingEnd="16dp"
-            app:srcCompat="@drawable/btn_unlock" />
-
+    <ImageView
+        android:id="@+id/act_lockscreen_right_guide_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        app:srcCompat="@drawable/btn_unlock" />
 </RelativeLayout>

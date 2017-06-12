@@ -70,7 +70,7 @@ public class TodoSimpleListAdapter extends RecyclerView.Adapter<SimpleTodoViewHo
 //                }
             }
         };
-        holder.mView.setOnClickListener(itemClickListener);
+        holder.itemView.setOnClickListener(itemClickListener);
     }
 
     @Override

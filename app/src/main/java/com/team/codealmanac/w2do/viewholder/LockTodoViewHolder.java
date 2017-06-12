@@ -13,12 +13,11 @@ import com.team.codealmanac.w2do.R;
  */
 
 public class LockTodoViewHolder extends RecyclerView.ViewHolder {
-    public View mView;
     public TextView adp_lockscreen_todo;
-
+    public View adp_lockscreen_bottom_line;
     public LockTodoViewHolder(View itemView) {
         super(itemView);
-        mView = itemView;
         adp_lockscreen_todo = (TextView) itemView.findViewById(R.id.adp_lockscreen_todo_content);
+        adp_lockscreen_bottom_line = itemView.findViewById(R.id.adp_lockscreen_bottom_line);
     }
 }

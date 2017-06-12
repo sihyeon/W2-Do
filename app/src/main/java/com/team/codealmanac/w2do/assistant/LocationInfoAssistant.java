@@ -27,15 +27,18 @@ public class LocationInfoAssistant implements LocationListener {
     }
 
     //싱글톤
-    private static LocationInfoAssistant ourInstance = new LocationInfoAssistant();
+    private static LocationInfoAssistant ourInstance;
     public static LocationInfoAssistant getInstance() {
+        if (ourInstance == null) {
+            ourInstance = new LocationInfoAssistant();
+        }
         return ourInstance;
     }
     private LocationInfoAssistant() {}
 
     public void onStartLocation(Context context, AppCompatActivity activity) {
         mInterface = (InterfaceLocationInfoManager) activity;
-        mContext = context;
+        mContext = context.getApplicationContext();
         mLocationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)

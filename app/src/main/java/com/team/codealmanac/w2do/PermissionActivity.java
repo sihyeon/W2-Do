@@ -16,19 +16,17 @@ import android.widget.Toast;
 public class PermissionActivity extends AppCompatActivity{
     private final String TAG = PermissionActivity.class.getSimpleName();
     private final int PERMISSIONS_REQUEST = 100;
-    private String[] PERMISSIONS;
+    //위치정보, 파일 접근권한
+    private final String[] PERMISSIONS = new String[]{
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_permission);
-
-        //위치정보, 미디어/파일 접근
-        PERMISSIONS = new String[]{
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
         if (hasPermissions()) {
             startActivity(new Intent(this, LoginActivity.class));

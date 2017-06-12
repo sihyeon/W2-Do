@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="39dp"
-    android:orientation="horizontal">
+    android:layout_height="40dp"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/adp_lockscreen_todo_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="39dp"
         android:layout_gravity="center_vertical"
-        android:layout_marginStart="7dp"
+        android:gravity="center"
         android:background="@null"
         android:text="영어 회화 공부"
-        android:textColor="#FFF"
+        android:textColor="#fff"
         android:textSize="16dp" />
+    <View
+        android:id="@+id/adp_lockscreen_bottom_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#66FFFFFF"/>
 </LinearLayout>

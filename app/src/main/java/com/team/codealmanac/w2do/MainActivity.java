@@ -447,9 +447,10 @@ public class MainActivity extends BaseActivity
             startActivity(Intent.createChooser(mail,"Choose email client"));
         } else if(id == R.id.nav_lockscreen_mainschedule_switch) {
             // 메인 스케줄만 보이게 하는 옵션
-
+           PreferencesManager.setLockScreenType(getApplicationContext(), LockScreenActivity.TYPE_MAINSCHEDULE);
        } else if(id == R.id.nav_lockscreen_todo_switch) {
-
+           // 투두만 보이게 하는 옵션
+           PreferencesManager.setLockScreenType(getApplicationContext(), LockScreenActivity.TYPE_TODO);
        }
         act_main_drawer_layout.closeDrawer(GravityCompat.START);
         return true;

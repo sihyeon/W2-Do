@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.team.codealmanac.w2do.R;
+import com.team.codealmanac.w2do.contract.FontContract;
 import com.team.codealmanac.w2do.database.SQLiteManager;
 import com.team.codealmanac.w2do.models.SimpleTodo;
 import com.team.codealmanac.w2do.viewholder.LockTodoViewHolder;
@@ -19,20 +20,17 @@ import java.util.ArrayList;
  * Created by sihyeon on 2017-06-09.
  */
 
-public class TodoLockScreenAdapter extends RecyclerView.Adapter<LockTodoViewHolder> implements SQLiteManager.TodoSQLiteEventListener {
+public class TodoLockScreenAdapter extends RecyclerView.Adapter<LockTodoViewHolder>{
     private final String TAG = "LockTodoAdapter";
     private ArrayList<SimpleTodo> mDataList;
     private SQLiteManager mSQLiteManager;
-    private Context mContext;
 
     public TodoLockScreenAdapter(Context context) {
-        mContext = context;
-        mSQLiteManager = SQLiteManager.getInstance(mContext);
+        mSQLiteManager = SQLiteManager.getInstance(context);
         mDataList = mSQLiteManager.getSimpleTodo();
         if(mDataList == null){
             mDataList = new ArrayList<>();
         }
-        mSQLiteManager.setTodoDataListener(this);
     }
 
     @Override
@@ -43,7 +41,13 @@ public class TodoLockScreenAdapter extends RecyclerView.Adapter<LockTodoViewHold
 
     @Override
     public void onBindViewHolder(final LockTodoViewHolder holder, final int position) {
+        holder.adp_lockscreen_bottom_line.setVisibility(View.VISIBLE);
+        if(position+1 == getItemCount()){
+            holder.adp_lockscreen_bottom_line.setVisibility(View.GONE);
+        }
         holder.adp_lockscreen_todo.setText(mDataList.get(position).content);
+        FontContract font = new FontContract(holder.itemView.getContext().getAssets());
+        holder.adp_lockscreen_todo.setTypeface(font.NahumSquareR_Regular());
     }
 
     @Override
@@ -52,11 +56,5 @@ public class TodoLockScreenAdapter extends RecyclerView.Adapter<LockTodoViewHold
             return mDataList.size();
         }
         return 0;
-    }
-
-    @Override
-    public void OnChangeTodo() {
-        mDataList = mSQLiteManager.getSimpleTodo();
-        this.notifyDataSetChanged();
     }
 }

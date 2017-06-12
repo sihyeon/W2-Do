@@ -95,7 +95,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
             }
             sqliteDB.setTransactionSuccessful();
         } catch (Exception e) {
-            Log.d(TAG, "Error addTodoFolder: " + e);
+            Log.e(TAG, "Error addTodoFolder: " + e);
         } finally {
             sqliteDB.endTransaction();
         }
@@ -111,7 +111,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
             updateTodoCountInFolder();
             sqliteDB.setTransactionSuccessful();
         } catch (Exception e){
-            Log.d(TAG, "Error deleteTodoFolder: " + e);
+            Log.e(TAG, "Error deleteTodoFolder: " + e);
         } finally {
             sqliteDB.endTransaction();
         }
@@ -135,7 +135,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
             cursor.close();
             sqliteDB.setTransactionSuccessful();
         } catch (Exception e) {
-            Log.d(TAG, "Error getAllTodoFolder: " + e);
+            Log.e(TAG, "Error getAllTodoFolder: " + e);
         } finally {
             sqliteDB.endTransaction();
         }
@@ -158,7 +158,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
             cursor.close();
             sqliteDB.setTransactionSuccessful();
         } catch (Exception e) {
-            Log.d(TAG, "Error getAllTodoFolder: " + e);
+            Log.e(TAG, "Error getAllTodoFolder: " + e);
         } finally {
             sqliteDB.endTransaction();
         }
@@ -179,7 +179,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
                     SQLContract.TodoEntry.COLUMN_NAME_FOLDER + "=?", new String[]{oldFolderName});
             sqliteDB.setTransactionSuccessful();
         } catch (Exception e){
-            Log.d(TAG, "Error updateTodoFolderOnlyName: " + e);
+            Log.e(TAG, "Error updateTodoFolderOnlyName: " + e);
             return;
         } finally {
           sqliteDB.endTransaction();
@@ -202,7 +202,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
             cursor.close();
             sqliteDB.setTransactionSuccessful();
         } catch (Exception e) {
-            Log.d(TAG, "Error getCountInFolder: " + e);
+            Log.e(TAG, "Error getCountInFolder: " + e);
         } finally {
             sqliteDB.endTransaction();
         }
@@ -254,7 +254,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
             updateTodoCountInFolder();
             sqliteDB.setTransactionSuccessful();
         } catch (Exception e) {
-            Log.d(TAG, "Error addTodo: " + e);
+            Log.e(TAG, "Error addTodo: " + e);
             return;
         } finally {
             sqliteDB.endTransaction();
@@ -286,7 +286,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
             updateTodoCountInFolder();
             sqliteDB.setTransactionSuccessful();
         } catch (Exception e) {
-            Log.d(TAG, "Error updateTodo: " + e);
+            Log.e(TAG, "Error updateTodo: " + e);
             return;
         } finally {
             sqliteDB.endTransaction();
@@ -304,7 +304,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
             updateTodoCountInFolder();
             sqliteDB.setTransactionSuccessful();
         }catch (Exception e) {
-            Log.d(TAG, "Error deleteTodo: " + e);
+            Log.e(TAG, "Error deleteTodo: " + e);
             return;
         } finally {
             sqliteDB.endTransaction();
@@ -323,7 +323,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
             updateTodoCountInFolder();
             sqliteDB.setTransactionSuccessful();
         }catch (Exception e) {
-            Log.d(TAG, "Error deleteTodo: " + e);
+            Log.e(TAG, "Error deleteTodo: " + e);
             return;
         } finally {
             sqliteDB.endTransaction();
@@ -344,7 +344,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
             updateTodoCountInFolder();
             sqliteDB.setTransactionSuccessful();
         }catch (Exception e) {
-            Log.d(TAG, "Error deleteTodo: " + e);
+            Log.e(TAG, "Error deleteTodo: " + e);
             return;
         } finally {
             sqliteDB.endTransaction();
@@ -372,7 +372,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
             cursor.close();
             sqliteDB.setTransactionSuccessful();
         } catch (Exception e) {
-            Log.d(TAG, "Error getSimpleTodo: " + e);
+            Log.e(TAG, "Error getSimpleTodo: " + e);
         } finally {
             sqliteDB.endTransaction();
         }
@@ -397,7 +397,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
             cursor.close();
             sqliteDB.setTransactionSuccessful();
         } catch (Exception e){
-            Log.d(TAG, "Error getCheckedTodo: " + e);
+            Log.e(TAG, "Error getCheckedTodo: " + e);
         } finally {
             sqliteDB.endTransaction();
         }
@@ -430,7 +430,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
             cursor.close();
             sqliteDB.setTransactionSuccessful();
         } catch (Exception e) {
-            Log.d(TAG, "Error updateCheckStateInTodo: " + e);
+            Log.e(TAG, "Error updateCheckStateInTodo: " + e);
             return;
         } finally {
             sqliteDB.endTransaction();
@@ -468,7 +468,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
             cursor.close();
             sqliteDB.setTransactionSuccessful();
         } catch (Exception e) {
-            Log.d(TAG, "Error getSimpleTodo: " + e);
+            Log.e(TAG, "Error getSimpleTodo: " + e);
         } finally {
             sqliteDB.endTransaction();
         }
@@ -487,7 +487,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
             sqliteDB.setTransactionSuccessful();
             return true;
         } catch (Exception e) {
-            Log.d(TAG, "Error setMainSchedule: " + e);
+            Log.e(TAG, "Error setMainSchedule: " + e);
         } finally {
             sqliteDB.endTransaction();
         }
@@ -506,7 +506,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
             cursor.close();
             sqliteDB.setTransactionSuccessful();
         } catch (Exception e) {
-            Log.d(TAG, "Error getMainSchedule: " + e);
+            Log.e(TAG, "Error getMainSchedule: " + e);
         } finally {
             sqliteDB.endTransaction();
         }
@@ -529,7 +529,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
             cursor.close();
             sqliteDB.setTransactionSuccessful();
         } catch (Exception e){
-            Log.d(TAG, "Error getCheckedMainSchedule: " + e);
+            Log.e(TAG, "Error getCheckedMainSchedule: " + e);
         } finally {
             sqliteDB.endTransaction();
         }
@@ -569,7 +569,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
             cursor.close();
             sqliteDB.setTransactionSuccessful();
         } catch (Exception e) {
-            Log.d(TAG, "Error updateCheckInMainSchedule: " + e);
+            Log.e(TAG, "Error updateCheckInMainSchedule: " + e);
         } finally {
             sqliteDB.endTransaction();
         }
@@ -584,7 +584,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
             updateTodoCountInFolder();
             sqliteDB.setTransactionSuccessful();
         }catch (Exception e) {
-            Log.d(TAG, "Error deleteTodo: " + e);
+            Log.e(TAG, "Error deleteTodo: " + e);
             return;
         } finally {
             sqliteDB.endTransaction();
@@ -604,7 +604,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
             db.execSQL("DROP TABLE IF EXISTS " + SQLContract.TodoEntry.TABLE_NAME);
             db.setTransactionSuccessful();
         } catch (Exception e) {
-            Log.d(TAG, "init(): 삭제 에러 - " + e);
+            Log.e(TAG, "init(): 삭제 에러 - " + e);
         } finally {
             db.endTransaction();
         }
@@ -657,7 +657,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
 
             db.setTransactionSuccessful();
         } catch (Exception e) {
-            Log.d(TAG, "init(): 생성 에러 - " + e);
+            Log.e(TAG, "init(): 생성 에러 - " + e);
         } finally {
             db.endTransaction();
         }
@@ -672,7 +672,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
             db.insert(SQLContract.TodoFolderEntry.TABLE_NAME, null, contentValues);
             db.setTransactionSuccessful();
         } catch (Exception e) {
-            Log.d(TAG, "init(): 기본폴더 데이터 insert 에러 - " + e);
+            Log.e(TAG, "init(): 기본폴더 데이터 insert 에러 - " + e);
         } finally {
             db.endTransaction();
         }
