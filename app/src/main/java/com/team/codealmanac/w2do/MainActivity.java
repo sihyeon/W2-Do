@@ -19,20 +19,17 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
-import android.transition.Transition;
 import android.transition.Slide;
-import android.transition.TransitionInflater;
-import android.transition.Visibility;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -49,8 +46,6 @@ import com.team.codealmanac.w2do.fragment.TodoSimpleListFragment;
 import java.util.Calendar;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
-
-import static android.R.attr.type;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -74,17 +69,18 @@ public class MainActivity extends BaseActivity
     private com.getbase.floatingactionbutton.FloatingActionButton act_main_appbar_simpleInput_floatingbtn;
     private com.getbase.floatingactionbutton.FloatingActionButton act_main_appbar_detailInput_floatingbtn;
     boolean isFolderFragment = false;
-    boolean isShowOptionType = false;
+    boolean isLockOptionType = false;
 
     private FirebaseUser mUser;
 
     private Fragment mTodoSimpleListFragment;
     private Fragment mTodoFolderListFragment;
+    private Fragment mTodoLockScreenFragment;
 
     private FontContract mFontContract;
 
     private boolean isFloatingOpen = false;
-
+    int RESULT_MAIN_PICK, RESULT_TODO_PICK;
     private SQLiteManager sqliteManager;
 
     @Override
@@ -358,19 +354,6 @@ public class MainActivity extends BaseActivity
         return super.onOptionsItemSelected(item);
     }
 
-    private void setupWindowAnimations() {
-        Transition transition;
-
-        transition = TransitionInflater.from(this).inflateTransition(R.transition.slide_from_bottom);
-        getWindow().setEnterTransition(transition);
-    }
-
-//    private Visibility buildEnterTransition() {
-//        Slide enterTransition = new Slide();
-//        enterTransition.setDuration(getResources().getInteger(R.integer.anim_duration_long));
-//        enterTransition.setSlideEdge(Gravity.RIGHT);
-//        return enterTransition;
-//    }
     private void setGreetingText(){
         String greetingMessage = "";
         int presentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
@@ -425,11 +408,6 @@ public class MainActivity extends BaseActivity
             Intent EditProfile  = new Intent(MainActivity.this, NavEditProfileActivity.class);
             startActivity(EditProfile);
 
-//        } else if (id == R.id.nav_team) {
-//        // 팀 기능 화면으로 이동 - 현재 잠금화면으로 이동하게
-//            Intent TeamIntent = new Intent(MainActivity.this, LockScreenActivity.class);
-//            startActivity(TeamIntent);
-
         } else if(id == R.id.nav_complete_todo){
            //완료된 할일 탭 화면으로 이동
            Intent CompleteIntent = new Intent(MainActivity.this, CompleteTodoTabActivity.class);
@@ -450,16 +428,23 @@ public class MainActivity extends BaseActivity
             mail.putExtra(Intent.EXTRA_TEXT,"고객님의 소중한 의견을 작성해주세요 : )");
             startActivity(Intent.createChooser(mail,"Choose email client"));
         } else if(id == R.id.nav_lockscreen_mainschedule_switch) {
-            // 메인 스케줄만 보이게 하는 옵션
-           if(isShowOptionType) {   //심플투두리스트
+            //잠금화면에 메인스케줄 보이기
+           Intent showMainIntent = new Intent(this,LockScreenActivity.class);
+           showMainIntent.putExtra("showMain",20);
+           setResult(RESULT_MAIN_PICK,showMainIntent);
+            item.setIcon(R.drawable.drawer_click_img_event);
+           Toast.makeText(MainActivity.this, "메인 스케줄 설정 완료", Toast.LENGTH_SHORT).show();
 
-               isShowOptionType = false;
-               item.setIcon(R.drawable.icn_profile);
-           }
        } else if(id == R.id.nav_lockscreen_todo_switch) {
-
+           //잠금화면에 투두 리스트 보이기
+           Intent showTodoIntent = new Intent(this,LockScreenActivity.class);
+           showTodoIntent.putExtra("showTodo",10);
+           setResult(RESULT_TODO_PICK,showTodoIntent);
+           item.setIcon(R.drawable.drawer_click_img_event);
+           Toast.makeText(MainActivity.this, "ToDo 설정 완료", Toast.LENGTH_SHORT).show();
        }
         act_main_drawer_layout.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }

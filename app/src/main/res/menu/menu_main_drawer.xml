@@ -9,6 +9,7 @@
                     android:title="닉네임 변경" />
                 <item
                     android:title="@string/drawer_completeTodo"
+                    android:icon="@drawable/icn_completion_drawer"
                     android:id="@+id/nav_complete_todo"/>
 
             </menu>
@@ -17,21 +18,17 @@
             <menu>
                 <item
                     android:title="메인스케줄 보기"
-                    android:icon="@drawable/icn_profile"
+                    android:icon="@drawable/drawer_click_img_event"
                     android:id="@+id/nav_lockscreen_mainschedule_switch"/>
                 <item
                     android:title="Todo 보기"
-                    android:icon="@drawable/icn_profile"
+                    android:icon="@drawable/drawer_click_img_event"
                     android:id="@+id/nav_lockscreen_todo_switch"/>
             </menu>
         </item>
     </group>
 
     <group android:checkableBehavior="single">
-        <!--<item-->
-            <!--android:id="@+id/nav_team"-->
-            <!--android:icon="@drawable/icn_team"-->
-            <!--android:title="Team" />-->
         <item
             android:id="@+id/nav_setting"
             android:icon="@drawable/icn_setting"

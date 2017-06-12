@@ -35,4 +35,5 @@ public final class PreferencesManager {
         editor.remove("nickname");
         editor.apply();
     }
+
 }

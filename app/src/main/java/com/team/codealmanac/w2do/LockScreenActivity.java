@@ -3,6 +3,7 @@ package com.team.codealmanac.w2do;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -25,6 +26,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.PermissionChecker;
 import android.os.Bundle;
 
+import android.support.v7.widget.RecyclerView;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.util.Log;
@@ -50,10 +52,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import com.team.codealmanac.w2do.adapter.TodoLockScreenAdapter;
+import com.team.codealmanac.w2do.adapter.TodoSimpleListAdapter;
 import com.team.codealmanac.w2do.assistant.LocationInfoAssistant;
 import com.team.codealmanac.w2do.contract.FontContract;
 import com.team.codealmanac.w2do.database.PreferencesManager;
 import com.team.codealmanac.w2do.database.SQLiteManager;
+import com.team.codealmanac.w2do.fragment.TodoLockScreenFragment;
 import com.team.codealmanac.w2do.listeners.OnSwipeTouchListener;
 import com.team.codealmanac.w2do.models.MainSchedule;
 
@@ -80,6 +85,18 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
     private boolean sizeChanged = false;
     private FrameLayout bg_ms_layer;
     private FrameLayout bg_todo_layer;
+    private RecyclerView lockscreen_todo_listview;
+    private TodoSimpleListAdapter mSimpleTodoAdapter;
+    private TodoLockScreenAdapter mLockTodoAdapter;
+    private Fragment mTodoLockScreenFragment;
+    int showTodo, showMain, REQIEST_CODE, RESULT_MAIN_PICK, RESULT_TODO_PICK;
+    Intent ForMainActIntent;
+    Intent LockIntent;
+    Intent MainIntent;
+    MainSchedule mainSchedule;
+    SQLiteManager sqliteManager;
+
+    public static Context lockContext;
 
     //인터페이스
     @Override
@@ -98,6 +115,7 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lock_screen);
         mFont = new FontContract(getAssets());
+        lockContext = this;
         //상태바 없앰
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -115,6 +133,11 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
         // 그림자 레이어 선언
         bg_ms_layer = (FrameLayout)findViewById(R.id.bg_ms_layer);
         bg_todo_layer = (FrameLayout)findViewById(R.id.bg_todo_layer);
+
+
+        lockscreen_todo_listview = (RecyclerView)findViewById(R.id.act_lockscreen_todo_listview);
+        lockscreen_todo_listview.setAdapter(mSimpleTodoAdapter);
+        mTodoLockScreenFragment = TodoLockScreenFragment.newInstance();
 
         // 스와이프 애니메이션 실행 준비
         layout_lock_screen_main = (RelativeLayout)findViewById(R.id.layout_lock_screen_main);
@@ -149,12 +172,40 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
         //파베 실시간디비 리스너 등록
         setGreetingText(nickname);
 
-        SQLiteManager sqliteManager = new SQLiteManager(getApplicationContext());
-        MainSchedule mainSchedule = sqliteManager.getMainSchedule();
+        sqliteManager = new SQLiteManager(getApplicationContext());
+        mainSchedule = sqliteManager.getMainSchedule();
+
+        ForMainActIntent = new Intent(getApplicationContext(),LockScreenActivity.class);
+        startActivityForResult(ForMainActIntent,REQIEST_CODE);
+
+        LockIntent = getIntent();
+        MainIntent = getIntent();
+
         if(mainSchedule != null){
             existMainSchedule(mainSchedule.content);
         } else {
             nonexistMainSchedule();
+        }
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQIEST_CODE) {
+            if (resultCode == RESULT_MAIN_PICK) {
+                String key = ForMainActIntent.getExtras().getString("key");
+                showTodo = LockIntent.getIntExtra("showTodo",10);
+                CallTodoShow();
+                Toast.makeText(getApplicationContext(), key, Toast.LENGTH_LONG).show();
+            } else if(resultCode == RESULT_TODO_PICK){
+                showMain = MainIntent.getIntExtra("showMain",20);
+                if(mainSchedule != null){
+                    existMainSchedule(mainSchedule.content);
+                } else {
+                    nonexistMainSchedule();
+                }
+            }
         }
     }
 
@@ -377,7 +428,7 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
         if(nickname != null) userNameText.setText(nickname);
     }
 
-    private void existMainSchedule(String mainSchedule){
+    public void existMainSchedule(String mainSchedule){
         findViewById(R.id.act_lockscreen_layout_exist_mainschedule).setVisibility(View.VISIBLE);
         findViewById(R.id.act_lockscreen_layout_ignore_mainschedule).setVisibility(View.GONE);
         bg_ms_layer.setVisibility(View.VISIBLE);
@@ -386,12 +437,24 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
         Log.d(TAG, "existMainSchedule 불림");
     }
 
-    private void nonexistMainSchedule(){
+    public void nonexistMainSchedule(){
         findViewById(R.id.act_lockscreen_layout_exist_mainschedule).setVisibility(View.GONE);
         findViewById(R.id.act_lockscreen_layout_ignore_mainschedule).setVisibility(View.VISIBLE);
         bg_ms_layer.setVisibility(View.VISIBLE);
         bg_todo_layer.setVisibility(View.GONE);
         Log.d(TAG, "nonexistMainSchedule 불림");
+    }
+
+    public void CallTodoShow(){
+        findViewById(R.id.act_lockscreen_layout_ignore_mainschedule).setVisibility(View.GONE);
+        findViewById(R.id.act_lockscreen_layout_exist_mainschedule).setVisibility(View.GONE);
+        getFragmentManager().beginTransaction()
+                .add(R.id.act_lockscreen_layout_todo_layout, mTodoLockScreenFragment)
+                .show(mTodoLockScreenFragment)
+                .commit();
+        bg_todo_layer.setVisibility(View.VISIBLE);
+        bg_ms_layer.setVisibility(View.GONE);
+        Log.d(TAG, "Calltodoshow 불림");
     }
 
     //메뉴키, 백키 잠금
