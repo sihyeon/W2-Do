@@ -150,11 +150,4 @@ public class MoveFolderDialogFragment extends DialogFragment implements View.OnC
             }
         }
     }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        if (getDialog().getWindow() != null)
-            getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-    }
 }
