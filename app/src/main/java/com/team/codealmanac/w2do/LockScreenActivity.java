@@ -74,7 +74,6 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
     private LinearLayout act_lockscreen_layout_exist_mainschedule;
     private LinearLayout act_lockscreen_layout_ignore_mainschedule;
 
-    int showTodo, showMain, REQUEST_CODE, RESULT_MAIN_PICK, RESULT_TODO_PICK;
     SQLiteManager sqliteManager;
 
     //인터페이스
@@ -97,55 +96,57 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
         sqliteManager = new SQLiteManager(getApplicationContext());
 
         //상태바 없앰
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         /*  FLAG_SHOW_WHEN_LOCKED = 잠금화면 위로 액티비티 실행
             FLAG_DISMISS_KEYGUARD = 키 가드 해제 */
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
-                | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+                | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
+                | WindowManager.LayoutParams.FLAG_FULLSCREEN
+                | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mLocationInfoManager = LocationInfoAssistant.getInstance();
             mLocationInfoManager.onStartLocation(getApplicationContext(), this);
         }
         //메인스케줄 레이아웃
-        act_lockscreen_layout_exist_mainschedule = (LinearLayout)findViewById(R.id.act_lockscreen_layout_exist_mainschedule);
-        act_lockscreen_layout_ignore_mainschedule = (LinearLayout)findViewById(R.id.act_lockscreen_layout_ignore_mainschedule);
+        act_lockscreen_layout_exist_mainschedule = (LinearLayout) findViewById(R.id.act_lockscreen_layout_exist_mainschedule);
+        act_lockscreen_layout_ignore_mainschedule = (LinearLayout) findViewById(R.id.act_lockscreen_layout_ignore_mainschedule);
 
         //투두
-        act_lockscreen_layout_todo_layout = (LinearLayout)findViewById(R.id.act_lockscreen_layout_todo_layout);
-        act_lockscreen_todo_listview = (RecyclerView)findViewById(R.id.act_lockscreen_todo_listview);
+        act_lockscreen_layout_todo_layout = (LinearLayout) findViewById(R.id.act_lockscreen_layout_todo_layout);
+        act_lockscreen_todo_listview = (RecyclerView) findViewById(R.id.act_lockscreen_todo_listview);
 
         // 그림자 레이어 선언
-        act_lockscreen_mask_mainschedule = (FrameLayout)findViewById(R.id.act_lockscreen_mask_mainschedule);
-        act_lockscreen_mask_todo = (FrameLayout)findViewById(R.id.act_lockscreen_mask_todo);
+        act_lockscreen_mask_mainschedule = (FrameLayout) findViewById(R.id.act_lockscreen_mask_mainschedule);
+        act_lockscreen_mask_todo = (FrameLayout) findViewById(R.id.act_lockscreen_mask_todo);
 
         // 스와이프 애니메이션 실행 준비
-        layout_lock_screen_main = (RelativeLayout)findViewById(R.id.layout_lock_screen_main);
-        act_lockscreen_left_guide_icon = (ImageView)findViewById(R.id.act_lockscreen_left_guide_icon);
-        act_lockscreen_right_guide_icon = (ImageView)findViewById(R.id.act_lockscreen_right_guide_icon);
+        layout_lock_screen_main = (RelativeLayout) findViewById(R.id.layout_lock_screen_main);
+        act_lockscreen_left_guide_icon = (ImageView) findViewById(R.id.act_lockscreen_left_guide_icon);
+        act_lockscreen_right_guide_icon = (ImageView) findViewById(R.id.act_lockscreen_right_guide_icon);
 
         //스와이프 동작.
-        layout_lock_screen_main.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()){
-            public void onSwipeLeft(){
+        layout_lock_screen_main.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
+            public void onSwipeLeft() {
                 // 왓투두 앱 실행하게 된다.
                 Intent mainappintent = new Intent(LockScreenActivity.this, LoginActivity.class);
                 mainappintent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(mainappintent);
                 finish();
             }
-            public void onSwipeRight(){
+
+            public void onSwipeRight() {
                 // 본인 잠금 화면, 홈화면으로 진입하게 된다.
                 finish();
             }
         });
 
         //폰트지정
-        ((TextView)findViewById(R.id.act_lockscreen_greeting)).setTypeface(mFont.NahumSquareR_Regular());
-        ((TextView)findViewById(R.id.act_lockscreen_nickname)).setTypeface(mFont.NahumSquareR_Regular());
-        ((TextView)findViewById(R.id.act_lockscreen_mainschedule_header)).setTypeface(mFont.RobotoMedium());
-        ((TextView)findViewById(R.id.act_lockscreen_mainschedule)).setTypeface(mFont.NahumSquareR_Regular());
-        ((TextView)findViewById(R.id.act_lockscreen_what_mainschedule)).setTypeface(mFont.NahumSquareB_Regular());
+        ((TextView) findViewById(R.id.act_lockscreen_greeting)).setTypeface(mFont.NahumSquareR_Regular());
+        ((TextView) findViewById(R.id.act_lockscreen_nickname)).setTypeface(mFont.NahumSquareR_Regular());
+        ((TextView) findViewById(R.id.act_lockscreen_mainschedule_header)).setTypeface(mFont.RobotoMedium());
+        ((TextView) findViewById(R.id.act_lockscreen_mainschedule)).setTypeface(mFont.NahumSquareR_Regular());
+        ((TextView) findViewById(R.id.act_lockscreen_what_mainschedule)).setTypeface(mFont.NahumSquareB_Regular());
 
 
     }
@@ -169,14 +170,14 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
         // TODO: 2017-06-12 메인스케줄 / 투두 보이기 구현
         String lockScreenType = PreferencesManager.getLockScreenType(getApplicationContext());
         //메인스케줄
-        if(lockScreenType.equals(TYPE_MAINSCHEDULE)){
+        if (lockScreenType.equals(TYPE_MAINSCHEDULE)) {
             MainSchedule mainSchedule = sqliteManager.getMainSchedule();
-            if(mainSchedule != null){
+            if (mainSchedule != null) {
                 existMainSchedule(mainSchedule.content);
             } else {
                 nonexistMainSchedule();
             }
-        } else if(lockScreenType.equals(TYPE_TODO)){
+        } else if (lockScreenType.equals(TYPE_TODO)) {
             callTodoShow();
         }
     }
@@ -195,7 +196,8 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
 
     //지역정보를 불러오는데 하나라도 실패하면 전부 안보이게함.
     private void setLocationVisibility(boolean visibility) {
-        if (visibility) findViewById(R.id.act_lockscreen_location_layout).setVisibility(View.VISIBLE);
+        if (visibility)
+            findViewById(R.id.act_lockscreen_location_layout).setVisibility(View.VISIBLE);
         else findViewById(R.id.act_lockscreen_location_layout).setVisibility(View.INVISIBLE);
     }
 
@@ -295,7 +297,7 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
         //온도 지정
         TextView temperatureText = (TextView) findViewById(R.id.act_lockscreen_temperature);
         temperatureText.setTypeface(mFont.RobotoLight());
-        temperatureText.setText(String.format(Locale.KOREA, "%dº", (int)temperature));
+        temperatureText.setText(String.format(Locale.KOREA, "%dº", (int) temperature));
     }
 
     //지역정보를 설정함
@@ -332,29 +334,29 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
 
         if (4 <= presentHour && presentHour <= 11) {            //아침
             String[] morning = getResources().getStringArray(R.array.greetings_morning);
-            greetingMessage = morning[(int)(Math.random() * morning.length)];
-        }else if (12 <= presentHour && presentHour <= 18) {     //오후(점심)
+            greetingMessage = morning[(int) (Math.random() * morning.length)];
+        } else if (12 <= presentHour && presentHour <= 18) {     //오후(점심)
             String[] afternoon = getResources().getStringArray(R.array.greetings_afternoon);
-            greetingMessage = afternoon[(int)(Math.random() * afternoon.length)];
-        }else {                                                 //저녁
+            greetingMessage = afternoon[(int) (Math.random() * afternoon.length)];
+        } else {                                                 //저녁
             String[] evening = getResources().getStringArray(R.array.greetings_evening);
-            greetingMessage = evening[(int)(Math.random()*evening.length)];
+            greetingMessage = evening[(int) (Math.random() * evening.length)];
         }
 
         greetingText.setText(greetingMessage);
-        if(nickname != null) userNameText.setText(nickname);
+        if (nickname != null) userNameText.setText(nickname);
     }
 
-    public void existMainSchedule(String mainSchedule){
+    public void existMainSchedule(String mainSchedule) {
         act_lockscreen_layout_exist_mainschedule.setVisibility(View.VISIBLE);
         act_lockscreen_layout_ignore_mainschedule.setVisibility(View.GONE);
         act_lockscreen_mask_mainschedule.setVisibility(View.VISIBLE);
         act_lockscreen_mask_todo.setVisibility(View.GONE);
-        ((TextView)findViewById(R.id.act_lockscreen_mainschedule)).setText(mainSchedule);
+        ((TextView) findViewById(R.id.act_lockscreen_mainschedule)).setText(mainSchedule);
         Log.d(TAG, "existMainSchedule 불림");
     }
 
-    public void nonexistMainSchedule(){
+    public void nonexistMainSchedule() {
         act_lockscreen_layout_exist_mainschedule.setVisibility(View.GONE);
         act_lockscreen_layout_ignore_mainschedule.setVisibility(View.VISIBLE);
         act_lockscreen_mask_mainschedule.setVisibility(View.VISIBLE);
@@ -362,7 +364,7 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
         Log.d(TAG, "nonexistMainSchedule 불림");
     }
 
-    public void callTodoShow(){
+    public void callTodoShow() {
         act_lockscreen_layout_exist_mainschedule.setVisibility(View.GONE);
         act_lockscreen_layout_ignore_mainschedule.setVisibility(View.GONE);
         act_lockscreen_mask_todo.setVisibility(View.VISIBLE);

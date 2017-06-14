@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/act_login_logo_image"
-        android:layout_width="51dp"
-        android:layout_height="51dp"
+        android:layout_width="54dp"
+        android:layout_height="54dp"
         android:layout_marginTop="16dp"
         android:layout_gravity="center_horizontal"
         app:srcCompat="@drawable/icn_logo" />
@@ -19,16 +19,16 @@
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        >
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/act_login_nonuser_greeting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="117dp"
             android:gravity="center"
             android:text="@string/login_greeting1"
-            android:textColor="@android:color/white"
+            android:textColor="@color/real_white"
             android:textSize="30dp" />
 
         <Button
@@ -48,13 +48,13 @@
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <TextView
             android:id="@+id/act_login_user_greeting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="29dp"
             android:gravity="center"
             android:text="@string/signed_greeting_msg"
             android:textColor="@android:color/white"
@@ -64,24 +64,24 @@
             android:id="@+id/act_login_user_image"
             android:layout_width="111dp"
             android:layout_height="111dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="37dp"
             android:background="@drawable/img_profile_none" />
-
-        <TextView
-            android:id="@+id/act_login_username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:text="이름"
-            android:textColor="@android:color/white"
-            android:textSize="14dp" />
 
         <TextView
             android:id="@+id/act_login_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="11dp"
             android:text="메일"
+            android:textColor="@android:color/white"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/act_login_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="이름"
             android:textColor="@android:color/white"
             android:textSize="14dp" />
 
