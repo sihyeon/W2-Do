@@ -413,44 +413,42 @@ public class MainActivity extends BaseActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
+       switch(item.getItemId()) {
+           case R.id.nav_edit_profile:
+            //프로필 정보 화면으로 이동
+                Intent EditProfile  = new Intent(MainActivity.this, NavEditProfileActivity.class);
+                startActivity(EditProfile);
 
-       if (id == R.id.nav_edit_profile) {
-        //프로필 정보 화면으로 이동
-            Intent EditProfile  = new Intent(MainActivity.this, NavEditProfileActivity.class);
-            startActivity(EditProfile);
-
-//        } else if (id == R.id.nav_team) {
-//        // 팀 기능 화면으로 이동 - 현재 잠금화면으로 이동하게
-//            Intent TeamIntent = new Intent(MainActivity.this, LockScreenActivity.class);
-//            startActivity(TeamIntent);
-
-        } else if(id == R.id.nav_complete_todo){
+           case  R.id.nav_complete_todo :
            //완료된 할일 탭 화면으로 이동
-           Intent CompleteIntent = new Intent(MainActivity.this, CompleteTabActivity.class);
-           startActivity(CompleteIntent);
+               Intent CompleteIntent = new Intent(MainActivity.this, CompleteTabActivity.class);
+               startActivity(CompleteIntent);
 
-       } else if (id == R.id.nav_setting) {
-        // 설정 화면으로 이동
-            Intent SettingIntent = new Intent(MainActivity.this, NavSettingPrefActivity.class);
-            startActivity(SettingIntent);
+           case R.id.nav_setting :
+            // 설정 화면으로 이동
+                Intent SettingIntent = new Intent(MainActivity.this, NavSettingPrefActivity.class);
+                startActivity(SettingIntent);
 
-        } else if (id == R.id.nav_send_msg) {
-        // 의견 보낼 화면 팝업
-            Intent mail = new Intent(Intent.ACTION_SEND);
-            String[] mailaddr = {"infow2do@gmail.com"};
-            mail.setType("Plain/text");
-            mail.putExtra(Intent.EXTRA_SUBJECT,"[이보시오, 내 말을 좀 들어보시오!]");
-            mail.putExtra(Intent.EXTRA_EMAIL,mailaddr);
-            mail.putExtra(Intent.EXTRA_TEXT,"고객님의 소중한 의견을 작성해주세요 : )");
-            startActivity(Intent.createChooser(mail,"Choose email client"));
-        } else if(id == R.id.nav_lockscreen_mainschedule_switch) {
+           case R.id.nav_send_msg :
+            // 의견 보낼 화면 팝업
+                Intent mail = new Intent(Intent.ACTION_SEND);
+                String[] mailaddr = {"infow2do@gmail.com"};
+                mail.setType("Plain/text");
+                mail.putExtra(Intent.EXTRA_SUBJECT,"[이보시오, 내 말을 좀 들어보시오!]");
+                mail.putExtra(Intent.EXTRA_EMAIL,mailaddr);
+                mail.putExtra(Intent.EXTRA_TEXT,"고객님의 소중한 의견을 작성해주세요 : )");
+                startActivity(Intent.createChooser(mail,"Choose email client"));
+
+           case R.id.nav_lockscreen_mainschedule_switch :
             // 메인 스케줄만 보이게 하는 옵션
-           PreferencesManager.setLockScreenType(getApplicationContext(), LockScreenActivity.TYPE_MAINSCHEDULE);
-       } else if(id == R.id.nav_lockscreen_todo_switch) {
-           // 투두만 보이게 하는 옵션
-           PreferencesManager.setLockScreenType(getApplicationContext(), LockScreenActivity.TYPE_TODO);
+                   PreferencesManager.setLockScreenType(getApplicationContext(), LockScreenActivity.TYPE_MAINSCHEDULE);
+                   item.setIcon(R.drawable.icn_show_drawer_on);
+
+           case R.id.nav_lockscreen_todo_switch :
+                   // 투두만 보이게 하는 옵션
+                   PreferencesManager.setLockScreenType(getApplicationContext(), LockScreenActivity.TYPE_TODO);
+                   item.setIcon(R.drawable.icn_show_drawer_off);
+
        }
         act_main_drawer_layout.closeDrawer(GravityCompat.START);
         return true;
