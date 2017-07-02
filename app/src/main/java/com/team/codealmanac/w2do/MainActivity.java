@@ -81,8 +81,7 @@ public class MainActivity extends BaseActivity
 
     private boolean isFloatingOpen = false;
 
-    private SQLiteManager sqliteManager;
-
+    private PreferencesManager mPreferencesManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -92,7 +91,7 @@ public class MainActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        sqliteManager = SQLiteManager.getInstance(getApplicationContext());
+        mPreferencesManager = new PreferencesManager(getApplicationContext());
 
         mUser = getUserSession();
         mContext = this;
@@ -253,7 +252,7 @@ public class MainActivity extends BaseActivity
         super.onStart();
 
         setGreetingText();
-        act_main_user_name.setText(PreferencesManager.getNickname(getApplicationContext()));
+        act_main_user_name.setText(mPreferencesManager.getNickname());
         act_main_nav_user_name.setText(mUser.getDisplayName());
         act_main_nav_user_email.setText(mUser.getEmail());
 
@@ -447,10 +446,10 @@ public class MainActivity extends BaseActivity
             startActivity(Intent.createChooser(mail,"Choose email client"));
         } else if(id == R.id.nav_lockscreen_mainschedule_switch) {
             // 메인 스케줄만 보이게 하는 옵션
-           PreferencesManager.setLockScreenType(getApplicationContext(), LockScreenActivity.TYPE_MAINSCHEDULE);
+           mPreferencesManager.setLockScreenType(LockScreenActivity.TYPE_MAINSCHEDULE);
        } else if(id == R.id.nav_lockscreen_todo_switch) {
            // 투두만 보이게 하는 옵션
-           PreferencesManager.setLockScreenType(getApplicationContext(), LockScreenActivity.TYPE_TODO);
+           mPreferencesManager.setLockScreenType(LockScreenActivity.TYPE_TODO);
        }
         act_main_drawer_layout.closeDrawer(GravityCompat.START);
         return true;

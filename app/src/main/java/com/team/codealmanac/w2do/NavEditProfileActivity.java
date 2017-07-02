@@ -42,6 +42,7 @@ public class NavEditProfileActivity extends BaseActivity implements View.OnClick
     private FontContract mFontContract;
     private DatabaseReference mNicknameReference;
 
+    private PreferencesManager mPreferencesManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -50,7 +51,7 @@ public class NavEditProfileActivity extends BaseActivity implements View.OnClick
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.navitem_editprofile);
-
+        mPreferencesManager = new PreferencesManager(getApplicationContext());
         mFontContract = new FontContract(getApplication().getAssets());
         mNicknameReference = FirebaseDatabase.getInstance().getReference().child("nickname");
 
@@ -90,7 +91,7 @@ public class NavEditProfileActivity extends BaseActivity implements View.OnClick
                 nav_profile_edittext.setError("Required");
             }
             mNicknameReference.child( FirebaseAuth.getInstance().getCurrentUser().getUid() ).setValue(ChangedNickName);
-            PreferencesManager.setNickname(getApplicationContext(), ChangedNickName);
+            mPreferencesManager.setNickname(ChangedNickName);
             Toast.makeText(this,"닉네임이 변경되었습니다.",Toast.LENGTH_SHORT).show();
 
         } /*else if(v.getId()==R.id.nav_edit_profile_btn && actionId==EditorInfo.IME_ACTION_DONE){
@@ -118,7 +119,7 @@ public class NavEditProfileActivity extends BaseActivity implements View.OnClick
     }
 
     private void CallProfileInfo(FirebaseUser mUser){
-        nav_profile_edittext.setText(PreferencesManager.getNickname(getApplicationContext()));
+        nav_profile_edittext.setText(mPreferencesManager.getNickname());
         nav_item_user_name.setText(mUser.getDisplayName());
         nav_item_user_email.setText(mUser.getEmail());
 

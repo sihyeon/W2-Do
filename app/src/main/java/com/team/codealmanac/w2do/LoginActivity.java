@@ -74,19 +74,19 @@ public class LoginActivity extends BaseActivity implements /*GoogleApiClient.OnC
     private EditText act_login_nickname_edit;
     private Button act_login_nick_input_btn;
 
-    private Animation animation;
-
     private DatabaseReference mUserReference;
     private DatabaseReference mPublicUserReference;
     private DatabaseReference mNicknameReference;
 
     private GoogleAPIAssistant mGoogleAPIAssistant;
+
+    private PreferencesManager mPreferencesManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login);
-
+        mPreferencesManager = new PreferencesManager(getApplicationContext());
         mUserReference = FirebaseDatabase.getInstance().getReference().child("user");
         mPublicUserReference = FirebaseDatabase.getInstance().getReference().child("public_users");
         mNicknameReference = FirebaseDatabase.getInstance().getReference().child("nickname");
@@ -121,8 +121,6 @@ public class LoginActivity extends BaseActivity implements /*GoogleApiClient.OnC
         act_login_nickname_msg.setTypeface(font);
         act_login_nickname_edit.setTypeface(font);
 
-        // Animation effects
-        animation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.alpha);
 
         //구글 로그인 세션 리스너
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -130,7 +128,7 @@ public class LoginActivity extends BaseActivity implements /*GoogleApiClient.OnC
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    if(PreferencesManager.getNickname(LoginActivity.this.getApplicationContext()) != null){
+                    if(mPreferencesManager.getNickname() != null){
                         //nickname을 이미 입력했으면
                         Log.d(TAG, "닉네임 있음");
                         Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
@@ -142,7 +140,7 @@ public class LoginActivity extends BaseActivity implements /*GoogleApiClient.OnC
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 if(dataSnapshot.exists()){
-                                    PreferencesManager.setNickname(LoginActivity.this.getApplicationContext(), dataSnapshot.getValue().toString());
+                                    mPreferencesManager.setNickname(dataSnapshot.getValue().toString());
                                     Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
                                     mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                                     startActivity(mainIntent); finish();
@@ -285,7 +283,7 @@ public class LoginActivity extends BaseActivity implements /*GoogleApiClient.OnC
                     return;
                 }
                 mNicknameReference.child( FirebaseAuth.getInstance().getCurrentUser().getUid() ).setValue(nickname);
-                PreferencesManager.setNickname(getApplicationContext(), nickname);
+                mPreferencesManager.setNickname(nickname);
 
                 Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
                 mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);

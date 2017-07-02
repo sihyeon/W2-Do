@@ -75,6 +75,7 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
     private LinearLayout act_lockscreen_layout_ignore_mainschedule;
 
     SQLiteManager sqliteManager;
+    private PreferencesManager mPreferencesManager;
 
     //인터페이스
     @Override
@@ -94,7 +95,7 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
         setContentView(R.layout.activity_lock_screen);
         mFont = new FontContract(getAssets());
         sqliteManager = new SQLiteManager(getApplicationContext());
-
+        mPreferencesManager = new PreferencesManager(getApplicationContext());
         //상태바 없앰
 
         /*  FLAG_SHOW_WHEN_LOCKED = 잠금화면 위로 액티비티 실행
@@ -165,10 +166,10 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
         SimpleDateFormat dateFormat = new SimpleDateFormat(format, Locale.ENGLISH);
         date.setText(dateFormat.format(new Date()));
 
-        setGreetingText(PreferencesManager.getNickname(getApplicationContext()));
+        setGreetingText(mPreferencesManager.getNickname());
 
         // TODO: 2017-06-12 메인스케줄 / 투두 보이기 구현
-        String lockScreenType = PreferencesManager.getLockScreenType(getApplicationContext());
+        String lockScreenType = mPreferencesManager.getLockScreenType();
         //메인스케줄
         if (lockScreenType.equals(TYPE_MAINSCHEDULE)) {
             MainSchedule mainSchedule = sqliteManager.getMainSchedule();

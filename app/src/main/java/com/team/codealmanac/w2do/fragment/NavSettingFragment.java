@@ -26,10 +26,13 @@ import static com.team.codealmanac.w2do.MainActivity.mContext;
 
 public class NavSettingFragment extends PreferenceFragment {
     public static Context mPrefContext;
+    private PreferencesManager mPreferencesManager;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.pref_settings);
+
+        mPreferencesManager = new PreferencesManager(getActivity());
 
         Preference logoutPreference = findPreference("pref_Logout");
         logoutPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -40,7 +43,7 @@ public class NavSettingFragment extends PreferenceFragment {
                 GoogleAPIAssistant googleAPIAssistant = new GoogleAPIAssistant(getActivity(), (AppCompatActivity)getActivity());
 //                GoogleAPIAssistant googleAPIAssistant = GoogleAPIAssistant.newInstance(getActivity().getApplicationContext(), (AppCompatActivity)getActivity());
                 googleAPIAssistant.signOut();
-                PreferencesManager.deleteNickname(getActivity());
+                mPreferencesManager.deleteNickname();
                 return true;
             }
         });
@@ -57,7 +60,7 @@ public class NavSettingFragment extends PreferenceFragment {
                 auth.signOut();
                 GoogleAPIAssistant googleAPIAssistant = new GoogleAPIAssistant(getActivity(), (AppCompatActivity)getActivity());
                 googleAPIAssistant.signOut();
-                PreferencesManager.deleteNickname(getActivity());
+                mPreferencesManager.deleteNickname();
                 return true;
             }
         });
