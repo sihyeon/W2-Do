@@ -1,4 +1,4 @@
-package com.team.codealmanac.w2do;
+package com.team.codealmanac.w2do.receiver;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -11,6 +11,9 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+
+import com.team.codealmanac.w2do.LoginActivity;
+import com.team.codealmanac.w2do.R;
 
 import java.util.Calendar;
 

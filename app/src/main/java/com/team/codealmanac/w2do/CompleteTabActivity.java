@@ -126,6 +126,9 @@ public class CompleteTabActivity extends AppCompatActivity
         for(int i = 0; i < tabStrip.getChildCount(); i++) {
             tabStrip.getChildAt(i).setClickable(false);
         }
+        if (mAdapterType.equals(CompleteAdapter.TYPE_TODO)){
+            mCompleteTab_todoFragment.isLongClicked = true;
+        }
     }
 
     @Override
@@ -138,9 +141,11 @@ public class CompleteTabActivity extends AppCompatActivity
     @Override
     public void OnDelete() {
         endMultiClick();
-        if (mAdapterType.equals(CompleteAdapter.TYPE_TODO))
-            mCompleteTab_todoFragment.mCompleteAdapter.deleteData();
-        else mCompleteTab_mainScheduleFragment.mCompleteAdapter.deleteData();
+        if (mAdapterType.equals(CompleteAdapter.TYPE_TODO)){
+            mCompleteTab_todoFragment.mCompleteAdapter.deleteWithMulti();
+            mCompleteTab_todoFragment.isLongClicked = false;
+        }
+        else mCompleteTab_mainScheduleFragment.mCompleteAdapter.deleteWithMulti();
     }
 
     private class ViewPagerAdapter extends FragmentPagerAdapter {

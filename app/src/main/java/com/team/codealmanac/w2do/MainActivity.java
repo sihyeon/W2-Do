@@ -38,10 +38,10 @@ import com.team.codealmanac.w2do.contract.FontContract;
 import com.team.codealmanac.w2do.database.PreferencesManager;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
-import com.team.codealmanac.w2do.database.SQLiteManager;
 import com.team.codealmanac.w2do.dialog.SimpleInputDialogFragment;
 import com.team.codealmanac.w2do.fragment.TodoFolderListFragment;
 import com.team.codealmanac.w2do.fragment.TodoSimpleListFragment;
+import com.team.codealmanac.w2do.receiver.PushAlarmReciever;
 
 import java.util.Calendar;
 

@@ -129,7 +129,21 @@ public class CompleteAdapter extends RecyclerView.Adapter<CompleteListViewHolder
         return temp;
     }
 
-    public void deleteData(){
+    public void removeItem(int position){
+        if(mType.equals(TYPE_TODO)){
+            sqliteManager.deleteTodo(((Todo)mDataList.get(position))._ID);
+            updateList();
+        }
+    }
+
+    public void checkCancelItem(int position){
+        if(mType.equals(TYPE_TODO)){
+            sqliteManager.updateCheckStateInTodo(((Todo)mDataList.get(position))._ID);
+            updateList();
+        }
+    }
+
+    public void deleteWithMulti(){
         if(mType.equals(TYPE_TODO)){
             sqliteManager.deleteTodoWithMulti(toStringFromList(mCheckedList));
         } else {

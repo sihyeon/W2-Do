@@ -14,6 +14,10 @@
 
     <color name="select_list_bg">#61ff0000</color>
 
+    //스와이프 시 뒤 배경색
+    <color name="swipe_list_delete">#ff3552</color>
+    <color name="swipe_list_complete_cancel">#0a7add</color>
+
     <color name="real_white">#FFFFFF</color>
     <color name="real_black">#000000</color>
 

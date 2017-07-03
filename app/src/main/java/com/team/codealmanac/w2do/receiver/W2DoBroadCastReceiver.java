@@ -1,4 +1,4 @@
-package com.team.codealmanac.w2do;
+package com.team.codealmanac.w2do.receiver;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.health.SystemHealthManager;
 import android.util.Log;
+
+import com.team.codealmanac.w2do.LockScreenActivity;
 
 public class W2DoBroadCastReceiver extends BroadcastReceiver {
     @Override

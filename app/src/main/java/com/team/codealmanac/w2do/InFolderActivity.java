@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -49,7 +50,7 @@ public class InFolderActivity extends AppCompatActivity
     private Paint mPaint = new Paint();
     private ItemTouchHelper mItemTouchHelper;
 
-    private boolean isLongClicked = true;
+    private boolean isLongClicked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +107,7 @@ public class InFolderActivity extends AppCompatActivity
         mInFolderListAdapter.setInFolderListEventListener(this);
     }
 
-    private ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+    private ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
         @Override
         public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
             return false;
@@ -130,20 +131,21 @@ public class InFolderActivity extends AppCompatActivity
                 float height = (float) itemView.getBottom() - (float) itemView.getTop();
                 float width = height / 3;
 
-                if (dX > 0) {
-                    //왼쪽에서 오른쪽 스와이프
-                    mPaint.setColor(Color.parseColor("#388E3C"));
-                    RectF background = new RectF((float) itemView.getLeft(), (float) itemView.getTop(), dX, (float) itemView.getBottom());
-                    c.drawRect(background, mPaint);
-                    icon = BitmapFactory.decodeResource(getResources(), R.drawable.icn_alarm);
-                    RectF icon_dest = new RectF((float) itemView.getLeft() + width, (float) itemView.getTop() + width, (float) itemView.getLeft() + 2 * width, (float) itemView.getBottom() - width);
-                    c.drawBitmap(icon, null, icon_dest, mPaint);
-                } else {
+//                if (dX > 0) {
+//                    //왼쪽에서 오른쪽 스와이프
+//                    mPaint.setColor(Color.parseColor("#388E3C"));
+//                    RectF background = new RectF((float) itemView.getLeft(), (float) itemView.getTop(), dX, (float) itemView.getBottom());
+//                    c.drawRect(background, mPaint);
+//                    icon = BitmapFactory.decodeResource(getResources(), R.drawable.icn_alarm);
+//                    RectF icon_dest = new RectF((float) itemView.getLeft() + width, (float) itemView.getTop() + width, (float) itemView.getLeft() + 2 * width, (float) itemView.getBottom() - width);
+//                    c.drawBitmap(icon, null, icon_dest, mPaint);
+//                }
+                if(dX < 0){
                     //오른쪽에서 왼쪽 스와이프
-                    mPaint.setColor(Color.parseColor("#D32F2F"));
+                    mPaint.setColor(ContextCompat.getColor(getApplicationContext(), R.color.swipe_list_delete));
                     RectF background = new RectF((float) itemView.getRight() + dX, (float) itemView.getTop(), (float) itemView.getRight(), (float) itemView.getBottom());
                     c.drawRect(background, mPaint);
-                    icon = BitmapFactory.decodeResource(getResources(), R.drawable.icn_logo);
+                    icon = BitmapFactory.decodeResource(getResources(), R.drawable.icn_delate_completion);
                     RectF icon_dest = new RectF((float) itemView.getRight() - 2 * width, (float) itemView.getTop() + width, (float) itemView.getRight() - width, (float) itemView.getBottom() - width);
                     c.drawBitmap(icon, null, icon_dest, mPaint);
                 }
@@ -153,7 +155,7 @@ public class InFolderActivity extends AppCompatActivity
 
         @Override
         public boolean isItemViewSwipeEnabled() {
-            return isLongClicked;
+            return !isLongClicked;
         }
     };
 
@@ -232,7 +234,7 @@ public class InFolderActivity extends AppCompatActivity
     public void OnStartMultiClick() {
         act_infolder_toolbar_title.setVisibility(View.GONE);
         act_infolder_toolbar_longclick_layout.setVisibility(View.VISIBLE);
-        isLongClicked = false;
+        isLongClicked = true;
         act_infolder_toolbar_back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
