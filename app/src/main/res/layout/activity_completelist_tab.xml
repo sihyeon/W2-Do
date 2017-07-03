@@ -61,7 +61,10 @@
             android:layout_height="wrap_content"
             android:background="#3d83be"
             app:tabGravity="fill"
-            app:tabMode="fixed" />
+            app:tabMode="fixed"
+            app:tabTextAppearance="@style/CompleteTabTextAppearance"
+            app:tabIndicatorHeight="2dp"
+            app:tabIndicatorColor="@color/real_white"/>
     </android.support.design.widget.AppBarLayout>
 
     <com.team.codealmanac.w2do.assistant.ControlSwipeViewPager

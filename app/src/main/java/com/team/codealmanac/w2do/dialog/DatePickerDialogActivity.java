@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,10 +39,10 @@ public class DatePickerDialogActivity extends Activity implements View.OnClickLi
         public Object instantiateItem(ViewGroup container, int position) {
             View v = null;
             if(position == 0){
-                v = mInflater.inflate(R.layout.activity_date_picker_dialog_datepickerlayout, null);
+                v = mInflater.inflate(R.layout.activity_date_picker_dialog_datepicker, null);
                 act_date_picker_dialog_datePicker = (DatePicker)v.findViewById(R.id.act_date_picker_dialog_datePicker);
             } else if(position == 1){
-                v = mInflater.inflate(R.layout.activity_date_picker_dialog_timepickerlayout, null);
+                v = mInflater.inflate(R.layout.activity_date_picker_dialog_timepicker, null);
                 act_date_picker_dialog_timePicker = (TimePicker)v.findViewById(R.id.act_date_picker_dialog_timePicker);
             }
             container.addView(v);

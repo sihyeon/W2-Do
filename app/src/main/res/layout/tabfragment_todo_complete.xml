@@ -1,12 +1,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/tabfrag_complete_list_bg">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/tabfragment_todo_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="11dp"
-        android:layout_marginStart="16dp"
-        android:background="@color/tabfrag_complete_list_bg"/>
+        android:layout_marginStart="16dp" />
 </RelativeLayout>
