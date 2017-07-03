@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.team.codealmanac.w2do;
+package com.team.codealmanac.w2do.service;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -27,6 +27,7 @@ import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.team.codealmanac.w2do.MainActivity;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 

@@ -33,12 +33,12 @@
             android:value="@string/google_map_api_key" />
 
         <receiver
-            android:name=".W2DoBroadCastReceiver"
+            android:name=".receiver.W2DoBroadCastReceiver"
             android:enabled="true"
             android:exported="false" />
 
         <service
-            android:name=".W2DoService"
+            android:name=".service.W2DoService"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
@@ -47,12 +47,12 @@
         </service>
 
         <receiver
-            android:name=".PushAlarmReciever"
+            android:name=".receiver.PushAlarmReciever"
             android:enabled="true"
             android:exported="false" />
 
         <!-- [START firebase_service] -->
-        <service android:name=".MyFirebaseMessagingService">
+        <service android:name=".service.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
@@ -61,7 +61,7 @@
 
 
         <!-- [START firebase_iid_service] -->
-        <service android:name=".MyFirebaseInstanceIDService">
+        <service android:name=".service.MyFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>

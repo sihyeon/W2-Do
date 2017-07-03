@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.team.codealmanac.w2do;
+package com.team.codealmanac.w2do.service;
 
 import android.util.Log;
 

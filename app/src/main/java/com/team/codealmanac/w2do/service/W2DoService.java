@@ -1,9 +1,11 @@
-package com.team.codealmanac.w2do;
+package com.team.codealmanac.w2do.service;
 
 import android.app.Service;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.IBinder;
+
+import com.team.codealmanac.w2do.receiver.W2DoBroadCastReceiver;
 
 public class W2DoService extends Service{
     private W2DoBroadCastReceiver mReceiver = null;

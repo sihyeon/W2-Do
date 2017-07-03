@@ -17,7 +17,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.team.codealmanac.w2do.MainActivity;
 import com.team.codealmanac.w2do.R;
-import com.team.codealmanac.w2do.W2DoService;
+import com.team.codealmanac.w2do.service.W2DoService;
 import com.team.codealmanac.w2do.assistant.GoogleAPIAssistant;
 import com.team.codealmanac.w2do.database.PreferencesManager;
 import com.team.codealmanac.w2do.dialog.OpensourceDialogActivity;
