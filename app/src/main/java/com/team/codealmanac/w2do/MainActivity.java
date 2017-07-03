@@ -418,17 +418,17 @@ public class MainActivity extends BaseActivity
                 //프로필 정보 화면으로 이동
                 Intent EditProfile = new Intent(MainActivity.this, NavEditProfileActivity.class);
                 startActivity(EditProfile);
-
+                break;
             case R.id.nav_complete_todo:
                 //완료된 할일 탭 화면으로 이동
                 Intent CompleteIntent = new Intent(MainActivity.this, CompleteTabActivity.class);
                 startActivity(CompleteIntent);
-
+                break;
             case R.id.nav_setting:
                 // 설정 화면으로 이동
                 Intent SettingIntent = new Intent(MainActivity.this, NavSettingPrefActivity.class);
                 startActivity(SettingIntent);
-
+                break;
             case R.id.nav_send_msg:
                 // 의견 보낼 화면 팝업
                 Intent mail = new Intent(Intent.ACTION_SEND);
@@ -438,16 +438,17 @@ public class MainActivity extends BaseActivity
                 mail.putExtra(Intent.EXTRA_EMAIL, mailaddr);
                 mail.putExtra(Intent.EXTRA_TEXT, "고객님의 소중한 의견을 작성해주세요 : )");
                 startActivity(Intent.createChooser(mail, "Choose email client"));
-
+                break;
             case R.id.nav_lockscreen_mainschedule_switch:
                 // 메인 스케줄만 보이게 하는 옵션
                 mPreferencesManager.setLockScreenType(LockScreenActivity.TYPE_MAINSCHEDULE);
                 item.setIcon(R.drawable.icn_show_drawer_on);
-
+                break;
             case R.id.nav_lockscreen_todo_switch:
                 // 투두만 보이게 하는 옵션
                 mPreferencesManager.setLockScreenType(LockScreenActivity.TYPE_TODO);
                 item.setIcon(R.drawable.icn_show_drawer_off);
+                break;
         }
         act_main_drawer_layout.closeDrawer(GravityCompat.START);
         return true;
