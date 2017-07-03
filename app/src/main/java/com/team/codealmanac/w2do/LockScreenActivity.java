@@ -16,8 +16,10 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -64,6 +66,8 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
     private RelativeLayout layout_lock_screen_main;
     private ImageView act_lockscreen_left_guide_icon;
     private ImageView act_lockscreen_right_guide_icon;
+    private ViewGroup.LayoutParams mLeft_Icon_Original_Params;
+    private ViewGroup.LayoutParams mRight_Icon_Original_Params;
 
     private FrameLayout act_lockscreen_mask_mainschedule;
     private FrameLayout act_lockscreen_mask_todo;
@@ -123,22 +127,38 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
 
         // 스와이프 애니메이션 실행 준비
         layout_lock_screen_main = (RelativeLayout) findViewById(R.id.layout_lock_screen_main);
-        act_lockscreen_left_guide_icon = (ImageView) findViewById(R.id.act_lockscreen_left_guide_icon);
         act_lockscreen_right_guide_icon = (ImageView) findViewById(R.id.act_lockscreen_right_guide_icon);
+        act_lockscreen_left_guide_icon = (ImageView) findViewById(R.id.act_lockscreen_left_guide_icon);
+        final int icon_original_size = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                (float) 57, getResources().getDisplayMetrics());
 
         //스와이프 동작.
         layout_lock_screen_main.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
             public void onSwipeLeft() {
                 // 왓투두 앱 실행하게 된다.
-                Intent mainappintent = new Intent(LockScreenActivity.this, LoginActivity.class);
-                mainappintent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivity(mainappintent);
+                Intent mainAppIntent = new Intent(LockScreenActivity.this, LoginActivity.class);
+                mainAppIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(mainAppIntent);
                 finish();
             }
 
             public void onSwipeRight() {
                 // 본인 잠금 화면, 홈화면으로 진입하게 된다.
                 finish();
+            }
+
+            public void onSwipingEvent(float diffX){
+                if (diffX > 0) {
+                    ViewGroup.LayoutParams Right_Icon_Params = act_lockscreen_right_guide_icon.getLayoutParams();
+                    Right_Icon_Params.width = icon_original_size + (int)Math.abs(diffX);
+                    Right_Icon_Params.height = icon_original_size + (int)Math.abs(diffX);
+                    act_lockscreen_right_guide_icon.setLayoutParams(Right_Icon_Params);
+                } else {
+                    ViewGroup.LayoutParams Left_Icon_Params = act_lockscreen_left_guide_icon.getLayoutParams();
+                    Left_Icon_Params.width = icon_original_size + (int)Math.abs(diffX);
+                    Left_Icon_Params.height = icon_original_size + (int)Math.abs(diffX);
+                    act_lockscreen_left_guide_icon.setLayoutParams(Left_Icon_Params);
+                }
             }
         });
 

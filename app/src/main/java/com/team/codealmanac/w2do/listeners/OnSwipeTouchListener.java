@@ -63,7 +63,25 @@ public class OnSwipeTouchListener implements OnTouchListener {
             }
             return result;
         }
+
+        @Override
+        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+            boolean result = false;
+            try {
+                float diffY = e2.getY() - e1.getY();
+                float diffX = e2.getX() - e1.getX();
+                if (Math.abs(diffX) > Math.abs(diffY)) {
+                    onSwipingEvent(diffX);
+                    result = true;
+                }
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+
+            return result;
+        }
     }
     public void onSwipeRight() {}
     public void onSwipeLeft() {}
+    public void onSwipingEvent(float diffX){}
 }
