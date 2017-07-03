@@ -198,6 +198,20 @@ public class InFolderListAdapter extends RecyclerView.Adapter<InFolderTodoListVi
         inFolderListEventListener.OnMultiItemClick();
     }
 
+    public void sharedTodoWithMulti(){
+        String shareBody = "W2do에서 일정 공유\n";
+        for(int i = 0; i < mCheckedList.size(); i++){
+            shareBody += (i+1) + ". " + mCheckedList.get(i).content;
+            if(i != mCheckedList.size() - 1)
+                shareBody += "\n";
+        }
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+//        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "W2do에서 일정 공유\n");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        mContext.startActivity(Intent.createChooser(sharingIntent, "일정 공유하기"));
+    }
+
     public void moveFolderWithMulti(String newFolder){
         mSQLiteManager.changeFolderWithMulti(toStringFromList(mCheckedList), newFolder);
         updateList();

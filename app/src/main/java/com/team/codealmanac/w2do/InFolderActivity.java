@@ -183,7 +183,8 @@ public class InFolderActivity extends AppCompatActivity
                 act_infolder_simpletodo_input_edt.setText(null);
                 break;
             case R.id.act_infolder_toolbar_longclick_share:
-
+                mInFolderListAdapter.sharedTodoWithMulti();
+                cancelMultiClick();
                 break;
             case R.id.act_infolder_toolbar_longclick_movefolder:
                 MoveFolderDialogFragment.newInstance().show(getFragmentManager(), "move_folder");
