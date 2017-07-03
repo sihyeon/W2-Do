@@ -1,7 +1,6 @@
 package com.team.codealmanac.w2do;
 
 
-
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -49,7 +48,7 @@ import java.util.Calendar;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class MainActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener {
     private final String TAG = "MainActivity";
     public static Context mContext;
     private DrawerLayout act_main_drawer_layout;
@@ -71,7 +70,7 @@ public class MainActivity extends BaseActivity
     private com.getbase.floatingactionbutton.FloatingActionButton act_main_appbar_detailInput_floatingbtn;
     boolean isFolderFragment = false;
     boolean isShowOptionType = false;
-
+    boolean isDrawerOpen = false;
     private FirebaseUser mUser;
 
     private Fragment mTodoSimpleListFragment;
@@ -82,6 +81,7 @@ public class MainActivity extends BaseActivity
     private boolean isFloatingOpen = false;
 
     private PreferencesManager mPreferencesManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -97,7 +97,7 @@ public class MainActivity extends BaseActivity
         mContext = this;
         mFontContract = new FontContract(getApplication().getAssets());
 
-       Slide slide = new Slide(Gravity.RIGHT);
+        Slide slide = new Slide(Gravity.RIGHT);
         getWindow().setReturnTransition(slide);
 
         //투두 심플, 폴더리스트 프래그먼트 설정
@@ -175,7 +175,7 @@ public class MainActivity extends BaseActivity
                 detailInput.putExtra("type", DetailInputActivity.TODOINPUT);
                 startActivity(detailInput);
                 act_main_appbar_floatingActionsMenu.collapse();
-                overridePendingTransition(R.anim.push_out_left,R.anim.pull_in_right);
+                overridePendingTransition(R.anim.push_out_left, R.anim.pull_in_right);
             }
         });
 
@@ -186,7 +186,7 @@ public class MainActivity extends BaseActivity
         act_main_drawer_layout = (DrawerLayout) findViewById(R.id.act_main_drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(
                 this, act_main_drawer_layout, act_main_toolbar,
-                R.string.navigation_drawer_open, R.string.navigation_drawer_close){
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
             /** Called when a act_main_drawer_layout has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
@@ -208,7 +208,7 @@ public class MainActivity extends BaseActivity
         act_main_toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(act_main_drawer_layout.isDrawerOpen(GravityCompat.START)){
+                if (act_main_drawer_layout.isDrawerOpen(GravityCompat.START)) {
                     act_main_drawer_layout.closeDrawer(GravityCompat.START);
                 } else {
                     act_main_drawer_layout.openDrawer(GravityCompat.START);
@@ -240,8 +240,8 @@ public class MainActivity extends BaseActivity
         setupWindowAnimation();
     }
 
-    private void setupWindowAnimation(){
-        Slide slide  =  new Slide();
+    private void setupWindowAnimation() {
+        Slide slide = new Slide();
         slide.setDuration(1000);
         getWindow().setEnterTransition(slide);
         getWindow().setReturnTransition(slide);
@@ -256,7 +256,7 @@ public class MainActivity extends BaseActivity
         act_main_nav_user_name.setText(mUser.getDisplayName());
         act_main_nav_user_email.setText(mUser.getEmail());
 
-        if(mUser.getPhotoUrl() != null){
+        if (mUser.getPhotoUrl() != null) {
             Glide.with(getApplicationContext()).load(mUser.getPhotoUrl().toString())
                     .bitmapTransform(new CropCircleTransformation(getApplicationContext()))
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -283,34 +283,35 @@ public class MainActivity extends BaseActivity
     // act_main_drawer_layout 상태 확인 후 act_main_drawer_layout oepn/close 함수
     @Override
     public void onBackPressed() {
-        setupWindowAnimation();
-        if(isFloatingOpen){
+        if (isFloatingOpen) {
             act_main_appbar_floatingActionsMenu.collapse();
             return;
         }
-        AlertDialog.Builder alt_bld = new AlertDialog.Builder(this);
-        alt_bld.setMessage("앱을 종료하시겠습니까?").setCancelable(
-                false).setPositiveButton("Yes",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        MainActivity.this.finish();
-                        // Action for 'Yes' Button
-                    }
-                }).setNegativeButton("No",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // Action for 'NO' Button
-                        dialog.cancel();
-                    }
-                });
-        AlertDialog alert = alt_bld.create();
-        // Title for AlertDialog
-        alert.show();
-//      overridePendingTransition(R.anim.pull_in_left,R.anim.push_out_right);
+        if(act_main_drawer_layout.isDrawerOpen(GravityCompat.START)){
+            act_main_drawer_layout.closeDrawer(GravityCompat.START);
+        } else {
+            AlertDialog.Builder alt_bld = new AlertDialog.Builder(this);
+            alt_bld.setMessage("앱을 종료하시겠습니까?").setCancelable(
+                    false).setPositiveButton("Yes",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            MainActivity.this.finish();
+                            // Action for 'Yes' Button
+                        }
+                    }).setNegativeButton("No",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // Action for 'NO' Button
+                            dialog.cancel();
+                        }
+                    });
+            AlertDialog alert = alt_bld.create();
+            alert.show();
+        }
     }
 
 
-     //menu inflater
+    //menu inflater
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main_toolbar, menu);
@@ -325,18 +326,18 @@ public class MainActivity extends BaseActivity
         switch (item.getItemId()) {
             case R.id.menu_change_todo_frg:
                 act_main_appbar_folder_floatingbtn.setVisibility(View.VISIBLE);
-                if(isFolderFragment){   //심플투두리스트
+                if (isFolderFragment) {   //심플투두리스트
                     getFragmentManager().beginTransaction()
-                            .setCustomAnimations(R.animator.zoom_in,R.animator.zoom_out, 0, 0)
+                            .setCustomAnimations(R.animator.zoom_in, R.animator.zoom_out, 0, 0)
                             .hide(mTodoFolderListFragment)
                             .show(mTodoSimpleListFragment)
                             .commit();
                     isFolderFragment = false;
                     act_main_appbar_folder_floatingbtn.setVisibility(View.GONE);
                     item.setIcon(R.drawable.btn_gridview);
-                }else{                  //폴더리스트
+                } else {                  //폴더리스트
                     getFragmentManager().beginTransaction()
-                            .setCustomAnimations(R.animator.zoom_in,R.animator.zoom_out, 0, 0)
+                            .setCustomAnimations(R.animator.zoom_in, R.animator.zoom_out, 0, 0)
                             .hide(mTodoSimpleListFragment)
                             .show(mTodoFolderListFragment)
                             .commit();
@@ -360,42 +361,42 @@ public class MainActivity extends BaseActivity
         getWindow().setEnterTransition(transition);
     }
 
-//    private Visibility buildEnterTransition() {
+    //    private Visibility buildEnterTransition() {
 //        Slide enterTransition = new Slide();
 //        enterTransition.setDuration(getResources().getInteger(R.integer.anim_duration_long));
 //        enterTransition.setSlideEdge(Gravity.RIGHT);
 //        return enterTransition;
 //    }
-    private void setGreetingText(){
+    private void setGreetingText() {
         String greetingMessage = "";
         int presentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
 
         if (4 <= presentHour && presentHour <= 11) {            //아침
             String[] morning = getResources().getStringArray(R.array.greetings_morning);
-            greetingMessage = morning[(int)(Math.random()*morning.length)];
-        }else if (12 <= presentHour && presentHour <= 18) {     //오후(점심)
+            greetingMessage = morning[(int) (Math.random() * morning.length)];
+        } else if (12 <= presentHour && presentHour <= 18) {     //오후(점심)
             String[] afternoon = getResources().getStringArray(R.array.greetings_afternoon);
-            greetingMessage = afternoon[(int)(Math.random()*afternoon.length)];
-        }else {                                                 //저녁
+            greetingMessage = afternoon[(int) (Math.random() * afternoon.length)];
+        } else {                                                 //저녁
             String[] evening = getResources().getStringArray(R.array.greetings_evening);
-            greetingMessage = evening[(int)(Math.random()*evening.length)];
+            greetingMessage = evening[(int) (Math.random() * evening.length)];
         }
 
         act_main_greetingmsg.setText(greetingMessage);
     }
 
-    public void createNotification(){
-        AlarmManager am = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+    public void createNotification() {
+        AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(MainActivity.this, PushAlarmReciever.class);
         PendingIntent sender = PendingIntent.getBroadcast(MainActivity.this, 5, intent, 0);
 
         Calendar calendar = Calendar.getInstance();
 
-        calendar.set(Calendar.HOUR_OF_DAY,9);
-        calendar.set(Calendar.AM_PM,1);
-        calendar.set(Calendar.MINUTE,0);
-        calendar.set(Calendar.SECOND,0);
-        calendar.set(Calendar.MILLISECOND,0);
+        calendar.set(Calendar.HOUR_OF_DAY, 9);
+        calendar.set(Calendar.AM_PM, 1);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
 
         am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24 * 60 * 60 * 1000, sender);
 
@@ -412,42 +413,42 @@ public class MainActivity extends BaseActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-       switch(item.getItemId()) {
-           case R.id.nav_edit_profile:
-               //프로필 정보 화면으로 이동
-               Intent EditProfile = new Intent(MainActivity.this, NavEditProfileActivity.class);
-               startActivity(EditProfile);
+        switch (item.getItemId()) {
+            case R.id.nav_edit_profile:
+                //프로필 정보 화면으로 이동
+                Intent EditProfile = new Intent(MainActivity.this, NavEditProfileActivity.class);
+                startActivity(EditProfile);
 
-           case R.id.nav_complete_todo:
-               //완료된 할일 탭 화면으로 이동
-               Intent CompleteIntent = new Intent(MainActivity.this, CompleteTabActivity.class);
-               startActivity(CompleteIntent);
+            case R.id.nav_complete_todo:
+                //완료된 할일 탭 화면으로 이동
+                Intent CompleteIntent = new Intent(MainActivity.this, CompleteTabActivity.class);
+                startActivity(CompleteIntent);
 
-           case R.id.nav_setting:
-               // 설정 화면으로 이동
-               Intent SettingIntent = new Intent(MainActivity.this, NavSettingPrefActivity.class);
-               startActivity(SettingIntent);
+            case R.id.nav_setting:
+                // 설정 화면으로 이동
+                Intent SettingIntent = new Intent(MainActivity.this, NavSettingPrefActivity.class);
+                startActivity(SettingIntent);
 
-           case R.id.nav_send_msg:
-               // 의견 보낼 화면 팝업
-               Intent mail = new Intent(Intent.ACTION_SEND);
-               String[] mailaddr = {"infow2do@gmail.com"};
-               mail.setType("Plain/text");
-               mail.putExtra(Intent.EXTRA_SUBJECT, "[이보시오, 내 말을 좀 들어보시오!]");
-               mail.putExtra(Intent.EXTRA_EMAIL, mailaddr);
-               mail.putExtra(Intent.EXTRA_TEXT, "고객님의 소중한 의견을 작성해주세요 : )");
-               startActivity(Intent.createChooser(mail, "Choose email client"));
+            case R.id.nav_send_msg:
+                // 의견 보낼 화면 팝업
+                Intent mail = new Intent(Intent.ACTION_SEND);
+                String[] mailaddr = {"infow2do@gmail.com"};
+                mail.setType("Plain/text");
+                mail.putExtra(Intent.EXTRA_SUBJECT, "[이보시오, 내 말을 좀 들어보시오!]");
+                mail.putExtra(Intent.EXTRA_EMAIL, mailaddr);
+                mail.putExtra(Intent.EXTRA_TEXT, "고객님의 소중한 의견을 작성해주세요 : )");
+                startActivity(Intent.createChooser(mail, "Choose email client"));
 
-           case R.id.nav_lockscreen_mainschedule_switch:
-               // 메인 스케줄만 보이게 하는 옵션
-               mPreferencesManager.setLockScreenType(LockScreenActivity.TYPE_MAINSCHEDULE);
-               item.setIcon(R.drawable.icn_show_drawer_on);
+            case R.id.nav_lockscreen_mainschedule_switch:
+                // 메인 스케줄만 보이게 하는 옵션
+                mPreferencesManager.setLockScreenType(LockScreenActivity.TYPE_MAINSCHEDULE);
+                item.setIcon(R.drawable.icn_show_drawer_on);
 
-           case R.id.nav_lockscreen_todo_switch:
-               // 투두만 보이게 하는 옵션
-               mPreferencesManager.setLockScreenType(LockScreenActivity.TYPE_TODO);
-               item.setIcon(R.drawable.icn_show_drawer_off);
-       }
+            case R.id.nav_lockscreen_todo_switch:
+                // 투두만 보이게 하는 옵션
+                mPreferencesManager.setLockScreenType(LockScreenActivity.TYPE_TODO);
+                item.setIcon(R.drawable.icn_show_drawer_off);
+        }
         act_main_drawer_layout.closeDrawer(GravityCompat.START);
         return true;
     }
