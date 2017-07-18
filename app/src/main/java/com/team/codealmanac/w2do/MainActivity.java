@@ -41,7 +41,7 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.team.codealmanac.w2do.dialog.SimpleInputDialogFragment;
 import com.team.codealmanac.w2do.fragment.TodoFolderListFragment;
 import com.team.codealmanac.w2do.fragment.TodoSimpleListFragment;
-import com.team.codealmanac.w2do.receiver.PushAlarmReciever;
+import com.team.codealmanac.w2do.receiver.PushAlarmReceiver;
 
 import java.util.Calendar;
 
@@ -387,7 +387,7 @@ public class MainActivity extends BaseActivity
 
     public void createNotification() {
         AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(MainActivity.this, PushAlarmReciever.class);
+        Intent intent = new Intent(MainActivity.this, PushAlarmReceiver.class);
         PendingIntent sender = PendingIntent.getBroadcast(MainActivity.this, 5, intent, 0);
 
         Calendar calendar = Calendar.getInstance();

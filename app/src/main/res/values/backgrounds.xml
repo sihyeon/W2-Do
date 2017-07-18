@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="background_array">
+        <item >bg1.png</item>
+        <item >bg2.png</item>
+        <item >bg3.png</item>
+        <item >bg4.png</item>
+        <item >bg5.png</item>
+        <item >bg6.png</item>
+        <item >bg7.png</item>
+    </string-array>
+</resources>

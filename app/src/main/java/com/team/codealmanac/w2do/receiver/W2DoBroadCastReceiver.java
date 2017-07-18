@@ -10,6 +10,7 @@ import android.os.health.SystemHealthManager;
 import android.util.Log;
 
 import com.team.codealmanac.w2do.LockScreenActivity;
+import com.team.codealmanac.w2do.database.PreferencesManager;
 
 public class W2DoBroadCastReceiver extends BroadcastReceiver {
     @Override
@@ -21,9 +22,11 @@ public class W2DoBroadCastReceiver extends BroadcastReceiver {
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(i);
                 break;
-            case Intent.ACTION_SCREEN_ON:
-                break;
+//            case Intent.ACTION_SCREEN_ON:
+//                break;
             case Intent.ACTION_TIME_TICK:
+                PreferencesManager preferencesManager = new PreferencesManager(context);
+
                 break;
             case Intent.ACTION_DATE_CHANGED:
                 break;

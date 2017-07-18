@@ -38,7 +38,7 @@
             android:exported="false" />
 
         <service
-            android:name=".service.W2DoService"
+            android:name=".service.W2DoForeGroundService"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
@@ -47,7 +47,7 @@
         </service>
 
         <receiver
-            android:name=".receiver.PushAlarmReciever"
+            android:name=".receiver.PushAlarmReceiver"
             android:enabled="true"
             android:exported="false" />
 

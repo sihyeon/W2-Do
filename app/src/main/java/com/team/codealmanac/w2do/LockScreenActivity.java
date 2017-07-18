@@ -27,7 +27,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextClock;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -43,6 +42,7 @@ import com.team.codealmanac.w2do.database.PreferencesManager;
 import com.team.codealmanac.w2do.database.SQLiteManager;
 import com.team.codealmanac.w2do.listeners.OnSwipeTouchListener;
 import com.team.codealmanac.w2do.models.MainSchedule;
+import com.team.codealmanac.w2do.service.W2DoForeGroundService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -160,6 +160,18 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
                     act_lockscreen_left_guide_icon.setLayoutParams(Left_Icon_Params);
                 }
             }
+            public void onSingleTapConfirmed(){
+                ViewGroup.LayoutParams Left_Icon_Params = act_lockscreen_left_guide_icon.getLayoutParams();
+                Left_Icon_Params.width = icon_original_size;
+                Left_Icon_Params.height = icon_original_size;
+                act_lockscreen_left_guide_icon.setLayoutParams(Left_Icon_Params);
+
+                ViewGroup.LayoutParams Right_Icon_Params = act_lockscreen_right_guide_icon.getLayoutParams();
+                Right_Icon_Params.width = icon_original_size;
+                Right_Icon_Params.height = icon_original_size;
+                act_lockscreen_right_guide_icon.setLayoutParams(Right_Icon_Params);
+            }
+
         });
 
         //폰트지정
@@ -201,12 +213,13 @@ public class LockScreenActivity extends BaseActivity implements LocationInfoAssi
         } else if (lockScreenType.equals(TYPE_TODO)) {
             callTodoShow();
         }
+        stopService(new Intent(getApplicationContext(), W2DoForeGroundService.class));
     }
 
     @Override
     protected void onStop() {
+        startService(new Intent(getApplicationContext(), W2DoForeGroundService.class));
         super.onStop();
-
     }
 
     @Override

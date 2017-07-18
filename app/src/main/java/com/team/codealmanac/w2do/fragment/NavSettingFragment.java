@@ -1,6 +1,5 @@
 package com.team.codealmanac.w2do.fragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,7 +16,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.team.codealmanac.w2do.MainActivity;
 import com.team.codealmanac.w2do.R;
-import com.team.codealmanac.w2do.service.W2DoService;
+import com.team.codealmanac.w2do.service.W2DoForeGroundService;
 import com.team.codealmanac.w2do.assistant.GoogleAPIAssistant;
 import com.team.codealmanac.w2do.database.PreferencesManager;
 import com.team.codealmanac.w2do.dialog.OpensourceDialogActivity;
@@ -25,7 +24,6 @@ import com.team.codealmanac.w2do.dialog.OpensourceDialogActivity;
 import static com.team.codealmanac.w2do.MainActivity.mContext;
 
 public class NavSettingFragment extends PreferenceFragment {
-    public static Context mPrefContext;
     private PreferencesManager mPreferencesManager;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,24 +63,24 @@ public class NavSettingFragment extends PreferenceFragment {
             }
         });
 
-        final SwitchPreference LockscreenPreference = (SwitchPreference)findPreference("pref_LockscreenService");
-        LockscreenPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+        final SwitchPreference lockScreenPreference = (SwitchPreference)findPreference("pref_LockscreenService");
+        lockScreenPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 boolean value = (Boolean) newValue;
                 if(value){
                     Toast.makeText(getActivity(), "잠금 화면 서비스를 실행합니다.", Toast.LENGTH_SHORT).show();
-                    getActivity().startService(new Intent(getActivity(),W2DoService.class));
+                    getActivity().startService(new Intent(getActivity().getApplicationContext(), W2DoForeGroundService.class));
                 } else {
                     Toast.makeText(getActivity(), "잠금 화면 서비스를 종료합니다.", Toast.LENGTH_SHORT).show();
-                    getActivity().stopService(new Intent(getActivity(),W2DoService.class));
+                    getActivity().stopService(new Intent(getActivity().getApplicationContext(), W2DoForeGroundService.class));
                 }
                 return true;
             }
         });
 
-        SwitchPreference MorningPushPreference = (SwitchPreference)findPreference("pref_PushAlarm_morning");
-        MorningPushPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        SwitchPreference morningPushPreference = (SwitchPreference)findPreference("pref_PushAlarm_morning");
+        morningPushPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 boolean checked = ((SwitchPreference) preference).isChecked();
@@ -98,8 +96,8 @@ public class NavSettingFragment extends PreferenceFragment {
             }
         });
 
-        Preference VersionPreference = (Preference) findPreference("pref_AppVersionInfo");
-        VersionPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        Preference versionPreference = findPreference("pref_AppVersionInfo");
+        versionPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 Intent AppstoreIntent = new Intent(Intent.ACTION_VIEW);
@@ -109,8 +107,8 @@ public class NavSettingFragment extends PreferenceFragment {
             }
         });
 
-        PreferenceScreen pref_opensource = (PreferenceScreen) getPreferenceScreen().findPreference("pref_opensource");
-        pref_opensource.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        PreferenceScreen openSourcePreferenceScreen = (PreferenceScreen) getPreferenceScreen().findPreference("pref_opensource");
+        openSourcePreferenceScreen.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 Intent dialogIntent = new Intent(getActivity(),OpensourceDialogActivity.class);

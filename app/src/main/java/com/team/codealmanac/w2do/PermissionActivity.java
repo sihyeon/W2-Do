@@ -54,7 +54,7 @@ public class PermissionActivity extends AppCompatActivity{
         if (requestCode == PERMISSIONS_REQUEST) {
             for (int result : grantResults) {
                 if (result == PackageManager.PERMISSION_DENIED) {
-                    Toast.makeText(this, "권한을 거부하면 원할한 이용이 어려울 수 있습니다. 설정 - 어플리케이션 관리 - W2do - 권한에서 설정해주세요.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "권한을 거부하면 원활한 이용이 어려울 수 있습니다. 설정 - 어플리케이션 관리 - W2do - 권한에서 설정해주세요.", Toast.LENGTH_SHORT).show();
                 }
             }
             startActivity(new Intent(this, LoginActivity.class));

@@ -23,7 +23,7 @@ import static android.content.Context.POWER_SERVICE;
  * Created by sihyeon on 2017-05-27.
  */
 
-public class PushAlarmReciever extends BroadcastReceiver {
+public class PushAlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent)

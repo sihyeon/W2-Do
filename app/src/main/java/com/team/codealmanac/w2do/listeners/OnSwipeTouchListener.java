@@ -1,6 +1,7 @@
 package com.team.codealmanac.w2do.listeners;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
@@ -31,6 +32,7 @@ public class OnSwipeTouchListener implements OnTouchListener {
 
         @Override
         public boolean onDown(MotionEvent e) {
+            Log.d("스와이프", "온다운 불림");
             return true;
         }
 
@@ -80,8 +82,15 @@ public class OnSwipeTouchListener implements OnTouchListener {
 
             return result;
         }
+
+        @Override
+        public boolean onSingleTapConfirmed(MotionEvent e) {
+            OnSwipeTouchListener.this.onSingleTapConfirmed();
+            return super.onSingleTapConfirmed(e);
+        }
     }
     public void onSwipeRight() {}
     public void onSwipeLeft() {}
     public void onSwipingEvent(float diffX){}
+    public void onSingleTapConfirmed(){}
 }
