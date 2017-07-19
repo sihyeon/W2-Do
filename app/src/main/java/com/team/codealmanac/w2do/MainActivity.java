@@ -376,21 +376,30 @@ public class MainActivity extends BaseActivity
 //        return enterTransition;
 //    }
     private void setGreetingText() {
-        String greetingMessage = "";
         int presentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        int arrayID;
 
-        if (4 <= presentHour && presentHour <= 11) {            //아침
-            String[] morning = getResources().getStringArray(R.array.greetings_morning);
-            greetingMessage = morning[(int) (Math.random() * morning.length)];
-        } else if (12 <= presentHour && presentHour <= 18) {     //오후(점심)
-            String[] afternoon = getResources().getStringArray(R.array.greetings_afternoon);
-            greetingMessage = afternoon[(int) (Math.random() * afternoon.length)];
-        } else {                                                 //저녁
-            String[] evening = getResources().getStringArray(R.array.greetings_evening);
-            greetingMessage = evening[(int) (Math.random() * evening.length)];
+        switch (presentHour) {
+            case 4:case 5:case 6:case 7:case 8:case 9:case 10:case 11:
+                arrayID = R.array.greetings_morning;
+                break;
+            case 12:case 13:case 14:case 15:case 16:case 17:case 18:
+                arrayID = R.array.greetings_afternoon;
+                break;
+            default:
+                arrayID = R.array.greetings_evening;
+                break;
         }
-
-        act_main_greetingmsg.setText(greetingMessage);
+        // TODO: 2017-07-19 switch-case 로 할건지 if-else 로 할건지 결정 필요.
+//        if (4 <= presentHour && presentHour <= 11) {            //아침
+//            arrayID = R.array.greetings_morning;
+//        } else if (12 <= presentHour && presentHour <= 18) {     //오후(점심)
+//            arrayID = R.array.greetings_afternoon;
+//        } else {                                                 //저녁
+//            arrayID = R.array.greetings_evening;
+//        }
+        String[] greetingArray = getResources().getStringArray(arrayID);
+        act_main_greetingmsg.setText( greetingArray[(int) (Math.random() * greetingArray.length)] );
     }
 
     public void createNotification() {
