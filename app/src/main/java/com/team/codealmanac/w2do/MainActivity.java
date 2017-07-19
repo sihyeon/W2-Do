@@ -93,6 +93,8 @@ public class MainActivity extends BaseActivity
 
         mPreferencesManager = new PreferencesManager(getApplicationContext());
 
+        setBackGround();
+
         mUser = getUserSession();
         mContext = this;
         mFontContract = new FontContract(getApplication().getAssets());
@@ -238,6 +240,12 @@ public class MainActivity extends BaseActivity
         act_main_greetingmsg.setTypeface(mFontContract.NahumSquareR_Regular());
         act_main_user_name.setTypeface(mFontContract.NahumSquareR_Regular());
         setupWindowAnimation();
+    }
+
+    public void setBackGround(){
+        int resId = getResources().getIdentifier("bg"+mPreferencesManager.getBackGroundSquence(), "drawable", getPackageName());
+        FrameLayout backgroundLayout = (FrameLayout)findViewById(R.id.act_main_background_layout);
+        backgroundLayout.setBackgroundResource(resId);
     }
 
     private void setupWindowAnimation() {

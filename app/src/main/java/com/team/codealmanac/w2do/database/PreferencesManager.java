@@ -15,6 +15,10 @@ public final class PreferencesManager {
 
     private static final String LOCKSCREEN_PREF = "lock_screen";
     private static final String LOCKSCREEN_TYPE = "type";
+
+    private static final String BACKGROUNDSEQUNCE_PREF = "select_backgrounds";
+    private static final String BACKGROUNDSEQUNCE_KEY = "background_sequence";
+
     private Context mContext;
     public PreferencesManager(Context context){
         mContext = context.getApplicationContext();
@@ -48,4 +52,14 @@ public final class PreferencesManager {
         return lockScreenTypePrefPref.getString(LOCKSCREEN_TYPE/*key*/, LockScreenActivity.TYPE_MAINSCHEDULE/*default*/);
     }
 
+    public void setBackGroundSequence(int sequence){
+        SharedPreferences lockScreenTypePref = mContext.getSharedPreferences(BACKGROUNDSEQUNCE_PREF, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = lockScreenTypePref.edit();
+        editor.putInt(BACKGROUNDSEQUNCE_KEY/* key */, sequence);
+        editor.apply();
+    }
+    public int getBackGroundSquence(){
+        SharedPreferences lockScreenTypePrefPref = mContext.getSharedPreferences(BACKGROUNDSEQUNCE_PREF, Context.MODE_PRIVATE);
+        return lockScreenTypePrefPref.getInt(BACKGROUNDSEQUNCE_KEY/*key*/, 1/*default*/);
+    }
 }

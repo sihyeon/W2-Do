@@ -10,6 +10,7 @@ import android.os.health.SystemHealthManager;
 import android.util.Log;
 
 import com.team.codealmanac.w2do.LockScreenActivity;
+import com.team.codealmanac.w2do.MainActivity;
 import com.team.codealmanac.w2do.database.PreferencesManager;
 
 public class W2DoBroadCastReceiver extends BroadcastReceiver {
@@ -25,10 +26,15 @@ public class W2DoBroadCastReceiver extends BroadcastReceiver {
 //            case Intent.ACTION_SCREEN_ON:
 //                break;
             case Intent.ACTION_TIME_TICK:
-                PreferencesManager preferencesManager = new PreferencesManager(context);
-
                 break;
+
+            // TODO: 2017-07-18 사진 수 만큼 조건 바꿔줘야함 또는 따로 변수 빼던지 해야함.
             case Intent.ACTION_DATE_CHANGED:
+                PreferencesManager preferencesManager = new PreferencesManager(context);
+                int sequence = preferencesManager.getBackGroundSquence();
+                sequence = (sequence == 2 ? 1 : sequence + 1);
+                preferencesManager.setBackGroundSequence(sequence);
+                if(MainActivity.mContext != null) ((MainActivity)MainActivity.mContext).setBackGround();
                 break;
             default:
         }

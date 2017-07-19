@@ -4,7 +4,7 @@
     android:id="@+id/layout_lock_screen_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_17"
+    android:background="@drawable/bg2"
     android:clickable="true"
     android:elevation="0dp"
     android:visibility="visible"
